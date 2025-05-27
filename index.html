@@ -1,0 +1,329 @@
+---
+layout: default
+title: DuckLake is an integrated data lake and catalog format.
+subtitle: An integrated data lake and catalog format
+description: DuckLake delivers advanced data lake features without traditional lakehouse complexity by using Parquet files and your SQL database. It's an open, standalone format from the DuckDB team.
+body_class: landing nowrap
+---
+
+<div class="banner">
+	<a href="manifesto/">The DuckLake Manifesto: SQL as a Lakehouse Format. →</a>
+	<div class="close"></div>
+</div>
+
+<section class="welcome">
+	<div class="wrap">
+		<div class="ducklake">
+			<h1>DuckLake is an integrated data&nbsp;lake and catalog format</h1>
+			<p>DuckLake delivers advanced data&nbsp;lake features without traditional lakehouse complexity by using Parquet files and your SQL database. It's an open, standalone format from the DuckDB team.</p>
+			<div class="cta">
+				<a class="button black" href="#quickinstall">Get started</a>
+				<a class="button transparent" href="/docs/stable">Documentation</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="wave"></div>
+
+<section class="architecture">
+	<div class="wrap">
+		<div class="section-text">
+			<h2>Deployment scenarios</h2>
+			<p>DuckLake uses a database system to manage your metadata for the catalog. All you need to run your own data warehouse is a database system and storage for Parquet files.</p>
+		</div>
+		<div class="illustration">
+				<div class="window architecture-tabs">
+					<div class="topbar">
+						<ul>
+							<div class="select-highlight"></div>
+							<li data-tab="arch-tab2" data-iconclass="postgre" data-multi="true"  class="active">PostgreSQL</li>
+							<li data-tab="arch-tab3" data-iconclass="sqlite" data-multi="true">SQLite</li>
+							<li data-tab="arch-tab4" data-iconclass="mysql" data-multi="true">MySQL</li>
+							<li data-tab="arch-tab1" data-iconclass="duckdb" data-multi="false">DuckDB</li>
+						</ul>
+						<div class="hoverlabel">&#8592; Choose catalog database</div>
+					</div>
+					
+				
+					<div class="diagram">
+						<div class="client">
+							<h4>Client</h4>
+							
+							<div class="browser-wrap contains-multi">
+								<div class="browser">
+									<img src="{{ site.baseurl }}/images/deployment_diagram/window.svg" alt="Database Icon">
+									<div class="broser-content">
+										<div class="icons">
+											<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-duckdb.svg" class="duckdb_icon">
+											<div class="sub">DuckDB</div>
+										</div>
+										<div class="ducklake">
+											<img src="{{ site.baseurl }}/images/deployment_diagram/ducklake_comb_alt.svg" class="ducklake_icon">
+											<div class="sub">DuckLake</div>
+										</div>
+									</div>
+								</div>
+								<div class="browser multi">
+									<img src="{{ site.baseurl }}/images/deployment_diagram/window.svg" alt="Database Icon">
+									<div class="broser-content">
+										<div class="icons">
+											<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-duckdb.svg" class="duckdb_icon">
+											<div class="sub">DuckDB</div>
+										</div>
+										<div class="ducklake">
+											<img src="{{ site.baseurl }}/images/deployment_diagram/ducklake_comb_alt.svg" class="ducklake_icon">
+											<div class="sub">DuckLake</div>
+										</div>
+									</div>
+								</div>
+								<div class="browser multi">
+									<img src="{{ site.baseurl }}/images/deployment_diagram/window.svg" alt="Database Icon">
+									<div class="broser-content">
+										<div class="icons">
+											<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-duckdb.svg" class="duckdb_icon">
+											<div class="sub">DuckDB</div>
+										</div>
+										<div class="ducklake">
+											<img src="{{ site.baseurl }}/images/deployment_diagram/ducklake_comb_alt.svg" class="ducklake_icon">
+											<div class="sub">DuckLake</div>
+										</div>
+									</div>
+								</div>
+								<div class="browser multi">
+									<img src="{{ site.baseurl }}/images/deployment_diagram/window.svg" alt="Database Icon">
+									<div class="broser-content">
+										<div class="icons">
+											<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-duckdb.svg" class="duckdb_icon">
+											<div class="sub">DuckDB</div>
+										</div>
+										<div class="ducklake">
+											<img src="{{ site.baseurl }}/images/deployment_diagram/ducklake_comb_alt.svg" class="ducklake_icon">
+											<div class="sub">DuckLake</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="hover-content">
+								<div class="mysql postgre sqlite">
+									<h4>Clients</h4>
+									<p>Users can run multiple DuckLake clients and connect concurrently to PostgreSQL, MySQL or SQLite.</p>
+								</div>
+								<div class="duckdb">
+									<h4>Client</h4>
+									<p>DuckDB also works with DuckLake as the catalog database. In this case, you are limited to a single client.</p>
+								</div>
+							</div>
+							
+						</div>
+						<div class="database-storage">
+							<div class="database">
+								<h4>Catalog database</h4>
+								
+								<div class="catalog">
+									<img src="{{ site.baseurl }}/images/deployment_diagram/database.svg" alt="Database Icon">
+									<div class="icons">
+										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-duckdb.svg" class="duckdb">
+										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-postgre.svg" class="postgre">
+										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-sqlite.svg" class="sqlite">
+										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-mysql.svg" class="mysql">
+										<div class="sub">DuckDB</div>
+									</div>
+								</div>
+								
+								<div class="hover-content">
+									<div class="mysql postgre duckdb sqlite">
+										<h4>Catalog database</h4>
+										<p>DuckLake can use any SQL system as its catalog database, provided that it supports ACID transactions and primary key constraints.</p>
+									</div>
+								</div>
+								
+								<div class="connector">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 9" fill="none">
+									  <path fill="#1A1A1A" d="M50 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8ZM4 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm46 4v.75H4v-1.5h46v.75Z" />
+									</svg>
+								</div>
+							</div>
+							<div class="storage">
+								<h4>Storage</h4>
+								
+								<div class="folder">
+									<img src="{{ site.baseurl }}/images/deployment_diagram/parquet_folder.svg" alt="Parquet Folder">
+									<div class="sub">Parquet</div>
+								</div>
+								
+								<div class="hover-content">
+									<div class="mysql postgre sqlite duckdb">
+										<h4>Storage</h4>
+										<p>DuckLake can store your data on any object storage such as AWS S3.</p>
+									</div>
+								</div>
+								
+								<div class="connector">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 9" fill="none">
+									  <path fill="#1A1A1A" d="M50 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8ZM4 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm46 4v.75H4v-1.5h46v.75Z" />
+									</svg>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+				</div>
+		</div>
+	</div>
+</section>
+
+
+<!--
+<section>
+	<div class="wrap">
+		<h2>Use cases</h2>
+		<div class="cards vertical images">
+			<div class="card">
+				<div class="image"></div>
+				<div class="content">
+					<h3>Multiplayer DuckDB</h3>
+					<p>DuckLake unlocks concurrency for multiple DuckDB clients.</p>
+					<a href="#" class="textbutton arrow-right">Read more</a>
+				</div>
+			</div>
+			<div class="card">
+				<div class="image"></div>
+				<div class="content">
+					<h3>Self-hosted data warehouse</h3>
+					<p>DuckLake allows you to host your own local data warehouse.</p>
+					<a href="#" class="textbutton arrow-right">Read more</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+-->
+
+
+<section class="features">
+	<div class="wrap">
+		<h2>DuckLake’s key features</h2>
+		<div class="cards vertical icons">
+			<div class="card">
+				<div class="icon">
+					<img src="{{ site.baseurl }}/images/icons/waves.svg" alt="wave icon">
+				</div>
+				<div class="content">
+					<h3>Data lake operations</h3>
+					<p>DuckLake supports snapshots, time travel queries, schema evolution and partitioning.</p>
+				</div>
+			</div>
+			<div class="card">
+				<div class="icon">
+					<img src="{{ site.baseurl }}/images/icons/documents.svg" alt="wave icon">
+				</div>
+				<div class="content">
+					<h3>Lightweight snapshots</h3>
+					<p>You can have as many snapshots as you want without frequent compacting steps!</p>
+				</div>
+			</div>
+			<div class="card">
+				<div class="icon">
+					<img src="{{ site.baseurl }}/images/icons/pipette.svg" alt="wave icon">
+				</div>
+				<div class="content">
+					<h3>ACID transactions</h3>
+					<p>DuckLake allows concurrent access with ACID transactional guarantees over multi-table operations.</p>
+				</div>
+			</div>
+			<div class="card">
+				<div class="icon">
+					<img src="{{ site.baseurl }}/images/icons/clock.svg" alt="wave icon">
+				</div>
+				<div class="content">
+					<h3>Performance-oriented</h3>
+					<p>DuckLake uses statistics for filter pushdown, enabling fast queries even on large datasets.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="podcast">
+	<div class="wrap">
+		<div class="section-text">
+			<h2>In Conversation: DuckDB Founders on DuckLake</h2>
+			<p>Listen to Hannes Mühleisen and Mark Raasveldt walk through the history of data lakes and introduce DuckLake, a new lakehouse format.</p>
+		</div>
+		<div class="section-image">
+			<div class="video-thumbnail" data-video-id="zeonmOO9jm4">
+				<img src="{{ site.baseurl }}/images/thumb_introducting-ducklake.png" alt="Thumbnail: Introducing DuckLake">
+				<div class="play-button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" fill="none"><path fill="#000" fill-opacity=".2" d="M51 0C22.877 0 0 22.877 0 51s22.877 51 51 51 51-22.877 51-51S79.123 0 51 0Z"/><path fill="#99D8FF" d="M71.442 49.21 43.319 29.975c-.874-.645-3.206-.645-3.393 1.79v38.47a2.158 2.158 0 0 0 3.393 1.79L71.442 52.79c.728-.437 1.728-2.227 0-3.58Z"/></svg>
+				</div>
+			</div>
+			<div class="video-container" style="display: none;">
+			  <iframe data-src="https://www.youtube.com/embed/zeonmOO9jm4" title="YouTube video player" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% include quick_installation.html %}
+
+<section class="faq">
+	<div class="wrap">
+		<div class="section-text">
+			<h2>Frequently asked questions</h2>
+			<p>Answers to common questions to help you understand and make the most of DuckLake.</p>
+		</div>	
+	</div>
+	
+	<div class="frequentlyaskedquestions">
+		<div class="qa-wrap">
+			<h3>
+				Why should I use DuckLake?
+			</h3>
+			<div class="answer">
+				<p>DuckLake provides a lightweight one-stop solution for if you need a data lake and catalog.
+
+				<p>You can use DuckLake for a “multiplayer DuckDB” setup with multiple DuckDB instances reading and writing the same dataset –
+				a concurrency model <a href="https://duckdb.org/docs/stable/connect/concurrency">not supported by vanilla DuckDB</a>.</p>
+
+				<p>If you only use DuckDB for both your DuckLake entry point and your catalog database, you can still benefit from using DuckLake:
+				you can run time travel queries,
+				exploit data partitioning,
+				and can store your data in multiple files instead of using a single (potentially very large) database file.</p>
+			</div>
+		</div>
+
+		<div class="qa-wrap">
+			<h3>
+				What is DuckLake?
+			</h3>
+			<div class="answer">
+				First of all, a catchy name for a DuckDB-originated technology for data lakes and lakehouses.
+				More seriously, the term “DuckLake” can refer to three things:
+
+				<ol>
+					<li>the <i>specification</i> of the DuckLake lakehouse format,</li>
+					<li>the <a href="https://duckdb.org/docs/stable/core_extensions/ducklake"><code>ducklake</code> <i>DuckDB extension</i></a>, which supports reading/writing datasets in the DuckLake specification,</li>
+					<li>a DuckLake, a <i>dataset</i> stored using the DuckLake lakehouse format.</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="qa-wrap">
+			<h3>
+				What is the license of DuckLake?
+			</h3>
+			<div class="answer">
+				The DuckLake specification and the DuckLake DuckDB extension are released under the MIT license.
+			</div>
+		</div>
+
+	</div>
+	
+	<div class="cta">
+		<a class="button black" href="/faq">More FAQs</a>
+	</div>
+	
+</section>

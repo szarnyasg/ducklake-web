@@ -1,0 +1,35 @@
+{
+  "toc2": [
+    {
+      "title": "Main",
+      "mainfolderitems": [
+        {
+          "page": "Documentation",
+          "url": "/docs/stable",
+          "subfolderitems": [
+            {
+              "page": "Specification",
+              "url": "/docs/stable/specification/introduction"
+            },
+            {
+              "page": "DuckDB Extension",
+              "url": "/docs/stable/duckdb/introduction"
+            },
+            {
+              "page": "Manifesto",
+              "url": "/manifesto"
+            },
+            {
+              "page": "FAQ",
+              "url": "/faq"
+            }
+          ]
+        },
+        {
+          "page": "GitHub",
+          "url": "https://github.com/duckdb/ducklake"
+        }
+      ]
+    }
+  ]
+}
