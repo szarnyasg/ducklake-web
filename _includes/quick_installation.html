@@ -59,7 +59,8 @@ USE my_ducklake;
 INSTALL ducklake;
 INSTALL sqlite;
 
-ATTACH 'ducklake:sqlite:metadata.sqlite' AS my_ducklake (DATA_PATH 'data_files/');
+ATTACH 'ducklake:sqlite:metadata.sqlite' AS my_ducklake
+    (DATA_PATH 'data_files/');
 USE my_ducklake;
 {% endhighlight %}
 </div>
