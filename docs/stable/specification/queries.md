@@ -84,7 +84,7 @@ For the list of supported data types, please refer to the [“Data Types” page
 Now that we know the table structure we can query actual data from the Parquet files that store table data. We need to join the list of data files with the list of delete files (if any). There can be at most one delete file per file in a single snapshot.
 
 ```sql
-SELECT data.path data_file_path, del.path as delete_file_path
+SELECT data.path as data_file_path, del.path as delete_file_path
 FROM ducklake_data_file AS data
 LEFT JOIN (
     SELECT *
