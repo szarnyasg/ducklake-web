@@ -14,7 +14,12 @@
             {
               "page": "DuckDB Extension",
               "url": "/docs/stable/duckdb/introduction"
-            },
+            }
+          ]
+        },
+        {
+          "page": "Resources",
+          "subfolderitems": [
             {
               "page": "Manifesto",
               "url": "/manifesto"
