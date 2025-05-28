@@ -25,12 +25,12 @@ body_class: faq
 
 <div class="answer" markdown="1">
 
-DuckLake provides a lightweight one-stop solution for if you need a data lake and catalog.
+DuckLake provides a lightweight one-stop solution if you need a data lake and catalog.
 
 You can use DuckLake for a “multiplayer DuckDB” setup with multiple DuckDB instances reading and writing the same dataset –
 a concurrency model [not supported by vanilla DuckDB](https://duckdb.org/docs/stable/connect/concurrency).
 
-If you only use DuckDB for both your DuckLake entry point and your catalog database, you can still benefit from using DuckLake:
+If you only use DuckDB for both your DuckLake entry point and your catalog database, you can still benefit from DuckLake:
 you can run [time travel queries]({% link docs/stable/duckdb/usage/time_travel.md %}),
 exploit [data partitioning]({% link docs/stable/duckdb/advanced_features/partitioning.md %}),
 and can store your data in multiple files instead of using a single (potentially very large) database file.
@@ -96,7 +96,7 @@ More seriously, the term “DuckLake” can refer to three things:
 
 <div class="answer" markdown="1">
 
-The DuckLake needs a storage layer (both blob storage and block-based storage works) and a catalog database (any SQL-compatible database works).
+DuckLake needs a storage layer (both blob storage and block-based storage work) and a catalog database (any SQL-compatible database works).
 
 </div>
 
@@ -156,7 +156,7 @@ We expect DuckLake to mature over the course of 2025.
 
 <div class="answer" markdown="1">
 
-DuckLake inherits its authentication from the authentication of the metadata catalog database. For example, if your catalog database is Postgres, you can use Postgres' [authentication](https://www.postgresql.org/docs/current/auth-methods.html) and [authorization](https://www.postgresql.org/docs/current/ddl-priv.html) [methods](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)  to protect your DuckLake. This is particularly effective when enabling encryption of DuckLake files.
+DuckLake piggybacks on the authentication of the metadata catalog database. For example, if your catalog database is Postgres, you can use Postgres' [authentication](https://www.postgresql.org/docs/current/auth-methods.html) and [authorization](https://www.postgresql.org/docs/current/ddl-priv.html) [methods](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)  to protect your DuckLake. This is particularly effective when enabling encryption of DuckLake files.
 
 </div>
 
@@ -240,7 +240,7 @@ Currently, you can export DuckLake into a DuckDB database and export it into e.g
 <div class="answer" markdown="1">
 
 The data files of DuckLake must be stored in Parquet.
-DuckDB files as storage are not supported at the moment.
+Using DuckDB files as storage are not supported at the moment.
 
 </div>
 
@@ -280,8 +280,8 @@ No. The only limitation is the catalog database's performance but even with a re
 
 <div class="answer" markdown="1">
 
-DuckLake receives extensive testing, including the running the applicable subset of [DuckDB's thorough test suite](https://duckdb.org/why_duckdb#thoroughly-tested).
-That said, if encounter any problems using DuckLake, please submit an issue in the [DuckLake issue tracker](https://github.com/duckdb/ducklake/issues).
+DuckLake receives extensive testing, including running the applicable subset of [DuckDB's thorough test suite](https://duckdb.org/why_duckdb#thoroughly-tested).
+That said, if you encounter any problems using DuckLake, please submit an issue in the [DuckLake issue tracker](https://github.com/duckdb/ducklake/issues).
 
 </div>
 
@@ -298,7 +298,7 @@ That said, if encounter any problems using DuckLake, please submit an issue in t
 
 <div class="answer" markdown="1">
 
-If encounter any problems using DuckLake, please submit an issue in the [DuckLake issue tracker](https://github.com/duckdb/ducklake/issues).
+If you encounter any problems using DuckLake, please submit an issue in the [DuckLake issue tracker](https://github.com/duckdb/ducklake/issues).
 If you have any suggestions or feature requests, please open a ticket in [DuckLake's discussion forum](https://github.com/duckdb/ducklake/discussions).
 You are also welcome to implement support in other systems for DuckLake following the specification.
 
