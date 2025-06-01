@@ -12,7 +12,7 @@ It does not support `PRIMARY KEY`, `FOREIGN KEY`, `UNIQUE` or `CHECK` constraint
 Define a column as not accepting `NULL` values using the `NOT NULL` constraint.
 
 ```sql
-CREATE TABLE tbl(col INTEGER NOT NULL);
+CREATE TABLE tbl (col INTEGER NOT NULL);
 ```
 
 Add a `NOT NULL` constraint to an existing column of an existing table.
