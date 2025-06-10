@@ -83,6 +83,30 @@ More seriously, the term “DuckLake” can refer to three things:
 
 
 
+<!-- ----- ----- ----- ----- ----- ----- Q&A entry ----- ----- ----- ----- ----- ----- -->
+
+<div class="qa-wrap" markdown="1">
+
+### Where can I download the DuckLake logo?
+
+<div class="answer" markdown="1">
+
+You can download the [logo package]({% link images/logo/DuckLake_Logo-package.zip %}).
+You can also download individual logos:
+
+* Dark mode, inline layout: [png]({% link images/logo/DuckLake-dark-inline.png %}), [svg]({% link images/logo/DuckLake-dark-inline.svg %})
+* Dark mode, stacked layout: [png]({% link images/logo/DuckLake-dark-stacked.png %}), [svg]({% link images/logo/DuckLake-dark-stacked.svg %})
+* Light mode, inline layout: [png]({% link images/logo/DuckLake-light-inline.png %}), [svg]({% link images/logo/DuckLake-light-inline.svg %})
+* Light mode, stacked layout: [png]({% link images/logo/DuckLake-light-stacked.png %}), [svg]({% link images/logo/DuckLake-light-stacked.svg %})
+
+</div>
+
+</div>
+
+
+
+
+
 ## Architecture
 
 
