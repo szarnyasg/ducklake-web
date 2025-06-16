@@ -19,7 +19,10 @@ These keys do not need to be necessarily stored within the files, or in the path
 Set the partitioning keys of a table, such that new data added to the table is partitioned by these keys.
 
 ```sql
+-- partition on a column
 ALTER TABLE tbl SET PARTITIONED BY (part_key);
+-- partition by the year/month of a timestamp
+ALTER TABLE tbl SET PARTITIONED BY (year(ts), month(ts));
 ```
 
 Remove the partitioning keys of a table, such that new data added to the table is no longer partitioned.
@@ -28,4 +31,12 @@ Remove the partitioning keys of a table, such that new data added to the table i
 ALTER TABLE tbl RESET PARTITIONED BY;
 ```
 
-> Currently DuckLake only supports partitioning by columns directly. We plan to expand this to partitioning over functions in the near future.
+DuckLake supports the following partition clauses:
+
+| Transform | Expression |
+|-----------|------------|
+| identity  | col_name   |
+| year      | year(ts)   |
+| month     | month(ts)  |
+| day       | day(ts)    |
+| hour      | hour(ts)   |
