@@ -171,6 +171,10 @@
                 {
                   "page": "List Files",
                   "url": "list_files"
+                },
+                {
+                  "page": "Adding Files",
+                  "url": "adding_files"
                 }
               ]
             }
