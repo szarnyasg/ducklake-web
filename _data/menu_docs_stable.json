@@ -151,6 +151,16 @@
                   "url": "comments"
                 }
               ]
+            },
+            {
+              "page": "Metadata",
+              "slug": "metadata",
+              "subsubfolderitems": [
+                {
+                  "page": "List Files",
+                  "url": "list_files"
+                }
+              ]
             }
           ]
         }
