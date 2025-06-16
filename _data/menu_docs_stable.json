@@ -85,6 +85,10 @@
                 {
                   "page": "Time Travel",
                   "url": "time_travel"
+                },
+                {
+                  "page": "Configuration",
+                  "url": "configuration"
                 }
               ]
             },
