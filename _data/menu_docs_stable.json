@@ -89,6 +89,10 @@
                 {
                   "page": "Configuration",
                   "url": "configuration"
+                },
+                {
+                  "page": "Paths",
+                  "url": "paths"
                 }
               ]
             },
