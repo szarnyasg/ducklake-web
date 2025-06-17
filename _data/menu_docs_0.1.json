@@ -63,10 +63,6 @@
               "slug": "usage",
               "subsubfolderitems": [
                 {
-                  "page": "Connecting",
-                  "url": "connecting"
-                },
-                {
                   "page": "Choosing a Catalog Database",
                   "url": "choosing_a_catalog_database"
                 },
@@ -85,14 +81,6 @@
                 {
                   "page": "Time Travel",
                   "url": "time_travel"
-                },
-                {
-                  "page": "Configuration",
-                  "url": "configuration"
-                },
-                {
-                  "page": "Paths",
-                  "url": "paths"
                 }
               ]
             },
@@ -161,20 +149,6 @@
                 {
                   "page": "Comments",
                   "url": "comments"
-                }
-              ]
-            },
-            {
-              "page": "Metadata",
-              "slug": "metadata",
-              "subsubfolderitems": [
-                {
-                  "page": "List Files",
-                  "url": "list_files"
-                },
-                {
-                  "page": "Adding Files",
-                  "url": "adding_files"
                 }
               ]
             }
