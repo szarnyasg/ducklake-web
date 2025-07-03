@@ -21,10 +21,10 @@ Partitions can refer to one or more columns, possibly with transformations such 
 
 The table of supported transforms is as follows.
 
-| Transform             | Column type(s) |  Description  |
-| --------------------- | ----------- | ------------- |
-| `identity`            | `any`    |  Source value, unmodified  |
-| `year`                | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`    | Extract a date or timestamp year, as years from 1970 |
-| `month`               | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`    | Extract a date or timestamp month, as months from 1970-01-01 |
-| `day`                 | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`    | Extract a date or timestamp day, as days from 1970-01-01 |
-| `hour`                | `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`    | Extract a timestamp hour, as hours from 1970-01-01 00:00:00 |
+| Transform             |                                    Source Type(s)                                 |                           Description                        | Result&nbsp;Type |
+| --------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------ | ----------- |
+| `identity`            | Any                                                                               | Source value, unmodified                                     | Source type |
+| `year`                | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns` | Extract a date or timestamp year, as years from 1970         | `int32`     |
+| `month`               | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns` | Extract a date or timestamp month, as months from 1970-01-01 | `int32`     |
+| `day`                 | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns` | Extract a date or timestamp day, as days from 1970-01-01     | `int32`     |
+| `hour`                | `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`         | Extract a timestamp hour, as hours from 1970-01-01 00:00:00  | `int32`     |
