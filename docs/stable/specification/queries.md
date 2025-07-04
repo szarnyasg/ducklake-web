@@ -143,7 +143,7 @@ where (again)
 - `⟨COLUMN_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `column_id` column in the [`ducklake_column` table]({% link docs/stable/specification/tables/ducklake_column.md %}).
 - `⟨SCALAR⟩`{:.language-sql .highlight} is the scalar comparision value for the pruning.
 
-Of course, other filter predicates like greater than etc. will require slighlty different filtering here.
+Of course, other filter predicates like greater than etc. will require slightly different filtering here.
 
 > The minimum and maximum values for each column are stored as strings and need to be cast for correct range filters on numeric columns.
 
