@@ -38,9 +38,9 @@ DuckLake supports statistics on the table, column and file level.
 
 DuckLake supports defining explicit partitioning.
 
-* [`ducklake_partition_info`]({% link docs/stable/specification/tables/ducklake_metadata.md %})
-* [`ducklake_partition_column`]({% link docs/stable/specification/tables/ducklake_tag.md %})
-* [`ducklake_file_partition_value`]({% link docs/stable/specification/tables/ducklake_column_tag.md %})
+* [`ducklake_partition_info`]({% link docs/stable/specification/tables/ducklake_partition_info.md %})
+* [`ducklake_partition_column`]({% link docs/stable/specification/tables/ducklake_partition_column.md %})
+* [`ducklake_file_partition_value`]({% link docs/stable/specification/tables/ducklake_file_partition_value.md %})
 
 ## Auxiliary Tables
 
