@@ -21,7 +21,6 @@
 			{% assign recent_count = 0 %}
 			{% for item in items %}
 				{% if item.url != page.url and recent_count < 2 %}
-					{% assign random_number = forloop.index | modulo: 3 | plus: 1 %}
 					{% assign tag_classes = item.tags | default: "" | join: ' ' %}
 					
 					{% if page.collection == "media" %}
@@ -31,7 +30,7 @@
 								{% if item.thumb %}
 									<img src="{{ item.thumb }}" alt="{{ item.title }}" class="zoom-image">
 								{% else %}
-									<img src="/images/blog/thumbs/placeholder-{{ random_number }}.svg" alt="Placeholder" class="zoom-image">
+									<img src="/images/blog/thumbs/placeholder.svg" alt="Placeholder" class="zoom-image">
 								{% endif %}
 							</div>
 							<div class="postdetails">
@@ -48,7 +47,7 @@
 								<h3>{{ item.title }}</h3>
 								<div class="meta">
 									<div class="date">{{ item.date | date: "%Y-%m-%d" }}</div>
-									<div class="author">{{ item.author | default: "DuckDB" }}</div>
+									<div class="author">{{ item.author | default: "DuckLake" }}</div>
 								</div>
 							</div>
 						</div>
@@ -59,7 +58,7 @@
 								{% if item.thumb %}
 									<img src="{{ item.thumb }}" alt="{{ item.title }}" class="zoom-image">
 								{% else %}
-									<img src="/images/blog/thumbs/placeholder-{{ random_number }}.svg" alt="Placeholder" class="zoom-image">
+									<img src="/images/blog/thumbs/placeholder.svg" alt="Placeholder" class="zoom-image">
 								{% endif %}
 							</div>
 							<div class="postdetails">
@@ -80,7 +79,7 @@
 									{% else %}
 										<div class="date">{{ item.date | date: "%Y-%m-%d" }}</div>
 									{% endif %}
-									<div class="author">{{ item.author | default: "DuckDB" }}</div>
+									<div class="author">{{ item.author | default: "DuckLake" }}</div>
 								</div>
 							</div>
 						</div>
