@@ -22,6 +22,7 @@ Data files contain the actual row data.
 | `partition_id`      | `BIGINT`    |             |
 | `encryption_key`    | `VARCHAR`   |             |
 | `partial_file_info` | `VARCHAR`   |             |
+| `mapping_id`        | `BIGINT`    |             |
 
 - `data_file_id` is the numeric identifier of the file. It is a primary key. `data_file_id` is incremented from `next_file_id` in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}).
 - `table_id` refers to a `table_id` from the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
@@ -38,3 +39,4 @@ Data files contain the actual row data.
 - `partition_id` refers to a `partition_id` from the `ducklake_partition_info` table.
 - `encryption_key` contains the encryption for the file if [encryption]({% link docs/stable/duckdb/advanced_features/encryption.md %}) is enabled.
 - `partial_file_info` is used when snapshots refer to parts of a file.
+- `mapping_id` refers to a `mapping_id` from the [`ducklake_column_mapping` table]({% link docs/stable/specification/tables/ducklake_column_mapping.md %})

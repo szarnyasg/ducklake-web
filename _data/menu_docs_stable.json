@@ -27,6 +27,8 @@
               "subsubfolderitems": [
                 {"page": "Overview", "url": "overview"},
                 {"page": "column", "url": "ducklake_column"},
+                {"page": "column_mapping", "url": "ducklake_column_mapping"},
+                {"page": "name_mapping", "url": "ducklake_name_mapping"},
                 {"page": "column_tag", "url": "ducklake_column_tag"},
                 {"page": "data_file", "url": "ducklake_data_file"},
                 {"page": "delete_file", "url": "ducklake_delete_file"},

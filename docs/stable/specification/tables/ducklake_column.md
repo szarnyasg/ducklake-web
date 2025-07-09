@@ -29,4 +29,4 @@ This table describes the columns that are part of a table, including their types
 - `initial_default` is the *initial* default value as the column is being created e.g. in `ALTER TABLE`, encoded as a string. Can be `NULL`.
 - `default_value` is the *operational* default value as data is being inserted and updated, e.g. in `INSERT`, encoded as a string. Can be `NULL`.
 - `nulls_allowed` defines whether `NULL` values are allowed in the column. Note that default values have to be set if this is set to `false`.
-- `parent_column` is the `column_id` of the parent column. This is `NULL` for top-level and non-nested columns. For example, for  `STRUCT` types, this would refer to the "parent" struct column.
+- `parent_column` is the `column_id` of the parent column. This is `NULL` for top-level and non-nested columns. For example, for `STRUCT` types, this would refer to the "parent" struct column.
