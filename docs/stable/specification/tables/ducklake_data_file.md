@@ -28,8 +28,8 @@ Data files contain the actual row data.
 - `begin_snapshot` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). The file is part of the table *starting with* this snapshot id.
 - `end_snapshot` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). The file is part of the table *until* this snapshot id. If `end_snapshot` is `NULL`, the file is currently part of the table.
 - `file_order` is a number that defines the vertical position of the file in the table. it needs to be unique within a snapshot but does not have to be strictly monotonic (holes are ok).
-- `path` is the file name of the data file, e.g. `my_file.parquet`. The file name is either relative to the `data_path` value in `ducklake_metadata` or absolute. If relative, the `path_is_relative` field is set to `true`.
-- `path_is_relative` defines whether the path is absolute or relative, see above.
+- `path` is the file path of the data file, e.g. `my_file.parquet` for a relative path.
+- `path_is_relative` whether the `path` is relative to the [`path`]({% link docs/stable/specification/tables/ducklake_table.md %}) of the table (true) or an absolute path (false).
 - `file_format` is the storage format of the file. Currently, only `parquet` is allowed.
 - `record_count` is the number of records (row) in the file.
 - `file_size_bytes` is the size of the file in Bytes.
