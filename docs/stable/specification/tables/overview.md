@@ -26,6 +26,11 @@ DuckLake uses 21 tables to store metadata and to stage data fragments for data i
 * [`ducklake_files_scheduled_for_deletion`]({% link docs/stable/specification/tables/ducklake_files_scheduled_for_deletion.md %})
 * [`ducklake_inlined_data_tables`]({% link docs/stable/specification/tables/ducklake_inlined_data_tables.md %})
 
+## Data File Mapping
+
+* [`ducklake_column_mapping]({% link docs/stable/specification/tables/ducklake_column_mapping.md %})
+* [`ducklake_name_mapping]({% link docs/stable/specification/tables/ducklake_name_mapping.md %})
+
 ## Statistics
 
 DuckLake supports statistics on the table, column and file level.
@@ -47,8 +52,6 @@ DuckLake supports defining explicit partitioning.
 * [`ducklake_metadata`]({% link docs/stable/specification/tables/ducklake_metadata.md %})
 * [`ducklake_tag`]({% link docs/stable/specification/tables/ducklake_tag.md %})
 * [`ducklake_column_tag`]({% link docs/stable/specification/tables/ducklake_column_tag.md %})
-
--- TODO: place the 'ducklake_column_mapping' and 'ducklake_name_mapping' under a section, or add a new section "Mapping"
 
 ## Full Schema Creation Script
 
