@@ -25,8 +25,8 @@ Delete files contains the row ids of rows that are deleted. Each data file will 
 - `begin_snapshot` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). The delete file is part of the table *starting with* this snapshot id.
 - `end_snapshot` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). The delete file is part of the table *until* this snapshot id. If `end_snapshot` is `NULL`, the delete file is currently part of the table.
 - `data_file_id` refers to a `data_file_id` from the `ducklake_data_file` table.
-- `path` is the file name of the delete file, e.g. `my_file-deletes.parquet`. The file name is either relative to the `data_path` value in `ducklake_metadata` or absolute. If relative, the `path_is_relative` field is set to `true`.
-- `path_is_relative` defines whether the path is absolute or relative, see above.
+- `path` is the file name of the delete file, e.g. `my_file-deletes.parquet` for a relative path.
+- `path_is_relative` whether the `path` is relative to the [`path`]({% link docs/stable/specification/tables/ducklake_table.md %}) of the table (true) or an absolute path (false).
 - `format` is the storage format of the delete file. Currently, only `parquet` is allowed.
 - `delete_count` is the number of deletion records in the file.
 - `file_size_bytes` is the size of the file in Bytes.
