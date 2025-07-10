@@ -25,6 +25,10 @@
               "url": "/manifesto"
             },
             {
+              "page": "Blog",
+              "url": "/news"
+            },
+            {
               "page": "FAQ",
               "url": "/faq"
             }
