@@ -39,6 +39,12 @@ plugins:
   - jekyll-git-hash
   - jekyll-toc
 
+# Posts configuration
+collections:
+  posts:
+    output: true
+    permalink: /:year/:month/:day/:title/
+
 excerpt_separator: <!--more-->
 future: true
 
