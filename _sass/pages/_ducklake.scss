@@ -315,77 +315,37 @@ section.architecture {
 
 			.browser-wrap {
 				width: 100%;
-				display: grid;
-				grid-template-columns: 1fr 1fr;
-				gap: 10px;
-				margin-top: 40px;
-
+				margin-top: 60px;
+				position: relative;
+				
 				.browser {
 					width: 285px;
 					transition: all 0.5s;
 				}
-
-				&.contains-multi {
-					padding-right: 15px;
-					.browser {
-						width: calc(100% - 2px);
-						left: 0;
-
-						.broser-content {
-							top: 40px;
-						}
-
-						.ducklake,
-						.icons {
-							width: 50px;
-							height: 50px;
-
-							.sub {
-								margin-top: 55px;
-								font-size: 10px;
-							}
-						}
-					}
-
-					.browser.multi {
-						opacity: 1;
-						pointer-events: auto;
-						transform: translateY(0);
-					}
-				}
+				
 			}
 
 			.browser.multi {
 				opacity: 0;
 				pointer-events: none;
-				transform: translateY(20px);
+				position: absolute;
+				top: 0;
+				left: 50px;
+				z-index: 10;
+				transform: translate(0,0);
 			}
 
 			.browser {
 				position: relative;
 				left: 50px;
 				transition: all 0.4s;
-
+				z-index: 20;
+				
 				>img {
 					width: 100%;
 					height: auto;
 					z-index: 50;
 					position: relative;
-				}
-
-				>img.multi {
-					position: absolute;
-					left: 0;
-					top: 0;
-					opacity: 0;
-					visibility: hidden;
-					transform: translate(0, 0);
-					transition: transform 0.5s ease-out, opacity 0.3s ease-in-out;
-
-					&.visible {
-						opacity: 1;
-						visibility: visible;
-					}
 				}
 
 				.broser-content {
@@ -400,21 +360,17 @@ section.architecture {
 					transition: all 0.3s;
 				}
 
-				.ducklake,
-				.icons {
+				.ducklake{
 					display: flex;
 					flex-direction: column;
 					align-items: center;
 					position: relative;
-					height: 70px;
-					width: 70px;
+					
 					transition: all 0.4s;
 
 					img {
-						height: 100%;
-						width: auto;
-						position: absolute;
-						transition: all 0.3s;
+						height: 70px;
+						width: 70px;
 
 						&.active-icon {
 							opacity: 1;
@@ -423,10 +379,21 @@ section.architecture {
 					}
 
 					.sub {
-						margin-top: 80px;
+						margin-top: 5px;
 						text-align: center;
 						transition: all 0.4s;
 					}
+				}
+			}
+			
+			.browser-wrap.contains-multi{
+				.browser.multi{
+					opacity: 1;
+					transform: translate(10px, 10px);
+				}
+				.browser:not(.multi){
+					transform: translate(-10px, -10px);
+					filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.05));
 				}
 			}
 		}
@@ -490,8 +457,12 @@ section.architecture {
 			text-align: center;
 
 			img {
-				width: 75px;
+				width: 80px;
 			}
+		}
+		
+		.storage .folder .sub{
+			margin-top: 6px;
 		}
 
 		.database .catalog {
@@ -607,6 +578,11 @@ footer .sitefooter .footercontent > div a:hover{
 	section.architecture .illustration{
 		width: 700px;
 	}
+	
+	section.architecture .diagram .client .browser.multi,
+	section.architecture .diagram .client .browser{
+		left: 30px;
+	}
 
 }
 
@@ -681,58 +657,32 @@ footer .sitefooter .footercontent > div a:hover{
 				height: 320px;
 
 				.browser-wrap {
-					margin-top: 6%;
+					margin-top: 0;
 					display: block;
-
-					&.contains-multi {
-						display: grid;
-						padding-right: 0;
+					width: 345px;
+					left: 50%;
+					top: 50%;
+					transform: translate(-50%, calc(-50% - 25px));
+					.browser {
+					
+						&.multi{
+							opacity: 1;
+						}
+					
+						.broser-content {
+							top: 58%;
+							transform: translateY(-50%);
+							gap: 10px;
+						}
 						
-						.browser {
-
-							&.multi:nth-child(2),
-							&.multi:nth-child(3) {
-								display: none;
-							}
-
-							.broser-content {
-								top: 50%;
-								transform: translateY(-50%);
-								gap: 10px;
-							}
-
-							.ducklake,
-							.icons {
-								width: 45px;
-								height: 45px;
-
-								.sub {
-									margin-top: 48px;
-								}
-							}
-						}
-					}
-
-					&:not(.contains-multi) {
-						.browser {
-							width: 50%;
-							min-width: 180px;
-							left: 48%;
-							transform: translateX(-50%);
-						}
 					}
 				}
 
 				.browser {
 
-					.ducklake,
-					.icons {
-						width: 50px;
-						height: 50px;
-
-						.sub {
-							margin-top: 55px;
-						}
+					.ducklake img{
+						width: 60px;
+						height: 60px;
 					}
 
 					.broser-content {
@@ -758,7 +708,6 @@ footer .sitefooter .footercontent > div a:hover{
 				.catalog {
 					.icons {
 				
-
 						img {
 							width: 45px;
 							height: 45px;
@@ -792,7 +741,7 @@ footer .sitefooter .footercontent > div a:hover{
 @media only screen and (max-width: 590px) {
 	section.architecture .diagram .client {
 		height: unset;
-		aspect-ratio: 16 / 10;
+		aspect-ratio: 16 / 12;
 	}
 }
 
@@ -806,12 +755,23 @@ footer .sitefooter .footercontent > div a:hover{
 			.storage .folder img {
 				width: 75px;
 			}
+			.client .browser-wrap{
+				width: 280px;
+				left: 50%;
+			}
+			.client .browser-wrap .browser{
+				width: 220px;
+			}
+			.client .browser .ducklake img{
+				width: 50px;
+				height: 50px;
+			}
 		}
 	}
 }
 
 
-
+section.architecture .diagram 
 
 // General Code-Highlight Styles (Todo: Remove from docu.scss 767 to 816)
 .highlight {
@@ -913,20 +873,23 @@ html.darkmode {
 	section.architecture {
 		.diagram {
 			.connector svg path {
-				fill: #f2f2f2;
+				fill: #B2B2B2;
 			}
 			.database .catalog .icons img.duckdb,
 			.client .browser .icons img.duckdb_icon{
 				content: url('/images/deployment_diagram/dark/cat_icon-duckdb.svg');
 			}
 			.client .browser .ducklake img.ducklake_icon{
-				content: url('/images/deployment_diagram/dark/ducklake_comb_alt.svg');
+				content: url('/images/deployment_diagram/dark/ducklake_comb.svg');
 			}
 			.client .browser>img{
 				content: url('/images/deployment_diagram/dark/window.svg');
 			}
 			.database .catalog .icons img.postgre{
 				content: url('/images/deployment_diagram/dark/cat_icon-postgre.svg');
+			}
+			.storage .folder img{
+				content: url('/images/deployment_diagram/dark/parquet_folder.svg');
 			}
 			.database .catalog .icons img.sqlite{
 				content: url('/images/deployment_diagram/dark/cat_icon-sqlite.svg');
