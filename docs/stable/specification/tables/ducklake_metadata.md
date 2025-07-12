@@ -20,8 +20,8 @@ The `ducklake_metadata` table contains key/value pairs with information about th
 | Scope          | `scope` | Description                                                            |
 | -------------- | ------- | ---------------------------------------------------------------------- |
 | Global         | NULL    | The scope of the setting is global for the entire catalog.             |
-| Table          | `schema`| The setting is scoped to the `table_id` referenced by `scope_id`.      |
-| Schema         | `table` | The setting is scoped to the `schema_id` referenced by `scope_id`.     |
+| Schema         | `schema`| The setting is scoped to the `schema_id` referenced by `scope_id`.     |
+| Table          | `table` | The setting is scoped to the `table_id` referenced by `scope_id`.      |
 
 Currently, the following values for `key` are specified:
 
