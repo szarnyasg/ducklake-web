@@ -33,6 +33,7 @@ The types of columns are defined in the `column_type` field of the `ducklake_col
 | `interval`      | Time interval in three different granularities: months, days, and milliseconds               |
 | `varchar`       | Text                                                                                         |
 | `blob`          | Binary data                                                                                  |
+| `json`          | JSON                                                                                         |
 | `uuid`          | [Universally unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) |
 
 ## Nested Types
