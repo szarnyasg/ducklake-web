@@ -37,4 +37,4 @@ Currently, the following values for `key` are specified:
 | `parquet_row_group_size` | The size in number of rows to limit a parquet file rowgroup at for insert and compaction operations | | Global, Schema or Table |
 | `parquet_compression` | The compression used to write parquet files e.g., `zstd` | | Global, Schema or Table |
 | `parquet_compression_level` | The compression level used for the selected `parquet_compression` | | Global, Schema or Table |
-| `parquet_version` | The version of the Parquet standard used to write parquet files | | Global, Schema or Table |
+| `parquet_version` | The version of the Parquet standard used to write parquet files | `1` or `2` | Global, Schema or Table |
