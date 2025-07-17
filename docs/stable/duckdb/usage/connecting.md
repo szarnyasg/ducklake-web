@@ -52,6 +52,7 @@ The following parameters are supported for `ATTACH`:
 | data_inlining_row_limit | The number of rows for which [data inlining](/docs/stable/duckdb/advanced_features/data_inlining) is used | 0                                                            |
 | snapshot_version        | If provided, connect to DuckLake at a specified snapshot id                                               |                                                              |
 | snapshot_time           | If provided, connect to DuckLake at a snapshot at a specified point in time                               |                                                              |
+| create_if_not_exists    | Creates a new DuckLake if the specified one does not already exist                                        | true                                                         |
 | meta_{parameter_name}   | Pass `{parameter_name}` to the catalog server                                                             |                                                              |
 
 In addition, any parameters that are prefixed with `META_` are passed to the catalog used to store the metadata.
