@@ -63,6 +63,6 @@ CALL ducklake_flush_inlined_data('my_ducklake')
 CALL ducklake_flush_inlined_data('my_ducklake', schema_name => 'my_schema')
 -- flush inlined data for a specific table in the default 'main' schema
 CALL ducklake_flush_inlined_data('my_ducklake', table_name => 'my_table')
--- flush inlined data for a specific table in a specific schema:
+-- flush inlined data for a specific table in a specific schema
 CALL ducklake_flush_inlined_data('my_ducklake', schema_name => 'my_schema', table_name => 'my_table')
 ```
