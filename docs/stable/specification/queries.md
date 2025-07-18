@@ -363,7 +363,6 @@ INSERT INTO ducklake_file_column_statistics (
     column_id,
     value_count,
     null_count,
-    nan_count,
     min_value,
     max_value,
     contains_nan
@@ -374,7 +373,6 @@ VALUES (
     ⟨COLUMN_ID⟩,
     ⟨RECORD_COUNT⟩,
     ⟨NULL_COUNT⟩,
-    ⟨NAN_COUNT⟩,
     ⟨MIN_VALUE⟩,
     ⟨MAX_VALUE⟩,
     ⟨NAN_COUNT⟩ > 0;
@@ -388,7 +386,6 @@ where
 - `⟨DATA_FILE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `data_file_id` column in the [`ducklake_data_file` table]({% link docs/stable/specification/tables/ducklake_data_file.md %}).
 - `⟨RECORD_COUNT⟩`{:.language-sql .highlight} is the number of values (including `NULL` and `NaN` values) in the file column.
 - `⟨NULL_COUNT⟩`{:.language-sql .highlight} is the number of `NULL` values in the file column.
-- `⟨NAN_COUNT⟩`{:.language-sql .highlight} is the number of `NaN` values in the file column (floating-point only).
 - `⟨MIN_VALUE⟩`{:.language-sql .highlight} is the *minimum* value in the file column as a string.
 - `⟨MAX_VALUE⟩`{:.language-sql .highlight} is the *maximum* value in the file column as a string.
 - `⟨FILE_SIZE_BYTES⟩`{:.language-sql .highlight} is the size of the new Parquet file.
