@@ -350,7 +350,7 @@ WHERE table_id = ⟨TABLE_ID⟩;
 UPDATE ducklake_table_column_stats
 SET
     contains_null = contains_null OR ⟨NULL_COUNT⟩ > 0,
-    contains_nan = contains_nan OR ⟨NAN_COUNT⟩ > 0,
+    contains_nan = contains_nan,
     min_value = min(min_value, ⟨MIN_VALUE⟩),
     max_value = max(max_value, ⟨MAX_VALUE⟩)
 WHERE
@@ -375,7 +375,7 @@ VALUES (
     ⟨NULL_COUNT⟩,
     ⟨MIN_VALUE⟩,
     ⟨MAX_VALUE⟩,
-    ⟨NAN_COUNT⟩ > 0;
+    ⟨CONTAINS_NAN⟩;
 );
 ```
 
@@ -389,6 +389,7 @@ where
 - `⟨MIN_VALUE⟩`{:.language-sql .highlight} is the *minimum* value in the file column as a string.
 - `⟨MAX_VALUE⟩`{:.language-sql .highlight} is the *maximum* value in the file column as a string.
 - `⟨FILE_SIZE_BYTES⟩`{:.language-sql .highlight} is the size of the new Parquet file.
+- `⟨CONTAINS_NAN⟩`{:.language-sql .highlight} is a flag whether the column contains any `NaN` values. This is only relevant for floating-point types.
 
 > This example assumes there are already rows in the table. If there are none, we need to use `INSERT` instead here.
 > We also skipped the `column_size_bytes` column here, it can safely be set to `NULL`.
