@@ -81,8 +81,8 @@ CREATE TABLE nl_train_stations AS
 Now Let's peek behind the courtains. The data was just read into a Parquet file, which we can also just query.
 
 ```sql
-FROM glob('my_ducklake.ducklake.files/*');
-FROM 'my_ducklake.ducklake.files/*.parquet' LIMIT 10;
+FROM glob('my_ducklake.ducklake.files/**/*');
+FROM 'my_ducklake.ducklake.files/**/*.parquet' LIMIT 10;
 ```
 
 But now lets change some things around. We're really unhappy with the name of the old name of the "Amsterdam Bijlmer ArenA" station now that the stadium has been renamed to "[Johan Cruijff](https://en.wikipedia.org/wiki/Johan_Cruyff) ArenA" and everyone here loves Johan. So let's change that.
@@ -100,13 +100,13 @@ SELECT name_long FROM nl_train_stations WHERE code = 'ASB';
 In the background, more files have appeared:
 
 ```sql
-FROM glob('my_ducklake.ducklake.files/*');
+FROM glob('my_ducklake.ducklake.files/**/*');
 ```
 
 We now see three files. The original data file, the rows that were deleted, and the rows that were inserted. Like most systems, DuckLake models updates as deletes followed by inserts. The deletes are just a Parquet file, we can query it:
 
 ```sql
-FROM 'my_ducklake.ducklake.files/ducklake-*-delete.parquet';
+FROM 'my_ducklake.ducklake.files/**/ducklake-*-delete.parquet';
 ```
 
 The file should contain a single row that marks row 29 as deleted. A new file has appared that contains the new values for this row.
