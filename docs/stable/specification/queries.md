@@ -308,7 +308,7 @@ where
 - `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is the snapshot identifier of the new snapshot as described above.
 - `⟨TABLE_ID⟩`{:.language-sql .highlight} is the identifier of the table that will be dropped.
 
-### `DROP SCHEMA`
+### `DROP SCHEMA ... CASCADE`
 
 Dropping an entire schema consists of three main steps:
 first, we need to update the `end_snapshot` field in the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %}). Second, we need to update the `end_snapshot` field in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}) for all tables within that schema. Finally, we need to update the `end_snapshot` field in the [`ducklake_partition_info` table]({% link docs/stable/specification/tables/ducklake_partition_info.md %}) for all tables that contain any partition info.
