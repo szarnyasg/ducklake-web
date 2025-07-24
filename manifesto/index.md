@@ -25,7 +25,7 @@ At the same time, market forces have pushed people to insist that data systems *
 
 But quickly it emerged that – shockingly – people would like to *make changes* to their dataset. Simple appends worked pretty well by just dropping more files into a folder, but anything beyond that required complex and error-prone custom scripts without any notion of correctness or – Codd beware – transactional guarantees.
 
-![An actual lakehouse]({{ site.baseurl }}/images/manifesto/lakehouse.jpg)  
+![An actual lakehouse]({{ site.baseurl }}/images/manifesto/lakehouse.jpg)
 *An actual lakehouse. Maybe more like a cabin on a lake.*{: .caption }
 
 ## Iceberg and Delta
