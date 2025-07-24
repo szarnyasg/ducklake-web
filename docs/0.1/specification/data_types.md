@@ -28,7 +28,7 @@ The types of columns are defined in the `column_type` field of the `ducklake_col
 | `timestamp`     | Timestamp, microsecond precision                                                             |
 | `timestamptz`   | Timestamp, microsecond precision, with time zone                                             |
 | `timestamp_s`   | Timestamp, second precision                                                                  |
-| `timestamp_ms`  | Timestamp, microsecond precision                                                             |
+| `timestamp_ms`  | Timestamp, millisecond precision                                                             |
 | `timestamp_ns`  | Timestamp, nanosecond precision                                                              |
 | `interval`      | Time interval in three different granularities: months, days, and milliseconds               |
 | `varchar`       | Text                                                                                         |
