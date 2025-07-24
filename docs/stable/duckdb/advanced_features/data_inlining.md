@@ -56,13 +56,14 @@ SELECT COUNT(*) FROM glob('inlining.db.files/**');
 ### Flushing Inlined Data
 
 Inlined data can be manually flushed to parquet files by calling the `ducklake_flush_inlined_data` function. For example:
+
 ```sql
 -- flush all inlined data in all schemas and tables
-CALL ducklake_flush_inlined_data('my_ducklake')
+CALL ducklake_flush_inlined_data('my_ducklake');
 -- flush inlined data only within a specific schema
-CALL ducklake_flush_inlined_data('my_ducklake', schema_name => 'my_schema')
+CALL ducklake_flush_inlined_data('my_ducklake', schema_name => 'my_schema');
 -- flush inlined data for a specific table in the default 'main' schema
-CALL ducklake_flush_inlined_data('my_ducklake', table_name => 'my_table')
+CALL ducklake_flush_inlined_data('my_ducklake', table_name => 'my_table');
 -- flush inlined data for a specific table in a specific schema
-CALL ducklake_flush_inlined_data('my_ducklake', schema_name => 'my_schema', table_name => 'my_table')
+CALL ducklake_flush_inlined_data('my_ducklake', schema_name => 'my_schema', table_name => 'my_table');
 ```
