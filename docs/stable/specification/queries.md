@@ -287,7 +287,7 @@ where
 
 ### `DROP TABLE`
 
-Dropping a table in DuckLake requires an update in the `end_snapshot` field in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}). If the table contains any partition info, the `end_snapshot` field in the [`ducklake_partition_info` table]({% link docs/stable/specification/tables/ducklake_partition_info.md %}) also needs to be updated.
+Dropping a table in DuckLake requires an update in the `end_snapshot` field in all metadata entries corresponding to the dropped table id.
 
 ```sql
 UPDATE ducklake_table
@@ -301,6 +301,36 @@ SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
     table_id  = ⟨TABLE_ID⟩;
+
+UPDATE ducklake_column
+SET
+    end_snapshot = ⟨SNAPSHOT_ID⟩
+WHERE
+    table_id  = ⟨TABLE_ID⟩;
+
+UPDATE ducklake_column_tag
+SET
+    end_snapshot = ⟨SNAPSHOT_ID⟩
+WHERE
+    table_id  = ⟨TABLE_ID⟩;
+
+UPDATE ducklake_data_file
+SET
+    end_snapshot = ⟨SNAPSHOT_ID⟩
+WHERE
+    table_id  = ⟨TABLE_ID⟩;
+
+UPDATE ducklake_delete_file
+SET
+    end_snapshot = ⟨SNAPSHOT_ID⟩
+WHERE
+    table_id  = ⟨TABLE_ID⟩;
+
+UPDATE ducklake_tag
+SET
+    end_snapshot = ⟨SNAPSHOT_ID⟩
+WHERE
+    object_id  = ⟨TABLE_ID⟩;
 ```
 
 where
@@ -308,10 +338,9 @@ where
 - `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is the snapshot identifier of the new snapshot as described above.
 - `⟨TABLE_ID⟩`{:.language-sql .highlight} is the identifier of the table that will be dropped.
 
-### `DROP SCHEMA ... CASCADE`
+### `DROP SCHEMA`
 
-Dropping an entire schema consists of three main steps:
-first, we need to update the `end_snapshot` field in the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %}). Second, we need to update the `end_snapshot` field in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}) for all tables within that schema. Finally, we need to update the `end_snapshot` field in the [`ducklake_partition_info` table]({% link docs/stable/specification/tables/ducklake_partition_info.md %}) for all tables that contain any partition info.
+Dropping a schema in ducklake requires updating the `end_snapshot` in the `ducklake_schema` table. 
 
 ```sql
 UPDATE ducklake_schema
@@ -319,30 +348,14 @@ SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
     schema_id = ⟨SCHEMA_ID⟩;
-
-UPDATE ducklake_table
-SET
-    end_snapshot = ⟨SNAPSHOT_ID⟩
-WHERE
-    schema_id = ⟨SCHEMA_ID⟩;
-
-UPDATE ducklake_partition_info
-SET
-    end_snapshot = ⟨SNAPSHOT_ID⟩
-WHERE
-    table_id IN (
-        SELECT table_id
-        FROM ducklake_table
-        WHERE
-            schema_id = ⟨SCHEMA_ID⟩
-        );
 ```
 
 where
 
 - `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is the snapshot identifier of the new snapshot as described above.
 - `⟨SCHEMA_ID⟩`{:.language-sql .highlight} is the identifier of the schema that will be dropped.
-- `⟨TABLE_ID⟩`{:.language-sql .highlight} is the identifier of the table that will be dropped.
+
+> `DROP SCHEMA` is only allowed on empty schemas. Ensure that all tables within the schema are dropped beforehand.
 
 ### `INSERT`
 
