@@ -13,7 +13,7 @@ This table contains the valid snapshots in a DuckLake.
 | `next_catalog_id` | `BIGINT`                   |             |
 | `next_file_id`    | `BIGINT`                   |             |
 
-- `snapshot_id` is the numeric identifier of the snapshot. It is a primary key and is referred to by various other tables below.
+- `snapshot_id` is the continuously increasing numeric identifier of the snapshot. It is a primary key and is referred to by various other tables below.
 - `snapshot_time` is the time stamp at which the snapshot was created.
 - `schema_version` is an continously increasing number that is incremented whenever the schema is changed, e.g. by creating a table. This allows for caching of schema information if only data is changed.
 - `next_catalog_id` is a continously increasing number that describes the next identifier for schemas, tables and views. This is only changed if one of those entries is created, i.e., the schema is changing.
