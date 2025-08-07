@@ -170,7 +170,7 @@ def sanitize_desc(text):
 
 
 if __name__ == "__main__":
-    index_dir("docs")
+    index_dir("docs/stable")
     index_dir("_posts")
     with open("data/search_data.json", "w+") as f:
         json.dump({"data": sorted(file_list, key=lambda x: x["title"])}, f, indent="\t")
