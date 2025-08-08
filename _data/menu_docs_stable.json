@@ -179,6 +179,10 @@
                   "url": "adding_files"
                 }
               ]
+            },
+            {
+              "page": "Unsupported Features",
+              "url": "unsupported_features"
             }
           ]
         }
