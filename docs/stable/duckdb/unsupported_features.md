@@ -62,6 +62,7 @@ Within this group, we are going to make a distinction between what is not suppor
 - [`UNION` type](https://duckdb.org/docs/stable/sql/data_types/union)
 
 ## Unsupported by the DuckLake DuckDB extension
+
 - [Data inligning]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) is limited to DuckDB catalogs
 
 - MySQL catalogs are not fully supported in the DuckDB extension
