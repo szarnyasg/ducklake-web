@@ -354,7 +354,8 @@ UPDATE ducklake_schema
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    schema_id = ⟨SCHEMA_ID⟩;
+    schema_id = ⟨SCHEMA_ID⟩ AND
+    end_snapshot IS NULL;
 ```
 
 where
