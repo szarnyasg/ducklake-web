@@ -308,8 +308,8 @@ UPDATE ducklake_column
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩; AND
-    end_snapshot IS NULL
+    table_id  = ⟨TABLE_ID⟩ AND
+    end_snapshot IS NULL;
 
 UPDATE ducklake_column_tag
 SET
