@@ -347,3 +347,21 @@ The DuckLake specification and the DuckLake DuckDB extension are released under 
 
 </div>
 
+
+
+
+<!-- ----- ----- ----- ----- ----- ----- Q&A entry ----- ----- ----- ----- ----- ----- -->
+
+<div class="qa-wrap" markdown="1">
+
+### When is the next version of the DuckLake standard released?
+
+<div class="answer" markdown="1">
+
+The DuckLake 0.3 standard will be released around mid-September.
+
+</div>
+
+</div>
+
+
