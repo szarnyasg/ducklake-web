@@ -294,43 +294,50 @@ UPDATE ducklake_table
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩;
+    table_id  = ⟨TABLE_ID⟩ AND
+    end_snapshot IS NULL;
 
 UPDATE ducklake_partition_info
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩;
+    table_id  = ⟨TABLE_ID⟩ AND
+    end_snapshot IS NULL;
 
 UPDATE ducklake_column
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩;
+    table_id  = ⟨TABLE_ID⟩; AND
+    end_snapshot IS NULL
 
 UPDATE ducklake_column_tag
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩;
+    table_id  = ⟨TABLE_ID⟩ AND
+    end_snapshot IS NULL;
 
 UPDATE ducklake_data_file
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩;
+    table_id  = ⟨TABLE_ID⟩ AND
+    end_snapshot IS NULL;
 
 UPDATE ducklake_delete_file
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩;
+    table_id  = ⟨TABLE_ID⟩ AND
+    end_snapshot IS NULL;
 
 UPDATE ducklake_tag
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    object_id  = ⟨TABLE_ID⟩;
+    object_id  = ⟨TABLE_ID⟩ AND
+    end_snapshot IS NULL;
 ```
 
 where
