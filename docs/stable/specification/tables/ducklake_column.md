@@ -19,7 +19,7 @@ This table describes the columns that are part of a table, including their types
 | `nulls_allowed`   | `BOOLEAN`   |             |
 | `parent_column`   | `BIGINT`    |             |
 
-- `column_id` is the numeric identifier of the column. It corresponds to the [`field identifier`](https://github.com/apache/parquet-format/blob/f1fd3b9171aec7a7f0106e0203caef88d17dda82/src/main/thrift/parquet.thrift#L550) in the parquet file, or the mapping_id in the [`ducklake_column_mapping` table]({% link docs/stable/specification/tables/ducklake_column_mapping.md %}) when the parquet file does not have a field id. This identifier should remain consistent throughout all versions of the column, until it's dropped.
+- `column_id` is the numeric identifier of the column. If the parquet file includes a field identifier, it corresponds to the file’s [`field_id`](https://github.com/apache/parquet-format/blob/f1fd3b9171aec7a7f0106e0203caef88d17dda82/src/main/thrift/parquet.thrift#L550). This identifier should remain consistent throughout all versions of the column, until it's dropped.
 - `begin_snapshot` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). This version of the column exists *starting with* this snapshot id.
 - `end_snapshot` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). This version of the column exists *up to but not including* this snapshot id. If `end_snapshot` is `NULL`, this version of the column is currently valid.
 - `table_id` refers to a `table_id` from the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
