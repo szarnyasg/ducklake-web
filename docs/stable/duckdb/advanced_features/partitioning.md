@@ -33,6 +33,8 @@ ALTER TABLE tbl RESET PARTITIONED BY;
 
 DuckLake supports the following partition clauses:
 
+<div class="monospace_table"></div>
+
 | Transform | Expression |
 |-----------|------------|
 | identity  | col_name   |
