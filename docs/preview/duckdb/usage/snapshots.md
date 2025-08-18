@@ -26,6 +26,16 @@ SELECT * FROM snapshot_test.snapshots();
 | 2           | 2025-05-26 17:03:38.748+00 | 1              | {tables_inserted_into=[1]}  | NULL   | NULL           | NULL              |
 | 3           | 2025-05-26 17:03:39.788+00 | 1              | {tables_deleted_from=[1]}   | NULL   | NULL           | NULL              |
 
+It is also possible to retrieve the latest snapshot id directly whith a function.
+
+```sql
+SELECT * FROM snapshot_test.current_snapshot();
+```
+
+| id |
+|---:|
+| 3  |
+
 ## Adding a commit message to a Snapshot
 
 An author and commit message can also be added in the context of a transaction. Optionally, you can also add some extra information.
