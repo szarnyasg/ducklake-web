@@ -45,6 +45,9 @@ collections:
   posts:
     output: true
     permalink: /:year/:month/:day/:title/
+  media:
+    output: true
+    permalink: /media/:title/
 
 excerpt_separator: <!--more-->
 future: true
