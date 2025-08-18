@@ -12,17 +12,38 @@ Every set of changes must be accompanied by a snapshot.
 
 ## Listing Snapshots
 
-The set of snapshots can be queried using the `snapshots` function.
-This returns a list of all snapshots and their changesets.
+The set of snapshots can be queried using the `snapshots` function. This returns a list of all snapshots and their changesets.
 
 ```sql
 ATTACH 'ducklake:snapshot_test.db' AS snapshot_test;
 SELECT * FROM snapshot_test.snapshots();
 ```
 
-| snapshot_id |       snapshot_time        | schema_version |           changes           |
-|------------:|----------------------------|---------------:|-----------------------------|
-| 0           | 2025-05-26 17:03:37.746+00 | 0              | {schemas_created=[main]}    |
-| 1           | 2025-05-26 17:03:38.66+00  | 1              | {tables_created=[main.tbl]} |
-| 2           | 2025-05-26 17:03:38.748+00 | 1              | {tables_inserted_into=[1]}  |
-| 3           | 2025-05-26 17:03:39.788+00 | 1              | {tables_deleted_from=[1]}   |
+| snapshot_id | snapshot_time              | schema_version | changes                     | author | commit_message | commit_extra_info |
+|-------------|----------------------------|----------------|-----------------------------|--------|----------------|-------------------|
+| 0           | 2025-05-26 17:03:37.746+00 | 0              | {schemas_created=[main]}    | NULL   | NULL           | NULL              |
+| 1           | 2025-05-26 17:03:38.66+00  | 1              | {tables_created=[main.tbl]} | NULL   | NULL           | NULL              |
+| 2           | 2025-05-26 17:03:38.748+00 | 1              | {tables_inserted_into=[1]}  | NULL   | NULL           | NULL              |
+| 3           | 2025-05-26 17:03:39.788+00 | 1              | {tables_deleted_from=[1]}   | NULL   | NULL           | NULL              |
+
+## Adding a commit message to a Snapshot
+
+An author and commit message can also be added in the context of a transaction. For example:
+
+```sql
+CREATE TABLE ducklake.people(a integer, b varchar);
+
+-- Begin Transaction
+BEGIN;
+INSERT INTO ducklake.people VALUES (1, 'pedro');
+CALL ducklake.set_commit_message('Pedro', 'Inserting myself');
+COMMIT;
+-- End transaction
+```
+
+| snapshot_id |       snapshot_time        | schema_version |            changes             | author |  commit_message  | commit_extra_info |
+|------------:|----------------------------|---------------:|--------------------------------|--------|------------------|-------------------|
+| 0           | 2025-08-18 13:10:49.636+02 | 0              | {schemas_created=[main]}       | NULL   | NULL             | NULL              |
+| 1           | 2025-08-18 13:24:15.472+02 | 1              | {tables_created=[main.t1]}     | NULL   | NULL             | NULL              |
+| 2           | 2025-08-18 13:25:24.423+02 | 2              | {tables_created=[main.people]} | NULL   | NULL             | NULL              |
+| 3           | 2025-08-18 13:26:06.38+02  | 2              | {tables_inserted_into=[2]}     | Pedro  | Inserting myself | NULL              |
