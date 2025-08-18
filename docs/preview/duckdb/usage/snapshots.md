@@ -28,7 +28,7 @@ SELECT * FROM snapshot_test.snapshots();
 
 ## Adding a commit message to a Snapshot
 
-An author and commit message can also be added in the context of a transaction. For example:
+An author and commit message can also be added in the context of a transaction. Optionally, you can also add some extra information.
 
 ```sql
 CREATE TABLE ducklake.people(a integer, b varchar);
@@ -36,14 +36,14 @@ CREATE TABLE ducklake.people(a integer, b varchar);
 -- Begin Transaction
 BEGIN;
 INSERT INTO ducklake.people VALUES (1, 'pedro');
-CALL ducklake.set_commit_message('Pedro', 'Inserting myself');
+CALL ducklake.set_commit_message('Pedro', 'Inserting myself', , extra_info =>'{''foo'':7, ''bar'':10}');
 COMMIT;
 -- End transaction
 ```
 
-| snapshot_id |       snapshot_time        | schema_version |            changes             | author |  commit_message  | commit_extra_info |
-|------------:|----------------------------|---------------:|--------------------------------|--------|------------------|-------------------|
-| 0           | 2025-08-18 13:10:49.636+02 | 0              | {schemas_created=[main]}       | NULL   | NULL             | NULL              |
-| 1           | 2025-08-18 13:24:15.472+02 | 1              | {tables_created=[main.t1]}     | NULL   | NULL             | NULL              |
-| 2           | 2025-08-18 13:25:24.423+02 | 2              | {tables_created=[main.people]} | NULL   | NULL             | NULL              |
-| 3           | 2025-08-18 13:26:06.38+02  | 2              | {tables_inserted_into=[2]}     | Pedro  | Inserting myself | NULL              |
+| snapshot_id | snapshot_time              | schema_version | changes                       | author | commit_message   | commit_extra_info           |
+|-------------|----------------------------|----------------|-------------------------------|--------|------------------|-----------------------------|
+| 0           | 2025-08-18 13:10:49.636+02 | 0              | {schemas_created=[main]}      | NULL   | NULL             | NULL                        |
+| 1           | 2025-08-18 13:24:15.472+02 | 1              | {tables_created=[main.t1]}    | NULL   | NULL             | NULL                        |
+| 2           | 2025-08-18 13:25:24.423+02 | 2              | {tables_created=[main.people]}| NULL   | NULL             | NULL                        |
+| 3           | 2025-08-18 13:26:06.38+02  | 2              | {tables_inserted_into=[2]}    | Pedro  | Inserting myself | {'foo':7, 'bar':10}         |

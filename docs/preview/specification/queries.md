@@ -176,13 +176,15 @@ INSERT INTO ducklake_snapshot_changes (
     snapshot_id,
     snapshot_changes,
     author,
-    commit_message
+    commit_message,
+    commit_extra_info
 )
 VALUES (
     ⟨SNAPSHOT_ID⟩,
     ⟨CHANGES⟩,
     (AUTHOR),
-    (COMMIT_MESSAGE)
+    (COMMIT_MESSAGE),
+    (COMMIT_EXTRA_INFO)
 );
 ```
 
