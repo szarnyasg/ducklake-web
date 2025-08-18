@@ -16,6 +16,8 @@ These keys do not need to be necessarily stored within the files, or in the path
 
 ## Examples
 
+> By default, DuckLake supports [Hive style partitioning](https://duckdb.org/docs/stable/data/partitioning/hive_partitioning.html). If you want to avoid this style of partitions, you can opt out by calling `CALL my_ducklake.set_option('hive_file_pattern', false)`
+
 Set the partitioning keys of a table, such that new data added to the table is partitioned by these keys.
 
 ```sql
