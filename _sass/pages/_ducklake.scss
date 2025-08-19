@@ -866,6 +866,9 @@ html.darkmode {
 			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 364.8 28.6'%3E%3Cpath d='M364.8 0h-.1c-45.5 0-68.3 4.2-91.1 8.3-22.8 4.2-45.5 8.3-91 8.3s-68.3-4.2-91.1-8.3C68.7 4.2 45.9 0 .4 0H0v28.6h364.8V0Z' style='fill:%230d0d0d'/%3E%3C/svg%3E");
 		}
 	}
+	body .newswrap .postwrap .infoline .icon{
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 38.177 38'%3E%3Cpath d='M19 0C8.507 0 0 8.507 0 19s8.507 19 19 19 19-8.507 19-19S29.493 0 19 0Z' style='fill:%232eafff;fill-rule:evenodd'/%3E%3Cpath d='M16.603 9.608a9.31 9.31 0 0 1 8.075 4.62h1.727c2.375 0 4.361 1.9 4.361 4.318 0 2.375-1.943 4.361-4.361 4.361h-1.252a9.326 9.326 0 0 1-8.161 5.484h-.864c-4.966-.259-8.895-4.361-8.895-9.37 0-5.182 4.189-9.414 9.37-9.414Zm0 2.85c-3.584 0-6.52 2.936-6.52 6.52a6.513 6.513 0 0 0 6.508 6.52h.012c2.893 0 5.355-1.9 6.218-4.491l.302-.993h3.282c.777 0 1.468-.691 1.468-1.468s-.648-1.468-1.468-1.468h-3.498l-.389-.82c-1.036-2.245-3.282-3.8-5.916-3.8Z' style='fill-rule:evenodd;fill:%231d1d1b'/%3E%3C/svg%3E")!important;
+	}
 	.banner .close{
 		filter: invert(0);
 	}
