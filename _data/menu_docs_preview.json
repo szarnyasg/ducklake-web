@@ -89,6 +89,10 @@
                   "url": "time_travel"
                 },
                 {
+                  "page": "Upserting",
+                  "url": "upserting"
+                },
+                {
                   "page": "Configuration",
                   "url": "configuration"
                 },
