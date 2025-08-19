@@ -64,6 +64,8 @@ This allows a reasonable amount of multi-processing support (effectively hiding 
 
 ## MySQL
 
+>Warning There are a number of known issues with MySQL as a catalog for DuckLake. This is due to some limitations regarding the DuckDB MySQL connector. We therefore do not recommend to use MySQL as a catalog for DuckLake.
+
 DuckDB can interact with a MySQL database using the [`mysql` extension](https://duckdb.org/docs/stable/core_extensions/mysql).
 Install the `ducklake` and the `mysql` extension, and attach to your DuckLake as follows:
 
