@@ -41,8 +41,9 @@ MERGE INTO people
 
 FROM people;
 ```
+
 | id | name  |  salary  |
-|---:|-------|---------:|
+|----|-------|----------|
 | 1  | Jhon  | 92000.0  |
 | 3  | Sarah | 95000.0  |
 | 2  | Anna  | 105000.0 |
@@ -62,6 +63,7 @@ MERGE INTO people
 
 FROM people;
 ```
+
 | id | name  |  salary  |
 |---:|-------|---------:|
 | 3  | Sarah | 95000.0  |
@@ -81,6 +83,7 @@ MERGE INTO people
 
 FROM people;
 ```
+
 | id | name  |  salary  |
 |---:|-------|---------:|
 | 3  | Sarah | 95000.0  |
@@ -99,6 +102,7 @@ MERGE INTO people
 
 FROM people;
 ```
+
 | id | name  | salary  |
 |---:|-------|--------:|
 | 3  | Sarah | 95000.0 |
@@ -119,6 +123,4 @@ MERGE INTO people
     -- Second update or delete condition
     WHEN MATCHED AND people.salary > 100_000.0 THEN DELETE
     WHEN NOT MATCHED THEN INSERT;
-
-FROM people;
 ```
