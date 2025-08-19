@@ -19,7 +19,7 @@ By default, all paths written by DuckLake are relative paths.
 ### Default Path Structure
 
 The root `data_path` is specified through the [`data_path` parameter](connecting) when creating a new DuckLake.
-When loading an existing Ducklake, the `data_path` is loaded from the `ducklake_metadata` if not provided.
+When loading an existing DuckLake, the `data_path` is loaded from the `ducklake_metadata` if not provided.
 
 **Schemas.** When creating a schema, a schema path is set. By default, this path is the name of the schema for alphanumeric names (`{schema_name}/`) - or `{schema_uuid}/` otherwise. 
 This path is set as relative to the root `data_path`.

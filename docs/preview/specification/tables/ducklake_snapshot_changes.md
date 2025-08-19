@@ -5,10 +5,13 @@ title: ducklake_snapshot_changes
 
 This table lists changes that happened in a snapshot for easier conflict detection.
 
-| Column name    | Column type |             |
-| -------------- | ----------- | ----------- |
-| `snapshot_id`  | `BIGINT`    | Primary Key |
-| `changes_made` | `VARCHAR`   |             |
+| Column name         | Column type | Description                              |
+| ------------------- | ----------- | ---------------------------------------- |
+| `snapshot_id`       | `BIGINT`    | Primary Key                              |
+| `changes_made`      | `VARCHAR`   | List of changes in snapshot              |
+| `author`            | `VARCHAR`   | Author of the snapshot                   |
+| `commit_message`    | `VARCHAR`   | Commit message                           |
+| `commit_extra_info` | `VARCHAR`   | Extra information regarding the commit   |
 
 The `ducklake_snapshot_changes` table contains a summary of changes made by a snapshot. This table is used during [Conflict Resolution]({% link docs/stable/duckdb/advanced_features/conflict_resolution.md %}) to quickly find out if two snapshots have conflicting changesets.
 

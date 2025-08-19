@@ -15,6 +15,8 @@ Adding files in this manner supports regular transactional semantics.
 ```sql
 -- add the file "people.parquet" to the "people" table in "my_ducklake"
 CALL ducklake_add_data_files('my_ducklake', 'people', 'people.parquet');
+-- target a specific schema rather than the default main
+CALL ducklake_add_data_files('my_ducklake', 'people', 'people.parquet', schema => 'some_schema');
 -- add the file - any columns that are present in the table but not in the file will have their default values used when reading
 CALL ducklake_add_data_files('my_ducklake', 'people', 'people.parquet', allow_missing => true);
 -- add the file - if the file has extra columns in the table they will be ignored (they will not be queryable through DuckLake)
