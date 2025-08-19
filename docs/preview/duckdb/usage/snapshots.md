@@ -19,6 +19,8 @@ ATTACH 'ducklake:snapshot_test.db' AS snapshot_test;
 SELECT * FROM snapshot_test.snapshots();
 ```
 
+<div class="monospace_table"></div>
+
 | snapshot_id | snapshot_time              | schema_version | changes                     | author | commit_message | commit_extra_info |
 |-------------|----------------------------|----------------|-----------------------------|--------|----------------|-------------------|
 | 0           | 2025-05-26 17:03:37.746+00 | 0              | {schemas_created=[main]}    | NULL   | NULL           | NULL              |
@@ -46,7 +48,7 @@ CREATE TABLE ducklake.people (a INTEGER, b VARCHAR);
 -- Begin Transaction
 BEGIN;
 INSERT INTO ducklake.people VALUES (1, 'pedro');
-CALL ducklake.set_commit_message('Pedro', 'Inserting myself', , extra_info =>'{''foo'':7, ''bar'':10}');
+CALL ducklake.set_commit_message('Pedro', 'Inserting myself', extra_info => '{''foo'': 7, ''bar'': 10}');
 COMMIT;
 -- End transaction
 ```

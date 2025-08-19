@@ -182,9 +182,9 @@ INSERT INTO ducklake_snapshot_changes (
 VALUES (
     ⟨SNAPSHOT_ID⟩,
     ⟨CHANGES⟩,
-    (AUTHOR),
-    (COMMIT_MESSAGE),
-    (COMMIT_EXTRA_INFO)
+    ⟨AUTHOR⟩,
+    ⟨COMMIT_MESSAGE⟩,
+    ⟨COMMIT_EXTRA_INFO⟩
 );
 ```
 

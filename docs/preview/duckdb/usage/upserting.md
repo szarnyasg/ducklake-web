@@ -124,3 +124,8 @@ MERGE INTO people
     WHEN MATCHED AND people.salary > 100_000.0 THEN DELETE
     WHEN NOT MATCHED THEN INSERT;
 ```
+
+```console
+Not implemented Error:
+MERGE INTO with DuckLake only supports a single UPDATE/DELETE action currently
+```
