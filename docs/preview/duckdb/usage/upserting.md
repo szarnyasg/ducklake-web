@@ -11,7 +11,7 @@ DuckLake, on the other hand, does not support primary keys. However, the `MERGE 
 
 ```sql
 MERGE INTO target_table [target_alias]
-    USING source_table [source_lias]
+    USING source_table [source_alias]
     ON (target_table.field = source_table.field)
     WHEN MATCHED THEN UPDATE [SET] | DELETE
     WHEN NOT MATCHED THEN INSERT;
@@ -23,7 +23,7 @@ First, let's create a simple table.
 
 ```sql
 CREATE TABLE people(id INTEGER, name VARCHAR, salary FLOAT);
-INSERT INTO people VALUES (1, 'Jhon', 92_000.0), (2, 'Anna', 100_000.0);
+INSERT INTO people VALUES (1, 'John', 92_000.0), (2, 'Anna', 100_000.0);
 ```
 
 The simplest upsert would be updating or inserting a whole row.
@@ -43,7 +43,7 @@ FROM people;
 ```
 
 | id | name  |  salary  |
-|----|-------|----------|
+|---:|-------|---------:|
 | 1  | Jhon  | 92000.0  |
 | 3  | Sarah | 95000.0  |
 | 2  | Anna  | 105000.0 |
@@ -70,7 +70,7 @@ FROM people;
 | 2  | Anna  | 105000.0 |
 | 1  | Jhon  | 98000.0  |
 
-Another very common pattern is to receive a delete set of rows, which may only contain ids of rows to be deleted.
+Another common pattern is to receive a delete set of rows, which may only contain ids of rows to be deleted.
 
 ```sql
 MERGE INTO people 
@@ -89,7 +89,7 @@ FROM people;
 | 3  | Sarah | 95000.0  |
 | 2  | Anna  | 105000.0 |
 
-Merge into also supports more complex conditions, for example for a given delete set we can decide to only remove rows that contain a `salary` bigger than a certain amount.
+`MERGE INTO` also supports more complex conditions, for example for a given delete set we can decide to only remove rows that contain a `salary` bigger than a certain amount.
 
 ```sql
 MERGE INTO people 
@@ -107,7 +107,7 @@ FROM people;
 |---:|-------|--------:|
 | 3  | Sarah | 95000.0 |
 
-## Unsupported behaviour
+## Unsupported Behavior
 
 Multiple `UPDATE` or `DELETE` operators are not currently supported. The following query **would not work**:
 ```sql

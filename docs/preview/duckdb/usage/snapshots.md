@@ -36,12 +36,12 @@ SELECT * FROM snapshot_test.current_snapshot();
 |---:|
 | 3  |
 
-## Adding a commit message to a Snapshot
+## Adding a Commit Message to a Snapshot
 
 An author and commit message can also be added in the context of a transaction. Optionally, you can also add some extra information.
 
 ```sql
-CREATE TABLE ducklake.people(a integer, b varchar);
+CREATE TABLE ducklake.people (a INTEGER, b VARCHAR);
 
 -- Begin Transaction
 BEGIN;
