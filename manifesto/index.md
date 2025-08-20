@@ -70,7 +70,7 @@ The basic design of DuckLake is to *move all metadata structures into a SQL data
 
 ![DuckLake schema]({{ site.baseurl }}/images/manifesto/ducklake-schema-1.png){: .lightmode-img }
 ![DuckLake schema]({{ site.baseurl }}/images/manifesto/dark/ducklake-schema-1.png){: .darkmode-img }
-*DuckLake schema*{: .caption }
+*DuckLake 0.1 schema*{: .caption }
 
 Which exact SQL database to use is up to the user, the only requirements are that the system supports ACID operations and primary keys along with standard SQL support. The DuckLake-internal table schema is intentionally kept simple in order to maximize compatibility with different SQL databases. Here is the core schema through an example.
 
