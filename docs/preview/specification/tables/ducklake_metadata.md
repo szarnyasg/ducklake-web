@@ -9,17 +9,17 @@ The `ducklake_metadata` table contains key/value pairs with information about th
 | ----------- | ----------- | ----------- |
 | `key`       | `VARCHAR`   | Not `NULL`  |
 | `value`     | `VARCHAR`   | Not `NULL`  |
-| `scope`       | `VARCHAR`   |   |
-| `scope_id`     | `BIGINT`   |   |
+| `scope`     | `VARCHAR`   |             |
+| `scope_id`  | `BIGINT`    |             |
 
 - `key` is an arbitrary key string. See below for a list of pre-defined keys. The key can't be `NULL`.
 - `value` is the arbitrary value string.
 - `scope` defines the scope of the setting.
-- `scope_id` is the id of the item that the setting is scoped to (see the table below) or NULL for the Global scope.
+- `scope_id` is the id of the item that the setting is scoped to (see the table below) or `NULL` for the Global scope.
 
 | Scope          | `scope` | Description                                                            |
 | -------------- | ------- | ---------------------------------------------------------------------- |
-| Global         | NULL    | The scope of the setting is global for the entire catalog.             |
+| Global         | `NULL`  | The scope of the setting is global for the entire catalog.             |
 | Schema         | `schema`| The setting is scoped to the `schema_id` referenced by `scope_id`.     |
 | Table          | `table` | The setting is scoped to the `table_id` referenced by `scope_id`.      |
 

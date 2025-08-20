@@ -11,7 +11,7 @@ DuckLake specifies tables and update transactions to modify them. DuckLake is no
 
 ### Get Current Snapshot
 
-Before anything else we need to find a snapshot ID to be queries. There can be many snapshots in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). A snapshot ID is a continously increasing number that identifies a snapshot. In most cases, you would query the most recent one like so:
+Before anything else we need to find a snapshot ID to be queries. There can be many snapshots in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). A snapshot ID is a continuously increasing number that identifies a snapshot. In most cases, you would query the most recent one like so:
 
 ```sql
 SELECT snapshot_id FROM ducklake_snapshot
