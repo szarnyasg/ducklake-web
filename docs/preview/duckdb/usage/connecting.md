@@ -15,7 +15,7 @@ When connecting to an existing DuckLake, the data storage location is loaded fro
 ATTACH 'ducklake:{metadata_storage_location}' (DATA_PATH '{data_storage_location}');
 ```
 
-In addition, DuckLake connection parameters can also be stored in [secrets](https://duckdb.org/docs/stable/configuration/secrets_manager.html).
+In addition, DuckLake connection parameters can also be stored in [secrets](https://duckdb.org/docs/stable/configuration/secrets_manager).
 
 ```sql
 ATTACH 'ducklake:{secret_name}';
