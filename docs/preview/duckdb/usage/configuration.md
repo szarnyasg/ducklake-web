@@ -9,6 +9,7 @@ The options that have been set can be queried using the `options` function.
 Configuration is persisted in the [`ducklake_metadata`](../../specification/tables/ducklake_metadata) table
 
 ### Examples
+
 ```sql
 -- set the global parquet compression algorithm used when writing Parquet files
 CALL my_ducklake.set_option('parquet_compression', 'zstd');
@@ -19,7 +20,6 @@ CALL my_ducklake.set_option('parquet_compression', 'zstd', table_name => 'my_tab
 
 -- see all options for the given attached DuckLake
 FROM my_ducklake.options();
-
 ```
 
 |             Name             |                                       Description                                                | Default |
@@ -34,8 +34,9 @@ FROM my_ducklake.options();
 | hive_file_pattern            | Whether partitioned data should be written following a hive-style partition                      | true    |
 
 ### Scoping
+
 Options can be set either globally, per-schema or per-table.
-The most specific scope that is set is always used for any given setting, i.e. settings are used in the following priority:
+The most specific scope that is set is always used for any given setting, i.e., settings are used in the following priority:
 
 | Priority | Setting Scope |
 |---------:|---------------|

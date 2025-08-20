@@ -49,7 +49,7 @@ Within this group, we are going to make a distinction between what is not suppor
 
 - Dropping dependencies, such as views, when calling `DROP ... CASCADE`. Note that this is also a [DuckDB limitation](https://duckdb.org/docs/stable/sql/statements/drop#dependencies-on-views).
 
-- [Generated columns](https://duckdb.org/docs/stable/sql/statements/create_table.html#generated-columns)
+- [Generated columns](https://duckdb.org/docs/stable/sql/statements/create_table#generated-columns)
 
 ### Unlikely to be Supported in the Future
 
@@ -57,7 +57,7 @@ Within this group, we are going to make a distinction between what is not suppor
 
 - [Primary key or enforced unique constraints](https://duckdb.org/docs/stable/sql/constraints#primary-key-and-unique-constraint) and [foreign key constraints](https://duckdb.org/docs/stable/sql/constraints#foreign-keys) are unlikely to be supported as these are constraints are prohibitively expensive to enforce in data lake setups. We may consider supporting unenforced primary keys, similar to [BigQuery's implementation](https://cloud.google.com/bigquery/docs/primary-foreign-keys).
 
-- Upserting is only supported via the [`MERGE INTO`](({% link docs/preview/duckdb/usage/upserting.md %})) syntax since primary keys are not supported in DuckLake.
+- Upserting is only supported via the [`MERGE INTO`]({% link docs/preview/duckdb/usage/upserting.md %}) syntax since primary keys are not supported in DuckLake.
 
 - [Sequences](https://duckdb.org/docs/stable/sql/statements/create_sequence)
 

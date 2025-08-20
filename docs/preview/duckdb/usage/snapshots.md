@@ -53,6 +53,8 @@ COMMIT;
 -- End transaction
 ```
 
+<div class="monospace_table"></div>
+
 | snapshot_id | snapshot_time              | schema_version | changes                       | author | commit_message   | commit_extra_info           |
 |-------------|----------------------------|----------------|-------------------------------|--------|------------------|-----------------------------|
 | 0           | 2025-08-18 13:10:49.636+02 | 0              | {schemas_created=[main]}      | NULL   | NULL             | NULL                        |
