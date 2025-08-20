@@ -21,7 +21,7 @@ DuckLake 1.0 is planned to be released in 2026.
 
 ## Upcoming Releases
 
-Upcoming releases are shown in the table below. **Please note that these dates are tentative** and DuckLake maintainers may decide to push back release dates to ensure the stability and quality of releases. DuckLake spec releases are currently tied to DuckLake extension releases, this may change in the future. It is also worth mentioning that some DuckLake extension releases may have a dependency on DuckDB and therefore will need to adjust to the [DuckDB release calendar](https://duckdb.org/release_calendar).
+Upcoming releases are shown in the table below. **Please note that these dates are tentative** and DuckLake maintainers may decide to push back release dates to ensure the stability and quality of releases. DuckLake specification releases are currently tied to DuckLake extension releases, this may change in the future. It is also worth mentioning that some DuckLake extension releases may have a dependency on DuckDB and therefore will need to adjust to the [DuckDB release calendar](https://duckdb.org/release_calendar).
 
 <!-- markdownlint-disable MD055 MD056 MD058 -->
 
@@ -66,7 +66,7 @@ In the following, we list DuckLake's past releases.
 
 ## Compatibility Matrix
 
-As mentioned, DuckLake spec and extension for DuckDB are currently released together. This may not be the case in the future, where the spec and the extension may have different release cadences. It can also be the case that the extension needs a DuckDB core update, therefore, DuckDB versions are also included in this compatibility matrix.
+The DuckLake specification and the ducklake DuckDB extension are currently released together. This may not be the case in the future, where the specification and the extension may have different release cadences. It can also be the case that the extension needs a DuckDB core update, therefore DuckDB versions are also included in this compatibility matrix.
 
 {% if site.data.compatibility_matrix.size > 0 %}
 | DuckDB | DuckLake Extension | DuckLake Spec |
