@@ -360,6 +360,7 @@ The DuckLake specification and the DuckLake DuckDB extension are released under 
 <div class="answer" markdown="1">
 
 The DuckLake 0.3 standard will be released around mid-September.
+For past releases, see the [release calendar]({% link release_calendar.md %}).
 
 </div>
 
