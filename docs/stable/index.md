@@ -1,6 +1,9 @@
 ---
 layout: docu
 title: Documentation
+redirect_from:
+- /docs
+- /docs/
 ---
 
 Welcome to the DuckLake documentation. This documentation has two key parts:
