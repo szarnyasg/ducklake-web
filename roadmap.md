@@ -18,13 +18,13 @@ The DuckLake project is governed by the [non-profit DuckDB Foundation](https://d
 
 This section lists the features that we plan to work on this year. The list was compiled by the DuckLake maintainers and is based on the long-term vision for the project and general interactions with users in the open-source community.
 
-- Documentation regarding access control in DuckLake.
+- Documentation regarding [access control](https://github.com/duckdb/ducklake/discussions/249) in DuckLake.
 - Migration guides for moving from DuckDB to DuckLake, covering both DuckDB and PostgreSQL catalogs.
-- Optimize heavily deleted tables.
+- Optimize [heavily deleted tables](https://github.com/duckdb/ducklake/issues/331).
 - Data inlining with PostgreSQL as a catalog.
 - Cleanup of orphan files.
-- Allow primary key syntax without really enforcing it, similar to what other OLAP engines do (e.g., [BigQuery](https://cloud.google.com/bigquery/docs/primary-foreign-keys)).
-- Geometry/geospatial types.
+- [Allow primary key syntax without really enforcing it](https://github.com/duckdb/ducklake/discussions/323), similar to what other OLAP engines do (e.g., [BigQuery](https://cloud.google.com/bigquery/docs/primary-foreign-keys)).
+- [Geometry/geospatial types](https://github.com/duckdb/ducklake/discussions/83).
 
 Please note that there are **no guarantees** that a particular feature will be released within the next year. Everything on this page is subject to change without notice.
 
