@@ -3,7 +3,7 @@ layout: docu
 title: Merge Adjacent Files
 ---
 
-Unless [data inlining is used]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}), each insert to DuckLake writes data to a new Parquet file.
+Unless [data inlining is used]({% link docs/preview/duckdb/advanced_features/data_inlining.md %}), each insert to DuckLake writes data to a new Parquet file.
 If small insertions are performed, the Parquet files that are written are small. These only hold a few rows.
 For performance reasons, it is generally recommended that Parquet files are at least a few megabytes each.
 
@@ -24,4 +24,4 @@ CALL catalog.merge_adjacent_files();
 ### Cleaning Up Files
 
 Note that calling this function does not immediately delete the old files.
-See the [cleanup old files]({% link docs/stable/duckdb/maintenance/cleanup_old_files.md %}) section on how to trigger a clean-up of these files.
+See the [cleanup old files]({% link docs/preview/duckdb/maintenance/cleanup_old_files.md %}) section on how to trigger a clean-up of these files.

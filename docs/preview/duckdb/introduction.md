@@ -19,7 +19,7 @@ INSTALL ducklake;
 
 ## Configuration
 
-To use DuckLake, you need to make two decisions: which [metadata catalog database you want to use]({% link docs/stable/duckdb/usage/choosing_a_catalog_database.md %}) and [where you want to store those files]({% link docs/stable/duckdb/usage/choosing_storage.md %}). In the simplest case, you use a local DuckDB file for the metadata catalog and a local folder on your computer for file storage.
+To use DuckLake, you need to make two decisions: which [metadata catalog database you want to use]({% link docs/preview/duckdb/usage/choosing_a_catalog_database.md %}) and [where you want to store those files]({% link docs/stable/duckdb/usage/choosing_storage.md %}). In the simplest case, you use a local DuckDB file for the metadata catalog and a local folder on your computer for file storage.
 
 ## Creating a New Database
 
@@ -30,7 +30,7 @@ ATTACH 'ducklake:my_ducklake.ducklake' AS my_ducklake;
 USE my_ducklake;
 ```
 
-This will create a file `my_ducklake.ducklake`, which is a DuckDB database with the [DuckLake schema]({% link docs/stable/specification/tables/overview.md %}).
+This will create a file `my_ducklake.ducklake`, which is a DuckDB database with the [DuckLake schema]({% link docs/preview/specification/tables/overview.md %}).
 
 We also use `USE` so we don't have to prefix all table names with `my_ducklake`. Once data is inserted, this will also create a folder `my_ducklake.ducklake.files` in the same directory, where Parquet files are stored.
 

@@ -13,9 +13,9 @@ This table lists changes that happened in a snapshot for easier conflict detecti
 | `commit_message`    | `VARCHAR`   | Commit message                           |
 | `commit_extra_info` | `VARCHAR`   | Extra information regarding the commit   |
 
-The `ducklake_snapshot_changes` table contains a summary of changes made by a snapshot. This table is used during [Conflict Resolution]({% link docs/stable/duckdb/advanced_features/conflict_resolution.md %}) to quickly find out if two snapshots have conflicting changesets.
+The `ducklake_snapshot_changes` table contains a summary of changes made by a snapshot. This table is used during [Conflict Resolution]({% link docs/preview/duckdb/advanced_features/conflict_resolution.md %}) to quickly find out if two snapshots have conflicting changesets.
 
-* `snapshot_id` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}).
+* `snapshot_id` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/preview/specification/tables/ducklake_snapshot.md %}).
 * `changes_made` is a comma-separated list of high-level changes made by the snapshot. The values that are contained in this list have the following format:
     * `created_schema:⟨SCHEMA_NAME⟩`{:.language-sql .highlight} – the snapshot created a schema with the given name.
     * `created_table:⟨TABLE_NAME⟩`{:.language-sql .highlight} – the snapshot created a table with the given name.

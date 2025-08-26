@@ -11,7 +11,7 @@ DuckLake specifies tables and update transactions to modify them. DuckLake is no
 
 ### Get Current Snapshot
 
-Before anything else we need to find a snapshot ID to be queries. There can be many snapshots in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). A snapshot ID is a continuously increasing number that identifies a snapshot. In most cases, you would query the most recent one like so:
+Before anything else we need to find a snapshot ID to be queries. There can be many snapshots in the [`ducklake_snapshot` table]({% link docs/preview/specification/tables/ducklake_snapshot.md %}). A snapshot ID is a continuously increasing number that identifies a snapshot. In most cases, you would query the most recent one like so:
 
 ```sql
 SELECT snapshot_id FROM ducklake_snapshot
@@ -22,7 +22,7 @@ WHERE snapshot_id =
 ### List Schemas
 
 A DuckLake catalog can contain many SQL-style schemas, which each can contain many tables.
-These are listed in the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %}).
+These are listed in the [`ducklake_schema` table]({% link docs/preview/specification/tables/ducklake_schema.md %}).
 Here's how we get the list of valid schemas for a given snapshot:
 
 ```sql
@@ -35,11 +35,11 @@ WHERE
 
 where
 
-- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %})
+- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/preview/specification/tables/ducklake_snapshot.md %})
 
 ### List Tables
 
-We can list the tables available in a schema for a specific snapshot using the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}):
+We can list the tables available in a schema for a specific snapshot using the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %}):
 
 ```sql
 SELECT table_id, table_name
@@ -52,12 +52,12 @@ WHERE
 
 where
 
-- `⟨SCHEMA_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `schema_id` column in the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %})
-- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %})
+- `⟨SCHEMA_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `schema_id` column in the [`ducklake_schema` table]({% link docs/preview/specification/tables/ducklake_schema.md %})
+- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/preview/specification/tables/ducklake_snapshot.md %})
 
 ### Show the Structure of a Table
 
-For each given table, we can list the available top-level columns using the [`ducklake_column` table]({% link docs/stable/specification/tables/ducklake_column.md %}):
+For each given table, we can list the available top-level columns using the [`ducklake_column` table]({% link docs/preview/specification/tables/ducklake_column.md %}):
 
 ```sql
 SELECT column_id, column_name, column_type
@@ -72,12 +72,12 @@ ORDER BY column_order;
 
 where
 
-- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %})
-- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %})
+- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %})
+- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/preview/specification/tables/ducklake_snapshot.md %})
 
 > Note that DuckLake supports nested columns – the filter for `parent_column IS NULL` only shows the top-level columns.
 
-For the list of supported data types, please refer to the [“Data Types” page]({% link docs/stable/specification/data_types.md %}).
+For the list of supported data types, please refer to the [“Data Types” page]({% link docs/preview/specification/data_types.md %}).
 
 ### `SELECT`
 
@@ -103,26 +103,26 @@ ORDER BY file_order;
 
 where (again)
 
-- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %})
-- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %})
+- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %})
+- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/preview/specification/tables/ducklake_snapshot.md %})
 
 Now we have a list of files. In order to reconstruct actual table rows, we need to read all rows from the `data_file_path` files and remove the rows labeled as deleted in the `delete_file_path`.
 
 Not all files have to contain all the columns currently defined in the table, some files may also have columns that existed previously but have been removed.
 
-> DuckLake also supports changing the schema, see [schema evolution]({% link docs/stable/duckdb/usage/schema_evolution.md %}).
+> DuckLake also supports changing the schema, see [schema evolution]({% link docs/preview/duckdb/usage/schema_evolution.md %}).
 
 
 > In DuckLake, paths can be relative to the initially specified data path. Whether path is relative or not is stored in the
-> [`ducklake_data_file`]({% link docs/stable/specification/tables/ducklake_data_file.md %}) and
-> [`ducklake_delete_file`]({% link docs/stable/specification/tables/ducklake_delete_file.md %})
+> [`ducklake_data_file`]({% link docs/preview/specification/tables/ducklake_data_file.md %}) and
+> [`ducklake_delete_file`]({% link docs/preview/specification/tables/ducklake_delete_file.md %})
 > entries (`path_is_relative`) to the `data_path` prefix from
-> [`ducklake_metadata`]({% link docs/stable/specification/tables/ducklake_metadata.md %}).
+> [`ducklake_metadata`]({% link docs/preview/specification/tables/ducklake_metadata.md %}).
 
 ### `SELECT` with File Pruning
 
 One of the main strengths of Lakehouse formats is the ability to *prune* files that cannot contain data relevant to the query.
-The [`ducklake_file_column_statistics` table]({% link docs/stable/specification/tables/ducklake_file_column_statistics.md %}) contains the file-level statistics.
+The [`ducklake_file_column_statistics` table]({% link docs/preview/specification/tables/ducklake_file_column_statistics.md %}) contains the file-level statistics.
 We can use the information there to prune the list of files to be read if a filter predicate is given.
 
 We can get a list of all files that are part of a given table like described above. We can then reduce that list to only relevant files by querying the per-file column statistics. For example, for scalar equality we can find the relevant files using the query below:
@@ -139,8 +139,8 @@ WHERE
 
 where (again)
 
-- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
-- `⟨COLUMN_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `column_id` column in the [`ducklake_column` table]({% link docs/stable/specification/tables/ducklake_column.md %}).
+- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %}).
+- `⟨COLUMN_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `column_id` column in the [`ducklake_column` table]({% link docs/preview/specification/tables/ducklake_column.md %}).
 - `⟨SCALAR⟩`{:.language-sql .highlight} is the scalar comparision value for the pruning.
 
 Of course, other filter predicates like greater than etc. will require slightly different filtering here.
@@ -153,8 +153,8 @@ Of course, other filter predicates like greater than etc. will require slightly 
 
 Any changes to data stored in DuckLake require the creation of a new snapshot. We need to:
 
-- create a new snapshot in [`ducklake_snapshot`]({% link docs/stable/specification/tables/ducklake_snapshot.md %}) and
-- log the changes a snapshot made in [`ducklake_snapshot_changes`]({% link docs/stable/specification/tables/ducklake_snapshot_changes.md %})
+- create a new snapshot in [`ducklake_snapshot`]({% link docs/preview/specification/tables/ducklake_snapshot.md %}) and
+- log the changes a snapshot made in [`ducklake_snapshot_changes`]({% link docs/preview/specification/tables/ducklake_snapshot_changes.md %})
 
 ```sql
 INSERT INTO ducklake_snapshot (
@@ -194,11 +194,11 @@ where
 - `⟨SCHEMA_VERSION⟩`{:.language-sql .highlight} is the schema version for the new snapshot. If any schema changes are made, this needs to be incremented. Otherwise the previous snapshot's `schema_version` can be re-used.
 - `⟨NEXT_CATALOG_ID⟩`{:.language-sql .highlight} gives the next unused identifier for tables, schemas, or views. This only has to be incremented if new catalog entries are created.
 - `⟨NEXT_FILE_ID⟩`{:.language-sql .highlight} is the same but for data or delete files.
-- `⟨CHANGES⟩`{:.language-sql .highlight} contains a list of changes performed by the snapshot. See the list of possible values in the [`ducklake_snapshot_changes` table's documentation]({% link docs/stable/specification/tables/ducklake_snapshot_changes.md %}).
+- `⟨CHANGES⟩`{:.language-sql .highlight} contains a list of changes performed by the snapshot. See the list of possible values in the [`ducklake_snapshot_changes` table's documentation]({% link docs/preview/specification/tables/ducklake_snapshot_changes.md %}).
 
 ### `CREATE SCHEMA`
 
-A schema is a collection of tables. In order to create a new schema, we can just insert into the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %}):
+A schema is a collection of tables. In order to create a new schema, we can just insert into the [`ducklake_schema` table]({% link docs/preview/specification/tables/ducklake_schema.md %}):
 
 ```sql
 INSERT INTO ducklake_schema (
@@ -225,7 +225,7 @@ where
 
 ### `CREATE TABLE`
 
-Creating a table in a schema is very similar to creating a schema. We insert into the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}):
+Creating a table in a schema is very similar to creating a schema. We insert into the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %}):
 
 ```sql
 INSERT INTO ducklake_table (
@@ -250,10 +250,10 @@ where
 
 - `⟨TABLE_ID⟩`{:.language-sql .highlight} is the new table identifier. This should be created by further incrementing `next_catalog_id` from the previous snapshot.
 - `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is the snapshot identifier of the new snapshot as described above.
-- `⟨SCHEMA_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `schema_id` column in the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %}) table.
+- `⟨SCHEMA_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `schema_id` column in the [`ducklake_schema` table]({% link docs/preview/specification/tables/ducklake_schema.md %}) table.
 - `⟨TABLE_NAME⟩`{:.language-sql .highlight} is just the name of the new table.
 
-A table needs some columns, we can add columns to the new table by inserting into the [`ducklake_column` table]({% link docs/stable/specification/tables/ducklake_column.md %}) table.
+A table needs some columns, we can add columns to the new table by inserting into the [`ducklake_column` table]({% link docs/preview/specification/tables/ducklake_column.md %}) table.
 For each column to be added, we run the following query:
 
 ```sql
@@ -282,10 +282,10 @@ where
 
 - `⟨COLUMN_ID⟩`{:.language-sql .highlight} is the new column identifier. This ID must be unique *within the table* over its entire life time.
 - `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is the snapshot identifier of the new snapshot as described above.
-- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
+- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %}).
 - `⟨COLUMN_ORDER⟩`{:.language-sql .highlight} is a number that defines where the column is placed in an ordered list of columns.
 - `⟨COLUMN_NAME⟩`{:.language-sql .highlight} is just the name of the column.
-- `⟨COLUMN_TYPE⟩`{:.language-sql .highlight} is the data type of the column. See the [“Data Types” page]({% link docs/stable/specification/data_types.md %}) for details.
+- `⟨COLUMN_TYPE⟩`{:.language-sql .highlight} is the data type of the column. See the [“Data Types” page]({% link docs/preview/specification/data_types.md %}) for details.
 - `⟨NULLS_ALLOWED⟩`{:.language-sql .highlight} is a boolean that defines if `NULL` values can be stored in the column. Typically set to `true`.
 
 > We skipped some complexity in this example around default values and nested types and just left those fields as `NULL`.
@@ -410,21 +410,21 @@ VALUES (
 where
 
 - `⟨DATA_FILE_ID⟩`{:.language-sql .highlight} is the new data file identifier. This ID must be unique *within the table* over its entire life time.
-- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
+- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %}).
 - `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is the snapshot identifier of the new snapshot as described above.
 - `⟨PATH⟩`{:.language-sql .highlight} is the file name relative to the DuckLake data path from the top-level metadata.
 - `⟨RECORD_COUNT⟩`{:.language-sql .highlight} is the number of rows in the file.
 - `⟨FILE_SIZE_BYTES⟩`{:.language-sql .highlight} is the file size.
 - `⟨FOOTER_SIZE⟩`{:.language-sql .highlight} is the position of the Parquet footer. This helps with efficiently reading the file.
-- `⟨ROW_ID_START⟩`{:.language-sql .highlight} is the first logical row ID from the file. This number can be read from the [`ducklake_table_stats` table]({% link docs/stable/specification/tables/ducklake_table_stats.md %}) via column `next_row_id`.
+- `⟨ROW_ID_START⟩`{:.language-sql .highlight} is the first logical row ID from the file. This number can be read from the [`ducklake_table_stats` table]({% link docs/preview/specification/tables/ducklake_table_stats.md %}) via column `next_row_id`.
 
 > We have omitted some complexity around relative paths, encrypted files, partitioning and partial files in this example.
-> Refer to the [`ducklake_data_file` table]({% link docs/stable/specification/tables/ducklake_data_file.md %}) documentation for details.
+> Refer to the [`ducklake_data_file` table]({% link docs/preview/specification/tables/ducklake_data_file.md %}) documentation for details.
 
 
-> DuckLake also supports changing the schema, see [schema evolution]({% link docs/stable/duckdb/usage/schema_evolution.md %}).
+> DuckLake also supports changing the schema, see [schema evolution]({% link docs/preview/duckdb/usage/schema_evolution.md %}).
 
-We will also have to update some statistics in the [`ducklake_table_stats` table]({% link docs/stable/specification/tables/ducklake_table_stats.md %}) and [`ducklake_table_column_stats` table]({% link docs/stable/specification/tables/ducklake_table_column_stats.md %})` tables.
+We will also have to update some statistics in the [`ducklake_table_stats` table]({% link docs/preview/specification/tables/ducklake_table_stats.md %}) and [`ducklake_table_column_stats` table]({% link docs/stable/specification/tables/ducklake_table_column_stats.md %})` tables.
 
 ```sql
 UPDATE ducklake_table_stats SET
@@ -467,9 +467,9 @@ VALUES (
 
 where
 
-- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
-- `⟨COLUMN_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `column_id` column in the [`ducklake_column` table]({% link docs/stable/specification/tables/ducklake_column.md %}).
-- `⟨DATA_FILE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `data_file_id` column in the [`ducklake_data_file` table]({% link docs/stable/specification/tables/ducklake_data_file.md %}).
+- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %}).
+- `⟨COLUMN_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `column_id` column in the [`ducklake_column` table]({% link docs/preview/specification/tables/ducklake_column.md %}).
+- `⟨DATA_FILE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `data_file_id` column in the [`ducklake_data_file` table]({% link docs/preview/specification/tables/ducklake_data_file.md %}).
 - `⟨RECORD_COUNT⟩`{:.language-sql .highlight} is the number of values (including `NULL` and `NaN` values) in the file column.
 - `⟨NULL_COUNT⟩`{:.language-sql .highlight} is the number of `NULL` values in the file column.
 - `⟨MIN_VALUE⟩`{:.language-sql .highlight} is the *minimum* value in the file column as a string.
@@ -519,7 +519,7 @@ VALUES (
 where
 
 - `⟨DELETE_FILE_ID⟩`{:.language-sql .highlight} is the identifier for the new delete file.
-- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
+- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %}).
 - `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is the snapshot identifier of the new snapshot as described above.
 - `⟨DATA_FILE_ID⟩`{:.language-sql .highlight} is the identifier of the data file from which the rows are to be deleted.
 - `⟨PATH⟩`{:.language-sql .highlight} is the file name relative to the DuckLake data path from the top-level metadata.
@@ -528,7 +528,7 @@ where
 - `⟨FOOTER_SIZE⟩`{:.language-sql .highlight} is the position of the Parquet footer. This helps with efficiently reading the file.
 
 > We have omitted some complexity around relative paths and encrypted files in this example.
-> Refer to the [`ducklake_delete_file` table]({% link docs/stable/specification/tables/ducklake_delete_file.md %}) documentation for details.
+> Refer to the [`ducklake_delete_file` table]({% link docs/preview/specification/tables/ducklake_delete_file.md %}) documentation for details.
 
 > `DELETE` operations also do not require updates to table statistics, as the statistics are maintained as upper bounds, and deletions do not violate these bounds.
 
