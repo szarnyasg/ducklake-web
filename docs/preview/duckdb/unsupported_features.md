@@ -71,7 +71,7 @@ Within this group, we are going to make a distinction between what is not suppor
 
 The following features are currently unsupported by the `ducklake` DuckDB extension: 
 
-- [Data inlining]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) is limited to DuckDB catalogs
+- [Data inlining]({% link docs/preview/duckdb/advanced_features/data_inlining.md %}) is limited to DuckDB catalogs
 
 - MySQL catalogs are not fully supported in the DuckDB extension
 

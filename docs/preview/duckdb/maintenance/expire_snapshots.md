@@ -4,7 +4,7 @@ title: Expire Snapshots
 ---
 
 DuckLake in normal operation never removes any data, even when tables are dropped or data is deleted.
-Due to [time travel]({% link docs/stable/duckdb/usage/time_travel.md %}), the removed data is still accessible.
+Due to [time travel]({% link docs/preview/duckdb/usage/time_travel.md %}), the removed data is still accessible.
 
 Data can only be physically removed from DuckLake by expiring snapshots that refer to the old data.
 This can be done using the `ducklake_expire_snapshots` function.
@@ -32,4 +32,4 @@ CALL ducklake_expire_snapshots('ducklake', dry_run => true, older_than => now() 
 ## Cleaning Up Files
 
 Note that expiring snapshots does not immediately delete files that are no longer referenced.
-See the [cleanup old files]({% link docs/stable/duckdb/maintenance/cleanup_old_files.md %}) section on how to trigger a clean-up of these files.
+See the [cleanup old files]({% link docs/preview/duckdb/maintenance/cleanup_old_files.md %}) section on how to trigger a clean-up of these files.

@@ -12,49 +12,49 @@ The following figure shows the most important tables defined by the DuckLake sch
 
 ## Snapshots
 
-* [`ducklake_snapshot`]({% link docs/stable/specification/tables/ducklake_snapshot.md %})
-* [`ducklake_snapshot_changes`]({% link docs/stable/specification/tables/ducklake_snapshot_changes.md %})
+* [`ducklake_snapshot`]({% link docs/preview/specification/tables/ducklake_snapshot.md %})
+* [`ducklake_snapshot_changes`]({% link docs/preview/specification/tables/ducklake_snapshot_changes.md %})
 
 ## DuckLake Schema
 
-* [`ducklake_schema`]({% link docs/stable/specification/tables/ducklake_schema.md %})
-* [`ducklake_table`]({% link docs/stable/specification/tables/ducklake_table.md %})
-* [`ducklake_view`]({% link docs/stable/specification/tables/ducklake_view.md %})
-* [`ducklake_column`]({% link docs/stable/specification/tables/ducklake_column.md %})
+* [`ducklake_schema`]({% link docs/preview/specification/tables/ducklake_schema.md %})
+* [`ducklake_table`]({% link docs/preview/specification/tables/ducklake_table.md %})
+* [`ducklake_view`]({% link docs/preview/specification/tables/ducklake_view.md %})
+* [`ducklake_column`]({% link docs/preview/specification/tables/ducklake_column.md %})
 
 ## Data Files and Tables
 
-* [`ducklake_data_file`]({% link docs/stable/specification/tables/ducklake_data_file.md %})
-* [`ducklake_delete_file`]({% link docs/stable/specification/tables/ducklake_delete_file.md %})
-* [`ducklake_files_scheduled_for_deletion`]({% link docs/stable/specification/tables/ducklake_files_scheduled_for_deletion.md %})
-* [`ducklake_inlined_data_tables`]({% link docs/stable/specification/tables/ducklake_inlined_data_tables.md %})
+* [`ducklake_data_file`]({% link docs/preview/specification/tables/ducklake_data_file.md %})
+* [`ducklake_delete_file`]({% link docs/preview/specification/tables/ducklake_delete_file.md %})
+* [`ducklake_files_scheduled_for_deletion`]({% link docs/preview/specification/tables/ducklake_files_scheduled_for_deletion.md %})
+* [`ducklake_inlined_data_tables`]({% link docs/preview/specification/tables/ducklake_inlined_data_tables.md %})
 
 ## Data File Mapping
 
-* [`ducklake_column_mapping`]({% link docs/stable/specification/tables/ducklake_column_mapping.md %})
-* [`ducklake_name_mapping`]({% link docs/stable/specification/tables/ducklake_name_mapping.md %})
+* [`ducklake_column_mapping`]({% link docs/preview/specification/tables/ducklake_column_mapping.md %})
+* [`ducklake_name_mapping`]({% link docs/preview/specification/tables/ducklake_name_mapping.md %})
 
 ## Statistics
 
 DuckLake supports statistics on the table, column and file level.
 
-* [`ducklake_table_stats`]({% link docs/stable/specification/tables/ducklake_table_stats.md %})
-* [`ducklake_table_column_stats`]({% link docs/stable/specification/tables/ducklake_table_column_stats.md %})
-* [`ducklake_file_column_statistics`]({% link docs/stable/specification/tables/ducklake_file_column_statistics.md %})
+* [`ducklake_table_stats`]({% link docs/preview/specification/tables/ducklake_table_stats.md %})
+* [`ducklake_table_column_stats`]({% link docs/preview/specification/tables/ducklake_table_column_stats.md %})
+* [`ducklake_file_column_statistics`]({% link docs/preview/specification/tables/ducklake_file_column_statistics.md %})
 
 ## Partitioning Information
 
 DuckLake supports defining explicit partitioning.
 
-* [`ducklake_partition_info`]({% link docs/stable/specification/tables/ducklake_partition_info.md %})
-* [`ducklake_partition_column`]({% link docs/stable/specification/tables/ducklake_partition_column.md %})
-* [`ducklake_file_partition_value`]({% link docs/stable/specification/tables/ducklake_file_partition_value.md %})
+* [`ducklake_partition_info`]({% link docs/preview/specification/tables/ducklake_partition_info.md %})
+* [`ducklake_partition_column`]({% link docs/preview/specification/tables/ducklake_partition_column.md %})
+* [`ducklake_file_partition_value`]({% link docs/preview/specification/tables/ducklake_file_partition_value.md %})
 
 ## Auxiliary Tables
 
-* [`ducklake_metadata`]({% link docs/stable/specification/tables/ducklake_metadata.md %})
-* [`ducklake_tag`]({% link docs/stable/specification/tables/ducklake_tag.md %})
-* [`ducklake_column_tag`]({% link docs/stable/specification/tables/ducklake_column_tag.md %})
+* [`ducklake_metadata`]({% link docs/preview/specification/tables/ducklake_metadata.md %})
+* [`ducklake_tag`]({% link docs/preview/specification/tables/ducklake_tag.md %})
+* [`ducklake_column_tag`]({% link docs/preview/specification/tables/ducklake_column_tag.md %})
 
 ## Full Schema Creation Script
 

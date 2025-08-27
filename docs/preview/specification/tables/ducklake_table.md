@@ -23,4 +23,4 @@ This table describes tables. Inception!
 - `schema_id` refers to a `schema_id` from the `ducklake_schema` table.
 - `table_name` is the name of the table, e.g., `my_table`.
 - `path` is the data_path of the table.
-- `path_is_relative` whether the `path` is relative to the [`path`]({% link docs/stable/specification/tables/ducklake_schema.md %}) of the schema (true) or an absolute path (false).
+- `path_is_relative` whether the `path` is relative to the [`path`]({% link docs/preview/specification/tables/ducklake_schema.md %}) of the schema (true) or an absolute path (false).
