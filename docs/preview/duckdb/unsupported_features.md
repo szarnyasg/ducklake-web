@@ -15,11 +15,13 @@ Within this group, we are going to make a distinction between what is not suppor
 
 ### Likely to be Supported in the Future
 
-- [User defined types](https://duckdb.org/docs/stable/sql/statements/create_type)
+- [User defined types](https://duckdb.org/docs/stable/sql/statements/create_type).
 
 - [Geometry/Geospatial types](https://duckdb.org/docs/stable/core_extensions/spatial/overview)
 
 - Fixed-size arrays, i.e., [`ARRAY` type](https://duckdb.org/docs/stable/sql/data_types/array)
+
+- [`ENUM` type](https://duckdb.org/docs/stable/sql/data_types/enum)
 
 - Variant types
 
