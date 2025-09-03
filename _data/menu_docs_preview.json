@@ -185,6 +185,16 @@
               ]
             },
             {
+              "page": "Migrations",
+              "slug": "migrations",
+              "subsubfolderitems": [
+                {
+                  "page": "DuckDB to DuckLake",
+                  "url": "duckdb_to_ducklake"
+                }
+              ]
+            },
+            {
               "page": "Unsupported Features",
               "url": "unsupported_features"
             }

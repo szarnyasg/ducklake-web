@@ -42,9 +42,9 @@ INSERT INTO t1 VALUES(2, now());
 
 ### Migration script
 
-The following python script can be used to migrate from a DuckDB persisted database to DuckLake.
+The following python script can be used to migrate from a DuckDB persisted database to DuckLake bypassing the unsupported features.
 
-> Currently only local migrations are supported. The script will be adapted in the future to account for migrations to remote object storage such as S3 or GCS.
+> Currently only local migrations are accounted for with this script. The script will be adapted in the future to account for migrations to remote object storage such as S3 or GCS.
 
 ```python
 import duckdb
