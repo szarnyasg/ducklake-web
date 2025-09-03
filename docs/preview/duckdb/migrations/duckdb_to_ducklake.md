@@ -22,7 +22,7 @@ Note that it doesn't matter what catalog you are using as a metadata backend for
 
 If you have been using DuckDB for a while, there is a chance you are using some very specific types, macros, default values that are not literals or even things like generated columns. If this is your case, then migrating will have some tradeoffs.
 
-- Specific types need to be casted to a [supported DuckLake type]({% link docs/preview/specification/data_types.md %}). User defined types that created as a `STRUCT` can be interpreted as such and `ENUM` can be usually casted to a type. `UNION`, on the other hand, is hard to cast and is left out of scope.
+- Specific types need to be casted to a [supported DuckLake type]({% link docs/preview/specification/data_types.md %}). User defined types that created as a `STRUCT` can be interpreted as such and `ENUM` and `UNION` will be casted to `VARCHAR` and `VARINT` will be casted to `INT`.
 
 - Macros can be migrated to a DuckDB persisted database. If you are using DuckDB as your catalog for DuckLake, then this will be the destination. If you are using other catalogs like PostgreSQL, SQLite or MySQL, DuckDB macros are not supported and therefore can't be migrated.
 
@@ -39,3 +39,172 @@ INSERT INTO t1 VALUES(2, now());
 ```
 
 - Generated columns are the same as defaults that are not literals and therefore they need to be specified when inserting the data into the destination table. That means that the values will always be persisted (no `VIRTUAL` option).
+
+### Migration script
+
+The following python script can be used to migrate from a DuckDB persisted database to DuckLake.
+
+> Currently only local migrations are supported. The script will be adapted in the future to account for migrations to remote object storage such as S3 or GCS.
+
+```python
+import duckdb
+import argparse
+import re
+import os
+
+TYPE_MAPPING = {
+    "VARINT": "::VARCHAR::INT",
+    "UNION/ENUM": "::VARCHAR",
+    "BIT": "::VARCHAR",
+}
+
+def get_postgres_secret():
+    return f"""
+        CREATE SECRET postgres_secret(
+            TYPE postgres,
+            HOST '{os.getenv("POSTGRES_HOST", "localhost")}',
+            PORT {os.getenv("POSTGRES_PORT", "5432")},
+            DATABASE {os.getenv("POSTGRES_DB", "migration_test")},
+            USER '{os.getenv("POSTGRES_USER", "user")}',
+            PASSWORD '{os.getenv("POSTGRES_PASSWORD", "simple")}'
+        );"""
+
+def _resolve_data_types(table: str, schema: str, catalog: str,  conn: duckdb.DuckDBPyConnection):
+    excepts = []
+    casts = []
+    for col in conn.execute(f"SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '{table}' AND table_schema = '{schema}' AND table_catalog = '{catalog}'").fetchall():
+        col_name, col_type = col[0], col[1]
+        # Handle mapped types
+        if col_type in TYPE_MAPPING or re.match(r'(ENUM|UNION)\b', col_type):
+            cast = TYPE_MAPPING.get(col_type) or TYPE_MAPPING["UNION/ENUM"]
+            casts.append(f"{col_name}{cast} AS {col_name}")
+            excepts.append(col_name)
+        # Handle array types
+        elif re.fullmatch(r'(INTEGER|VARCHAR|FLOAT)\[\d+\]', col_type):
+            base_type = re.match(r'(INTEGER|VARCHAR|FLOAT)', col_type).group(1)
+            cast = f"::{base_type}[]"
+            casts.append(f"{col_name}{cast} AS {col_name}")
+            excepts.append(col_name)
+    return excepts, casts
+
+
+def migrate_tables_and_views(duckdb_catalog: str, con: duckdb.DuckDBPyConnection):
+    """
+    Migrate tables and views from the DuckDB catalog to a DuckLake.
+    This function connects to a DuckDB database, retrieves all tables and views,
+    and migrates them to a DuckLake database.
+    """
+    for row in con.execute(
+        f"SELECT table_catalog, table_schema, table_name, table_type FROM information_schema.tables WHERE table_catalog = '{duckdb_catalog}'"
+    ).fetchall():
+        catalog, schema, table, table_type = row[0], row[1], row[2], row[3]
+        con.execute(f"CREATE SCHEMA IF NOT EXISTS {schema}")
+        try:
+            if table_type == "VIEW":
+                print(f"Migrating Catalog: {catalog}, Schema: {schema}, View: {table}")
+                con.execute(
+                    f"CREATE VIEW IF NOT EXISTS {schema}.{table} AS SELECT * FROM {catalog}.{schema}.{table}"
+                )
+            else:
+                print(f"Migrating Catalog: {catalog}, Schema: {schema}, Table: {table}")
+                excepts, casts = _resolve_data_types(table, schema, catalog, con)    
+                if casts:
+                    select_clause = "* EXCLUDE(" + ", ".join(excepts) + "),\n" + ",\n".join(casts)
+                    con.execute(
+                        f"CREATE TABLE IF NOT EXISTS {schema}.{table} AS SELECT {select_clause} FROM {catalog}.{schema}.{table}"
+                    )
+                else:
+                    con.execute(
+                        f"CREATE TABLE IF NOT EXISTS {schema}.{table} AS SELECT * FROM {catalog}.{schema}.{table}"
+                    )
+        except Exception as e:
+            print(f"Error migrating {table_type} {table} in schema {schema}: {e}")
+
+
+def migrate_macros(
+    con: duckdb.DuckDBPyConnection, duckdb_catalog: str
+):
+    """
+    Migrate macros from the DuckDB catalog to Ducklake metadata database.
+    This function connects to a DuckDB database, retrieves all macros,
+    and migrates them to a DuckLake database.
+    """
+    for row in con.execute(
+        f"SELECT function_name, parameters, macro_definition FROM duckdb_functions() WHERE database_name='{duckdb_catalog}'"
+    ).fetchall():
+        name, parameters, definition = row[0], row[1], row[2]
+        print(f"Migrating Macro: {name}")
+        con.execute(
+            f"CREATE OR REPLACE MACRO {name}({','.join(parameters)}) AS {definition}"
+        )
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Migrate DuckDB catalog to DuckLake.")
+    parser.add_argument("--duckdb-catalog", required=True, help="DuckDB catalog name")
+    parser.add_argument("--duckdb-file", required=True, help="Path to DuckDB file")
+    parser.add_argument(
+        "--ducklake-catalog", required=True, help="DuckLake catalog name"
+    )
+    parser.add_argument(
+        "--catalog-type",
+        choices=["duckdb", "postgresql", "sqlite"],
+        required=True,
+        help="Choose one of: duckdb, postgresql, sqlite",
+    )
+    parser.add_argument("--ducklake-file", required=False, help="Path to DuckLake file")
+    parser.add_argument(
+        "--ducklake-data-path", required=True, help="Data path for DuckLake"
+    )
+
+    args = parser.parse_args()
+
+    con = duckdb.connect(database=args.duckdb_file)
+
+    if args.catalog_type == "postgresql":
+        con.execute(get_postgres_secret())
+
+    secret = ("CREATE SECRET ducklake_secret (TYPE DUCKLAKE"
+              + (f"\n,METADATA_PATH '{args.ducklake_file if args.catalog_type == "duckdb" else f"sqlite:{args.ducklake_file}"}'" if args.catalog_type in ("duckdb", "sqlite") else "\n,METADATA_PATH ''")
+              + f"\n,DATA_PATH '{args.ducklake_data_path}'"
+              + ("\n,METADATA_PARAMETERS MAP {'TYPE': 'postgres', 'SECRET': 'postgres_secret'});" if args.catalog_type == "postgresql" else ");")
+            )
+    con.execute(secret)
+
+    con.execute(
+        f"ATTACH '{args.duckdb_file}' AS {args.duckdb_catalog};"
+        f"ATTACH 'ducklake:ducklake_secret' AS {args.ducklake_catalog}; USE {args.ducklake_catalog};"
+    )
+
+    migrate_tables_and_views(
+        duckdb_catalog=args.duckdb_catalog,
+        con=con,
+    )
+
+    if args.catalog_type == "duckdb":
+        # DETACH ducklake to be able to attach to the metadata database in migrate_macros
+        con.execute(f"USE {args.duckdb_catalog}; DETACH {args.ducklake_catalog};")
+        con.execute(
+            f"ATTACH '{args.ducklake_file}' AS ducklake_metadata; USE ducklake_metadata;"
+        )
+        migrate_macros(
+            con=con,
+            duckdb_catalog=args.duckdb_catalog,
+        )
+    con.close()
+
+```
+
+The script can be run in any python environment with DuckDB installed. The usage is:
+
+```
+usage: migration.py [-h] --duckdb-catalog DUCKDB_CATALOG --duckdb-file DUCKDB_FILE --ducklake-catalog DUCKLAKE_CATALOG --catalog-type{duckdb,postgresql,sqlite} [--ducklake-file DUCKLAKE_FILE] --ducklake-data-path DUCKLAKE_DATA_PATH
+```
+
+If you are migrating to postgres make sure that you provide the following environment variables for the postgres secret connection:
+
+- `POSTGRES_HOST`
+- `POSTGRES_PORT`
+- `POSTGRES_DB`
+- `POSTGRES_USER`
+- `POSTGRES_PASSWORD`
