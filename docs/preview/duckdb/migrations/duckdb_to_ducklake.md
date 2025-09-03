@@ -3,11 +3,11 @@ layout: docu
 title: DuckDB to DuckLake
 ---
 
-Migrating from DuckDB to DuckLake is very simple to do with the DuckDB DuckLake extension. However, if you are currently using some DuckDB features that are [unsupported in Ducklake]({% link docs/preview/duckdb/unsupported_features.md %}), this guide will definitely help you.
+Migrating from DuckDB to DuckLake is very simple to do with the DuckDB DuckLake extension. However, if you are currently using some DuckDB features that are [unsupported in DuckLake]({% link docs/preview/duckdb/unsupported_features.md %}), this guide will definitely help you.
 
 ## First Scenario: Everything is Supported
 
-If you are not using any of the unsupported features, migrating from DuckDB to Ducklake will be as simple as running the following commands:
+If you are not using any of the unsupported features, migrating from DuckDB to DuckLake will be as simple as running the following commands:
 
 ```sql
 ATTACH 'ducklake:my_ducklake.ducklake' AS my_ducklake;
@@ -22,29 +22,29 @@ Note that it doesn't matter what catalog you are using as a metadata backend for
 
 If you have been using DuckDB for a while, there is a chance you are using some very specific types, macros, default values that are not literals or even things like generated columns. If this is your case, then migrating will have some tradeoffs.
 
-- Specific types need to be casted to a [supported DuckLake type]({% link docs/preview/specification/data_types.md %}). User defined types that created as a `STRUCT` can be interpreted as such and `ENUM` and `UNION` will be casted to `VARCHAR` and `VARINT` will be casted to `INT`.
+- Specific types need to be cast to a [supported DuckLake type]({% link docs/preview/specification/data_types.md %}). User defined types that are created as a `STRUCT` can be interpreted as such and `ENUM` and `UNION` will be cast to `VARCHAR` and `VARINT` will be cast to `INT`.
 
 - Macros can be migrated to a DuckDB persisted database. If you are using DuckDB as your catalog for DuckLake, then this will be the destination. If you are using other catalogs like PostgreSQL, SQLite or MySQL, DuckDB macros are not supported and therefore can't be migrated.
 
-- Default values that are not literals require that you change the logic of your insertion. See the following example:
+- Default values that are not literals require you to change the logic of your insertion. See the following example:
 
 ```sql
--- Works in DuckDB, doesn't work in Ducklake
+-- Works in DuckDB, doesn't work in DuckLake
 CREATE TABLE t1 (id INTEGER, d DATE DEFAULT now());
 INSERT INTO t1 VALUES (2);
 
--- Works in Ducklake and simulates the same behaviour
+-- Works in DuckLake and simulates the same behavior
 CREATE TABLE t1 (id INTEGER, d DATE);
 INSERT INTO t1 VALUES(2, now());
 ```
 
-- Generated columns are the same as defaults that are not literals and therefore they need to be specified when inserting the data into the destination table. That means that the values will always be persisted (no `VIRTUAL` option).
+- Generated columns are the same as defaults that are not literals and therefore they need to be specified when inserting the data into the destination table. This means that the values will always be persisted (no `VIRTUAL` option).
 
 ### Migration script
 
 The following python script can be used to migrate from a DuckDB persisted database to DuckLake bypassing the unsupported features.
 
-> Currently only local migrations are accounted for with this script. The script will be adapted in the future to account for migrations to remote object storage such as S3 or GCS.
+> Currently, only local migrations are supported by this script. The script will be adapted in the future to account for migrations to remote object storage such as S3 or GCS.
 
 ```python
 import duckdb
@@ -125,7 +125,7 @@ def migrate_macros(
     con: duckdb.DuckDBPyConnection, duckdb_catalog: str
 ):
     """
-    Migrate macros from the DuckDB catalog to Ducklake metadata database.
+    Migrate macros from the DuckDB catalog to DuckLake metadata database.
     This function connects to a DuckDB database, retrieves all macros,
     and migrates them to a DuckLake database.
     """
@@ -195,13 +195,13 @@ if __name__ == "__main__":
 
 ```
 
-The script can be run in any python environment with DuckDB installed. The usage is:
+The script can be run in any Python environment with DuckDB installed. The usage is:
 
 ```
 usage: migration.py [-h] --duckdb-catalog DUCKDB_CATALOG --duckdb-file DUCKDB_FILE --ducklake-catalog DUCKLAKE_CATALOG --catalog-type{duckdb,postgresql,sqlite} [--ducklake-file DUCKLAKE_FILE] --ducklake-data-path DUCKLAKE_DATA_PATH
 ```
 
-If you are migrating to postgres make sure that you provide the following environment variables for the postgres secret connection:
+If you are migrating to PostgreSQL, make sure that you provide the following environment variables for the PostgreSQL secret connection:
 
 - `POSTGRES_HOST`
 - `POSTGRES_PORT`
