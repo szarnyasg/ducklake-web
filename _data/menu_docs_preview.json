@@ -194,6 +194,10 @@
                 }
               ]
             },
+                        {
+              "page": "Backups and Recovery",
+              "url": "backups_and_recovery"
+            },
             {
               "page": "Unsupported Features",
               "url": "unsupported_features"
