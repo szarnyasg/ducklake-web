@@ -10,21 +10,23 @@ DuckLake has two components: catalog and storage. The catalog contains all of Du
 
 Backup and recovery strategies depend on the SQL database you are using as a DuckLake catalog.
 
+> [Compaction]({% link docs/preview/duckdb/maintenance/merge_adjacent_files.md %}) and [cleanup jobs]({% link docs/preview/duckdb/maintenance/cleanup_old_files.md %}) should only be done before manual backups. This operations can re-write and remove data files, effectively chaning the file layout for a specific snapshot.
+
 ### DuckDB Catalog
 
 For DuckDB, the best approach is to perform regular backups of the metadata database. If the original database is corrupted, tampered with, or even deleted, you can recover from this backup.
 
 ```sql
 -- Backup
-ATTACH 'main.db' AS main (READ_ONLY);
+ATTACH 'db.db' AS db (READ_ONLY);
 ATTACH 'backup.db' AS backup;
-COPY DATABASE FROM main TO backup;
+COPY FROM DATABASE db TO backup;
 
 -- Recover
-ATTACH 'main.db' AS main;
+ATTACH 'db.db' AS db;
 ATTACH 'backup.db' AS backup (READ_ONLY);
-COPY DATABASE FROM backup TO main;
-ATTACH 'ducklake:main.db' AS my_ducklake;
+COPY FROM DATABASE backup TO db;
+ATTACH 'ducklake:db.db' AS my_ducklake;
 ```
 
 It is very important to note that transactions committed to DuckLake after the metadata backup will not be tracked when recovering. The data from the transactions will exist in the data files, but the backup will point to a previous snapshot. If you are running batch jobs, make sure to always back up after the batch job. If you are regularly micro-batching or streaming data, then schedule periodic jobs to back up your metadata.
@@ -35,15 +37,15 @@ For SQLite, the process is exactly the same as with DuckDB and has the same impl
 
 ```sql
 -- Backup
-ATTACH 'sqlite:main.db' AS main (READ_ONLY);
+ATTACH 'sqlite:db.db' AS db (READ_ONLY);
 ATTACH 'sqlite:backup.db' AS backup;
-COPY DATABASE FROM main TO backup;
+COPY FROM DATABASE db TO backup;
 
 -- Recover
-ATTACH 'sqlite:main.db' AS main;
+ATTACH 'sqlite:db.db' AS db;
 ATTACH 'sqlite:backup.db' AS backup (READ_ONLY);
-COPY DATABASE FROM backup TO main;
-ATTACH 'ducklake:sqlite:main.db' AS my_ducklake;
+COPY FROM DATABASE backup TO db;
+ATTACH 'ducklake:sqlite:db.db' AS my_ducklake;
 ```
 
 ### PostgreSQL Catalog
@@ -57,14 +59,14 @@ Nothe that the SQL dump approach can also be managed by DuckDB using the [Postgr
 
 ```sql
 -- Backup
-ATTACH 'postgres:connection_string' AS main (READ_ONLY);
+ATTACH 'postgres:connection_string' AS db (READ_ONLY);
 ATTACH 'duckdb:backup.db' AS backup;
-COPY DATABASE FROM main TO backup;
+COPY FROM DATABASE db TO backup;
 
 -- Recover
-ATTACH 'postgres:connection_string' AS main;
+ATTACH 'postgres:connection_string' AS db;
 ATTACH 'duckdb:backup.db' AS backup (READ_ONLY);
-COPY DATABASE FROM backup TO main;
+COPY FROM DATABASE backup TO db;
 ATTACH 'ducklake:postgres:connection_string' AS my_ducklake;
 ```
 
