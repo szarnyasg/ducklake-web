@@ -128,7 +128,7 @@ Note that we allow `s3:DeleteObject`, which enables the writer to perform compac
       "Sid": "DucklakeReader",
       "Effect": "Allow",
       "Action": [
-        "s3:GetObject",
+        "s3:GetObject"
       ],
       "Resource": [
         "arn:aws:s3:::ducklake-access-control",
