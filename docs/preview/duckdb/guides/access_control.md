@@ -4,7 +4,7 @@ title: Access Control
 ---
 While access control is not per se a feature of DuckLake, we can leverage the tools that DuckLake uses and their permission systems to implement schema- and table-level permissions in DuckLake.
 
-## Basic principles
+## Basic Principles
 
 In this guide, we focus on three different roles regarding access control in DuckLake:
 
