@@ -1,6 +1,6 @@
 ---
 layout: docu
-title: ducklake_file_column_statistics
+title: ducklake_file_column_stats
 ---
 
 This table contains column-level statistics for a single data file.
