@@ -28,7 +28,7 @@ SET ducklake_retry_backoff = 2
 DuckLake supports persistent and scoped configuration operations.
 These options can be set using the `set_option` function.
 The options that have been set can be queried using the `options` function.
-Configuration is persisted in the [`ducklake_metadata`](../../specification/tables/ducklake_metadata) table
+Configuration is persisted in the [`ducklake_metadata`]({% link docs/preview/specification/tables/ducklake_metadata.md %}) table.
 
 ### Option List
 
