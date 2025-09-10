@@ -27,7 +27,7 @@ Within this group, we are going to make a distinction between what is not suppor
 
 - [`CHECK` constraints](https://duckdb.org/docs/stable/sql/constraints#check-constraint). Not to be confused with Primary or Foreign Key constraint.
 
-- [Scalar and table macros](https://duckdb.org/docs/stable/sql/statements/create_macro#examples). However, if the catalog DB supports it, there is a workaround.
+- [Scalar and table macros (functions)](https://duckdb.org/docs/stable/sql/statements/create_macro#examples). However, if the catalog DB supports it, there is a workaround.
 
     ```sql
     -- Using DuckDB as a catalog, create the macro in the catalog
