@@ -120,8 +120,8 @@
                   "url": "expire_snapshots"
                 },
                 {
-                  "page": "Cleanup Old Files",
-                  "url": "cleanup_old_files"
+                  "page": "Cleanup of Files",
+                  "url": "cleanup_of_files"
                 },
                 {
                   "page": "Rewrite Files with Deletes",

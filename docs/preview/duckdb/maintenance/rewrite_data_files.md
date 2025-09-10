@@ -7,18 +7,26 @@ DuckLake uses a merge-on-read strategy when data is deleted from a table. In sho
 
 ## Usage
 
-What follows are some examples on how to use the rewrite function.
+Apply to all tables in a catalog.
 
 ```sql
--- Apply to all tables in a catalog
 CALL ducklake_rewrite_data_files('my_ducklake');
+```
 
--- Apply only to a specific table
+Apply only to a specific table
+
+```sql
 CALL ducklake_rewrite_data_files('my_ducklake', 't');
+```
 
--- Provide a specific value for the delete threshold
+Provide a specific value for the delete threshold
+
+```sql
 CALL ducklake_rewrite_data_files('my_ducklake', 't', delete_threshold => 0.5);
+```
 
--- Set a specific threshold for the whole catalog
+Set a specific threshold for the whole catalog
+
+```sql
 CALL ducklake_set_option('my_ducklake', 'rewrite_delete_threshold', 0.5);
 ```
