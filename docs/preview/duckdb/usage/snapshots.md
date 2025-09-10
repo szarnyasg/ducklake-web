@@ -31,12 +31,30 @@ SELECT * FROM snapshot_test.snapshots();
 It is also possible to retrieve the latest snapshot id directly whith a function.
 
 ```sql
-SELECT * FROM snapshot_test.current_snapshot();
+FROM snapshot_test.current_snapshot();
 ```
 
 | id |
 |---:|
 | 3  |
+
+The DuckLake extension also provides a function to get the latest commited snapshot for an existing open connection. This may be useful when multiple connections are updating the same target.
+
+```sql
+FROM snapshot_test.last_committed_snapshot()
+```
+
+Which would return the following for the current connection:
+
+| id |
+|---:|
+| 3  |
+
+But if a new connection is open, it will return:
+
+| id   |
+|------|
+| NULL |
 
 ## Adding a Commit Message to a Snapshot
 
