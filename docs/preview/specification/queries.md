@@ -122,7 +122,7 @@ In DuckLake, paths can be relative to the initially specified data path. Whether
 ### `SELECT` with File Pruning
 
 One of the main strengths of Lakehouse formats is the ability to *prune* files that cannot contain data relevant to the query.
-The [`ducklake_file_column_statistics` table]({% link docs/preview/specification/tables/ducklake_file_column_statistics.md %}) contains the file-level statistics.
+The [`ducklake_file_column_statistics` table]({% link docs/preview/specification/tables/ducklake_file_column_stats.md %}) contains the file-level statistics.
 We can use the information there to prune the list of files to be read if a filter predicate is given.
 
 We can get a list of all files that are part of a given table like described above. We can then reduce that list to only relevant files by querying the per-file column statistics. For example, for scalar equality we can find the relevant files using the query below:

@@ -40,7 +40,7 @@ DuckLake supports statistics on the table, column and file level.
 
 * [`ducklake_table_stats`]({% link docs/preview/specification/tables/ducklake_table_stats.md %})
 * [`ducklake_table_column_stats`]({% link docs/preview/specification/tables/ducklake_table_column_stats.md %})
-* [`ducklake_file_column_stats`]({% link docs/preview/specification/tables/ducklake_file_column_statistics.md %})
+* [`ducklake_file_column_stats`]({% link docs/preview/specification/tables/ducklake_file_column_stats.md %})
 
 ## Partitioning Information
 
