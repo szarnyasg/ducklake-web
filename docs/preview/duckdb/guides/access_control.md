@@ -9,37 +9,37 @@ While access control is not per se a feature of DuckLake, we can leverage the to
 
 In this guide, we focus on three different roles regarding access control in DuckLake:
 
-- **DuckLake Superuser**: The DuckLake Superuser can perform any DuckLake operation, most notably:
+- The **DuckLake Superuser** can perform any DuckLake operation, most notably:
   - Initializing DuckLake (done the first time we run the `ATTACH` command).
   - Creating schemas.
   - `CREATE`, `INSERT`, `UPDATE`, `DELETE`, and `SELECT` on any DuckLake table.
 
-- **DuckLake Writer**: The DuckLake Writer can perform the following operations:
+- The **DuckLake Writer** can perform the following operations:
   - `ATTACH` to an existing DuckLake.
   - `CREATE`, `INSERT`, `UPDATE`, `DELETE`, and `SELECT` on any or a subset of DuckLake tables.
   - Optionally, `SELECT` on any or a subset of DuckLake tables.
   - Optionally, `CREATE` schema.
 
-- **DuckLake Reader**: The DuckLake Reader can perform the following operations:
+- The **DuckLake Reader** can perform the following operations:
   - `ATTACH` to an existing DuckLake. Both `READ_ONLY` and regular attaching modes will work.
   - `SELECT` on any or a subset of DuckLake tables.
 
 > These roles are not actually implemented in DuckLake; they are constructs used in this guide, as they represent the most common types of roles present in data management systems.
 
 DuckLake has two components: the metadata catalog, which resides in a SQL database, and the storage, which can be any filesystem backend. The roles mentioned above require different specific permissions at the **catalog level**:
-- The DuckLake Superuser needs all permissions under the specified schema (`public` by default). Since this user initializes all tables, they also become the owner. Subsequent migrations between DuckLake specs must be carried out by this user.
+- The DuckLake Superuser needs all permissions under the specified schema (`public` by default). Since this user initializes all tables, they also become the owner. Subsequent migrations between different version of the DuckLake specification must be carried out by this user.
 - The DuckLake Writer only needs permissions to `INSERT`, `UPDATE`, `DELETE`, and `SELECT` at the catalog level. This is sufficient for any operation in DuckLake, including operations that expire snapshots.
 - The DuckLake Reader only needs `SELECT` permissions at the catalog level.
 
 At the storage level, we can leverage the way DuckLake structures data paths for different tables, which uses the following convention:
 
-```
-/<schema>/<table>/<partition>/<data_file>.parquet
+```sql
+/⟨schema⟩/⟨table⟩/⟨partition⟩/⟨data_file⟩.parquet
 ```
 
 Using this convention and the policy mechanisms of certain filesystems (such as cloud-based object storage), we can establish access to certain paths at the schema, table, or even partition level.
 
-> Note that this will not work if we use `ducklake_add_data_files` and the added files do not follow the path convention; permissions at the path level will not apply to these files.
+> This will not work if we use `ducklake_add_data_files` and the added files do not follow the path convention; permissions at the path level will not apply to these files.
 
 ## Access Control with S3 and PostgreSQL
 
@@ -151,8 +151,8 @@ Let's initialize DuckLake and perform some basic operations with the **DuckLake 
 CREATE OR REPLACE SECRET s3_ducklake_superuser (
   TYPE s3,
   PROVIDER config,
-  KEY_ID '<key>',
-  SECRET '<secret>',
+  KEY_ID '⟨key⟩',
+  SECRET '⟨secret⟩',
   REGION 'eu-north-1'
 );
 
@@ -174,7 +174,7 @@ CREATE OR REPLACE SECRET ducklake_superuser_secret (
 );
 
 -- This initializes DuckLake
-ATTACH 'ducklake:ducklake_superuser_secret' as ducklake_superuser;
+ATTACH 'ducklake:ducklake_superuser_secret' AS ducklake_superuser;
 USE ducklake_superuser;
 
 -- Perform operations in DuckLake
@@ -202,8 +202,8 @@ CREATE OR REPLACE SECRET postgres_secret_writer (
 CREATE OR REPLACE SECRET s3_ducklake_schema_reader_writer (
   TYPE s3,
   PROVIDER config,
-  KEY_ID '<key>',
-  SECRET '<secret>',
+  KEY_ID '⟨key⟩',
+  SECRET '⟨secret⟩',
   REGION 'eu-north-1'
 );
 
@@ -215,7 +215,7 @@ CREATE OR REPLACE SECRET ducklake_writer_secret (
   METADATA_PARAMETERS MAP {'TYPE': 'postgres','SECRET': 'postgres_secret_writer'}
 );
 
-ATTACH 'ducklake:ducklake_writer_secret' as ducklake_writer;
+ATTACH 'ducklake:ducklake_writer_secret' AS ducklake_writer;
 USE ducklake_writer;
 
 -- Perform operations
@@ -257,8 +257,8 @@ DROP SECRET s3_ducklake_schema_reader_writer;
 CREATE OR REPLACE SECRET s3_ducklake_table_reader (
   TYPE s3,
   PROVIDER config,
-  KEY_ID '<key_id>',
-  SECRET '<secret_key>',
+  KEY_ID '⟨key_id⟩',
+  SECRET '⟨secret_key⟩',
   REGION 'eu-north-1'
 );
 CREATE OR REPLACE SECRET postgres_secret_reader (
@@ -274,7 +274,7 @@ CREATE OR REPLACE SECRET ducklake_reader_secret (
   DATA_PATH 's3://ducklake-access-control/',
   METADATA_PARAMETERS MAP {'TYPE': 'postgres','SECRET': 'postgres_secret_reader'}
 );
-ATTACH 'ducklake:ducklake_reader_secret' as ducklake_reader; 
+ATTACH 'ducklake:ducklake_reader_secret' AS ducklake_reader; 
 USE ducklake_reader;
 
 SELECT * FROM some_schema.some_table; -- Works
