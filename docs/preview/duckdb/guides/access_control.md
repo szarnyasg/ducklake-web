@@ -247,7 +247,7 @@ Authentication Failure - this is usually caused by invalid or missing credential
 * See https://duckdb.org/docs/stable/extensions/httpfs/s3api.html
 ```
 
-> The error message is the generic one used when DuckDB cannot access a specific object in S3; nothing special to DuckLake.
+> The error message is the generic one used when DuckDB cannot access an object in S3; nothing specific to DuckLake.
 
 The **DuckLake Reader** is the simplest role.
 
