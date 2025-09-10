@@ -70,8 +70,10 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO ducklake_reader;
 
 In AWS, we create three users. The writer user will only have access to a specific schema, and the reader will only have access to a specific table. The policies needed for these users are as follows:
 
+<details markdown='1'>
+<summary markdown='span'>
 **DuckLake Superuser**
-
+</summary>
 ```json
 {
   "Version": "2012-10-17",
@@ -93,8 +95,12 @@ In AWS, we create three users. The writer user will only have access to a specif
   ]
 }
 ```
+</details>
 
+<details markdown='1'>
+<summary markdown='span'>
 **DuckLake Writer/Reader**
+</summary>
 ```json
 {
   "Version": "2012-10-17",
@@ -118,9 +124,12 @@ In AWS, we create three users. The writer user will only have access to a specif
 ```
 
 Note that we allow `s3:DeleteObject`, which enables the writer to perform compaction and cleanup jobs that require rewriting data files.
+</details>
 
+<details markdown='1'>
+<summary markdown='span'>
 **DuckLake Reader**
-
+</summary>
 ```json
 {
   "Version": "2012-10-17",
@@ -139,6 +148,7 @@ Note that we allow `s3:DeleteObject`, which enables the writer to perform compac
   ]
 }
 ```
+</details>
 
 ### DuckLake Test
 
