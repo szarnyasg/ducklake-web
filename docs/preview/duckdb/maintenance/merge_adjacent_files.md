@@ -12,7 +12,7 @@ This is supported due to the _lightweight snapshots_ that can refer to a part of
 Effectively, we can merge multiple Parquet files into a single Parquet file that holds data inserted by multiple snapshots.
 The data file is then setup so that the snapshots refer to only part of that Parquet file.
 
-This preserves all of the original behavior - including time travel and data change feeds - for these snapshots.
+This preserves all of the original behavior – including time travel and data change feeds – for these snapshots.
 In effect, this manner of compaction is completely transparent from a user perspective.
 
 This compaction technique can be triggered using the `merge_adjacent_files` function. For example:
