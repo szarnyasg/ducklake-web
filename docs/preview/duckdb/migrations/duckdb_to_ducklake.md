@@ -3,7 +3,7 @@ layout: docu
 title: DuckDB to DuckLake
 ---
 
-Migrating from DuckDB to DuckLake is very simple to do with the DuckDB DuckLake extension. However, if you are currently using some DuckDB features that are [unsupported in DuckLake]({% link docs/preview/duckdb/unsupported_features.md %}), this guide will definitely help you.
+Migrating from DuckDB to DuckLake is very simple to do with the DuckDB `ducklake` extension. However, if you are currently using some DuckDB features that are [unsupported in DuckLake]({% link docs/preview/duckdb/unsupported_features.md %}), this guide will definitely help you.
 
 ## First Scenario: Everything is Supported
 

@@ -3,24 +3,24 @@ layout: docu
 title: Configuration
 ---
 
-## DuckLake Extension Configuration
+## `ducklake` Extension Configuration
 
-The DuckLake extension also allows for some configuration regarding retry mechanism for transaction conflicts. 
+The `ducklake` extension also allows for some configuration regarding retry mechanism for transaction conflicts. 
 
 ### Option List
 
-| Name                     | Description                                                     | Default |
-|--------------------------|-----------------------------------------------------------------|---------|
-| ducklake_max_retry_count | The maximum amount of retry attempts for a ducklake transaction | 10      |
-| ducklake_retry_wait_ms   | Time between retries in ms                                      | 100     |
-| ducklake_retry_backoff   | Backoff factor for exponentially increasing retry wait time     | 1.5     |
+| Name                       | Description                                                     | Default |
+|----------------------------|-----------------------------------------------------------------|--------:|
+| `ducklake_max_retry_count` | The maximum amount of retry attempts for a DuckLake transaction | 10      |
+| `ducklake_retry_wait_ms`   | Time between retries in ms                                      | 100     |
+| `ducklake_retry_backoff`   | Backoff factor for exponentially increasing retry wait time     | 1.5     |
 
 ### Setting Config Values
 
 ```sql
-SET ducklake_max_retry_count = 100
-SET ducklake_retry_wait_ms = 100
-SET ducklake_retry_backoff = 2
+SET ducklake_max_retry_count = 100;
+SET ducklake_retry_wait_ms = 100;
+SET ducklake_retry_backoff = 2;
 ```
 
 ## DuckLake Specific Configuration

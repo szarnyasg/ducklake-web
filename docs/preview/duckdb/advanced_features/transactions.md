@@ -20,4 +20,4 @@ ROLLBACK; -- ABORT will have the same behaviour
 
 In the context of DuckLake, one commited transaction (i.e., a `BEGIN-COMMIT` block) represents one [snapshot]({% link docs/preview/duckdb/usage/snapshots.md %}).
 
-If multiple transactions are being performed concurrently in one table, the DuckLake extension has some default configurations for a retry mechanism. This default configurations can be [overriden]({% link docs/preview/duckdb/usage/configuration.md %}).
+If multiple transactions are being performed concurrently in one table, the `ducklake` extension has some default configurations for a retry mechanism. This default configurations can be [overriden]({% link docs/preview/duckdb/usage/configuration.md %}).
