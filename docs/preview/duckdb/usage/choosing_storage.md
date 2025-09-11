@@ -16,7 +16,7 @@ The DuckDB `ducklake` extension can work with any file system backend that DuckD
   - [SMB](https://en.wikipedia.org/wiki/Server_Message_Block)
   - [FUSE](https://en.wikipedia.org/wiki/Filesystem_in_Userspace)
   - Python [fsspec file systems](https://duckdb.org/docs/stable/guides/python/filesystems)
-  ...
+  - ...
 
 
 When choosing storage, its important to consider the following factors
