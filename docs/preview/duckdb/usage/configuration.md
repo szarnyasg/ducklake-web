@@ -23,7 +23,7 @@ SET ducklake_retry_wait_ms = 100
 SET ducklake_retry_backoff = 2
 ```
 
-## Ducklake Specific Configuration
+## DuckLake Specific Configuration
 
 DuckLake supports persistent and scoped configuration operations.
 These options can be set using the `set_option` function.
