@@ -28,5 +28,5 @@ CALL ducklake_rewrite_data_files('my_ducklake', 't', delete_threshold => 0.5);
 Set a specific threshold for the whole catalog
 
 ```sql
-CALL ducklake_set_option('my_ducklake', 'rewrite_delete_threshold', 0.5);
+CALL my_ducklake.set_option('rewrite_delete_threshold', 0.5);
 ```

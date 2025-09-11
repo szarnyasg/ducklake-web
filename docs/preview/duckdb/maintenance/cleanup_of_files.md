@@ -62,5 +62,5 @@ CALL ducklake_delete_orphaned_files('ducklake', dry_run => true, older_than => n
 There is also a catalog level option available.
 
 ```sql
-CALL ducklake_set_option('ducklake', 'delete_older_than', '1 week')
+CALL ducklake.set_option('delete_older_than', '1 week')
 ```
