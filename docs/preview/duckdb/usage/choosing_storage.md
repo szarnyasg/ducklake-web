@@ -8,7 +8,7 @@ DuckLake as a concept will *never* change existing files, neither by changing ex
 The DuckDB `ducklake` extension can work with any file system backend that DuckDB supports. This currently includes:
 - local files and folders
 - cloud object store like
-  - [AWS S3](https://duckdb.org/docs/stable/core_extensions/httpfs/s3api) and compatible (e.g., [CloudFlare R2](https://www.cloudflare.com/developer-platform/products/r2/), [Hetzner Object Storage](https://www.hetzner.com/storage/object-storage/), etc.)
+  - [AWS S3](https://duckdb.org/docs/stable/core_extensions/httpfs/s3api) and compatible (e.g., [Cloudflare R2](https://www.cloudflare.com/developer-platform/products/r2/), [Hetzner Object Storage](https://www.hetzner.com/storage/object-storage/), etc.)
   - [Google Cloud Storage](https://duckdb.org/docs/stable/guides/network_cloud_storage/gcs_import)
   - [Azure Blob Store](https://duckdb.org/docs/stable/core_extensions/azure)
 - virtual network attached file systems
