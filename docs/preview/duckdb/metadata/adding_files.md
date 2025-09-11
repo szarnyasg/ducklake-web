@@ -37,24 +37,24 @@ The `ignore_extra_columns` option can be used to add the file anyway – any ext
 
 In general, types of columns in the source Parquet file must match the type as defined in the table, otherwise an error is thrown. Types in the Parquet file can be narrower than the type defined in the table. Below is a supported mapping type:
 
-|  Table Type   | Supported Parquet Types                     |
-|---------------|---------------------------------------------|
-| bool          | `bool`                                      |
-| int8          | `int8`                                      |
-| int16         | `int[8/16], uint8`                          |
-| int32         | `int[8/16/32], uint[8/16]`                  |
-| int64         | `int[8/16/32/64], uint[8/16/32]`            |
-| uint8         | `uint8`                                     |
-| uint16        | `uint[8/16]`                                |
-| uint32        | `uint[8/16/32]`                             |
-| uint64        | `uint[8/16/32/64]`                          |
-| float         | `float`                                     |
-| double        | `float/double`                              |
-| decimal(P, S) | `decimal(P',S'), where P' <= P and S' <= S` |
-| blob          | `blob`                                      |
-| varchar       | `varchar`                                   |
-| date          | `date`                                      |
-| time          | `time`                                      |
-| timestamp     | `timestamp, timestamp_ns`                   |
-| timestamp_ns  | `timestamp, timestamp_ns`                   |
-| timestamptz   | `timestamptz`                               |
+| Table type      | Supported Parquet types                         |
+| --------------- | ----------------------------------------------- |
+| `bool`          | `bool`                                          |
+| `int8`          | `int8`                                          |
+| `int16`         | `int[8/16]`, `uint8`                            |
+| `int32`         | `int[8/16/32]`, `uint[8/16]`                    |
+| `int64`         | `int[8/16/32/64]`, `uint[8/16/32]`              |
+| `uint8`         | `uint8`                                         |
+| `uint16`        | `uint[8/16]`                                    |
+| `uint32`        | `uint[8/16/32]`                                 |
+| `uint64`        | `uint[8/16/32/64]`                              |
+| `float`         | `float`                                         |
+| `double`        | `float/double`                                  |
+| `decimal(P, S)` | `decimal(P',S')`, where `P' <= P `and `S' <= S` |
+| `blob`          | `blob`                                          |
+| `varchar`       | `varchar`                                       |
+| `date`          | `date`                                          |
+| `time`          | `time`                                          |
+| `timestamp`     | `timestamp`, `timestamp_ns`                     |
+| `timestamp_ns`  | `timestamp`, `timestamp_ns`                     |
+| `timestamptz`   | `timestamptz`                                   |

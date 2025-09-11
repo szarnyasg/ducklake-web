@@ -9,12 +9,12 @@ Paths can be either absolute or relative to their parent path.
 Whether or not a path is relative is stored in the `path_is_relative` column, alongside the `path`.
 By default, all paths written by DuckLake are relative paths.
 
-|  Path Type  |               Path Location               | Parent Path |
-|-------------|-------------------------------------------|-------------|
-| File Path   | ducklake_data_file / ducklake_delete_file | Table Path  |
-| Table Path  | ducklake_table                            | Schema Path |
-| Schema Path | ducklake_schema                           | Data Path   |
-| Data Path   | ducklake_metadata                         |             |
+| Path type   | Path location                                 | Parent path |
+| ----------- | --------------------------------------------- | ----------- |
+| File path   | `ducklake_data_file` / `ducklake_delete_file` | Table path  |
+| Table path  | `ducklake_table`                              | Schema path |
+| Schema path | `ducklake_schema`                             | Data path   |
+| Data path   | `ducklake_metadata`                           |             |
 
 ### Default Path Structure
 
