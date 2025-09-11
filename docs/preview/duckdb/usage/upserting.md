@@ -27,6 +27,7 @@ INSERT INTO people VALUES (1, 'John', 92_000.0), (2, 'Anna', 100_000.0);
 ```
 
 The simplest upsert would be updating or inserting a whole row.
+
 ```sql
 MERGE INTO people
     USING (
@@ -110,6 +111,7 @@ FROM people;
 ## Unsupported Behavior
 
 Multiple `UPDATE` or `DELETE` operators are not currently supported. The following query **would not work**:
+
 ```sql
 MERGE INTO people
     USING (
