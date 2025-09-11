@@ -62,7 +62,7 @@ Don't forget to either specify the database name of the DuckLake explicity or us
 
 ### Example
 
-Let's observe what happens in DuckLake when we interact with a dataset. We will use the [Netherlands train traffic dataset](https://duckdb.org/2024/05/31/analyzing-railway-traffic-in-the-netherlands.html) here.
+Let's observe what happens in DuckLake when we interact with a dataset. We will use the [Netherlands train traffic dataset](https://duckdb.org/2024/05/31/analyzing-railway-traffic-in-the-netherlands) here.
 
 We use the example DuckLake from above:
 

@@ -75,7 +75,7 @@ where
 - `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %})
 - `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %})
 
-> Note that DuckLake supports nested columns – the filter for `parent_column IS NULL` only shows the top-level columns.
+> DuckLake supports nested columns – the filter for `parent_column IS NULL` only shows the top-level columns.
 
 For the list of supported data types, please refer to the [“Data Types” page]({% link docs/stable/specification/data_types.md %}).
 
@@ -251,7 +251,8 @@ A table needs some columns, we can add columns to the new table by inserting int
 For each column to be added, we run the following query:
 
 ```sql
-INSERT INTO ducklake_column (column_id,
+INSERT INTO ducklake_column (
+    column_id,
     begin_snapshot,
     end_snapshot,
     table_id,
@@ -421,7 +422,8 @@ where
 We will also have to update some statistics in the [`ducklake_table_stats` table]({% link docs/stable/specification/tables/ducklake_table_stats.md %}) and [`ducklake_table_column_stats` table]({% link docs/stable/specification/tables/ducklake_table_column_stats.md %})` tables.
 
 ```sql
-UPDATE ducklake_table_stats SET
+UPDATE ducklake_table_stats
+SET
     record_count = record_count + ⟨RECORD_COUNT⟩,
     next_row_id = next_row_id + ⟨RECORD_COUNT⟩,
     file_size_bytes = file_size_bytes + ⟨FILE_SIZE_BYTES⟩

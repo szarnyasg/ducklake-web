@@ -230,6 +230,7 @@ Further improvements are on the roadmap.
 <div class="answer" markdown="1">
 
 No. Similarly to other data lakehouse technologies, DuckLake does not support constraints, keys, or indexes.
+For more information, see the [list of unsupported features]({% link docs/stable/duckdb/unsupported_features.md %}).
 
 </div>
 
