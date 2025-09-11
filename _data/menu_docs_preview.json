@@ -194,9 +194,19 @@
                 }
               ]
             },
-                        {
-              "page": "Backups and Recovery",
-              "url": "backups_and_recovery"
+            {
+              "page": "Guides",
+              "slug": "guides",
+              "subsubfolderitems": [
+                {
+                  "page": "Backups and Recovery",
+                  "url": "backups_and_recovery"
+                },
+                {
+                  "page": "Access Control",
+                  "url": "access_control"
+                }
+              ]
             },
             {
               "page": "Unsupported Features",
