@@ -126,6 +126,10 @@
                 {
                   "page": "Rewrite Files with Deletes",
                   "url": "rewrite_data_files"
+                },
+                {
+                  "page": "Checkpoint",
+                  "url": "checkpoint"
                 }
               ]
             },

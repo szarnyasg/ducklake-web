@@ -21,5 +21,11 @@ This compaction technique can be triggered using the `merge_adjacent_files` func
 CALL ducklake_merge_adjacent_files('my_ducklake');
 ```
 
+Or if you want to target a specific table within a schema:
+
+```sql
+CALL ducklake_merge_adjacent_files('my_ducklake', 't', schema => 'some_schema');
+```
+
 > Note that calling this function does not immediately delete the old files.
 See the [cleanup old files]({% link docs/preview/duckdb/maintenance/cleanup_of_files.md %}) section on how to trigger a clean-up of these files.
