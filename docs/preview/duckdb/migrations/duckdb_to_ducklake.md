@@ -40,9 +40,9 @@ If you have been using DuckDB for a while, there is a chance you are using some 
 
 - Generated columns are the same as defaults that are not literals and therefore they need to be specified when inserting the data into the destination table. This means that the values will always be persisted (no `VIRTUAL` option).
 
-### Migration script
+### Migration Script
 
-The following python script can be used to migrate from a DuckDB persisted database to DuckLake bypassing the unsupported features.
+The following Python script can be used to migrate from a DuckDB persisted database to DuckLake bypassing the unsupported features.
 
 > Currently, only local migrations are supported by this script. The script will be adapted in the future to account for migrations to remote object storage such as S3 or GCS.
 
@@ -107,7 +107,7 @@ def migrate_tables_and_views(duckdb_catalog: str, con: duckdb.DuckDBPyConnection
                 )
             else:
                 print(f"Migrating Catalog: {catalog}, Schema: {schema}, Table: {table}")
-                excepts, casts = _resolve_data_types(table, schema, catalog, con)    
+                excepts, casts = _resolve_data_types(table, schema, catalog, con)
                 if casts:
                     select_clause = "* EXCLUDE(" + ", ".join(excepts) + "),\n" + ",\n".join(casts)
                     con.execute(
@@ -192,13 +192,18 @@ if __name__ == "__main__":
             duckdb_catalog=args.duckdb_catalog,
         )
     con.close()
-
 ```
 
-The script can be run in any Python environment with DuckDB installed. The usage is:
+The script can be run in any Python environment with DuckDB installed. The usage is the following:
 
-```
-usage: migration.py [-h] --duckdb-catalog DUCKDB_CATALOG --duckdb-file DUCKDB_FILE --ducklake-catalog DUCKLAKE_CATALOG --catalog-type{duckdb,postgresql,sqlite} [--ducklake-file DUCKLAKE_FILE] --ducklake-data-path DUCKLAKE_DATA_PATH
+```text
+usage: migration.py [-h]
+    --duckdb-catalog DUCKDB_CATALOG
+    --duckdb-file DUCKDB_FILE
+    --ducklake-catalog DUCKLAKE_CATALOG
+    --catalog-type{duckdb,postgresql,sqlite}
+    [--ducklake-file DUCKLAKE_FILE]
+    --ducklake-data-path DUCKLAKE_DATA_PATH
 ```
 
 If you are migrating to PostgreSQL, make sure that you provide the following environment variables for the PostgreSQL secret connection:

@@ -15,7 +15,7 @@ BEGIN TRANSACTION;
 -- Some other operation
 COMMIT;
 -- or
-ROLLBACK; -- ABORT will have the same behaviour
+ROLLBACK; -- ABORT will have the same behavior
 ```
 
 In the context of DuckLake, one commited transaction (i.e., a `BEGIN-COMMIT` block) represents one [snapshot]({% link docs/preview/duckdb/usage/snapshots.md %}).

@@ -39,4 +39,4 @@ Data files contain the actual row data.
 - `partition_id` refers to a `partition_id` from the `ducklake_partition_info` table.
 - `encryption_key` contains the encryption for the file if [encryption]({% link docs/preview/duckdb/advanced_features/encryption.md %}) is enabled.
 - `partial_file_info` is used when snapshots refer to parts of a file.
-- `mapping_id` refers to a `mapping_id` from the [`ducklake_column_mapping` table]({% link docs/preview/specification/tables/ducklake_column_mapping.md %})
+- `mapping_id` refers to a `mapping_id` from the [`ducklake_column_mapping` table]({% link docs/preview/specification/tables/ducklake_column_mapping.md %}).
