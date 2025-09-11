@@ -43,7 +43,7 @@ USE ...;
 
 The path is stored in the DuckLake metadata and does not have to be specified again to attach to an existing DuckLake catalog.
 
-> Both `DATA PATH` and the database file path should be relative paths (e.g., `./some/path/` or `some/path/`). Moreover, for database creation the path needs to exist already, i.e., `ATTACH 'ducklake:db/my_ducklake.ducklake' AS my_ducklake;` where db needs to be an existing directory.
+> Both `DATA_PATH` and the database file path should be relative paths (e.g., `./some/path/` or `some/path/`). Moreover, for database creation the path needs to exist already, i.e., `ATTACH 'ducklake:db/my_ducklake.ducklake' AS my_ducklake;` where db needs to be an existing directory.
 
 ## Attaching an Existing Database
 
