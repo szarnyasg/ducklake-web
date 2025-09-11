@@ -25,7 +25,7 @@ Within this group, we are going to make a distinction between what is not suppor
 
 - [`CHECK` constraints](https://duckdb.org/docs/stable/sql/constraints#check-constraint). Not to be confused with Primary or Foreign Key constraint.
 
-- [Scalar and table macros (functions)](https://duckdb.org/docs/stable/sql/statements/create_macro#examples). However, if the catalog DB supports it, there is a workaround.
+- [Scalar and table macros (functions)](https://duckdb.org/docs/stable/sql/statements/create_macro#examples). However, if the catalog database supports it, there is a workaround.
 
   ```sql
   -- Using DuckDB as a catalog, create the macro in the catalog
@@ -49,7 +49,7 @@ Within this group, we are going to make a distinction between what is not suppor
 
 - Dropping dependencies, such as views, when calling `DROP ... CASCADE`. Note that this is also a [DuckDB limitation](https://duckdb.org/docs/stable/sql/statements/drop#dependencies-on-views).
 
-- [Generated columns](https://duckdb.org/docs/stable/sql/statements/create_table.html#generated-columns)
+- [Generated columns](https://duckdb.org/docs/stable/sql/statements/create_table#generated-columns)
 
 ### Unlikely to be Supported in the Future
 

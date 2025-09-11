@@ -3,24 +3,24 @@ layout: docu
 title: Configuration
 ---
 
-## DuckLake Extension Configuration
+## `ducklake` Extension Configuration
 
-The DuckLake extension also allows for some configuration regarding retry mechanism for transaction conflicts. 
+The `ducklake` extension also allows for some configuration regarding retry mechanism for transaction conflicts.
 
 ### Option List
 
-| Name                     | Description                                                     | Default |
-|--------------------------|-----------------------------------------------------------------|---------|
-| ducklake_max_retry_count | The maximum amount of retry attempts for a ducklake transaction | 10      |
-| ducklake_retry_wait_ms   | Time between retries in ms                                      | 100     |
-| ducklake_retry_backoff   | Backoff factor for exponentially increasing retry wait time     | 1.5     |
+| Name                       | Description                                                     | Default |
+|----------------------------|-----------------------------------------------------------------|--------:|
+| `ducklake_max_retry_count` | The maximum amount of retry attempts for a DuckLake transaction | 10      |
+| `ducklake_retry_wait_ms`   | Time between retries in ms                                      | 100     |
+| `ducklake_retry_backoff`   | Backoff factor for exponentially increasing retry wait time     | 1.5     |
 
 ### Setting Config Values
 
 ```sql
-SET ducklake_max_retry_count = 100
-SET ducklake_retry_wait_ms = 100
-SET ducklake_retry_backoff = 2
+SET ducklake_max_retry_count = 100;
+SET ducklake_retry_wait_ms = 100;
+SET ducklake_retry_backoff = 2;
 ```
 
 ## DuckLake Specific Configuration
@@ -32,16 +32,16 @@ Configuration is persisted in the [`ducklake_metadata`]({% link docs/preview/spe
 
 ### Option List
 
-|             Name             |                                       Description                                                | Default |
-|------------------------------|--------------------------------------------------------------------------------------------------|---------|
-| data_inlining_row_limit      | Maximum amount of rows to inline in a single insert                                              | 0       |
-| parquet_compression          | Compression algorithm for Parquet files (uncompressed, snappy, gzip, zstd, brotli, lz4, lz4_raw) | snappy  |
-| parquet_version              | Parquet format version (1 or 2)                                                                  | 1       |
-| parquet_compression_level    | Compression level for Parquet files                                                              | 3       |
-| parquet_row_group_size       | Number of rows per row group in Parquet files                                                    | 122 880 |
-| parquet_row_group_size_bytes | Number of bytes per row group in Parquet files                                                   |         |
-| target_file_size             | The target data file size for insertion and compaction operations                                | 512MB   |
-| hive_file_pattern            | Whether partitioned data should be written following a hive-style partition                      | true    |
+|              Name              |                                       Description                                                | Default |
+|--------------------------------|--------------------------------------------------------------------------------------------------|---------|
+| `data_inlining_row_limit`      | Maximum amount of rows to inline in a single insert                                              | 0       |
+| `parquet_compression`          | Compression algorithm for Parquet files (uncompressed, snappy, gzip, zstd, brotli, lz4, lz4_raw) | snappy  |
+| `parquet_version`              | Parquet format version (1 or 2)                                                                  | 1       |
+| `parquet_compression_level`    | Compression level for Parquet files                                                              | 3       |
+| `parquet_row_group_size`       | Number of rows per row group in Parquet files                                                    | 122880 |
+| `parquet_row_group_size_bytes` | Number of bytes per row group in Parquet files                                                   |         |
+| `target_file_size`             | The target data file size for insertion and compaction operations                                | 512MB   |
+| `hive_file_pattern`            | Whether partitioned data should be written following a hive-style partition                      | true    |
 
 ### Setting Config Values
 

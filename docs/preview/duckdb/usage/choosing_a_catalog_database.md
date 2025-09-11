@@ -10,7 +10,7 @@ On the technical side, consider the following:
 
 * If you would like to perform **local data warehousing with a single client**, use [DuckDB](#duckdb) as the catalog database.
 * If you would like to perform **local data warehousing using multiple local clients**, use [SQLite](#sqlite) as the catalog database.
-* If you would like to operate a **multi-user lakehouse** with potentially remote clients, choose a transactional client-server database system as the catalog database: [MySQL](#mysql) or [PostgreSQL](#postgresql).
+* If you would like to operate a **multi-user Lakehouse** with potentially remote clients, choose a transactional client-server database system as the catalog database: [MySQL](#mysql) or [PostgreSQL](#postgresql).
 
 ## DuckDB
 
@@ -64,7 +64,7 @@ This allows a reasonable amount of multi-processing support (effectively hiding 
 
 ## MySQL
 
->Warning There are a number of known issues with MySQL as a catalog for DuckLake. This is due to some limitations regarding the DuckDB MySQL connector. We therefore do not recommend to use MySQL as a catalog for DuckLake.
+> Warning There are a number of known issues with MySQL as a catalog for DuckLake. This is due to some limitations regarding the DuckDB MySQL connector. We therefore do not recommend to use MySQL as a catalog for DuckLake.
 
 DuckDB can interact with a MySQL database using the [`mysql` extension](https://duckdb.org/docs/stable/core_extensions/mysql).
 Install the `ducklake` and the `mysql` extension, and attach to your DuckLake as follows:

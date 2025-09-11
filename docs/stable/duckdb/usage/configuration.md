@@ -9,6 +9,7 @@ The options that have been set can be queried using the `options` function.
 Configuration is persisted in the [`ducklake_metadata`]({% link docs/stable/specification/tables/ducklake_metadata.md %}) table.
 
 ### Examples
+
 ```sql
 -- set the global parquet compression algorithm used when writing Parquet files
 CALL my_ducklake.set_option('parquet_compression', 'zstd');
