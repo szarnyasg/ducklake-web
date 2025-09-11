@@ -36,7 +36,7 @@ For encrypted tables, the partitioned paths are omitted, and the files are all w
 
 This results in the following path structure:
 
-```
+```text
 main
 ├── unpartitioned_table
 │   └── ducklake-{uuid}.parquet
