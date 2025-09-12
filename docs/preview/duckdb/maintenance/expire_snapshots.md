@@ -14,25 +14,25 @@ This can be done using the `ducklake_expire_snapshots` function.
 The below command expires a snapshot with a specific snapshot id.
 
 ```sql
-CALL ducklake_expire_snapshots('ducklake', versions => [2])
+CALL ducklake_expire_snapshots('ducklake', versions => [2]);
 ```
 
 The below command expires snapshots older than a week.
 
 ```sql
-CALL ducklake_expire_snapshots('ducklake', older_than => now() - INTERVAL '1 week')
+CALL ducklake_expire_snapshots('ducklake', older_than => now() - INTERVAL '1 week');
 ```
 
 The below command performs a *dry run*, which only lists the snapshots that will be deleted, instead of actually deleting them.
 
 ```sql
-CALL ducklake_expire_snapshots('ducklake', dry_run => true, older_than => now() - INTERVAL '1 week')
+CALL ducklake_expire_snapshots('ducklake', dry_run => true, older_than => now() - INTERVAL '1 week');
 ```
 
 It is also possible to set a DuckLake option to expire snapshots that applies to the whole catalog.
 
 ```sql
-CALL ducklake.set_option('expire_older_than', '1 month')
+CALL ducklake.set_option('expire_older_than', '1 month');
 ```
 
 ## Cleaning Up Files
