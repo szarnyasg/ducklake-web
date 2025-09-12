@@ -2,6 +2,7 @@
 layout: docu
 title: Backup and Recovery
 ---
+
 DuckLake has two components: catalog and storage. The catalog contains all of DuckLake's metadata, while the storage contains all of the data files in Parquet format. The catalog is a [database]({% link docs/preview/duckdb/usage/choosing_a_catalog_database.md %}), while the storage layer can be any [filesystem backend supported by DuckDB]({% link docs/preview/duckdb/usage/choosing_storage.md %}). These two components have different backup strategies, so this document will address them separately.
 
 > In this document, we will focus on disasters caused by human errors or application failures/malfunctions that result in data corruption or loss.
