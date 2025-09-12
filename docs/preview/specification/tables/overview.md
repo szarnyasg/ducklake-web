@@ -3,7 +3,7 @@ layout: docu
 title: Tables
 ---
 
-DuckLake 0.3 uses 21 tables to store metadata and to stage data fragments for data inlining. Below we describe all those tables and their semantics.
+DuckLake 0.3 uses 22 tables to store metadata and to stage data fragments for data inlining. Below we describe all those tables and their semantics.
 
 The following figure shows the most important tables defined by the DuckLake schema:
 
