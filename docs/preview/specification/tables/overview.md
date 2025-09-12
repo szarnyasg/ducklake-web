@@ -59,7 +59,7 @@ DuckLake supports defining explicit partitioning.
 
 ## Full Schema Creation Script
 
-Below is the full SQL script to create a DuckLake metadata database, at the latest version at the time of writing (0.2):
+Below is the full SQL script to create a DuckLake metadata database:
 
 ```sql
 CREATE TABLE ducklake_metadata (key VARCHAR NOT NULL, value VARCHAR NOT NULL, scope VARCHAR, scope_id BIGINT);
