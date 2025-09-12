@@ -1,6 +1,6 @@
 ---
 layout: docu
-title: ducklake_file_column_statistics
+title: ducklake_file_column_stats
 ---
 
 This table contains column-level statistics for a single data file.
@@ -16,6 +16,7 @@ This table contains column-level statistics for a single data file.
 | `min_value`         | `VARCHAR`   |             |
 | `max_value`         | `VARCHAR`   |             |
 | `contains_nan`      | `BOOLEAN`   |             |
+| `extra_stats`       | `VARCHAR`   |             |
 
 - `data_file_id` refers to a `data_file_id` from the `ducklake_data_file` table.
 - `table_id` refers to a `table_id` from the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %}).
@@ -26,3 +27,4 @@ This table contains column-level statistics for a single data file.
 - `min_value` contains the minimum value for the column, encoded as a string. This does not have to be exact but has to be a lower bound. The value has to be cast to the actual type for accurate comparison, e.g., on integer types.
 - `max_value` contains the maximum value for the column, encoded as a string. This does not have to be exact but has to be an upper bound. The value has to be cast to the actual type for accurate comparison, e.g., on integer types.
 - `contains_nan` is a flag whether the column contains any `NaN` values. This is only relevant for floating-point types.
+- `extra_stats` contains different statistics from specific types such as Geometry types.

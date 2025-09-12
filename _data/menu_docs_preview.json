@@ -40,6 +40,7 @@
                 {"page": "partition_column", "url": "ducklake_partition_column"},
                 {"page": "partition_info", "url": "ducklake_partition_info"},
                 {"page": "schema", "url": "ducklake_schema"},
+                {"page": "schema_versions", "url": "ducklake_schema_versions"},
                 {"page": "snapshot", "url": "ducklake_snapshot"},
                 {"page": "snapshot_changes", "url": "ducklake_snapshot_changes"},
                 {"page": "table", "url": "ducklake_table"},
@@ -119,8 +120,16 @@
                   "url": "expire_snapshots"
                 },
                 {
-                  "page": "Cleanup Old Files",
-                  "url": "cleanup_old_files"
+                  "page": "Cleanup of Files",
+                  "url": "cleanup_of_files"
+                },
+                {
+                  "page": "Rewrite Files with Deletes",
+                  "url": "rewrite_data_files"
+                },
+                {
+                  "page": "Checkpoint",
+                  "url": "checkpoint"
                 }
               ]
             },

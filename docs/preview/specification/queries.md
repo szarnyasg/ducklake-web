@@ -122,14 +122,14 @@ In DuckLake, paths can be relative to the initially specified data path. Whether
 ### `SELECT` with File Pruning
 
 One of the main strengths of Lakehouse formats is the ability to *prune* files that cannot contain data relevant to the query.
-The [`ducklake_file_column_statistics` table]({% link docs/preview/specification/tables/ducklake_file_column_statistics.md %}) contains the file-level statistics.
+The [`ducklake_file_column_stats` table]({% link docs/preview/specification/tables/ducklake_file_column_stats.md %}) contains the file-level statistics.
 We can use the information there to prune the list of files to be read if a filter predicate is given.
 
 We can get a list of all files that are part of a given table like described above. We can then reduce that list to only relevant files by querying the per-file column statistics. For example, for scalar equality we can find the relevant files using the query below:
 
 ```sql
 SELECT data_file_id
-FROM ducklake_file_column_statistics
+FROM ducklake_file_column_stats
 WHERE
     table_id = ⟨TABLE_ID⟩ AND
     column_id = ⟨COLUMN_ID⟩ AND
@@ -195,6 +195,9 @@ where
 - `⟨NEXT_CATALOG_ID⟩`{:.language-sql .highlight} gives the next unused identifier for tables, schemas, or views. This only has to be incremented if new catalog entries are created.
 - `⟨NEXT_FILE_ID⟩`{:.language-sql .highlight} is the same but for data or delete files.
 - `⟨CHANGES⟩`{:.language-sql .highlight} contains a list of changes performed by the snapshot. See the list of possible values in the [`ducklake_snapshot_changes` table's documentation]({% link docs/preview/specification/tables/ducklake_snapshot_changes.md %}).
+- `⟨AUTHOR⟩`{:.language-sql .highlight} contains information about the author of the commit (optional).
+- `⟨COMMIT_MESSAGE⟩`{:.language-sql .highlight} attaches a commit message to the transaction (optional).
+- `⟨COMMIT_EXTRA_INFO⟩`{:.language-sql .highlight} attaches extra information to the transaction (optional).
 
 ### `CREATE SCHEMA`
 
@@ -444,7 +447,7 @@ WHERE
     table_id = ⟨TABLE_ID⟩ AND
     column_id = ⟨COLUMN_ID⟩;
 
-INSERT INTO ducklake_file_column_statistics (
+INSERT INTO ducklake_file_column_stats (
     data_file_id,
     table_id,
     column_id,
