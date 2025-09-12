@@ -48,3 +48,18 @@ The following nested types are supported:
 | `list`   | Collection of values with a single child type |
 | `struct` | A tuple of typed values                       |
 | `map`    | A collection of key-value pairs               |
+
+## Geometry Types
+
+DuckLake supports geometry types via the [`SPATIAL`](https://duckdb.org/docs/stable/core_extensions/spatial/overview.html#the-geometry-type) extension and the parquet `geometry` type. The `geometry` type can store different types of spatial representations called geometry primitives, of which DuckLake supports the following:
+
+| Geometry Primitive   | Description                                                                                           |
+| -------------------- | ----------------------------------------------------------------------------------------------------- |
+| `POINT`              | A single location in coordinate space.                                                                |
+| `LINESTRING`         | A sequence of points connected by straight line segments.                                             |
+| `POLYGON`            | A planar surface defined by one exterior boundary and zero or more interior boundaries (holes).       |
+| `MULTIPOINT`         | A collection of `POINT` geometries.                                                                   |
+| `MULTILINESTRING`    | A collection of `LINESTRING` geometries.                                                              |
+| `MULTIPOLYGON`       | A collection of `POLYGON` geometries.                                                                 |
+| `LINESTRING Z`       | A `LINESTRING` geometry with an additional Z (elevation) coordinate for each point.                   |
+| `GEOMETRYCOLLECTION` | A heterogeneous collection of geometry primitives (e.g., points, lines, polygons, etc.).              |
