@@ -41,6 +41,11 @@ Using this convention and the policy mechanisms of certain filesystems (such as 
 
 > This will not work if we use `ducklake_add_data_files` and the added files do not follow the path convention; permissions at the path level will not apply to these files.
 
+
+The following diagram contextualizes these roles and the necessary permissions for them to work in DuckLake:
+
+![DuckLake schema]({{ site.baseurl }}/images/docs/guides/ducklake_access_control.svg)
+
 ## Access Control with S3 and PostgreSQL
 
 The following is an example implementation of the basic principles described above, focusing on PostgreSQL as a DuckLake catalog and S3 as the storage backend.
