@@ -96,10 +96,10 @@ Both the S3 backup service and S3 object versioning will restore data files in t
 
 ```sql
 -- Before
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://og-bucket/')
+ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://⟨og-bucket⟩/');
 
 -- After
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://replication-bucket/')
+ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://⟨replication-bucket⟩/');
 ```
 
 ### GCS
@@ -114,8 +114,8 @@ Regarding cross-bucket replication, repointing to the new bucket will be necessa
 
 ```sql
 -- Before
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://og-bucket/')
+ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://⟨og-bucket⟩/');
 
 -- After
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://replication-bucket/')
+ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://⟨replication-bucket⟩/');
 ```
