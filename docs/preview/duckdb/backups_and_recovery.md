@@ -10,7 +10,7 @@ DuckLake has two components: catalog and storage. The catalog contains all of Du
 
 Backup and recovery strategies depend on the SQL database you are using as a DuckLake catalog.
 
-> [Compaction]({% link docs/preview/duckdb/maintenance/merge_adjacent_files.md %}) and [cleanup jobs]({% link docs/preview/duckdb/maintenance/cleanup_of_files.md %}) should only be done before manual backups. This operations can re-write and remove data files, effectively chaning the file layout for a specific snapshot.
+> [Compaction]({% link docs/preview/duckdb/maintenance/merge_adjacent_files.md %}) and [cleanup jobs]({% link docs/preview/duckdb/maintenance/cleanup_of_files.md %}) should only be done before manual backups. These operations can re-write and remove data files, effectively changing the file layout for a specific snapshot.
 
 ### DuckDB Catalog
 
