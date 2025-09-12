@@ -10,7 +10,7 @@ DuckLake has two components: catalog and storage. The catalog contains all of Du
 
 Backup and recovery strategies depend on the SQL database you are using as a DuckLake catalog.
 
-> [Compaction]({% link docs/preview/duckdb/maintenance/merge_adjacent_files.md %}) and [cleanup jobs]({% link docs/preview/duckdb/maintenance/cleanup_old_files.md %}) should only be done before manual backups. This operations can re-write and remove data files, effectively chaning the file layout for a specific snapshot.
+> [Compaction]({% link docs/preview/duckdb/maintenance/merge_adjacent_files.md %}) and [cleanup jobs]({% link docs/preview/duckdb/maintenance/cleanup_of_files.md %}) should only be done before manual backups. These operations can re-write and remove data files, effectively changing the file layout for a specific snapshot.
 
 ### DuckDB Catalog
 
@@ -96,10 +96,10 @@ Both the S3 backup service and S3 object versioning will restore data files in t
 
 ```sql
 -- Before
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://og-bucket/')
+ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://⟨og-bucket⟩/');
 
 -- After
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://replication-bucket/')
+ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://⟨replication-bucket⟩/');
 ```
 
 ### GCS
@@ -114,8 +114,8 @@ Regarding cross-bucket replication, repointing to the new bucket will be necessa
 
 ```sql
 -- Before
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://og-bucket/')
+ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://⟨og-bucket⟩/');
 
 -- After
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://replication-bucket/')
+ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://⟨replication-bucket⟩/');
 ```

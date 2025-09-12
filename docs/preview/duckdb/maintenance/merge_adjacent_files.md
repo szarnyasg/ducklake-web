@@ -18,10 +18,14 @@ In effect, this manner of compaction is completely transparent from a user persp
 This compaction technique can be triggered using the `merge_adjacent_files` function. For example:
 
 ```sql
-CALL catalog.merge_adjacent_files();
+CALL ducklake_merge_adjacent_files('my_ducklake');
 ```
 
-### Cleaning Up Files
+Or if you want to target a specific table within a schema:
 
-Note that calling this function does not immediately delete the old files.
-See the [cleanup old files]({% link docs/preview/duckdb/maintenance/cleanup_old_files.md %}) section on how to trigger a clean-up of these files.
+```sql
+CALL ducklake_merge_adjacent_files('my_ducklake', 't', schema => 'some_schema');
+```
+
+> Calling this function does not immediately delete the old files.
+> See the [cleanup old files]({% link docs/preview/duckdb/maintenance/cleanup_of_files.md %}) section on how to trigger a clean-up of these files.
