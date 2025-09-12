@@ -195,6 +195,9 @@ where
 - `⟨NEXT_CATALOG_ID⟩`{:.language-sql .highlight} gives the next unused identifier for tables, schemas, or views. This only has to be incremented if new catalog entries are created.
 - `⟨NEXT_FILE_ID⟩`{:.language-sql .highlight} is the same but for data or delete files.
 - `⟨CHANGES⟩`{:.language-sql .highlight} contains a list of changes performed by the snapshot. See the list of possible values in the [`ducklake_snapshot_changes` table's documentation]({% link docs/preview/specification/tables/ducklake_snapshot_changes.md %}).
+- `⟨AUTHOR⟩`{:.language-sql .highlight} contains information about the author of the commit (optional).
+- `⟨COMMIT_MESSAGE⟩`{:.language-sql .highlight} attaches a commit message to the transaction (optional).
+- `⟨COMMIT_EXTRA_INFO⟩`{:.language-sql .highlight} attaches extra information to the transaction (optional).
 
 ### `CREATE SCHEMA`
 
