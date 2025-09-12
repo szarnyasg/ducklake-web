@@ -43,7 +43,7 @@ USE ...;
 
 The path is stored in the DuckLake metadata and does not have to be specified again to attach to an existing DuckLake catalog.
 
-> Both `DATA PATH` and the database file path should be relative paths (e.g. `./some/path/` or `some/path/`). Moreover, for database creation the path needs to exist already, i.e. `ATTACH 'ducklake:db/my_ducklake.ducklake' AS my_ducklake;` where db needs to be an existing directory.
+> Both `DATA_PATH` and the database file path should be relative paths (e.g. `./some/path/` or `some/path/`). Moreover, for database creation the path needs to exist already, i.e., `ATTACH 'ducklake:db/my_ducklake.ducklake' AS my_ducklake;` where database needs to be an existing directory.
 
 ## Attaching an Existing Database
 
@@ -64,7 +64,7 @@ Don't forget to either specify the database name of the DuckLake explicity or us
 
 ### Example
 
-Let's observe what happens in DuckLake when we interact with a dataset. We will use the [Netherlands train traffic dataset](https://duckdb.org/2024/05/31/analyzing-railway-traffic-in-the-netherlands.html) here.
+Let's observe what happens in DuckLake when we interact with a dataset. We will use the [Netherlands train traffic dataset](https://duckdb.org/2024/05/31/analyzing-railway-traffic-in-the-netherlands) here.
 
 We use the example DuckLake from above:
 

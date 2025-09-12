@@ -3,7 +3,7 @@ layout: docu
 title: DuckDB to DuckLake
 ---
 
-Migrating from DuckDB to DuckLake is very simple to do with the DuckDB DuckLake extension. However, if you are currently using some DuckDB features that are [unsupported in DuckLake]({% link docs/preview/duckdb/unsupported_features.md %}), this guide will definitely help you.
+Migrating from DuckDB to DuckLake is very simple to do with the DuckDB `ducklake` extension. However, if you are currently using some DuckDB features that are [unsupported in DuckLake]({% link docs/preview/duckdb/unsupported_features.md %}), this guide will definitely help you.
 
 ## First Scenario: Everything is Supported
 
@@ -28,21 +28,21 @@ If you have been using DuckDB for a while, there is a chance you are using some 
 
 - Default values that are not literals require you to change the logic of your insertion. See the following example:
 
-```sql
--- Works in DuckDB, doesn't work in DuckLake
-CREATE TABLE t1 (id INTEGER, d DATE DEFAULT now());
-INSERT INTO t1 VALUES (2);
+  ```sql
+  -- Works in DuckDB, doesn't work in DuckLake
+  CREATE TABLE t1 (id INTEGER, d DATE DEFAULT now());
+  INSERT INTO t1 VALUES (2);
 
--- Works in DuckLake and simulates the same behavior
-CREATE TABLE t1 (id INTEGER, d DATE);
-INSERT INTO t1 VALUES(2, now());
-```
+  -- Works in DuckLake and simulates the same behavior
+  CREATE TABLE t1 (id INTEGER, d DATE);
+  INSERT INTO t1 VALUES(2, now());
+  ```
 
 - Generated columns are the same as defaults that are not literals and therefore they need to be specified when inserting the data into the destination table. This means that the values will always be persisted (no `VIRTUAL` option).
 
-### Migration script
+### Migration Script
 
-The following python script can be used to migrate from a DuckDB persisted database to DuckLake bypassing the unsupported features.
+The following Python script can be used to migrate from a DuckDB persisted database to DuckLake bypassing the unsupported features.
 
 > Currently, only local migrations are supported by this script. The script will be adapted in the future to account for migrations to remote object storage such as S3 or GCS.
 
@@ -107,7 +107,7 @@ def migrate_tables_and_views(duckdb_catalog: str, con: duckdb.DuckDBPyConnection
                 )
             else:
                 print(f"Migrating Catalog: {catalog}, Schema: {schema}, Table: {table}")
-                excepts, casts = _resolve_data_types(table, schema, catalog, con)    
+                excepts, casts = _resolve_data_types(table, schema, catalog, con)
                 if casts:
                     select_clause = "* EXCLUDE(" + ", ".join(excepts) + "),\n" + ",\n".join(casts)
                     con.execute(
@@ -192,13 +192,18 @@ if __name__ == "__main__":
             duckdb_catalog=args.duckdb_catalog,
         )
     con.close()
-
 ```
 
-The script can be run in any Python environment with DuckDB installed. The usage is:
+The script can be run in any Python environment with DuckDB installed. The usage is the following:
 
-```
-usage: migration.py [-h] --duckdb-catalog DUCKDB_CATALOG --duckdb-file DUCKDB_FILE --ducklake-catalog DUCKLAKE_CATALOG --catalog-type{duckdb,postgresql,sqlite} [--ducklake-file DUCKLAKE_FILE] --ducklake-data-path DUCKLAKE_DATA_PATH
+```text
+usage: migration.py [-h]
+    --duckdb-catalog DUCKDB_CATALOG
+    --duckdb-file DUCKDB_FILE
+    --ducklake-catalog DUCKLAKE_CATALOG
+    --catalog-type{duckdb,postgresql,sqlite}
+    [--ducklake-file DUCKLAKE_FILE]
+    --ducklake-data-path DUCKLAKE_DATA_PATH
 ```
 
 If you are migrating to PostgreSQL, make sure that you provide the following environment variables for the PostgreSQL secret connection:

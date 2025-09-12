@@ -32,12 +32,13 @@ ATTACH 'ducklake:db.db' AS my_ducklake;
 
 It is very important to note that transactions committed to DuckLake after the metadata backup will not be tracked when recovering. The data from the transactions will exist in the data files, but the backup will point to a previous snapshot. If you are running batch jobs, make sure to always back up after the batch job. If you are regularly micro-batching or streaming data, then schedule periodic jobs to back up your metadata.
 
->Tip If you want to make a backup with the current timestamp, you need to do this with a specific client. Right now `ATTACH` does not support functions, only strings. This is how it would look in Python:
-```python
-import duckdb
-import datetime
-con = duckdb.connection(f"backup_{datetime.datetime.now().strftime('%Y-%m-%d__%I_%M_%S')}.db")
-```
+> Tip If you want to make a backup with the current timestamp, you need to do this with a specific client. Right now `ATTACH` does not support functions, only strings. This is how it would look in Python:
+>
+> ```python
+> import duckdb
+> import datetime
+> con = duckdb.connection(f"backup_{datetime.datetime.now().strftime('%Y-%m-%d__%I_%M_%S')}.db")
+> ```
 
 ### SQLite Catalog
 
