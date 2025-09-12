@@ -41,7 +41,7 @@ FROM snapshot_test.current_snapshot();
 The DuckLake extension also provides a function to get the latest commited snapshot for an existing open connection. This may be useful when multiple connections are updating the same target.
 
 ```sql
-FROM snapshot_test.last_committed_snapshot()
+FROM snapshot_test.last_committed_snapshot();
 ```
 
 Which would return the following for the current connection:

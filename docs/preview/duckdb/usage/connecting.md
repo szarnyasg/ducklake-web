@@ -43,30 +43,30 @@ ATTACH 'ducklake:postgres:dbname=postgres' (READ_ONLY);
 It is also possible to override the data path for a particular connection. This will not change the value of the `data_path` stored in the DuckLake metadata, but it will override it for the current connection allowing data to be stored in a different path.
 
 ```sql
-ATTACH 'ducklake:duckdb_database.ducklake' (DATA_PATH 'other_data_path/', OVERRIDE_DATA_PATH True);
+ATTACH 'ducklake:duckdb_database.ducklake' (DATA_PATH 'other_data_path/', OVERRIDE_DATA_PATH true);
 ```
 
-> If `OVERRIDE_DATA_PATH` is used, data under the original `DATA_PATH` will not be able to be queried in the current connection. This behaviour may be changed in the future to allow to query data in a catalog regardless of the current write `DATA_PATH`.
+> If `OVERRIDE_DATA_PATH` is used, data under the original `DATA_PATH` will not be able to be queried in the current connection. This behavior may be changed in the future to allow to query data in a catalog regardless of the current write `DATA_PATH`.
 
 ### Parameters
 
 The following parameters are supported for `ATTACH`:
 
-| Name                    | Description                                                                                                             | Default                                                      |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| data_path               | The storage location of the data files                                                                                  | `{metadata_file}.files` for DuckDB files, required otherwise |
-| override_data_path      | If the path provided in data_path differs from the stored path and this option is set to true, the path is overridden   | true                                                         |
-| metadata_schema         | The schema in the catalog server in which to store the DuckLake tables                                                  | `main`                                                       |
-| metadata_catalog        | The name of the attached catalog database                                                                               | `__ducklake_metadata_{ducklake_name}`                        |
-| metadata_path           | The connection string for connecting to the metadata catalog                                                            |                                                              |
-| metadata_parameters     | Map of parameters to pass to the catalog server                                                                         | {}                                                           |
-| encrypted               | Whether or not data is stored encrypted                                                                                 | false                                                        |
-| data_inlining_row_limit | The number of rows for which [data inlining]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) is used  | 0                                                            |
-| snapshot_version        | If provided, connect to DuckLake at a specified snapshot id                                                             |                                                              |
-| snapshot_time           | If provided, connect to DuckLake at a snapshot at a specified point in time                                             |                                                              |
-| create_if_not_exists    | Creates a new DuckLake if the specified one does not already exist                                                      | true                                                         |
-| migrate_if_required     | Migrates the DuckLake schema if required                                                                                | true                                                         |
-| meta\_{parameter_name}  | Pass `{parameter_name}` to the catalog server                                                                           |                                                              |
+| Name                      | Description                                                                                                             | Default                                                      |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `data_path`               | The storage location of the data files                                                                                  | `{metadata_file}.files` for DuckDB files, required otherwise |
+| `override_data_path`      | If the path provided in `data_path` differs from the stored path and this option is set to true, the path is overridden | true                                                         |
+| `metadata_schema`         | The schema in the catalog server in which to store the DuckLake tables                                                  | `main`                                                       |
+| `metadata_catalog`        | The name of the attached catalog database                                                                               | `__ducklake_metadata_{ducklake_name}`                        |
+| `metadata_path`           | The connection string for connecting to the metadata catalog                                                            |                                                              |
+| `metadata_parameters`     | Map of parameters to pass to the catalog server                                                                         | {}                                                           |
+| `encrypted`               | Whether or not data is stored encrypted                                                                                 | false                                                        |
+| `data_inlining_row_limit` | The number of rows for which [data inlining]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) is used  | 0                                                            |
+| `snapshot_version`        | If provided, connect to DuckLake at a specified snapshot id                                                             |                                                              |
+| `snapshot_time`           | If provided, connect to DuckLake at a snapshot at a specified point in time                                             |                                                              |
+| `create_if_not_exists`    | Creates a new DuckLake if the specified one does not already exist                                                      | true                                                         |
+| `migrate_if_required`     | Migrates the DuckLake schema if required                                                                                | true                                                         |
+| `meta_{parameter_name}`   | Pass `{parameter_name}` to the catalog server                                                                           |                                                              |
 
 In addition, any parameters that are prefixed with `META_` are passed to the catalog used to store the metadata.
 The supported parameters depend on the metadata catalog that is used.
