@@ -32,7 +32,7 @@
                 {"page": "column_tag", "url": "ducklake_column_tag"},
                 {"page": "data_file", "url": "ducklake_data_file"},
                 {"page": "delete_file", "url": "ducklake_delete_file"},
-                {"page": "file_column_statistics", "url": "ducklake_file_column_statistics"},
+                {"page": "file_column_statistics", "url": "ducklake_file_column_stats"},
                 {"page": "file_partition_value", "url": "ducklake_file_partition_value"},
                 {"page": "files_scheduled_for_deletion", "url": "ducklake_files_scheduled_for_deletion"},
                 {"page": "inlined_data_tables", "url": "ducklake_inlined_data_tables"},
