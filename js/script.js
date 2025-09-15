@@ -417,10 +417,7 @@ $(document).ready(function(){
 		
 		if ( e.metaKey && ( e.which === 75 ) || e.ctrlKey && ( e.which === 75 ) ) {
 			// open search on cmd/ctrl + k
-			var isFirefox = typeof InstallTrigger !== 'undefined';
-			if (isFirefox) {
-				e.preventDefault();
-			}
+			e.preventDefault(); // Prevent default browser behavior for all browsers
 			if( $('body').hasClass('documentation') || $('body').hasClass('landing') ){
 				toggleSearch();
 			}
