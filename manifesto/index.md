@@ -2,7 +2,7 @@
 layout: default
 title: "The DuckLake Manifesto: SQL as a Lakehouse Format"
 subtitle: An integrated data lake and catalog format
-description: DuckLake delivers advanced data lake features without traditional lakehouse complexity by using Parquet files and your SQL database. It’s an open, standalone format from the DuckDB team.
+description: DuckLake delivers advanced data lake features without traditional Lakehouse complexity by using Parquet files and your SQL database. It’s an open, standalone format from the DuckDB team.
 body_class: manifesto
 max_page_width: small
 toc: false
@@ -14,7 +14,7 @@ toc: false
 
 **Authors:** Mark Raasveldt and Hannes Mühleisen
 
-DuckLake simplifies lakehouses by using a standard SQL database for all metadata, instead of complex file-based systems, while still storing data in open formats like Parquet. This makes it more reliable, faster, and easier to manage.
+DuckLake simplifies Lakehouses by using a standard SQL database for all metadata, instead of complex file-based systems, while still storing data in open formats like Parquet. This makes it more reliable, faster, and easier to manage.
 
 _Would you rather listen to the content of this manifesto? We also released a [podcast episode](https://www.youtube.com/watch?v=zeonmOO9jm4) explaining how we came up with the [DuckLake format](https://www.youtube.com/watch?v=zeonmOO9jm4)._
 

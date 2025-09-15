@@ -27,27 +27,27 @@ Within this group, we are going to make a distinction between what is not suppor
 
 - [`CHECK` constraints](https://duckdb.org/docs/stable/sql/constraints#check-constraint). Not to be confused with Primary or Foreign Key constraint.
 
-- [Scalar and table macros (functions)](https://duckdb.org/docs/stable/sql/statements/create_macro#examples). However, if the catalog DB supports it, there is a workaround.
+- [Scalar and table macros (functions)](https://duckdb.org/docs/stable/sql/statements/create_macro#examples). However, if the catalog database supports it, there is a workaround.
 
-    ```sql
-    -- Using DuckDB as a catalog, create the macro in the catalog
-    USE __ducklake_metadata_my_ducklake;
-    CREATE MACRO add_and_multiply(a, b, c) AS (a + b) * c;
+  ```sql
+  -- Using DuckDB as a catalog, create the macro in the catalog
+  USE __ducklake_metadata_my_ducklake;
+  CREATE MACRO add_and_multiply(a, b, c) AS (a + b) * c;
 
-    -- Use the macro to create a table in DuckLake
-    CREATE TABLE my_ducklake.table_w_macro AS
-        SELECT add_and_multiply(1, 2, 3) AS col;
-    ```
+  -- Use the macro to create a table in DuckLake
+  CREATE TABLE my_ducklake.table_w_macro AS
+      SELECT add_and_multiply(1, 2, 3) AS col;
+  ```
 
 - Default values that are not literals. See the following example:
 
-    ```sql
-    -- This is allowed
-    CREATE TABLE t1 (id INTEGER, d DATE DEFAULT '2025-08-08');
+  ```sql
+  -- This is allowed
+  CREATE TABLE t1 (id INTEGER, d DATE DEFAULT '2025-08-08');
 
-    -- This is not allowed
-    CREATE TABLE t1 (id INTEGER, d DATE DEFAULT now());
-    ```
+  -- This is not allowed
+  CREATE TABLE t1 (id INTEGER, d DATE DEFAULT now());
+  ```
 
 - Dropping dependencies, such as views, when calling `DROP ... CASCADE`. Note that this is also a [DuckDB limitation](https://duckdb.org/docs/stable/sql/statements/drop#dependencies-on-views).
 
@@ -71,7 +71,7 @@ Within this group, we are going to make a distinction between what is not suppor
 
 ## Unsupported by the `ducklake` DuckDB Extension
 
-The following features are currently unsupported by the `ducklake` DuckDB extension: 
+The following features are currently unsupported by the `ducklake` DuckDB extension:
 
 - [Data inlining]({% link docs/preview/duckdb/advanced_features/data_inlining.md %}) is limited to DuckDB catalogs
 

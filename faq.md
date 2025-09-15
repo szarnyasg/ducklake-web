@@ -51,7 +51,7 @@ and can store your data in multiple files instead of using a single (potentially
 
 <div class="answer" markdown="1">
 
-DuckLake _includes_ an _open table format_ but it's also a _data lakehouse_ format, meaning that it also contains a catalog to encode the schema of the data stored.
+DuckLake _includes_ an _open table format_ but it's also a _Lakehouse format,_ meaning that it also contains a catalog to encode the schema of the data stored.
 When comparing to other technologies, DuckLake is similar to Delta Lake with Unity Catalog and Iceberg with Lakekeeper or Polaris.
 
 </div>
@@ -69,12 +69,12 @@ When comparing to other technologies, DuckLake is similar to Delta Lake with Uni
 
 <div class="answer" markdown="1">
 
-First of all, a catchy name for a DuckDB-originated technology for data lakes and lakehouses.
+First of all, a catchy name for a DuckDB-originated technology for data lakes and Lakehouses.
 More seriously, the term “DuckLake” can refer to three things:
 
-1. the _specification_ of the DuckLake lakehouse format,
+1. the _specification_ of the DuckLake Lakehouse format,
 2. the [`ducklake` _DuckDB extension_](https://duckdb.org/docs/stable/core_extensions/ducklake), which supports reading/writing datasets in the DuckLake specification,
-3. a DuckLake, a _dataset_ stored using the DuckLake lakehouse format.
+3. a DuckLake, a _dataset_ stored using the DuckLake Lakehouse format.
 
 </div>
 
@@ -229,7 +229,8 @@ Further improvements are on the roadmap.
 
 <div class="answer" markdown="1">
 
-No. Similarly to other data lakehouse technologies, DuckLake does not support constraints, keys, or indexes.
+No. Similarly to other Lakehouse technologies, DuckLake does not support constraints, keys, or indexes.
+For more information, see the [list of unsupported features]({% link docs/stable/duckdb/unsupported_features.md %}).
 
 </div>
 
@@ -242,7 +243,7 @@ No. Similarly to other data lakehouse technologies, DuckLake does not support co
 
 <div class="qa-wrap" markdown="1">
 
-### Can I export my DuckLake into other lakehouse formats?
+### Can I export my DuckLake into other Lakehouse formats?
 
 <div class="answer" markdown="1">
 

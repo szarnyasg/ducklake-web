@@ -2,6 +2,7 @@
 layout: docu
 title: Backup and Recovery
 ---
+
 DuckLake has two components: catalog and storage. The catalog contains all of DuckLake's metadata, while the storage contains all of the data files in Parquet format. The catalog is a [database]({% link docs/preview/duckdb/usage/choosing_a_catalog_database.md %}), while the storage layer can be any [filesystem backend supported by DuckDB]({% link docs/preview/duckdb/usage/choosing_storage.md %}). These two components have different backup strategies, so this document will address them separately.
 
 > In this document, we will focus on disasters caused by human errors or application failures/malfunctions that result in data corruption or loss.
@@ -10,7 +11,7 @@ DuckLake has two components: catalog and storage. The catalog contains all of Du
 
 Backup and recovery strategies depend on the SQL database you are using as a DuckLake catalog.
 
-> [Compaction]({% link docs/preview/duckdb/maintenance/merge_adjacent_files.md %}) and [cleanup jobs]({% link docs/preview/duckdb/maintenance/cleanup_old_files.md %}) should only be done before manual backups. This operations can re-write and remove data files, effectively chaning the file layout for a specific snapshot.
+> [Compaction]({% link docs/preview/duckdb/maintenance/merge_adjacent_files.md %}) and [cleanup jobs]({% link docs/preview/duckdb/maintenance/cleanup_of_files.md %}) should only be done before manual backups. These operations can re-write and remove data files, effectively changing the file layout for a specific snapshot.
 
 ### DuckDB Catalog
 
@@ -31,12 +32,13 @@ ATTACH 'ducklake:db.db' AS my_ducklake;
 
 It is very important to note that transactions committed to DuckLake after the metadata backup will not be tracked when recovering. The data from the transactions will exist in the data files, but the backup will point to a previous snapshot. If you are running batch jobs, make sure to always back up after the batch job. If you are regularly micro-batching or streaming data, then schedule periodic jobs to back up your metadata.
 
->Tip If you want to make a backup with the current timestamp, you need to do this with a specific client. Right now `ATTACH` does not support functions, only strings. This is how it would look in Python:
-```python
-import duckdb
-import datetime
-con = duckdb.connection(f"backup_{datetime.datetime.now().strftime('%Y-%m-%d__%I_%M_%S')}.db")
-```
+> Tip If you want to make a backup with the current timestamp, you need to do this with a specific client. Right now `ATTACH` does not support functions, only strings. This is how it would look in Python:
+>
+> ```python
+> import duckdb
+> import datetime
+> con = duckdb.connection(f"backup_{datetime.datetime.now().strftime('%Y-%m-%d__%I_%M_%S')}.db")
+> ```
 
 ### SQLite Catalog
 
@@ -95,10 +97,10 @@ Both the S3 backup service and S3 object versioning will restore data files in t
 
 ```sql
 -- Before
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://og-bucket/')
+ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://⟨og-bucket⟩/');
 
 -- After
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://replication-bucket/')
+ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://⟨replication-bucket⟩/');
 ```
 
 ### GCS
@@ -113,8 +115,8 @@ Regarding cross-bucket replication, repointing to the new bucket will be necessa
 
 ```sql
 -- Before
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://og-bucket/')
+ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://⟨og-bucket⟩/');
 
 -- After
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://replication-bucket/')
+ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://⟨replication-bucket⟩/');
 ```

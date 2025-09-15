@@ -12,16 +12,20 @@ This is supported due to the _lightweight snapshots_ that can refer to a part of
 Effectively, we can merge multiple Parquet files into a single Parquet file that holds data inserted by multiple snapshots.
 The data file is then setup so that the snapshots refer to only part of that Parquet file.
 
-This preserves all of the original behavior - including time travel and data change feeds - for these snapshots.
+This preserves all of the original behavior – including time travel and data change feeds – for these snapshots.
 In effect, this manner of compaction is completely transparent from a user perspective.
 
 This compaction technique can be triggered using the `merge_adjacent_files` function. For example:
 
 ```sql
-CALL catalog.merge_adjacent_files();
+CALL ducklake_merge_adjacent_files('my_ducklake');
 ```
 
-### Cleaning Up Files
+Or if you want to target a specific table within a schema:
 
-Note that calling this function does not immediately delete the old files.
-See the [cleanup old files]({% link docs/preview/duckdb/maintenance/cleanup_old_files.md %}) section on how to trigger a clean-up of these files.
+```sql
+CALL ducklake_merge_adjacent_files('my_ducklake', 't', schema => 'some_schema');
+```
+
+> Calling this function does not immediately delete the old files.
+> See the [cleanup old files]({% link docs/preview/duckdb/maintenance/cleanup_of_files.md %}) section on how to trigger a clean-up of these files.
