@@ -18,15 +18,15 @@ The DuckLake project is governed by the [non-profit DuckDB Foundation](https://d
 
 This section lists the features that we plan to work on this year. The list was compiled by the DuckLake maintainers and is based on the long-term vision for the project and general interactions with users in the open-source community.
 
-- Documentation regarding [access control](https://github.com/duckdb/ducklake/discussions/249) in DuckLake. :white_check_mark:
-- Migration guides for moving from DuckDB to DuckLake, covering both DuckDB and PostgreSQL catalogs. :white_check_mark:
-- Optimize [heavily deleted tables](https://github.com/duckdb/ducklake/issues/331). :white_check_mark:
-- Cleanup of orphan files. :white_check_mark:
-- [Geometry/geospatial types](https://github.com/duckdb/ducklake/discussions/83). :white_check_mark:
+- Documentation regarding [access control](https://github.com/duckdb/ducklake/discussions/249) in DuckLake. ✅
+- Migration guides for moving from DuckDB to DuckLake, covering both DuckDB and PostgreSQL catalogs. ✅
+- Optimize [heavily deleted tables](https://github.com/duckdb/ducklake/issues/331). ✅
+- Cleanup of orphan files. ✅
+- [Geometry/geospatial types](https://github.com/duckdb/ducklake/discussions/83). ✅
 - Fine-grained update conflicts at the file level to avoid many retries when multiple writers are updating the same table.
 - Data inlining with PostgreSQL as a catalog.
 - Scalar and table macros.
-- Read performance improvements regarding parquet bloom filters and metadata scans.
+- Read performance improvements regarding parquet bloom filters and metadata scans. See [1](https://github.com/duckdb/ducklake/discussions/389), [2](https://github.com/duckdb/ducklake/issues/404).
 
 Please note that there are **no guarantees** that a particular feature will be released within the next release. Everything on this page is subject to change without notice.
 
