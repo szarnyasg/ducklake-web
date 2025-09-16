@@ -12,7 +12,7 @@ DuckLake, on the other hand, does not support primary keys. However, the `MERGE 
 ```sql
 MERGE INTO target_table [target_alias]
     USING source_table [source_alias]
-    ON (target_table.field = source_table.field)
+    ON (target_table.field = source_table.field) -- USING (field)
     WHEN MATCHED THEN UPDATE [SET] | DELETE
     WHEN NOT MATCHED THEN INSERT;
 ```
