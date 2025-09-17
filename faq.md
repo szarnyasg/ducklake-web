@@ -243,12 +243,11 @@ For more information, see the [list of unsupported features]({% link docs/stable
 
 <div class="qa-wrap" markdown="1">
 
-### Can I export my DuckLake into other Lakehouse formats?
+### Can I export my DuckLake into other formats?
 
 <div class="answer" markdown="1">
 
-This is currently not supported, but planned for the future.
-Currently, you can export DuckLake into a DuckDB database and export it into e.g. vanilla Parquet files.
+Yes. Starting with v0.3, you can copy from [DuckLake to Iceberg]({% post_url 2025-09-17-ducklake-03 %}#interoperability-with-iceberg).
 
 </div>
 
@@ -356,15 +355,14 @@ The DuckLake specification and the DuckLake DuckDB extension are released under 
 
 <div class="qa-wrap" markdown="1">
 
-### When is the next version of the DuckLake standard released?
+### When is the next version of the DuckLake standard released and what features will it include?
 
 <div class="answer" markdown="1">
 
-The DuckLake 0.3 standard will be released around mid-September.
+The DuckLake 0.4 standard will be released in late 2025.
+See the [roadmap]({% link roadmap.md %}) for upcoming features.
 For past releases, see the [release calendar]({% link release_calendar.md %}).
 
 </div>
 
 </div>
-
-
