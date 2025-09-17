@@ -32,7 +32,7 @@
                 {"page": "column_tag", "url": "ducklake_column_tag"},
                 {"page": "data_file", "url": "ducklake_data_file"},
                 {"page": "delete_file", "url": "ducklake_delete_file"},
-                {"page": "file_column_statistics", "url": "ducklake_file_column_statistics"},
+                {"page": "file_column_statistics", "url": "ducklake_file_column_stats"},
                 {"page": "file_partition_value", "url": "ducklake_file_partition_value"},
                 {"page": "files_scheduled_for_deletion", "url": "ducklake_files_scheduled_for_deletion"},
                 {"page": "inlined_data_tables", "url": "ducklake_inlined_data_tables"},
@@ -40,6 +40,7 @@
                 {"page": "partition_column", "url": "ducklake_partition_column"},
                 {"page": "partition_info", "url": "ducklake_partition_info"},
                 {"page": "schema", "url": "ducklake_schema"},
+                {"page": "schema_versions", "url": "ducklake_schema_versions"},
                 {"page": "snapshot", "url": "ducklake_snapshot"},
                 {"page": "snapshot_changes", "url": "ducklake_snapshot_changes"},
                 {"page": "table", "url": "ducklake_table"},
@@ -89,6 +90,10 @@
                   "url": "time_travel"
                 },
                 {
+                  "page": "Upserting",
+                  "url": "upserting"
+                },
+                {
                   "page": "Configuration",
                   "url": "configuration"
                 },
@@ -115,8 +120,16 @@
                   "url": "expire_snapshots"
                 },
                 {
-                  "page": "Cleanup Old Files",
-                  "url": "cleanup_old_files"
+                  "page": "Cleanup of Files",
+                  "url": "cleanup_of_files"
+                },
+                {
+                  "page": "Rewrite Files with Deletes",
+                  "url": "rewrite_data_files"
+                },
+                {
+                  "page": "Checkpoint",
+                  "url": "checkpoint"
                 }
               ]
             },
@@ -177,6 +190,30 @@
                 {
                   "page": "Adding Files",
                   "url": "adding_files"
+                }
+              ]
+            },
+            {
+              "page": "Migrations",
+              "slug": "migrations",
+              "subsubfolderitems": [
+                {
+                  "page": "DuckDB to DuckLake",
+                  "url": "duckdb_to_ducklake"
+                }
+              ]
+            },
+            {
+              "page": "Guides",
+              "slug": "guides",
+              "subsubfolderitems": [
+                {
+                  "page": "Backups and Recovery",
+                  "url": "backups_and_recovery"
+                },
+                {
+                  "page": "Access Control",
+                  "url": "access_control"
                 }
               ]
             },

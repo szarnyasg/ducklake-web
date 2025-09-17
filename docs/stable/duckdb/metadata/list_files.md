@@ -1,5 +1,6 @@
 ---
 layout: docu
+redirect_from: null
 title: List Files
 ---
 
@@ -44,4 +45,4 @@ The function returns the following result set.
 
 * If the file has delete files, the corresponding delete file is returned, otherwise these fields are `NULL`.
 * If the database is encrypted, the encryption key must be used to read the file.
-* The `footer_size` refers to the Parquet footer size - this is optionally provided.
+* The `footer_size` refers to the Parquet footer size – this is optionally provided.

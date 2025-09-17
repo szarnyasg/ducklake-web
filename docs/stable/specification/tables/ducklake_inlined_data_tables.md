@@ -1,5 +1,6 @@
 ---
 layout: docu
+redirect_from: null
 title: ducklake_inlined_data_tables
 ---
 

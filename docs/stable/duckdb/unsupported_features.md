@@ -1,5 +1,6 @@
 ---
 layout: docu
+redirect_from: null
 title: Unsupported Features
 ---
 
@@ -15,11 +16,13 @@ Within this group, we are going to make a distinction between what is not suppor
 
 ### Likely to be Supported in the Future
 
-- [User defined types](https://duckdb.org/docs/stable/sql/statements/create_type)
+- [User defined types](https://duckdb.org/docs/stable/sql/statements/create_type).
 
 - [Geometry/Geospatial types](https://duckdb.org/docs/stable/core_extensions/spatial/overview)
 
 - Fixed-size arrays, i.e., [`ARRAY` type](https://duckdb.org/docs/stable/sql/data_types/array)
+
+- [`ENUM` type](https://duckdb.org/docs/stable/sql/data_types/enum)
 
 - Variant types
 
@@ -57,6 +60,8 @@ Within this group, we are going to make a distinction between what is not suppor
 
 - [Primary key or enforced unique constraints](https://duckdb.org/docs/stable/sql/constraints#primary-key-and-unique-constraint) and [foreign key constraints](https://duckdb.org/docs/stable/sql/constraints#foreign-keys) are unlikely to be supported as these are constraints are prohibitively expensive to enforce in data lake setups. We may consider supporting unenforced primary keys, similar to [BigQuery's implementation](https://cloud.google.com/bigquery/docs/primary-foreign-keys).
 
+- Upserting is only supported via the [`MERGE INTO`]({% link docs/stable/duckdb/usage/upserting.md %}) syntax since primary keys are not supported in DuckLake.
+
 - [Sequences](https://duckdb.org/docs/stable/sql/statements/create_sequence)
 
 - [`VARINT` type](https://duckdb.org/docs/stable/sql/data_types/numeric#variable-integer)
@@ -67,7 +72,7 @@ Within this group, we are going to make a distinction between what is not suppor
 
 ## Unsupported by the `ducklake` DuckDB Extension
 
-The following features are currently unsupported by the `ducklake` DuckDB extension: 
+The following features are currently unsupported by the `ducklake` DuckDB extension:
 
 - [Data inlining]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) is limited to DuckDB catalogs
 

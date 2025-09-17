@@ -32,4 +32,4 @@ CALL ducklake_expire_snapshots('ducklake', dry_run => true, older_than => now() 
 ## Cleaning Up Files
 
 Note that expiring snapshots does not immediately delete files that are no longer referenced.
-See the [cleanup old files]({% link docs/stable/duckdb/maintenance/cleanup_old_files.md %}) section on how to trigger a clean-up of these files.
+See the [cleanup old files]({% link docs/stable/duckdb/maintenance/cleanup_of_files.md %}) section on how to trigger a clean-up of these files.

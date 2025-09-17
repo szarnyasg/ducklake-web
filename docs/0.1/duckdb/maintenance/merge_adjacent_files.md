@@ -24,4 +24,4 @@ CALL catalog.merge_adjacent_files();
 ### Cleaning Up Files
 
 Note that calling this function does not immediately delete the old files.
-See the [cleanup old files]({% link docs/stable/duckdb/maintenance/cleanup_old_files.md %}) section on how to trigger a clean-up of these files.
+See the [cleanup old files]({% link docs/stable/duckdb/maintenance/cleanup_of_files.md %}) section on how to trigger a clean-up of these files.
