@@ -158,7 +158,7 @@ def migrate_tables_and_views(duckdb_catalog: str, con: duckdb.DuckDBPyConnection
 
 def migrate_macros(con: duckdb.DuckDBPyConnection, duckdb_catalog: str):
     """
-    Migrate macros from the DuckDB catalog to Ducklake metadata database.
+    Migrate macros from the DuckDB catalog to DuckLake metadata database.
     """
     for row in con.execute(
         f"SELECT function_name, parameters, macro_definition FROM duckdb_functions() "
