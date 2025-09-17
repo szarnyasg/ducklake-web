@@ -1,20 +1,24 @@
 ---
 layout: docu
+redirect_from: null
 title: Queries
 ---
 
+This page explains the queries issues to the DuckLake catalog database for reading and writing data.
+
 ## Reading Data
 
-DuckLake specifies tables and update transactions to modify them. DuckLake is not a black box, all metadata is stored as SQL tables under the user's control. Of course, they can be queried in whichever way is best for a client. Below we describe a small working example to retrieve table data.
+DuckLake specifies _tables_ and _update transactions_ to modify them. DuckLake is not a black box: all metadata is stored as SQL tables under the user's control. Of course, they can be queried in whichever way is best for a client. Below we describe a small working example to retrieve table data.
 
-> The information below is to provide transparency to users and to aid developers making their own implementation of DuckLake. The `ducklake` DuckDB extension is able to execute those operations in the background.
+> The information below is to provide transparency to users and to aid developers making their own implementation of DuckLake. The `ducklake` DuckDB extension is running these operations in the background.
 
 ### Get Current Snapshot
 
-Before anything else we need to find a snapshot ID to be queries. There can be many snapshots in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). A snapshot ID is a continously increasing number that identifies a snapshot. In most cases, you would query the most recent one like so:
+Before anything else we need to find a snapshot ID to be queries. There can be many snapshots in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). A snapshot ID is a continuously increasing number that identifies a snapshot. In most cases, you would query the most recent one like so:
 
 ```sql
-SELECT snapshot_id FROM ducklake_snapshot
+SELECT snapshot_id
+FROM ducklake_snapshot
 WHERE snapshot_id =
     (SELECT max(snapshot_id) FROM ducklake_snapshot);
 ```
@@ -35,7 +39,7 @@ WHERE
 
 where
 
-- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %})
+- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}).
 
 ### List Tables
 
@@ -52,8 +56,8 @@ WHERE
 
 where
 
-- `⟨SCHEMA_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `schema_id` column in the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %})
-- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %})
+- `⟨SCHEMA_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `schema_id` column in the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %}).
+- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}).
 
 ### Show the Structure of a Table
 
@@ -72,8 +76,8 @@ ORDER BY column_order;
 
 where
 
-- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %})
-- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %})
+- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
+- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}).
 
 > DuckLake supports nested columns – the filter for `parent_column IS NULL` only shows the top-level columns.
 
@@ -101,10 +105,10 @@ WHERE
 ORDER BY file_order;
 ```
 
-where (again)
+where
 
-- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %})
-- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %})
+- `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
+- `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}).
 
 Now we have a list of files. In order to reconstruct actual table rows, we need to read all rows from the `data_file_path` files and remove the rows labeled as deleted in the `delete_file_path`.
 
@@ -112,38 +116,35 @@ Not all files have to contain all the columns currently defined in the table, so
 
 > DuckLake also supports changing the schema, see [schema evolution]({% link docs/stable/duckdb/usage/schema_evolution.md %}).
 
+#### Note on Paths
 
-> In DuckLake, paths can be relative to the initially specified data path. Whether path is relative or not is stored in the
-> [`ducklake_data_file`]({% link docs/stable/specification/tables/ducklake_data_file.md %}) and
-> [`ducklake_delete_file`]({% link docs/stable/specification/tables/ducklake_delete_file.md %})
-> entries (`path_is_relative`) to the `data_path` prefix from
-> [`ducklake_metadata`]({% link docs/stable/specification/tables/ducklake_metadata.md %}).
+In DuckLake, paths can be relative to the initially specified data path. Whether path is relative or not is stored in the [`ducklake_data_file`]({% link docs/stable/specification/tables/ducklake_data_file.md %}) and [`ducklake_delete_file`]({% link docs/stable/specification/tables/ducklake_delete_file.md %}) entries (`path_is_relative`) to the `data_path` prefix from [`ducklake_metadata`]({% link docs/stable/specification/tables/ducklake_metadata.md %}).
 
 ### `SELECT` with File Pruning
 
 One of the main strengths of Lakehouse formats is the ability to *prune* files that cannot contain data relevant to the query.
-The [`ducklake_file_column_statistics` table]({% link docs/stable/specification/tables/ducklake_file_column_statistics.md %}) contains the file-level statistics.
+The [`ducklake_file_column_stats` table]({% link docs/stable/specification/tables/ducklake_file_column_stats.md %}) contains the file-level statistics.
 We can use the information there to prune the list of files to be read if a filter predicate is given.
 
 We can get a list of all files that are part of a given table like described above. We can then reduce that list to only relevant files by querying the per-file column statistics. For example, for scalar equality we can find the relevant files using the query below:
 
 ```sql
 SELECT data_file_id
-FROM ducklake_file_column_statistics
+FROM ducklake_file_column_stats
 WHERE
-    table_id  = ⟨TABLE_ID⟩ AND
+    table_id = ⟨TABLE_ID⟩ AND
     column_id = ⟨COLUMN_ID⟩ AND
     (⟨SCALAR⟩ >= min_value OR min_value IS NULL) AND
     (⟨SCALAR⟩ <= max_value OR max_value IS NULL);
 ```
 
-where (again)
+where
 
 - `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
 - `⟨COLUMN_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `column_id` column in the [`ducklake_column` table]({% link docs/stable/specification/tables/ducklake_column.md %}).
 - `⟨SCALAR⟩`{:.language-sql .highlight} is the scalar comparision value for the pruning.
 
-Of course, other filter predicates like greater than etc. will require slightly different filtering here.
+Of course, other filter predicates like “greater than” will require slightly different filtering here.
 
 > The minimum and maximum values for each column are stored as strings and need to be cast for correct range filters on numeric columns.
 
@@ -174,11 +175,17 @@ VALUES (
 
 INSERT INTO ducklake_snapshot_changes (
     snapshot_id,
-    snapshot_changes
+    snapshot_changes,
+    author,
+    commit_message,
+    commit_extra_info
 )
 VALUES (
     ⟨SNAPSHOT_ID⟩,
-    ⟨CHANGES⟩
+    ⟨CHANGES⟩,
+    ⟨AUTHOR⟩,
+    ⟨COMMIT_MESSAGE⟩,
+    ⟨COMMIT_EXTRA_INFO⟩
 );
 ```
 
@@ -189,6 +196,9 @@ where
 - `⟨NEXT_CATALOG_ID⟩`{:.language-sql .highlight} gives the next unused identifier for tables, schemas, or views. This only has to be incremented if new catalog entries are created.
 - `⟨NEXT_FILE_ID⟩`{:.language-sql .highlight} is the same but for data or delete files.
 - `⟨CHANGES⟩`{:.language-sql .highlight} contains a list of changes performed by the snapshot. See the list of possible values in the [`ducklake_snapshot_changes` table's documentation]({% link docs/stable/specification/tables/ducklake_snapshot_changes.md %}).
+- `⟨AUTHOR⟩`{:.language-sql .highlight} contains information about the author of the commit (optional).
+- `⟨COMMIT_MESSAGE⟩`{:.language-sql .highlight} attaches a commit message to the transaction (optional).
+- `⟨COMMIT_EXTRA_INFO⟩`{:.language-sql .highlight} attaches extra information to the transaction (optional).
 
 ### `CREATE SCHEMA`
 
@@ -288,49 +298,49 @@ where
 
 ### `DROP TABLE`
 
-Dropping a table in DuckLake requires an update in the `end_snapshot` field in all metadata entries corresponding to the dropped table id.
+Dropping a table in DuckLake requires an update in the `end_snapshot` field in all metadata entries corresponding to the dropped table ID.
 
 ```sql
 UPDATE ducklake_table
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩ AND
+    table_id = ⟨TABLE_ID⟩ AND
     end_snapshot IS NULL;
 
 UPDATE ducklake_partition_info
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩ AND
+    table_id = ⟨TABLE_ID⟩ AND
     end_snapshot IS NULL;
 
 UPDATE ducklake_column
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩ AND
+    table_id = ⟨TABLE_ID⟩ AND
     end_snapshot IS NULL;
 
 UPDATE ducklake_column_tag
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩ AND
+    table_id = ⟨TABLE_ID⟩ AND
     end_snapshot IS NULL;
 
 UPDATE ducklake_data_file
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩ AND
+    table_id = ⟨TABLE_ID⟩ AND
     end_snapshot IS NULL;
 
 UPDATE ducklake_delete_file
 SET
     end_snapshot = ⟨SNAPSHOT_ID⟩
 WHERE
-    table_id  = ⟨TABLE_ID⟩ AND
+    table_id = ⟨TABLE_ID⟩ AND
     end_snapshot IS NULL;
 
 UPDATE ducklake_tag
@@ -348,7 +358,7 @@ where
 
 ### `DROP SCHEMA`
 
-Dropping a schema in ducklake requires updating the `end_snapshot` in the `ducklake_schema` table. 
+Dropping a schema in ducklake requires updating the `end_snapshot` in the `ducklake_schema` table.
 
 ```sql
 UPDATE ducklake_schema
@@ -413,13 +423,12 @@ where
 - `⟨FOOTER_SIZE⟩`{:.language-sql .highlight} is the position of the Parquet footer. This helps with efficiently reading the file.
 - `⟨ROW_ID_START⟩`{:.language-sql .highlight} is the first logical row ID from the file. This number can be read from the [`ducklake_table_stats` table]({% link docs/stable/specification/tables/ducklake_table_stats.md %}) via column `next_row_id`.
 
-> We have omitted some complexity around relative paths, encrypted files, partitioning and partial files in this example.
-> Refer to the [`ducklake_data_file` table]({% link docs/stable/specification/tables/ducklake_data_file.md %}) documentation for details.
-
+We have omitted some complexity around relative paths, encrypted files, partitioning and partial files in this example.
+Refer to the [`ducklake_data_file` table]({% link docs/stable/specification/tables/ducklake_data_file.md %}) documentation for details.
 
 > DuckLake also supports changing the schema, see [schema evolution]({% link docs/stable/duckdb/usage/schema_evolution.md %}).
 
-We will also have to update some statistics in the [`ducklake_table_stats` table]({% link docs/stable/specification/tables/ducklake_table_stats.md %}) and [`ducklake_table_column_stats` table]({% link docs/stable/specification/tables/ducklake_table_column_stats.md %})` tables.
+We also have to update some statistics in the [`ducklake_table_stats` table]({% link docs/stable/specification/tables/ducklake_table_stats.md %}) and [`ducklake_table_column_stats` table]({% link docs/stable/specification/tables/ducklake_table_column_stats.md %})` tables.
 
 ```sql
 UPDATE ducklake_table_stats
@@ -436,10 +445,10 @@ SET
     min_value = min(min_value, ⟨MIN_VALUE⟩),
     max_value = max(max_value, ⟨MAX_VALUE⟩)
 WHERE
-    table_id  = ⟨TABLE_ID⟩ AND
+    table_id = ⟨TABLE_ID⟩ AND
     column_id = ⟨COLUMN_ID⟩;
 
-INSERT INTO ducklake_file_column_statistics (
+INSERT INTO ducklake_file_column_stats (
     data_file_id,
     table_id,
     column_id,
@@ -523,10 +532,9 @@ where
 - `⟨FILE_SIZE_BYTES⟩`{:.language-sql .highlight} is the file size.
 - `⟨FOOTER_SIZE⟩`{:.language-sql .highlight} is the position of the Parquet footer. This helps with efficiently reading the file.
 
-> We have omitted some complexity around relative paths and encrypted files in this example.
-> Refer to the [`ducklake_delete_file` table]({% link docs/stable/specification/tables/ducklake_delete_file.md %}) documentation for details.
+> We have omitted some complexity around relative paths and encrypted files in this example. Refer to the [`ducklake_delete_file` table]({% link docs/stable/specification/tables/ducklake_delete_file.md %}) documentation for details.
 
-> `DELETE` operations also do not require updates to table statistics, as the statistics are maintained as upper bounds, and deletions do not violate these bounds.
+> Please note that `DELETE` operations also do not require updates to table statistics, as the statistics are maintained as upper bounds, and deletions do not violate these bounds.
 
 ### `UPDATE`
 

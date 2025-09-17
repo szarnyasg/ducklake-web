@@ -1,5 +1,6 @@
 ---
 layout: docu
+redirect_from: null
 title: Partitioning
 ---
 
@@ -15,6 +16,8 @@ The partitioning keys for a file are stored in DuckLake.
 These keys do not need to be necessarily stored within the files, or in the paths to the files.
 
 ## Examples
+
+> By default, DuckLake supports [Hive style partitioning](https://duckdb.org/docs/stable/data/partitioning/hive_partitioning). If you want to avoid this style of partitions, you can opt out via using `CALL my_ducklake.set_option('hive_file_pattern', false)`
 
 Set the partitioning keys of a table, such that new data added to the table is partitioned by these keys.
 

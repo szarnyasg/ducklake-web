@@ -1,9 +1,9 @@
 ---
 layout: docu
-title: Introduction
 redirect_from:
 - /docs/stable/duckdb
 - /docs/stable/duckdb/
+title: Introduction
 ---
 
 In DuckDB, DuckLake is supported through the [`ducklake` extension](https://duckdb.org/docs/stable/core_extensions/ducklake).
@@ -43,7 +43,7 @@ USE ...;
 
 The path is stored in the DuckLake metadata and does not have to be specified again to attach to an existing DuckLake catalog.
 
-> Both `DATA_PATH` and the database file path should be relative paths (e.g. `./some/path/` or `some/path/`). Moreover, for database creation the path needs to exist already, i.e., `ATTACH 'ducklake:db/my_ducklake.ducklake' AS my_ducklake;` where database needs to be an existing directory.
+> Both `DATA_PATH` and the database file path should be relative paths (e.g., `./some/path/` or `some/path/`). Moreover, for database creation the path needs to exist already, i.e., `ATTACH 'ducklake:db/my_ducklake.ducklake' AS my_ducklake;` where `db` needs to be an existing directory.
 
 ## Attaching an Existing Database
 
@@ -58,7 +58,7 @@ USE my_ducklake;
 
 DuckLake is used just like any other DuckDB database. You can create schemas and tables, insert data, update data, delete data, modify table schemas etc.
 
-Note that – similarly to other data lake and lakehouse formats – the DuckLake format does not support indexes, primary keys, foreign keys, and `UNIQUE` or `CHECK` constraints.
+Note that – similarly to other data lake and Lakehouse formats – the DuckLake format does not support indexes, primary keys, foreign keys, and `UNIQUE` or `CHECK` constraints.
 
 Don't forget to either specify the database name of the DuckLake explicity or use `USE`. Otherwise you might inadvertently use the temporary, in-memory database.
 
