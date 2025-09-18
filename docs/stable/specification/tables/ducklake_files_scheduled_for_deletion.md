@@ -1,6 +1,5 @@
 ---
 layout: docu
-redirect_from: null
 title: ducklake_files_scheduled_for_deletion
 ---
 
