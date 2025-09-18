@@ -84,7 +84,7 @@ In AWS, we create three users. The writer user will only have access to a specif
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "DucklakeSuperuser",
+      "Sid": "DuckLakeSuperuser",
       "Effect": "Allow",
       "Action": [
         "s3:ListBucket",
@@ -111,7 +111,7 @@ In AWS, we create three users. The writer user will only have access to a specif
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "DucklakeWriter",
+      "Sid": "DuckLakeWriter",
       "Effect": "Allow",
       "Action": [
         "s3:ListBucket",
@@ -140,7 +140,7 @@ Note that we allow `s3:DeleteObject`, which enables the writer to perform compac
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "DucklakeReader",
+      "Sid": "DuckLakeReader",
       "Effect": "Allow",
       "Action": [
         "s3:GetObject"
