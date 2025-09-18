@@ -342,7 +342,7 @@ You are also welcome to implement support in other systems for DuckLake followin
 
 <div class="answer" markdown="1">
 
-The DuckLake specification and the DuckLake DuckDB extension are released under the MIT license.
+The DuckLake specification and the `ducklake` DuckDB extension are released under the MIT license.
 
 </div>
 
