@@ -5,16 +5,6 @@ import json
 from textwrap import shorten
 
 
-skipped_files = [
-    "docs/preview",
-    "docs/1.2",
-    "docs/1.1",
-    "docs/1.0",
-    "docs/0.10",
-    "docs/0.9",
-    "docs/0.8",
-]
-
 SKIP_TYPES = [marko.block.HTMLBlock, marko.inline.Image, marko.inline.InlineHTML]
 
 
@@ -76,8 +66,6 @@ def get_url(fname):
 
 
 def index_file(fname):
-    if fname in skipped_files:
-        return
     if not fname.endswith(".md"):
         return
     with open(fname, "r") as f:
@@ -142,8 +130,6 @@ file_list = []
 
 def index_dir(dirname):
     global file_list
-    if dirname in skipped_files:
-        return
     files = os.listdir(dirname)
     for file in files:
         full_path = os.path.join(dirname, file)
