@@ -6,7 +6,7 @@ title: Data Inlining
 > Data Inlining is currently experimental. It needs to be enabled explicitly and is only supported for DuckDB databases. We are planning to improve support for this feature in the future.
 
 When writing small changes to DuckLake, it can be wasteful to write each changeset to an individual Parquet file.
-DuckLake supports directly writing small changes to the metadata using Data Inlining.
+Ducklake supports directly writing small changes to the metadata using Data Inlining.
 Instead of writing a Parquet file to the data storage and then writing a reference to that file in the metadata catalog, we directly write the rows to inlined data tables within the metadata catalog.
 
 Data inlining must be enabled explicitly using the `DATA_INLINING_ROW_LIMIT` attach parameter.
@@ -29,7 +29,7 @@ INSERT INTO inlining.tbl VALUES (1), (2), (3);
 -- no Parquet files exist
 SELECT COUNT(*) FROM glob('inlining.db.files/**');
 ```
-```
+```text
 ┌──────────────┐
 │ count_star() │
 │    int64     │
@@ -44,7 +44,7 @@ When inserting more data than the `DATA_INLINING_ROW_LIMIT`, inserts are automat
 INSERT INTO inlining.tbl FROM range(100);
 SELECT COUNT(*) FROM glob('inlining.db.files/**');
 ```
-```
+```text
 ┌──────────────┐
 │ count_star() │
 │    int64     │
