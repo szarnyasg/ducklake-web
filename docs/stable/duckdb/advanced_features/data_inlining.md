@@ -29,7 +29,7 @@ INSERT INTO inlining.tbl VALUES (1), (2), (3);
 -- no Parquet files exist
 SELECT COUNT(*) FROM glob('inlining.db.files/**');
 ```
-```
+```text
 ┌──────────────┐
 │ count_star() │
 │    int64     │
@@ -44,7 +44,7 @@ When inserting more data than the `DATA_INLINING_ROW_LIMIT`, inserts are automat
 INSERT INTO inlining.tbl FROM range(100);
 SELECT COUNT(*) FROM glob('inlining.db.files/**');
 ```
-```
+```text
 ┌──────────────┐
 │ count_star() │
 │    int64     │
