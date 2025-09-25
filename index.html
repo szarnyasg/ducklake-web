@@ -18,7 +18,7 @@ body_class: landing nowrap
 			<p>DuckLake delivers advanced data&nbsp;lake features without traditional lakehouse complexity by using Parquet files and your SQL database. It's an open, standalone format from the DuckDB team.</p>
 			<div class="cta">
 				<a class="button black" href="#quickinstall">Get started</a>
-				<a class="button transparent" href="/docs/stable">Documentation</a>
+				<a class="button transparent" href="{% link docs/stable/index.md %}">Documentation</a>
 			</div>
 		</div>
 	</div>
@@ -262,13 +262,12 @@ body_class: landing nowrap
 				What is “DuckLake”?
 			</h3>
 			<div class="answer">
-				First of all, a catchy name for a DuckDB-originated technology for data lakes and lakehouses.
-				More seriously, the term “DuckLake” can refer to three things:
+				“DuckLake” can refer to a number of things:
 
 				<ol>
-					<li>the <i>specification</i> of the DuckLake lakehouse format,</li>
-					<li>the <a href="https://duckdb.org/docs/stable/core_extensions/ducklake"><code>ducklake</code> <i>DuckDB extension</i></a>, which supports reading/writing datasets in the DuckLake specification,</li>
-					<li>a DuckLake, a <i>dataset</i> stored using the DuckLake lakehouse format.</li>
+					<li>The <i>DuckLake format</i> that uses a catalog database and a Parquet storage to store data.</li>
+					<li>A <i>DuckLake instance</i> storing a dataset with the DuckLake Lakehouse format.</li>
+					<li>The <a href="{% link docs/stable/duckdb/introduction.md %}"><code>ducklake</code> <i>DuckDB extension</i></a>, which supports reading/writing datasets using the DuckLake format.</li>
 				</ol>
 			</div>
 		</div>
@@ -285,7 +284,7 @@ body_class: landing nowrap
 	</div>
 	
 	<div class="cta">
-		<a class="button black" href="/faq">More FAQs</a>
+		<a class="button black" href="{% link faq.md %}">More FAQs</a>
 	</div>
 	
 </section>
