@@ -69,12 +69,11 @@ When comparing to other technologies, DuckLake is similar to Delta Lake with Uni
 
 <div class="answer" markdown="1">
 
-First of all, a catchy name for a DuckDB-originated technology for data lakes and Lakehouses.
-More seriously, the term “DuckLake” can refer to three things:
+“DuckLake” can refer to a number of things:
 
-1. the _specification_ of the DuckLake Lakehouse format,
-2. the [`ducklake` _DuckDB extension_](https://duckdb.org/docs/stable/core_extensions/ducklake), which supports reading/writing datasets in the DuckLake specification,
-3. a DuckLake, a _dataset_ stored using the DuckLake Lakehouse format.
+1. The _DuckLake Lakehouse format_ that uses a catalog database and a Parquet storage to store data.
+2. A _DuckLake instance_ storing a dataset with the DuckLake Lakehouse format.
+3. The [`ducklake` _DuckDB extension_]({% link docs/stable/duckdb/introduction.md %}), which supports reading/writing datasets using the DuckLake format.
 
 </div>
 
@@ -121,7 +120,10 @@ You can also download individual logos:
 
 <div class="answer" markdown="1">
 
-DuckLake needs a storage layer (both blob storage and block-based storage work) and a catalog database (any SQL-compatible database works).
+DuckLake needs a storage layer and a catalog database.
+Both components can be picked from a wide range of options.
+The storage system can a blob storage (object storage), a block storage or a file storage.
+For the catalog database, any SQL-compatible database works that supports ACID operations and primary keys.
 
 </div>
 
@@ -181,7 +183,7 @@ We expect DuckLake to mature over the course of 2025.
 
 <div class="answer" markdown="1">
 
-DuckLake piggybacks on the authentication of the metadata catalog database. For example, if your catalog database is Postgres, you can use Postgres' [authentication](https://www.postgresql.org/docs/current/auth-methods.html) and [authorization](https://www.postgresql.org/docs/current/ddl-priv.html) [methods](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)  to protect your DuckLake. This is particularly effective when enabling encryption of DuckLake files.
+DuckLake piggybacks on the authentication of the metadata catalog database. For example, if your catalog database is PostgreSQL, you can use PostgreSQL's [authentication](https://www.postgresql.org/docs/current/auth-methods.html) and [authorization](https://www.postgresql.org/docs/current/ddl-priv.html) [methods](https://www.postgresql.org/docs/current/ddl-rowsecurity.html) to protect your DuckLake. This is particularly effective when enabling encryption of DuckLake files.
 
 </div>
 
