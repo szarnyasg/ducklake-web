@@ -197,7 +197,7 @@ if __name__ == "__main__":
         con.execute(get_postgres_secret())
 
     secret = (
-        "CREATE SECRET ducklake_secret (TYPE DUCKLAKE"
+        "CREATE SECRET ducklake_secret (TYPE ducklake"
         + (
             f"\n,METADATA_PATH '{args.ducklake_file if args.catalog_type == 'duckdb' else f'sqlite:{args.ducklake_file}'}'"
             if args.catalog_type in ("duckdb", "sqlite")
