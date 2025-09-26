@@ -98,8 +98,8 @@ Secrets support the same list of parameters as `ATTACH`, in addition to the `MET
 
 | Name                  | Description                                          | Default |
 | --------------------- | ---------------------------------------------------- | ------- |
-| `metadata_path`       | The connection string for connecting to the metadata |         |
-| `metadata_parameters` | Map of parameters to pass to the catalog server      | `{}`    |
+| `METADATA_PATH`       | The connection string for connecting to the metadata |         |
+| `METADATA_PARAMETERS` | Map of parameters to pass to the catalog server      | `{}`    |
 
 ```sql
 -- default (unnamed) secret
