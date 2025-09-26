@@ -51,7 +51,7 @@ and can store your data in multiple files instead of using a single (potentially
 
 <div class="answer" markdown="1">
 
-DuckLake _includes_ an _open table format_ but it's also a _Lakehouse format,_ meaning that it also contains a catalog to encode the schema of the data stored.
+DuckLake is both a _Lakehouse format_ and an _open table format._
 When comparing to other technologies, DuckLake is similar to Delta Lake with Unity Catalog and Iceberg with Lakekeeper or Polaris.
 
 </div>
