@@ -17,7 +17,7 @@ DuckLake follows [semantic versioning](https://semver.org/spec/v2.0.0.html).
 Larger new features are introduced in minor versions,
 while patch versions mostly contain bugfixes.
 
-DuckLake is expected to mature over the course of 2025 with a 1.0 release planned in late 2025 or early 2026.
+DuckLake is expected to mature over the coming period with the DuckLake v1.0 release planned in 2026.
 
 ## Upcoming Releases
 
