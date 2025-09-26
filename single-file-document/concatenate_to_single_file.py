@@ -384,7 +384,5 @@ with open(f"ducklake-docs.md", "w") as of:
         menu = json.load(menu_docs_file)
         add_main_documentation("../docs/stable", menu, config, of)
 
-    add_blog_posts("../_posts", of)
-
     with open("acknowledgments.md") as acknowledgments_file:
         of.write(acknowledgments_file.read())
