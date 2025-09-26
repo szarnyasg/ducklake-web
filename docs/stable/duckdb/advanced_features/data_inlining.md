@@ -53,7 +53,7 @@ SELECT COUNT(*) FROM glob('inlining.db.files/**');
 └──────────────┘
 ```
 
-### Flushing Inlined Data
+## Flushing Inlined Data
 
 Inlined data can be manually flushed to parquet files by calling the `ducklake_flush_inlined_data` function. For example:
 

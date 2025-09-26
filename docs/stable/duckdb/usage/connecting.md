@@ -21,7 +21,7 @@ In addition, DuckLake connection parameters can also be stored in [secrets](http
 ATTACH 'ducklake:⟨secret_name⟩';
 ```
 
-### Examples
+## Examples
 
 Connect to DuckLake, reading the configuration from the default (unnamed) secret:
 
@@ -67,7 +67,7 @@ ATTACH 'ducklake:duckdb_database.ducklake' (DATA_PATH 'other_data_path/', OVERRI
 
 > If `OVERRIDE_DATA_PATH` is used, data under the original `DATA_PATH` will not be able to be queried in the current connection. This behavior may be changed in the future to allow to query data in a catalog regardless of the current write `DATA_PATH`.
 
-### Parameters
+## Parameters
 
 The following parameters are supported for `ATTACH`:
 
@@ -104,19 +104,19 @@ Secrets support the same list of parameters as `ATTACH`, in addition to the `MET
 ```sql
 -- default (unnamed) secret
 CREATE SECRET (
-	TYPE ducklake,
-	METADATA_PATH '⟨metadata.db⟩',
-	DATA_PATH '⟨metadata_files/⟩'
+    TYPE ducklake,
+    METADATA_PATH '⟨metadata.db⟩',
+    DATA_PATH '⟨metadata_files/⟩'
 );
 
 ATTACH 'ducklake:' AS my_ducklake;
 
 -- named secrets
 CREATE SECRET ⟨my_secret⟩ (
-	TYPE ducklake,
-	METADATA_PATH '',
-	DATA_PATH 's3://⟨my-s3-bucket⟩/',
-	METADATA_PARAMETERS MAP {'TYPE': 'postgres', 'SECRET': 'postgres_secret'}
+    TYPE ducklake,
+    METADATA_PATH '',
+    DATA_PATH 's3://⟨my-s3-bucket⟩/',
+    METADATA_PARAMETERS MAP {'TYPE': 'postgres', 'SECRET': 'postgres_secret'}
 );
 ATTACH 'ducklake:⟨my_secret⟩' AS my_ducklake;
 ```
