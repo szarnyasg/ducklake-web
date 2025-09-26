@@ -64,7 +64,7 @@ For PostgreSQL, there are two main approaches to backup and recovery:
 - [SQL dump](https://www.postgresql.org/docs/current/backup-dump.html): This approach is similar to the one mentioned for SQLite and DuckDB. This process can happen periodically and can only recover to a particular point in time (i.e., the time of the dump). For DuckLake, this will be a specific snapshot, and transactions after this snapshot will not be recorded.
 - [Continuous Archiving and Point-in-Time Recovery (PITR)](https://www.postgresql.org/docs/current/continuous-archiving.html): This is a more complex approach but allows recovery to a specific point in time. For DuckLake, this means you can recover to a specific snapshot without losing any transactions.
 
-Note that the SQL dump approach can also be managed by DuckDB using the [Postgres extension](https://duckdb.org/docs/stable/core_extensions/postgres). In fact, the backup can be a DuckDB file.
+Note that the SQL dump approach can also be managed by DuckDB using the [`postgres` extension](https://duckdb.org/docs/stable/core_extensions/postgres). In fact, the backup can be a DuckDB file.
 
 ```sql
 -- Backup

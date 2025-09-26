@@ -89,7 +89,7 @@ The following parameters are supported for `ATTACH`:
 
 In addition, any parameters that are prefixed with `META_` are passed to the catalog used to store the metadata.
 The supported parameters depend on the metadata catalog that is used.
-For example, `Postgres` supports the `SECRET` parameter. By using the `META_SECRET` parameter we can pass this parameter to the Postgres instance.
+For example, `postgres` supports the `SECRET` parameter. By using the `META_SECRET` parameter we can pass this parameter to the PostgreSQL instance.
 
 ### Secrets
 
