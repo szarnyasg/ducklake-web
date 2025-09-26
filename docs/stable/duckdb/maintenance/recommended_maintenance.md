@@ -7,7 +7,7 @@ title: Recommended Maintenance
 
 Most operations performed by DuckLake happen in the catalog database.
 As such, the maintenance of the metadata server are handled by the chosen catalog database.
-For example, when running Postgres, it is likely sufficient to occasionally run `VACUUM` in order to ensure the system stays performant.
+For example, when running PostgreSQL, it is likely sufficient to occasionally run `VACUUM` in order to ensure the system stays performant.
 
 ### Data File Maintenance
 

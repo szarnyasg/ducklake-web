@@ -12,7 +12,7 @@
 title: DuckLake
 email: quack@duckdb.org
 description: >-
-  DuckLake leverages DuckDB and your favorite SQL database (SQLite, Postgres, MySQL) to provide ACID transactions, schema evolution, and time travel for your Parquet data lake, without the complexity of traditional Lakehouse catalogs.
+  DuckLake leverages DuckDB and your favorite SQL database (SQLite, PostgreSQL, MySQL) to provide ACID transactions, schema evolution, and time travel for your Parquet data lake, without the complexity of traditional Lakehouse catalogs.
 baseurl: ""
 url: "https://ducklake.select"
 
