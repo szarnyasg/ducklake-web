@@ -32,7 +32,6 @@ For unpartitioned tables, this path is `ducklake-⟨uuid⟩.parquet`{:.language-
 
 **Partitioned Files.** When writing data to a partitioned table, the files are by default written to directories in the [Hive partitioning style](https://duckdb.org/docs/stable/data/partitioning/hive_partitioning#hive-partitioning).
 Writing data in this manner is not required as the partition values are tracked in the catalog server itself.
-For encrypted tables, the partitioned paths are omitted, and the files are all writte
 
 This results in the following path structure:
 
