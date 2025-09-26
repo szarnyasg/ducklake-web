@@ -191,6 +191,10 @@ def change_links(doc_body):
 def cleanup_doc(doc_body):
     doc_body = re.sub(r"<iframe.*</iframe>", "", doc_body)
     doc_body = re.sub(r"{% include .*}", "", doc_body)
+
+    doc_body = re.sub(r".*\{: \.darkmode-img \}", "", doc_body)
+    doc_body = doc_body.replace("{: .lightmode-img }", "")
+
     doc_body = doc_body.replace("{::nomarkdown}", "")
     doc_body = doc_body.replace("{::/nomarkdown}", "")
     doc_body = doc_body.replace("{:.language-sql .highlight}", "")
