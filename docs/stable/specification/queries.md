@@ -141,7 +141,7 @@ where
 
 - `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
 - `⟨COLUMN_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `column_id` column in the [`ducklake_column` table]({% link docs/stable/specification/tables/ducklake_column.md %}).
-- `⟨SCALAR⟩`{:.language-sql .highlight} is the scalar comparision value for the pruning.
+- `⟨SCALAR⟩`{:.language-sql .highlight} is the scalar comparison value for the pruning.
 
 Of course, other filter predicates like “greater than” will require slightly different filtering here.
 
