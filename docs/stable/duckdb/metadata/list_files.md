@@ -7,31 +7,46 @@ The `ducklake_list_files` function can be used to list the data files and corres
 
 ### Usage
 
+List all files:
+
 ```sql
--- list all files
 FROM ducklake_list_files('catalog', 'table_name');
--- get list of files at a specific snapshot_version
+```
+
+Get list of files at a specific snapshot version:
+
+```sql
 FROM ducklake_list_files('catalog', 'table_name', snapshot_version => 2);
--- get list of files at a specific point in time
+```
+
+Get list of files at a specific point in time:
+
+```sql
 FROM ducklake_list_files('catalog', 'table_name', snapshot_time => '2025-06-16 15:24:30');
--- get list of files of a table in a specific schema
+```
+
+Get list of files of a table in a specific schema:
+
+```sql
 FROM ducklake_list_files('catalog', 'table_name', schema => 'main');
 ```
 
-|    Parameter     |                   Description                    | Default |
-|------------------|--------------------------------------------------|---------|
-| catalog          | Name of attached DuckLake catalog                |         |
-| table_name       | Name of table to fetch files from                |         |
-| schema           | Schema for the table                             | main    |
-| snapshot_version | If provided, fetch files for a given snapshot id |         |
-| snapshot_time    | If provided, fetch files for a given timestamp   |         |
+| Parameter          | Description                                      | Default |
+| ------------------ | ------------------------------------------------ | ------- |
+| `catalog`          | Name of attached DuckLake catalog                |         |
+| `table_name`       | Name of table to fetch files from                |         |
+| `schema`           | Schema for the table                             | `main`  |
+| `snapshot_version` | If provided, fetch files for a given snapshot id |         |
+| `snapshot_time`    | If provided, fetch files for a given timestamp   |         |
 
 ### Result
 
 The function returns the following result set.
 
-|        column_name         | column_type |
-|----------------------------|-------------|
+<div class="monospace_table"></div>
+
+| column_name                | column_type |
+| -------------------------- | ----------- |
 | data_file                  | VARCHAR     |
 | data_file_size_bytes       | UBIGINT     |
 | data_file_footer_size      | UBIGINT     |
@@ -40,7 +55,6 @@ The function returns the following result set.
 | delete_file_size_bytes     | UBIGINT     |
 | delete_file_footer_size    | UBIGINT     |
 | delete_file_encryption_key | BLOB        |
-
 
 * If the file has delete files, the corresponding delete file is returned, otherwise these fields are `NULL`.
 * If the database is encrypted, the encryption key must be used to read the file.
