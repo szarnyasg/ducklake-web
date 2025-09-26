@@ -104,19 +104,19 @@ Secrets support the same list of parameters as `ATTACH`, in addition to the `MET
 ```sql
 -- default (unnamed) secret
 CREATE SECRET (
-	TYPE ducklake,
-	METADATA_PATH '⟨metadata.db⟩',
-	DATA_PATH '⟨metadata_files/⟩'
+    TYPE ducklake,
+    METADATA_PATH '⟨metadata.db⟩',
+    DATA_PATH '⟨metadata_files/⟩'
 );
 
 ATTACH 'ducklake:' AS my_ducklake;
 
 -- named secrets
 CREATE SECRET ⟨my_secret⟩ (
-	TYPE ducklake,
-	METADATA_PATH '',
-	DATA_PATH 's3://⟨my-s3-bucket⟩/',
-	METADATA_PARAMETERS MAP {'TYPE': 'postgres', 'SECRET': 'postgres_secret'}
+    TYPE ducklake,
+    METADATA_PATH '',
+    DATA_PATH 's3://⟨my-s3-bucket⟩/',
+    METADATA_PARAMETERS MAP {'TYPE': 'postgres', 'SECRET': 'postgres_secret'}
 );
 ATTACH 'ducklake:⟨my_secret⟩' AS my_ducklake;
 ```

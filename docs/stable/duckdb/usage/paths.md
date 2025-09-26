@@ -40,6 +40,6 @@ main
 ├── unpartitioned_table
 │   └── ducklake-⟨uuid⟩.parquet
 └── partitioned_table
-	└── year=2025
-	    └── ducklake-⟨uuid⟩.parquet
+    └── year=2025
+        └── ducklake-⟨uuid⟩.parquet
 ```
