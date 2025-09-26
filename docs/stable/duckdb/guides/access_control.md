@@ -44,7 +44,7 @@ Using this convention and the policy mechanisms of certain filesystems (such as 
 
 The following diagram shows how these roles and their necessary permissions work in DuckLake:
 
-![DuckLake schema]({{ site.baseurl }}/images/docs/guides/ducklake_access_control.svg)
+![DuckLake schema](/images/docs/guides/ducklake_access_control.svg)
 
 ## Access Control with S3 and PostgreSQL
 

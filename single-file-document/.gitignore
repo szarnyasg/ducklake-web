@@ -1,0 +1,21 @@
+# generated documents
+ducklake-docs.md
+ducklake-docs.tex
+ducklake-docs.pdf
+
+## Core latex/pdflatex auxiliary files:
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+*.fdb_latexmk
+*.synctex*
+*.xdv
