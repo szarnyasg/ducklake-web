@@ -51,14 +51,53 @@ jobs:
           name: html_artifact
           path: _site
 
+  build_pdf:
+    runs-on: ubuntu-24.04
+    container:
+      image: docker://pandoc/extra:3.5
+      options: --entrypoint=sh
+    defaults:
+      run:
+        working-directory: single-file-document
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Setup Python
+        run: |
+          PYTHONUNBUFFERED=1
+          apk add --update --no-cache python3 py3-pip
+      - name: Install dependencies
+        run: pip3 install -r requirements.txt --break-system-packages
+      - name: Concatenate files
+        run: python3 concatenate_to_single_file.py
+      - name: Convert with pandoc
+        run: pandoc --defaults pandoc-configuration.yaml
+      - name: Clean Markdown file
+        run: ./clean_markdown_file.sh
+      - name: Move artifacts
+        run: |
+          mkdir -p ../_pdf
+          sed -i '1s/^.*$/# DuckLake Documentation/' ducklake-docs-cleaned.md
+          cp ducklake-docs-cleaned.md ../_pdf/ducklake-docs.md
+          cp ducklake-docs.pdf ../_pdf
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf_artifact
+          path: _pdf
+
   package_into_a_single_artifact:
     runs-on: ubuntu-24.04
-    needs: [build_html]
+    needs: [build_html, build_pdf]
     steps:
       # download both the html and the pdf artifacts into the _site directory
       - uses: actions/download-artifact@v5
         with:
           name: html_artifact
+          path: _site
+      - uses: actions/download-artifact@v5
+        with:
+          name: pdf_artifact
           path: _site
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v4
