@@ -54,7 +54,7 @@ Some of this style guide is automated with GitHub Actions, but feel free to run 
 * Tables where the headers should be center-aligned (opposed to the left-aligned default) should be prepended with an empty div that has the `center_aligned_header_table` class: `<div class="center_aligned_header_table"></div>`.
 * Do not introduce hard line breaks if possible. Therefore, avoid using the `<br/>` HTML tag and avoid [double spaces at the end of a line in Markdown](https://spec.commonmark.org/0.28/#hard-line-breaks).
 * Single and double quote characters (`'` and `"`) are not converted to smart quotation marks automatically. To insert these, use `“` `”` and `‘` `’`.
-* When referencing other articles, put their titles in quotes, e.g., `see the [“Lightweight Compression in DuckDB” blog post]({% post_url 2022-10-28-lightweight-compression %})`.
+* When referencing other articles, put their titles in quotes, e.g., `see the [“DuckLake 0.3 with Iceberg Interoperability and Geometry Support” blog post]({% pust_url 2025-09-17-ducklake-03 %})`.
 * For unordered lists, use `*`. If the list has multiple levels, use **4 spaces** for indentation.
 
 > [!TIP]
