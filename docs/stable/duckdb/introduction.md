@@ -60,7 +60,7 @@ DuckLake is used just like any other DuckDB database. You can create schemas and
 
 Note that – similarly to other data lake and Lakehouse formats – the DuckLake format does not support indexes, primary keys, foreign keys, and `UNIQUE` or `CHECK` constraints.
 
-Don't forget to either specify the database name of the DuckLake explicity or use `USE`. Otherwise you might inadvertently use the temporary, in-memory database.
+Don't forget to either specify the database name of the DuckLake explicitly or use `USE`. Otherwise you might inadvertently use the temporary, in-memory database.
 
 ### Example
 
@@ -111,7 +111,7 @@ We now see three files. The original data file, the rows that were deleted, and 
 FROM 'my_ducklake.ducklake.files/**/ducklake-*-delete.parquet';
 ```
 
-The file should contain a single row that marks row 29 as deleted. A new file has appared that contains the new values for this row.
+The file should contain a single row that marks row 29 as deleted. A new file has appeared that contains the new values for this row.
 
 There are now three snapshots, the table creation, data insertion, and the update. We can query that using the `snapshots()` function:
 
