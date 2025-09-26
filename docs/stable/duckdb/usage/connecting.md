@@ -21,7 +21,7 @@ In addition, DuckLake connection parameters can also be stored in [secrets](http
 ATTACH 'ducklake:⟨secret_name⟩';
 ```
 
-### Examples
+## Examples
 
 Connect to DuckLake, reading the configuration from the default (unnamed) secret:
 
@@ -67,7 +67,7 @@ ATTACH 'ducklake:duckdb_database.ducklake' (DATA_PATH 'other_data_path/', OVERRI
 
 > If `OVERRIDE_DATA_PATH` is used, data under the original `DATA_PATH` will not be able to be queried in the current connection. This behavior may be changed in the future to allow to query data in a catalog regardless of the current write `DATA_PATH`.
 
-### Parameters
+## Parameters
 
 The following parameters are supported for `ATTACH`:
 

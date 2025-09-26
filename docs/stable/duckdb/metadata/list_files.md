@@ -5,7 +5,7 @@ title: List Files
 
 The `ducklake_list_files` function can be used to list the data files and corresponding delete files that belong to a given table, optionally for a given snapshot.
 
-### Usage
+## Usage
 
 List all files:
 
@@ -39,7 +39,7 @@ FROM ducklake_list_files('catalog', 'table_name', schema => 'main');
 | `snapshot_version` | If provided, fetch files for a given snapshot id |         |
 | `snapshot_time`    | If provided, fetch files for a given timestamp   |         |
 
-### Result
+## Result
 
 The function returns the following result set.
 

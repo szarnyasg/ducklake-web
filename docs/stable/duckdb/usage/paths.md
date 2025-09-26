@@ -16,7 +16,7 @@ By default, all paths written by DuckLake are relative paths.
 | Schema path | `ducklake_schema`                             | Data path   |
 | Data path   | `ducklake_metadata`                           |             |
 
-### Default Path Structure
+## Default Path Structure
 
 The root `data_path` is specified through the [`data_path` parameter]({% link docs/stable/duckdb/usage/connecting.md %}) when creating a new DuckLake.
 When loading an existing DuckLake, the `data_path` is loaded from the `ducklake_metadata` if not provided.

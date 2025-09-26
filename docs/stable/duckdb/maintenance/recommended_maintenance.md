@@ -3,13 +3,13 @@ layout: docu
 title: Recommended Maintenance
 ---
 
-### Metadata Maintenance
+## Metadata Maintenance
 
 Most operations performed by DuckLake happen in the catalog database.
 As such, the maintenance of the metadata server are handled by the chosen catalog database.
 For example, when running PostgreSQL, it is likely sufficient to occasionally run `VACUUM` in order to ensure the system stays performant.
 
-### Data File Maintenance
+## Data File Maintenance
 
 The data files that DuckLake writes to the data directory may require maintenance depending on how the insertions take place.
 When snapshots write small batches of data at a time and [data inlining is not used]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) small Parquet files will be written to storage.
