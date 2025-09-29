@@ -2,7 +2,7 @@ name: Copy stable to preview
 
 on:
   schedule:
-    - cron: "0 15 * * *"  # run every day
+    - cron: "0 4 * * *"  # run every day
 
 jobs:
   LinkChecker:
@@ -18,8 +18,15 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Run check
+      - name: Run copy
         run: |
           pip install -r requirements.txt --break-system-packages
           python scripts/copy_stable_to_preview.py
 
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v7.0.8
+        with:
+          branch: update-preview-branch
+          commit-message: "Copy stable to preview"
+          title: "Automated PR: Copy stable to preview"
+          body: "This PR was created automatically by GitHub Actions."
