@@ -3,7 +3,7 @@ layout: docu
 title: ducklake_column
 ---
 
-This table describes the columns that are part of a table, including their types, default values etc.
+This table describes the columns that are part of a table, including their types, default values, etc.
 
 | Column name       | Column type |             |
 | ----------------- | ----------- | ----------- |
