@@ -227,7 +227,7 @@ if __name__ == "__main__":
     )
 
     if args.catalog_type == "duckdb":
-        # DETACH ducklake to be able to attach to the metadata database in migrate_macros
+        # DETACH DuckLake to be able to attach to the metadata database in migrate_macros
         con.execute(f"USE {args.duckdb_catalog}; DETACH {args.ducklake_catalog};")
         con.execute(
             f"ATTACH '{args.ducklake_file}' AS ducklake_metadata; USE ducklake_metadata;"

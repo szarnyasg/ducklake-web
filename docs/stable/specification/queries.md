@@ -3,17 +3,18 @@ layout: docu
 title: Queries
 ---
 
-This page explains the queries issues to the DuckLake catalog database for reading and writing data.
+This page explains the queries issued to the DuckLake catalog database for reading and writing data.
 
 ## Reading Data
 
 DuckLake specifies _tables_ and _update transactions_ to modify them. DuckLake is not a black box: all metadata is stored as SQL tables under the user's control. Of course, they can be queried in whichever way is best for a client. Below we describe a small working example to retrieve table data.
 
-> The information below is to provide transparency to users and to aid developers making their own implementation of DuckLake. The `ducklake` DuckDB extension is running these operations in the background.
+> The information below is to provide transparency to users and to aid developers making their own implementation of DuckLake.
+> If you are using the `ducklake` DuckDB extension, you do not need to worry about these: the extension is running these operations in the background for you.
 
 ### Get Current Snapshot
 
-Before anything else we need to find a snapshot ID to be queries. There can be many snapshots in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). A snapshot ID is a continuously increasing number that identifies a snapshot. In most cases, you would query the most recent one like so:
+Before anything else we need to find a snapshot ID to be queried. There can be many snapshots in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). A snapshot ID is a continuously increasing number that identifies a snapshot. In most cases, you would query the most recent one like so:
 
 ```sql
 SELECT snapshot_id
@@ -224,7 +225,7 @@ where
 
 - `⟨SCHEMA_ID⟩`{:.language-sql .highlight} is the new schema identifier. This should be created by incrementing `next_catalog_id` from the previous snapshot.
 - `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is the snapshot identifier of the new snapshot as described above.
-- `⟨SCHEMA_NAME⟩`{:.language-sql .highlight} is just the name of the new schema.
+- `⟨SCHEMA_NAME⟩`{:.language-sql .highlight} is the name of the new schema.
 
 ### `CREATE TABLE`
 
@@ -254,7 +255,7 @@ where
 - `⟨TABLE_ID⟩`{:.language-sql .highlight} is the new table identifier. This should be created by further incrementing `next_catalog_id` from the previous snapshot.
 - `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is the snapshot identifier of the new snapshot as described above.
 - `⟨SCHEMA_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `schema_id` column in the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %}) table.
-- `⟨TABLE_NAME⟩`{:.language-sql .highlight} is just the name of the new table.
+- `⟨TABLE_NAME⟩`{:.language-sql .highlight} is the name of the new table.
 
 A table needs some columns, we can add columns to the new table by inserting into the [`ducklake_column` table]({% link docs/stable/specification/tables/ducklake_column.md %}) table.
 For each column to be added, we run the following query:
@@ -288,7 +289,7 @@ where
 - `⟨SNAPSHOT_ID⟩`{:.language-sql .highlight} is the snapshot identifier of the new snapshot as described above.
 - `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
 - `⟨COLUMN_ORDER⟩`{:.language-sql .highlight} is a number that defines where the column is placed in an ordered list of columns.
-- `⟨COLUMN_NAME⟩`{:.language-sql .highlight} is just the name of the column.
+- `⟨COLUMN_NAME⟩`{:.language-sql .highlight} is the name of the column.
 - `⟨COLUMN_TYPE⟩`{:.language-sql .highlight} is the data type of the column. See the [“Data Types” page]({% link docs/stable/specification/data_types.md %}) for details.
 - `⟨NULLS_ALLOWED⟩`{:.language-sql .highlight} is a boolean that defines if `NULL` values can be stored in the column. Typically set to `true`.
 
@@ -297,57 +298,29 @@ where
 
 ### `DROP TABLE`
 
-Dropping a table in DuckLake requires an update in the `end_snapshot` field in all metadata entries corresponding to the dropped table ID.
+Dropping a table in DuckLake requires an update to the `end_snapshot` field in all metadata entries corresponding to the dropped table ID.
 
 ```sql
 UPDATE ducklake_table
-SET
-    end_snapshot = ⟨SNAPSHOT_ID⟩
-WHERE
-    table_id = ⟨TABLE_ID⟩ AND
-    end_snapshot IS NULL;
+SET end_snapshot = ⟨SNAPSHOT_ID⟩ WHERE table_id = ⟨TABLE_ID⟩ AND end_snapshot IS NULL;
 
 UPDATE ducklake_partition_info
-SET
-    end_snapshot = ⟨SNAPSHOT_ID⟩
-WHERE
-    table_id = ⟨TABLE_ID⟩ AND
-    end_snapshot IS NULL;
+SET end_snapshot = ⟨SNAPSHOT_ID⟩ WHERE table_id = ⟨TABLE_ID⟩ AND end_snapshot IS NULL;
 
 UPDATE ducklake_column
-SET
-    end_snapshot = ⟨SNAPSHOT_ID⟩
-WHERE
-    table_id = ⟨TABLE_ID⟩ AND
-    end_snapshot IS NULL;
+SET end_snapshot = ⟨SNAPSHOT_ID⟩ WHERE table_id = ⟨TABLE_ID⟩ AND end_snapshot IS NULL;
 
 UPDATE ducklake_column_tag
-SET
-    end_snapshot = ⟨SNAPSHOT_ID⟩
-WHERE
-    table_id = ⟨TABLE_ID⟩ AND
-    end_snapshot IS NULL;
+SET end_snapshot = ⟨SNAPSHOT_ID⟩ WHERE table_id = ⟨TABLE_ID⟩ AND end_snapshot IS NULL;
 
 UPDATE ducklake_data_file
-SET
-    end_snapshot = ⟨SNAPSHOT_ID⟩
-WHERE
-    table_id = ⟨TABLE_ID⟩ AND
-    end_snapshot IS NULL;
+SET end_snapshot = ⟨SNAPSHOT_ID⟩ WHERE table_id = ⟨TABLE_ID⟩ AND end_snapshot IS NULL;
 
 UPDATE ducklake_delete_file
-SET
-    end_snapshot = ⟨SNAPSHOT_ID⟩
-WHERE
-    table_id = ⟨TABLE_ID⟩ AND
-    end_snapshot IS NULL;
+SET end_snapshot = ⟨SNAPSHOT_ID⟩ WHERE table_id = ⟨TABLE_ID⟩ AND end_snapshot IS NULL;
 
 UPDATE ducklake_tag
-SET
-    end_snapshot = ⟨SNAPSHOT_ID⟩
-WHERE
-    object_id  = ⟨TABLE_ID⟩ AND
-    end_snapshot IS NULL;
+SET end_snapshot = ⟨SNAPSHOT_ID⟩ WHERE object_id  = ⟨TABLE_ID⟩ AND end_snapshot IS NULL;
 ```
 
 where
@@ -357,7 +330,7 @@ where
 
 ### `DROP SCHEMA`
 
-Dropping a schema in ducklake requires updating the `end_snapshot` in the `ducklake_schema` table.
+Dropping a schema in DuckLake requires updating the `end_snapshot` in the `ducklake_schema` table.
 
 ```sql
 UPDATE ducklake_schema
@@ -481,13 +454,13 @@ where
 - `⟨FILE_SIZE_BYTES⟩`{:.language-sql .highlight} is the size of the new Parquet file.
 - `⟨CONTAINS_NAN⟩`{:.language-sql .highlight} is a flag whether the column contains any `NaN` values. This is only relevant for floating-point types.
 
-> This example assumes there are already rows in the table. If there are none, we need to use `INSERT` instead here.
+> This example assumes there are already rows in the table. If there are none, we need to use `INSERT` instead of `UPDATE` here.
 > We also skipped the `column_size_bytes` column here, it can safely be set to `NULL`.
 
 ### `DELETE`
 
 Deleting data from a DuckLake table consists of two main steps:
-first, we need to write a Parquet delete file containing the row index to be deleted to storage, and
+first, we need to write a _Parquet delete file_ containing the row index to be deleted to storage, and
 second, we need to register that delete file in the metadata tables.
 Let's assume the file has already been written.
 
