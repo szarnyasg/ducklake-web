@@ -24,9 +24,9 @@ For example, when inserting a low number of rows, data is automatically inlined:
 
 ```sql
 CREATE TABLE inlining.tbl (col INTEGER);
--- inserting 3 rows, data is inlined
+-- Inserting 3 rows, data is inlined
 INSERT INTO inlining.tbl VALUES (1), (2), (3);
--- no Parquet files exist
+-- No Parquet files exist
 SELECT count(*) FROM glob('inlining.db.files/**');
 ```
 
@@ -59,13 +59,36 @@ SELECT count(*) FROM glob('inlining.db.files/**');
 
 Inlined data can be manually flushed to Parquet files by calling the `ducklake_flush_inlined_data` function.
 
+Flush all inlined data in all schemas and tables:
+
 ```sql
--- flush all inlined data in all schemas and tables
 CALL ducklake_flush_inlined_data('my_ducklake');
--- flush inlined data only within a specific schema
-CALL ducklake_flush_inlined_data('my_ducklake', schema_name => 'my_schema');
--- flush inlined data for a specific table in the default 'main' schema
-CALL ducklake_flush_inlined_data('my_ducklake', table_name => 'my_table');
--- flush inlined data for a specific table in a specific schema
-CALL ducklake_flush_inlined_data('my_ducklake', schema_name => 'my_schema', table_name => 'my_table');
+```
+
+Flush inlined data only within a specific schema:
+
+```sql
+CALL ducklake_flush_inlined_data(
+    'my_ducklake',
+    schema_name => 'my_schema'
+);
+```
+
+Flush inlined data for a specific table in the default `main` schema:
+
+```sql
+CALL ducklake_flush_inlined_data(
+    'my_ducklake',
+    table_name => 'my_table'
+);
+```
+
+Flush inlined data for a specific table in a specific schema:
+
+```sql
+CALL ducklake_flush_inlined_data(
+    'my_ducklake',
+    schema_name => 'my_schema',
+    table_name => 'my_table'
+);
 ```

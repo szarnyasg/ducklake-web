@@ -14,7 +14,7 @@ BEGIN TRANSACTION;
 -- Some operation
 -- Some other operation
 COMMIT;
--- or
+-- Or
 ROLLBACK; -- ABORT will have the same behavior
 ```
 

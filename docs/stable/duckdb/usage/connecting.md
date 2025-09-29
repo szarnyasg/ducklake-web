@@ -102,7 +102,7 @@ Secrets support the same list of parameters as `ATTACH`, in addition to the `MET
 | `METADATA_PARAMETERS` | Map of parameters to pass to the catalog server      | `{}`    |
 
 ```sql
--- default (unnamed) secret
+-- Default (unnamed) secret
 CREATE SECRET (
     TYPE ducklake,
     METADATA_PATH '⟨metadata.db⟩',
@@ -111,7 +111,7 @@ CREATE SECRET (
 
 ATTACH 'ducklake:' AS my_ducklake;
 
--- named secrets
+-- Named secrets
 CREATE SECRET ⟨my_secret⟩ (
     TYPE ducklake,
     METADATA_PATH '',
