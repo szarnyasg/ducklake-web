@@ -1,9 +1,6 @@
 ---
 layout: docu
 title: Introduction
-redirect_from:
-- /docs/stable/duckdb
-- /docs/stable/duckdb/
 ---
 
 In DuckDB, DuckLake is supported through the [`ducklake` extension](https://duckdb.org/docs/stable/core_extensions/ducklake).
@@ -19,7 +16,7 @@ INSTALL ducklake;
 
 ## Configuration
 
-To use DuckLake, you need to make two decisions: which [metadata catalog database you want to use]({% link docs/preview/duckdb/usage/choosing_a_catalog_database.md %}) and [where you want to store those files]({% link docs/stable/duckdb/usage/choosing_storage.md %}). In the simplest case, you use a local DuckDB file for the metadata catalog and a local folder on your computer for file storage.
+To use DuckLake, you need to make two decisions: which [metadata catalog database you want to use]({% link docs/preview/duckdb/usage/choosing_a_catalog_database.md %}) and [where you want to store those files]({% link docs/preview/duckdb/usage/choosing_storage.md %}). In the simplest case, you use a local DuckDB file for the metadata catalog and a local folder on your computer for file storage.
 
 ## Creating a New Database
 
@@ -60,7 +57,7 @@ DuckLake is used just like any other DuckDB database. You can create schemas and
 
 Note that – similarly to other data lake and Lakehouse formats – the DuckLake format does not support indexes, primary keys, foreign keys, and `UNIQUE` or `CHECK` constraints.
 
-Don't forget to either specify the database name of the DuckLake explicity or use `USE`. Otherwise you might inadvertently use the temporary, in-memory database.
+Don't forget to either specify the database name of the DuckLake explicitly or use `USE`. Otherwise you might inadvertently use the temporary, in-memory database.
 
 ### Example
 
@@ -90,13 +87,17 @@ FROM 'my_ducklake.ducklake.files/**/*.parquet' LIMIT 10;
 But now lets change some things around. We're really unhappy with the name of the old name of the "Amsterdam Bijlmer ArenA" station now that the stadium has been renamed to "[Johan Cruijff](https://en.wikipedia.org/wiki/Johan_Cruyff) ArenA" and everyone here loves Johan. So let's change that.
 
 ```sql
-UPDATE nl_train_stations SET name_long='Johan Cruijff ArenA' WHERE code = 'ASB';
+UPDATE nl_train_stations
+SET name_long = 'Johan Cruijff ArenA'
+WHERE code = 'ASB';
 ```
 
 Poof, its changed. We can confirm:
 
 ```sql
-SELECT name_long FROM nl_train_stations WHERE code = 'ASB';
+SELECT name_long
+FROM nl_train_stations
+WHERE code = 'ASB';
 ```
 
 In the background, more files have appeared:
@@ -111,7 +112,7 @@ We now see three files. The original data file, the rows that were deleted, and 
 FROM 'my_ducklake.ducklake.files/**/ducklake-*-delete.parquet';
 ```
 
-The file should contain a single row that marks row 29 as deleted. A new file has appared that contains the new values for this row.
+The file should contain a single row that marks row 29 as deleted. A new file has appeared that contains the new values for this row.
 
 There are now three snapshots, the table creation, data insertion, and the update. We can query that using the `snapshots()` function:
 
@@ -122,8 +123,15 @@ FROM my_ducklake.snapshots();
 And we can query this table at each point:
 
 ```sql
-SELECT name_long FROM nl_train_stations AT (VERSION => 1) WHERE code = 'ASB';
-SELECT name_long FROM nl_train_stations AT (VERSION => 2) WHERE code = 'ASB';
+SELECT name_long
+FROM nl_train_stations AT (VERSION => 1)
+WHERE code = 'ASB';
+```
+
+```sql
+SELECT name_long
+FROM nl_train_stations AT (VERSION => 2)
+WHERE code = 'ASB';
 ```
 
 Time travel finally achieved!

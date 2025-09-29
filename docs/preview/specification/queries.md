@@ -141,7 +141,7 @@ where
 
 - `⟨TABLE_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `table_id` column in the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %}).
 - `⟨COLUMN_ID⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `column_id` column in the [`ducklake_column` table]({% link docs/preview/specification/tables/ducklake_column.md %}).
-- `⟨SCALAR⟩`{:.language-sql .highlight} is the scalar comparision value for the pruning.
+- `⟨SCALAR⟩`{:.language-sql .highlight} is the scalar comparison value for the pruning.
 
 Of course, other filter predicates like “greater than” will require slightly different filtering here.
 
@@ -427,7 +427,7 @@ Refer to the [`ducklake_data_file` table]({% link docs/preview/specification/tab
 
 > DuckLake also supports changing the schema, see [schema evolution]({% link docs/preview/duckdb/usage/schema_evolution.md %}).
 
-We also have to update some statistics in the [`ducklake_table_stats` table]({% link docs/preview/specification/tables/ducklake_table_stats.md %}) and [`ducklake_table_column_stats` table]({% link docs/stable/specification/tables/ducklake_table_column_stats.md %})` tables.
+We also have to update some statistics in the [`ducklake_table_stats` table]({% link docs/preview/specification/tables/ducklake_table_stats.md %}) and [`ducklake_table_column_stats` table]({% link docs/preview/specification/tables/ducklake_table_column_stats.md %})` tables.
 
 ```sql
 UPDATE ducklake_table_stats
