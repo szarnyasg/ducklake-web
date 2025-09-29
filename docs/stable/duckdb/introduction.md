@@ -90,13 +90,17 @@ FROM 'my_ducklake.ducklake.files/**/*.parquet' LIMIT 10;
 But now lets change some things around. We're really unhappy with the name of the old name of the "Amsterdam Bijlmer ArenA" station now that the stadium has been renamed to "[Johan Cruijff](https://en.wikipedia.org/wiki/Johan_Cruyff) ArenA" and everyone here loves Johan. So let's change that.
 
 ```sql
-UPDATE nl_train_stations SET name_long='Johan Cruijff ArenA' WHERE code = 'ASB';
+UPDATE nl_train_stations
+SET name_long = 'Johan Cruijff ArenA'
+WHERE code = 'ASB';
 ```
 
 Poof, its changed. We can confirm:
 
 ```sql
-SELECT name_long FROM nl_train_stations WHERE code = 'ASB';
+SELECT name_long
+FROM nl_train_stations
+WHERE code = 'ASB';
 ```
 
 In the background, more files have appeared:
@@ -122,8 +126,15 @@ FROM my_ducklake.snapshots();
 And we can query this table at each point:
 
 ```sql
-SELECT name_long FROM nl_train_stations AT (VERSION => 1) WHERE code = 'ASB';
-SELECT name_long FROM nl_train_stations AT (VERSION => 2) WHERE code = 'ASB';
+SELECT name_long
+FROM nl_train_stations AT (VERSION => 1)
+WHERE code = 'ASB';
+```
+
+```sql
+SELECT name_long
+FROM nl_train_stations AT (VERSION => 2)
+WHERE code = 'ASB';
 ```
 
 Time travel finally achieved!
