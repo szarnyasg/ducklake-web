@@ -56,15 +56,27 @@ Configuration is persisted in the [`ducklake_metadata`]({% link docs/stable/spec
 
 ### Setting Config Values
 
-```sql
--- set the global parquet compression algorithm used when writing Parquet files
-CALL my_ducklake.set_option('parquet_compression', 'zstd');
--- set the parquet compression algorithm used for tables in a specific schema
-CALL my_ducklake.set_option('parquet_compression', 'zstd', schema => 'my_schema');
--- set the parquet compression algorithm used for a specific table
-CALL my_ducklake.set_option('parquet_compression', 'zstd', table_name => 'my_table');
+Set the global Parquet compression algorithm used when writing Parquet files:
 
--- see all options for the given attached DuckLake
+```sql
+CALL my_ducklake.set_option('parquet_compression', 'zstd');
+```
+
+Set the Parquet compression algorithm used for tables in a specific schema:
+
+```sql
+CALL my_ducklake.set_option('parquet_compression', 'zstd', schema => 'my_schema');
+```
+
+Set the Parquet compression algorithm used for a specific table:
+
+```sql
+CALL my_ducklake.set_option('parquet_compression', 'zstd', table_name => 'my_table');
+```
+
+See all options for the given attached DuckLake
+
+```sql
 FROM my_ducklake.options();
 ```
 
