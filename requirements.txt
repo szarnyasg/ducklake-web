@@ -1,1 +1,3 @@
 marko # for generating search index
+PyYAML
+python-frontmatter
