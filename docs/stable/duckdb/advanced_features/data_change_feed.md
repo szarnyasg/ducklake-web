@@ -13,7 +13,7 @@ Consider the following DuckLake instance:
 ```sql
 ATTACH 'ducklake:changes.db' AS db (DATA_PATH 'change_files/');
 -- snapshot 1
-CREATE TABLE db.tbl(id INTEGER, val VARCHAR);
+CREATE TABLE db.tbl (id INTEGER, val VARCHAR);
 -- snapshot 2
 INSERT INTO db.tbl VALUES (1, 'Hello'), (2, 'DuckLake');
 -- snapshot 3

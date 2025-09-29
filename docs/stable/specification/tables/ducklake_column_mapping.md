@@ -3,7 +3,7 @@ layout: docu
 title: ducklake_column_mapping
 ---
 
-Mappings contain the information used to map parquet fields to column ids in the absence of `field-id`s in the Parquet file.
+Mappings contain the information used to map Parquet fields to column ids in the absence of `field-id`s in the Parquet file.
 
 | Column name  | Column type |             |
 | ------------ | ----------- | ----------- |
@@ -19,4 +19,4 @@ The valid `type` values:
 
 | `type`        | Description |
 | ------------- | ----------- |
-| `map_by_name` | Map the columns based on the names in the parquet file |
+| `map_by_name` | Map the columns based on the names in the Parquet file |

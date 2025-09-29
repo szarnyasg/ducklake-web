@@ -23,12 +23,13 @@ The only difference is that the inlined data lives in the metadata catalog, inst
 For example, when inserting a low number of rows, data is automatically inlined:
 
 ```sql
-CREATE TABLE inlining.tbl(col INTEGER);
+CREATE TABLE inlining.tbl (col INTEGER);
 -- inserting 3 rows, data is inlined
 INSERT INTO inlining.tbl VALUES (1), (2), (3);
 -- no Parquet files exist
-SELECT COUNT(*) FROM glob('inlining.db.files/**');
+SELECT count(*) FROM glob('inlining.db.files/**');
 ```
+
 ```text
 ┌──────────────┐
 │ count_star() │
@@ -42,8 +43,9 @@ When inserting more data than the `DATA_INLINING_ROW_LIMIT`, inserts are automat
 
 ```sql
 INSERT INTO inlining.tbl FROM range(100);
-SELECT COUNT(*) FROM glob('inlining.db.files/**');
+SELECT count(*) FROM glob('inlining.db.files/**');
 ```
+
 ```text
 ┌──────────────┐
 │ count_star() │
@@ -55,7 +57,7 @@ SELECT COUNT(*) FROM glob('inlining.db.files/**');
 
 ## Flushing Inlined Data
 
-Inlined data can be manually flushed to parquet files by calling the `ducklake_flush_inlined_data` function. For example:
+Inlined data can be manually flushed to Parquet files by calling the `ducklake_flush_inlined_data` function.
 
 ```sql
 -- flush all inlined data in all schemas and tables
