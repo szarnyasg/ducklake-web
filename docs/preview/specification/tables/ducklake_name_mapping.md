@@ -3,7 +3,7 @@ layout: docu
 title: ducklake_name_mapping
 ---
 
-This table contains the information used to map a name to a [`column_id`]({% link docs/preview/specification/tables/ducklake_column.md %}) for a given [`mapping_id`]({% link docs/stable/specification/tables/ducklake_column_mapping.md %}) with the `map_by_name` type.
+This table contains the information used to map a name to a [`column_id`]({% link docs/preview/specification/tables/ducklake_column.md %}) for a given [`mapping_id`]({% link docs/preview/specification/tables/ducklake_column_mapping.md %}) with the `map_by_name` type.
 
 | Column name       | Column type |             |
 | ----------------- | ----------- | ----------- |

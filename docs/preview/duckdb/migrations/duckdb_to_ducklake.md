@@ -46,6 +46,10 @@ The following Python script can be used to migrate from a DuckDB persisted datab
 
 > Currently, only local migrations are supported by this script. The script will be adapted in the future to account for migrations to remote object storage such as S3 or GCS.
 
+<details markdown='1'>
+<summary markdown='span'>
+Click to see the Python script that migrates from DuckDB to DuckLake.
+</summary>
 ```python
 import duckdb
 import argparse
@@ -197,7 +201,7 @@ if __name__ == "__main__":
         con.execute(get_postgres_secret())
 
     secret = (
-        "CREATE SECRET ducklake_secret (TYPE DUCKLAKE"
+        "CREATE SECRET ducklake_secret (TYPE ducklake"
         + (
             f"\n,METADATA_PATH '{args.ducklake_file if args.catalog_type == 'duckdb' else f'sqlite:{args.ducklake_file}'}'"
             if args.catalog_type in ("duckdb", "sqlite")
@@ -234,6 +238,7 @@ if __name__ == "__main__":
         )
     con.close()
 ```
+</details>
 
 The script can be run in any Python environment with DuckDB installed. The usage is the following:
 
@@ -242,7 +247,7 @@ usage: migration.py [-h]
     --duckdb-catalog DUCKDB_CATALOG
     --duckdb-file DUCKDB_FILE
     --ducklake-catalog DUCKLAKE_CATALOG
-    --catalog-type{duckdb,postgresql,sqlite}
+    --catalog-type {duckdb,postgresql,sqlite}
     [--ducklake-file DUCKLAKE_FILE]
     --ducklake-data-path DUCKLAKE_DATA_PATH
 ```

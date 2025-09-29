@@ -22,7 +22,7 @@ MERGE INTO target_table [target_alias]
 First, let's create a simple table.
 
 ```sql
-CREATE TABLE people(id INTEGER, name VARCHAR, salary FLOAT);
+CREATE TABLE people (id INTEGER, name VARCHAR, salary FLOAT);
 INSERT INTO people VALUES (1, 'John', 92_000.0), (2, 'Anna', 100_000.0);
 ```
 

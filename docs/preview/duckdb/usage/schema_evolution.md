@@ -7,52 +7,60 @@ DuckLake supports the evolution of the schemas of tables without requiring any d
 
 ## Adding Columns / Fields
 
+To add a new column of type `INTEGER`, with default value `NULL`, use:
+
 ```sql
--- add a new column of type INTEGER, with default value NULL
 ALTER TABLE tbl ADD COLUMN new_column INTEGER;
--- add a new column with an explicit default value
+```
+
+To add a new column with an explicit default value, use:
+
+```sql
 ALTER TABLE tbl ADD COLUMN new_column VARCHAR DEFAULT 'my_default';
 ```
 
 Fields can be added to columns of type `struct`. The path to the `struct` column must be specified, followed by the name of the new field and the type of the new field.
 
 ```sql
--- add a new field of type INTEGER, with default value NULL
+-- Add a new field of type INTEGER, with default value NULL
 ALTER TABLE tbl ADD COLUMN nested_column.new_field INTEGER;
 ```
 
 ## Dropping Columns / Fields
 
+To drop the top-level column `new_column` from the table, use:
+
 ```sql
--- drop the top-level column `new_column` from the table
 ALTER TABLE tbl DROP COLUMN new_column;
 ```
 
 Fields can be dropped by specifying the full path to the field.
+For example, to drop the field `new_field` from the struct column `nested_column`, use:
 
 ```sql
--- drop the field `new_field` from the struct column `nested_column`
 ALTER TABLE tbl DROP COLUMN nested_column.new_field;
 ```
 
 ### Renaming Columns / Fields
 
+To rename the top-level column `new_column` to `new_name`, use:
+
 ```sql
--- rename the top-level column "new_column" to "new_name"
 ALTER TABLE tbl RENAME new_column TO new_name;
 ```
 
 Field scan be renamed by specifying the full path to the field.
+For example, to rename the field `new_field` within the struct column `nested_column` to `new_name`:
 
 ```sql
--- rename the field "new_field" within the struct column "nested_column" to "new_name"
 ALTER TABLE tbl RENAME nested_column.new_field TO new_name;
 ```
 
 ### Renaming Tables
 
+To rename the table `tbl` to `tbl_new_name`, use:
+
 ```sql
--- rename the table "tbl" to "tbl_new_name"
 ALTER TABLE tbl RENAME TO tbl_new_name;
 ```
 
@@ -60,10 +68,15 @@ ALTER TABLE tbl RENAME TO tbl_new_name;
 
 The [types]({% link docs/preview/specification/data_types.md %}) of columns can be changed.
 
+To change the type of `col1` to `BIGINT`, use:
+
 ```sql
--- change the type of col1 to BIGINT
 ALTER TABLE tbl ALTER col1 SET TYPE BIGINT;
--- change the type of field "new_field" within the struct column "nested_column" to BIGINT
+```
+
+To change the type of field `new_field` within the struct column `nested_column` to `BIGINT`:
+
+```sql
 ALTER TABLE tbl ALTER nested_column.new_field SET TYPE BIGINT;
 ```
 

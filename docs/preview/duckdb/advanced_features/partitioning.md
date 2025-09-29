@@ -20,10 +20,15 @@ These keys do not need to be necessarily stored within the files, or in the path
 
 Set the partitioning keys of a table, such that new data added to the table is partitioned by these keys.
 
+To partition on a column, use:
+
 ```sql
--- partition on a column
 ALTER TABLE tbl SET PARTITIONED BY (part_key);
--- partition by the year/month of a timestamp
+```
+
+You can also partition using functions. For example, to partition based on the year/month of a timestamp, use:
+
+```sql
 ALTER TABLE tbl SET PARTITIONED BY (year(ts), month(ts));
 ```
 
