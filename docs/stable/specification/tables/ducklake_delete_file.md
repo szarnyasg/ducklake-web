@@ -7,7 +7,7 @@ Delete files contains the row ids of rows that are deleted. Each data file will 
 
 | Column name        | Column type |             |
 | ------------------ | ----------- | ----------- |
-| `delete_file_id`   | `BIGINT`    | Primary Key |
+| `delete_file_id`   | `BIGINT`    | Primary key |
 | `table_id`         | `BIGINT`    |             |
 | `begin_snapshot`   | `BIGINT`    |             |
 | `end_snapshot`     | `BIGINT`    |             |
@@ -29,6 +29,6 @@ Delete files contains the row ids of rows that are deleted. Each data file will 
 - `path_is_relative` whether the `path` is relative to the [`path`]({% link docs/stable/specification/tables/ducklake_table.md %}) of the table (true) or an absolute path (false).
 - `format` is the storage format of the delete file. Currently, only `parquet` is allowed.
 - `delete_count` is the number of deletion records in the file.
-- `file_size_bytes` is the size of the file in Bytes.
+- `file_size_bytes` is the size of the file in bytes.
 - `footer_size` is the size of the file metadata footer, in the case of Parquet the Thrift data. This is an optimization that allows for faster reading of the file.
 - `encryption_key` contains the encryption for the file if [encryption]({% link docs/stable/duckdb/advanced_features/encryption.md %}) is enabled.

@@ -22,5 +22,5 @@ This table describes tables. Inception!
 - `end_snapshot` refers to a `snapshot_id` from the `ducklake_snapshot` table. The table exists *up to but not including* this snapshot id. If `end_snapshot` is `NULL`, the table is currently valid.
 - `schema_id` refers to a `schema_id` from the `ducklake_schema` table.
 - `table_name` is the name of the table, e.g., `my_table`.
-- `path` is the data_path of the table.
+- `path` is the `data_path` of the table.
 - `path_is_relative` whether the `path` is relative to the [`path`]({% link docs/stable/specification/tables/ducklake_schema.md %}) of the schema (true) or an absolute path (false).

@@ -7,7 +7,7 @@ This table lists changes that happened in a snapshot for easier conflict detecti
 
 | Column name         | Column type | Description                              |
 | ------------------- | ----------- | ---------------------------------------- |
-| `snapshot_id`       | `BIGINT`    | Primary Key                              |
+| `snapshot_id`       | `BIGINT`    | Primary key                              |
 | `changes_made`      | `VARCHAR`   | List of changes in snapshot              |
 | `author`            | `VARCHAR`   | Author of the snapshot                   |
 | `commit_message`    | `VARCHAR`   | Commit message                           |

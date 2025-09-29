@@ -3,7 +3,7 @@ layout: docu
 title: ducklake_files_scheduled_for_deletion
 ---
 
-Files that are no longer part of any snapshot are scheduled for deletion
+Files that are no longer part of any snapshot are scheduled for deletion.
 
 | Column name        | Column type                |             |
 | ------------------ | -------------------------- | ----------- |
