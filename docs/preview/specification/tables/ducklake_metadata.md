@@ -12,8 +12,8 @@ The `ducklake_metadata` table contains key/value pairs with information about th
 | `scope`     | `VARCHAR`   |             |
 | `scope_id`  | `BIGINT`    |             |
 
-- `key` is an arbitrary key string. See below for a list of pre-defined keys. The key can't be `NULL`.
-- `value` is the arbitrary value string.
+- `key` is an arbitrary key string. See below for a list of pre-defined keys. The key cannot be `NULL`.
+- `value` is the arbitrary value string. The `value` cannot be `NULL`.
 - `scope` defines the scope of the setting.
 - `scope_id` is the id of the item that the setting is scoped to (see the table below) or `NULL` for the Global scope.
 
@@ -39,7 +39,7 @@ Currently, the following values for `key` are specified:
 | `parquet_compression`          | Compression algorithm for Parquet files, e.g., `zstd`.                                                                         | `uncompressed`, `snappy`, `gzip`, `zstd`, `brotli`, `lz4`, `lz4_raw`                                        | Global, Schema, Table |
 | `parquet_compression_level`    | Compression level for Parquet files.                                                                                           |                                                                                                             | Global, Schema, Table |
 | `parquet_version`              | Parquet format version.                                                                                                        | `1` or `2`                                                                                                  | Global, Schema, Table |
-| `hive_file_pattern`            | If partitioned data should be written in a hive-like folder structure.                                                         | `'true'` or `'false'`                                                                                       | Global  |
+| `hive_file_pattern`            | If partitioned data should be written in a Hive-style folder structure.                                                        | `'true'` or `'false'`                                                                                       | Global  |
 | `require_commit_message`       | If an explicit commit message is required for a snapshot commit.                                                               | `'true'` or `'false'`                                                                                       | Global |
 | `rewrite_delete_threshold`     | Minimum amount of data (0-1) that must be removed from a file before a rewrite is warranted.                                   | Value between `0` and `1`                                                                                   | Global |
 | `delete_older_than`            | How old unused files must be to be removed by the `ducklake_delete_orphaned_files` and `ducklake_cleanup_old_files` functions. | Duration string (e.g., `7d`, `24h`)                                                                         | Global |

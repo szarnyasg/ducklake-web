@@ -3,7 +3,7 @@ layout: docu
 title: ducklake_schema_versions
 ---
 
-This table contains the schema versions for a range of snapshots. It is necessary to compact files with different schemas. 
+This table contains the schema versions for a range of snapshots. It is necessary to compact files with different schemas.
 
 | Column name      | Column type |   |
 |------------------|-------------|---|

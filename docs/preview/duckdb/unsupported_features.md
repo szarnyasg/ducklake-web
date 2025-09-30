@@ -17,17 +17,15 @@ Within this group, we are going to make a distinction between what is not suppor
 
 - [User defined types](https://duckdb.org/docs/stable/sql/statements/create_type).
 
-- [Geometry/Geospatial types](https://duckdb.org/docs/stable/core_extensions/spatial/overview)
-
 - Fixed-size arrays, i.e., [`ARRAY` type](https://duckdb.org/docs/stable/sql/data_types/array)
 
 - [`ENUM` type](https://duckdb.org/docs/stable/sql/data_types/enum)
 
 - Variant types
 
-- [`CHECK` constraints](https://duckdb.org/docs/stable/sql/constraints#check-constraint). Not to be confused with Primary or Foreign Key constraint.
+- [`CHECK` constraints](https://duckdb.org/docs/stable/sql/constraints#check-constraint). (Not to be confused with Primary or Foreign Key constraints.)
 
-- [Scalar and table macros (functions)](https://duckdb.org/docs/stable/sql/statements/create_macro#examples). However, if the catalog database supports it, there is a workaround.
+- [Scalar and table macros (functions)](https://duckdb.org/docs/stable/sql/statements/create_macro#examples). However, if the catalog database supports it, there is a workaround:
 
   ```sql
   -- Using DuckDB as a catalog, create the macro in the catalog
