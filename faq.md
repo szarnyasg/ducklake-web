@@ -327,7 +327,7 @@ That said, if you encounter any problems using DuckLake, please submit an issue 
 
 If you encounter any problems using DuckLake, please submit an issue in the [DuckLake issue tracker](https://github.com/duckdb/ducklake/issues).
 If you have any suggestions or feature requests, please open a ticket in [DuckLake's discussion forum](https://github.com/duckdb/ducklake/discussions).
-You are also welcome to implement support in other systems for DuckLake following the specification.
+You are also welcome to implement support in other systems for DuckLake following the [specification]({% link docs/stable/specification/introduction.md %}).
 
 </div>
 
@@ -344,7 +344,24 @@ You are also welcome to implement support in other systems for DuckLake followin
 
 <div class="answer" markdown="1">
 
-The DuckLake specification and the `ducklake` DuckDB extension are released under the MIT license.
+The [DuckLake specification]({% link docs/stable/specification/introduction.md %}) and the [`ducklake` DuckDB extension]({% link docs/stable/duckdb/introduction.md %}) are released under the MIT license.
+
+</div>
+
+</div>
+
+
+
+
+<!-- ----- ----- ----- ----- ----- ----- Q&A entry ----- ----- ----- ----- ----- ----- -->
+
+<div class="qa-wrap" markdown="1">
+
+### Is the documentation available as a single file?
+
+<div class="answer" markdown="1">
+
+Yes, you can download the documentation as a [single Markdown file](/ducklake-docs.md) and as a [PDF](/ducklake-docs.pdf).
 
 </div>
 
