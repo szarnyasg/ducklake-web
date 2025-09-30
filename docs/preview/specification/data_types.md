@@ -51,15 +51,15 @@ The following nested types are supported:
 
 ## Geometry Types
 
-DuckLake supports geometry types via the [`SPATIAL`](https://duckdb.org/docs/stable/core_extensions/spatial/overview#the-geometry-type) extension and the Parquet `geometry` type. The `geometry` type can store different types of spatial representations called geometry primitives, of which DuckLake supports the following:
+DuckLake supports geometry types via the [`spatial` extension](https://duckdb.org/docs/stable/core_extensions/spatial/overview#the-geometry-type) and the Parquet `geometry` type. The `geometry` type can store different types of spatial representations called geometry primitives, of which DuckLake supports the following:
 
-| Geometry primitive   | Description                                                                                           |
-| -------------------- | ----------------------------------------------------------------------------------------------------- |
-| `POINT`              | A single location in coordinate space.                                                                |
-| `LINESTRING`         | A sequence of points connected by straight line segments.                                             |
-| `POLYGON`            | A planar surface defined by one exterior boundary and zero or more interior boundaries (holes).       |
-| `MULTIPOINT`         | A collection of `POINT` geometries.                                                                   |
-| `MULTILINESTRING`    | A collection of `LINESTRING` geometries.                                                              |
-| `MULTIPOLYGON`       | A collection of `POLYGON` geometries.                                                                 |
-| `LINESTRING Z`       | A `LINESTRING` geometry with an additional Z (elevation) coordinate for each point.                   |
-| `GEOMETRYCOLLECTION` | A heterogeneous collection of geometry primitives (e.g., points, lines, polygons, etc.).              |
+| Geometry primitive   | Description                                                                                     |
+| -------------------- | ----------------------------------------------------------------------------------------------- |
+| `point`              | A single location in coordinate space.                                                          |
+| `linestring`         | A sequence of points connected by straight line segments.                                       |
+| `polygon`            | A planar surface defined by one exterior boundary and zero or more interior boundaries (holes). |
+| `multipoint`         | A collection of `point` geometries.                                                             |
+| `multilinestring`    | A collection of `linestring` geometries.                                                        |
+| `multipolygon`       | A collection of `polygon` geometries.                                                           |
+| `linestring z`       | A `linestring` geometry with an additional Z (elevation) coordinate for each point.             |
+| `geometrycollection` | A heterogeneous collection of geometry primitives (e.g., points, lines, polygons, etc.).        |
