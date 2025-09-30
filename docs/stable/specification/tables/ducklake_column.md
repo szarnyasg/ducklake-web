@@ -23,7 +23,7 @@ This table describes the columns that are part of a table, including their types
 - `begin_snapshot` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). This version of the column exists *starting with* this snapshot id.
 - `end_snapshot` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). This version of the column exists *up to but not including* this snapshot id. If `end_snapshot` is `NULL`, this version of the column is currently valid.
 - `table_id` refers to a `table_id` from the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
-- `column_order` is a number that defines the position of the column in the list of columns. It needs to be unique within a snapshot but does not have to be strictly monotonic (gaps are ok).
+- `column_order` is a number that defines the position of the column in the list of columns. It needs to be unique within a snapshot but does not have to be contiguous (gaps are ok).
 - `column_name` is the name of this version of the column, e.g., `my_column`.
 - `column_type` is the type of this version of the column as defined in the list of [data types]({% link docs/stable/specification/data_types.md %}).
 - `initial_default` is the *initial* default value as the column is being created, e.g., in `ALTER TABLE`, encoded as a string. Can be `NULL`.
