@@ -15,7 +15,7 @@ Mappings contain the information used to map Parquet fields to column ids in the
 - `table_id` refers to a `table_id` from the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %}).
 - `type` defines what method is used to perform the mapping.
 
-The valid `type` values:
+The valid `type` values are the following:
 
 | `type`        | Description |
 | ------------- | ----------- |

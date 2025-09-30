@@ -53,7 +53,7 @@ USE my_ducklake;
 
 ## Using DuckLake
 
-DuckLake is used just like any other DuckDB database. You can create schemas and tables, insert data, update data, delete data, modify table schemas etc.
+DuckLake is used just like any other DuckDB database. You can create schemas and tables, insert data, update data, delete data, modify table schemas, etc.
 
 Note that – similarly to other data lake and Lakehouse formats – the DuckLake format does not support indexes, primary keys, foreign keys, and `UNIQUE` or `CHECK` constraints.
 

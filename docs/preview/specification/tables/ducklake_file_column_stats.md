@@ -27,4 +27,4 @@ This table contains column-level statistics for a single data file.
 - `min_value` contains the minimum value for the column, encoded as a string. This does not have to be exact but has to be a lower bound. The value has to be cast to the actual type for accurate comparison, e.g., on integer types.
 - `max_value` contains the maximum value for the column, encoded as a string. This does not have to be exact but has to be an upper bound. The value has to be cast to the actual type for accurate comparison, e.g., on integer types.
 - `contains_nan` is a flag whether the column contains any `NaN` values. This is only relevant for floating-point types.
-- `extra_stats` contains different statistics from specific types such as Geometry types.
+- `extra_stats` contains different statistics from specific types such as geometry types.

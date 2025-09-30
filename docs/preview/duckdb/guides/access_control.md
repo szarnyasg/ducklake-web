@@ -248,7 +248,7 @@ In the last example, there are limitations to this approach. We can create an em
 ```sql
 BEGIN TRANSACTION;
 CREATE TABLE other_table_in_main (id INTEGER, name VARCHAR);
-INSERT INTO other_table_in_main VALUES (1, 'test'); 
+INSERT INTO other_table_in_main VALUES (1, 'test');
 COMMIT;
 ```
 
@@ -289,7 +289,7 @@ CREATE OR REPLACE SECRET ducklake_reader_secret (
   DATA_PATH 's3://ducklake-access-control/',
   METADATA_PARAMETERS MAP {'TYPE': 'postgres','SECRET': 'postgres_secret_reader'}
 );
-ATTACH 'ducklake:ducklake_reader_secret' AS ducklake_reader; 
+ATTACH 'ducklake:ducklake_reader_secret' AS ducklake_reader;
 USE ducklake_reader;
 
 SELECT * FROM some_schema.some_table; -- Works
