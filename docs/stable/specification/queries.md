@@ -506,11 +506,11 @@ where
 
 Notes:
 
-* We have omitted some complexity around relative paths and encrypted files in this example. Refer to the [`ducklake_delete_file` table]({% link docs/stable/specification/tables/ducklake_delete_file.md %}) documentation for details.
+- We have omitted some complexity around relative paths and encrypted files in this example. Refer to the [`ducklake_delete_file` table]({% link docs/stable/specification/tables/ducklake_delete_file.md %}) documentation for details.
 
-* In DuckLake, the strategy used for `DELETE` operations is **merge-on-read**. Delete files are referenced in the [`ducklake_delete_file` table]({% link docs/stable/specification/tables/ducklake_delete_file.md %}).
+- In DuckLake, the strategy used for `DELETE` operations is **merge-on-read**. Delete files are referenced in the [`ducklake_delete_file` table]({% link docs/stable/specification/tables/ducklake_delete_file.md %}).
 
-* Please note that `DELETE` operations also do not require updates to table statistics, as the statistics are maintained as upper bounds, and deletions do not violate these bounds.
+- Please note that `DELETE` operations also do not require updates to table statistics, as the statistics are maintained as upper bounds, and deletions do not violate these bounds.
 
 ### `UPDATE`
 
