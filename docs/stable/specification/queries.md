@@ -118,7 +118,7 @@ Not all files have to contain all the columns currently defined in the table, so
 
 #### Note on Paths
 
-In DuckLake, paths can be relative to the initially specified data path. Whether path is relative or not is stored in the [`ducklake_data_file`]({% link docs/stable/specification/tables/ducklake_data_file.md %}) and [`ducklake_delete_file`]({% link docs/stable/specification/tables/ducklake_delete_file.md %}) entries (`path_is_relative`) to the `data_path` prefix from [`ducklake_metadata`]({% link docs/stable/specification/tables/ducklake_metadata.md %}).
+In DuckLake, paths can be relative to the initially specified data path. Whether a path is relative or not to the `data_path` prefix from [`ducklake_metadata`]({% link docs/stable/specification/tables/ducklake_metadata.md %}), is stored in the [`ducklake_data_file`]({% link docs/stable/specification/tables/ducklake_data_file.md %}) and [`ducklake_delete_file`]({% link docs/stable/specification/tables/ducklake_delete_file.md %}) entries (`path_is_relative`).
 
 ### `SELECT` with File Pruning
 
@@ -510,4 +510,4 @@ where
 
 ### `UPDATE`
 
-In DuckLake, `UPDATE` operations are internally implemented as a combination of a `DELETE` followed by an `INSERT`. Specifically, the outdated row is marked for deletion, and the updated version of that row is inserted. As a result, the changes to the metadata tables are equivalent to performing a `DELETE` and an `INSERT` operation sequentially within the same transaction.
+In DuckLake, `UPDATE` operations are expressed as a combination of a `DELETE` followed by an `INSERT`. Specifically, the outdated row is marked for deletion, and the updated version of that row is inserted. As a result, the changes to the metadata tables are equivalent to performing a `DELETE` and an `INSERT` operation sequentially within the same transaction.
