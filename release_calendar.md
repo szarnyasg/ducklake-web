@@ -26,7 +26,7 @@ Upcoming releases are shown in the table below. **Please note that these dates a
 <!-- markdownlint-disable MD055 MD056 MD058 -->
 
 {% if site.data.upcoming_releases.size > 0 %}
-| Release<br>date | DuckLake<br>specification version | `ducklake`<br>extension version |
+| Release date | Spec. version | Extension version |
 |----------------:|----------------------------------:|--------------------------------:|
 {%- for release in site.data.upcoming_releases reversed %}
 | {{ release.start_date }} | {{ release.ducklake_spec }} | {{ release.ducklake_extension }} |
@@ -51,7 +51,7 @@ In the following, we list DuckLake's past releases.
   {% endif %}
 {% endfor %}
 
-| Release<br>date | DuckLake<br>specification version | `ducklake`<br>extension version | Announcement<br>post |
+| Release date | Spec. version | Extension version | Announcement post |
 |----------------:|----------------------------------:|--------------------------------:|
 {% for row in site.data.past_releases %}
   {%- if row.ducklake_extension == latest_version_number %}
@@ -69,7 +69,7 @@ In the following, we list DuckLake's past releases.
 Currently, the DuckLake specification and the `ducklake` DuckDB extension are currently released together. This may not be the case in the future, where the specification and the extension may have different release cadences. It can also be the case that the extension needs a DuckDB core update, therefore DuckDB versions are also included in this compatibility matrix.
 
 {% if site.data.compatibility_matrix.size > 0 %}
-| DuckDB<br>version | `ducklake`<br>extension version | DuckLake<br>specification version |
+| DuckDB version | Extension version | Spec. version |
 |------------------:|--------------------------------:|----------------------------------:|
 {%- for release in site.data.compatibility_matrix %}
 | {{ release.duckdb_version }} | {{ release.ducklake_extension_version }} | {{ release.ducklake_spec_version }} |
