@@ -51,7 +51,7 @@ The following nested types are supported:
 
 ## Geometry Types
 
-DuckLake supports geometry types using the `geometry` type in the Parquet format. The `geometry` type can store different types of spatial representations called geometry primitives, of which DuckLake supports the following:
+DuckLake supports geometry types using the `geometry` type of the Parquet format. The `geometry` type can store different types of spatial representations called geometry primitives, of which DuckLake supports the following:
 
 | Geometry primitive   | Description                                                                                     |
 | -------------------- | ----------------------------------------------------------------------------------------------- |
