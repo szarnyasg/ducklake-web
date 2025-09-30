@@ -504,9 +504,13 @@ where
 - `⟨FILE_SIZE_BYTES⟩`{:.language-sql .highlight} is the file size.
 - `⟨FOOTER_SIZE⟩`{:.language-sql .highlight} is the position of the Parquet footer. This helps with efficiently reading the file.
 
-> We have omitted some complexity around relative paths and encrypted files in this example. Refer to the [`ducklake_delete_file` table]({% link docs/stable/specification/tables/ducklake_delete_file.md %}) documentation for details.
+Notes:
 
-> Please note that `DELETE` operations also do not require updates to table statistics, as the statistics are maintained as upper bounds, and deletions do not violate these bounds.
+* We have omitted some complexity around relative paths and encrypted files in this example. Refer to the [`ducklake_delete_file` table]({% link docs/stable/specification/tables/ducklake_delete_file.md %}) documentation for details.
+
+* In DuckLake, the strategy used for `DELETE` operations is **merge-on-read**. Delete files are referenced in the [`ducklake_delete_file` table]({% link docs/stable/specification/tables/ducklake_delete_file.md %}).
+
+* Please note that `DELETE` operations also do not require updates to table statistics, as the statistics are maintained as upper bounds, and deletions do not violate these bounds.
 
 ### `UPDATE`
 
