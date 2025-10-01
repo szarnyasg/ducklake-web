@@ -46,6 +46,8 @@ The following Python script can be used to migrate from a DuckDB persisted datab
 
 > Currently, only local migrations are supported by this script. The script will be adapted in the future to account for migrations to remote object storage such as S3 or GCS.
 
+<!-- markdownlint-disable MD040 MD046 -->
+
 <details markdown='1'>
 <summary markdown='span'>
 Click to see the Python script that migrates from DuckDB to DuckLake.
@@ -239,6 +241,8 @@ if __name__ == "__main__":
     con.close()
 ```
 </details>
+
+<!-- markdownlint-enable MD040 MD046 -->
 
 The script can be run in any Python environment with DuckDB installed. The usage is the following:
 
