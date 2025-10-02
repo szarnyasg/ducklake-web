@@ -118,7 +118,7 @@ Not all files have to contain all the columns currently defined in the table, so
 
 #### Note on Paths
 
-In DuckLake, paths can be relative to the initially specified data path. Whether path is relative or not is stored in the [`ducklake_data_file`]({% link docs/preview/specification/tables/ducklake_data_file.md %}) and [`ducklake_delete_file`]({% link docs/preview/specification/tables/ducklake_delete_file.md %}) entries (`path_is_relative`) to the `data_path` prefix from [`ducklake_metadata`]({% link docs/preview/specification/tables/ducklake_metadata.md %}).
+In DuckLake, paths can be relative to the initially specified data path. Whether a path is relative or not to the `data_path` prefix from [`ducklake_metadata`]({% link docs/preview/specification/tables/ducklake_metadata.md %}), is stored in the [`ducklake_data_file`]({% link docs/preview/specification/tables/ducklake_data_file.md %}) and [`ducklake_delete_file`]({% link docs/preview/specification/tables/ducklake_delete_file.md %}) entries (`path_is_relative`).
 
 ### `SELECT` with File Pruning
 
@@ -504,10 +504,14 @@ where
 - `⟨FILE_SIZE_BYTES⟩`{:.language-sql .highlight} is the file size.
 - `⟨FOOTER_SIZE⟩`{:.language-sql .highlight} is the position of the Parquet footer. This helps with efficiently reading the file.
 
-> We have omitted some complexity around relative paths and encrypted files in this example. Refer to the [`ducklake_delete_file` table]({% link docs/preview/specification/tables/ducklake_delete_file.md %}) documentation for details.
+Notes:
 
-> Please note that `DELETE` operations also do not require updates to table statistics, as the statistics are maintained as upper bounds, and deletions do not violate these bounds.
+- We have omitted some complexity around relative paths and encrypted files in this example. Refer to the [`ducklake_delete_file` table]({% link docs/preview/specification/tables/ducklake_delete_file.md %}) documentation for details.
+
+- In DuckLake, the strategy used for `DELETE` operations is **merge-on-read**. Delete files are referenced in the [`ducklake_delete_file` table]({% link docs/preview/specification/tables/ducklake_delete_file.md %}).
+
+- Please note that `DELETE` operations also do not require updates to table statistics, as the statistics are maintained as upper bounds, and deletions do not violate these bounds.
 
 ### `UPDATE`
 
-In DuckLake, `UPDATE` operations are internally implemented as a combination of a `DELETE` followed by an `INSERT`. Specifically, the outdated row is marked for deletion, and the updated version of that row is inserted. As a result, the changes to the metadata tables are equivalent to performing a `DELETE` and an `INSERT` operation sequentially within the same transaction.
+In DuckLake, `UPDATE` operations are expressed as a combination of a `DELETE` followed by an `INSERT`. Specifically, the outdated row is marked for deletion, and the updated version of that row is inserted. As a result, the changes to the metadata tables are equivalent to performing a `DELETE` and an `INSERT` operation sequentially within the same transaction.
