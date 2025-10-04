@@ -18,7 +18,7 @@ This table describes SQL-style `VIEW` definitions.
 | `column_aliases` | `VARCHAR`   |             |
 
 - `view_id` is the numeric identifier of the view.  `view_id` is incremented from `next_catalog_id` in the [`ducklake_snapshot` table]({% link docs/preview/specification/tables/ducklake_snapshot.md %}).
-- `view_uuid` is a UUID that gives a persistent identifier for this view. The UUID is stored here for compatibility with existing Lakehouse formats.
+- `view_uuid` is a UUID that gives a persistent identifier for this view. The UUID is stored here for compatibility with existing lakehouse formats.
 - `begin_snapshot` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/preview/specification/tables/ducklake_snapshot.md %}). The view exists *starting with* this snapshot id.
 - `end_snapshot` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/preview/specification/tables/ducklake_snapshot.md %}). The view exists *up to but not including* this snapshot id. If `end_snapshot` is `NULL`, the view is currently valid.
 - `schema_id` refers to a `schema_id` from the [`ducklake_schema` table]({% link docs/preview/specification/tables/ducklake_schema.md %}).

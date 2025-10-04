@@ -1,6 +1,6 @@
 # DuckLake
 
-> DuckLake is an open table format and a Lakehouse format.
+> DuckLake is an open table format and a lakehouse format.
 > DuckLake supports schema evolution, snapshots, time travel and fully ACID multi-table transactions.
 > It was built with simplicity in mind, so it requires only two components: a SQL-compliant catalog database and a storage layer for Parquet files.
 

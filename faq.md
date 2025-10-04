@@ -51,7 +51,7 @@ and can store your data in multiple files instead of using a single (potentially
 
 <div class="answer" markdown="1">
 
-DuckLake is both a _Lakehouse format_ and an _open table format._
+DuckLake is both a _lakehouse format_ and an _open table format._
 When comparing to other technologies, DuckLake is similar to Delta Lake with Unity Catalog and Iceberg with Lakekeeper or Polaris.
 
 </div>
@@ -71,8 +71,8 @@ When comparing to other technologies, DuckLake is similar to Delta Lake with Uni
 
 “DuckLake” can refer to a number of things:
 
-1. The _DuckLake Lakehouse format_ that uses a catalog database and a Parquet storage to store data.
-2. A _DuckLake instance_ storing a dataset with the DuckLake Lakehouse format.
+1. The _DuckLake lakehouse format_ that uses a catalog database and a Parquet storage to store data.
+2. A _DuckLake instance_ storing a dataset with the DuckLake lakehouse format.
 3. The [`ducklake` _DuckDB extension_]({% link docs/stable/duckdb/introduction.md %}), which supports reading/writing datasets using the DuckLake format.
 
 </div>
@@ -231,7 +231,7 @@ Further improvements are on the roadmap.
 
 <div class="answer" markdown="1">
 
-No. Similarly to other Lakehouse technologies, DuckLake does not support constraints, keys, or indexes.
+No. Similarly to other lakehouse technologies, DuckLake does not support constraints, keys, or indexes.
 For more information, see the [list of unsupported features]({% link docs/stable/duckdb/unsupported_features.md %}).
 
 </div>

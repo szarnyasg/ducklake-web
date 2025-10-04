@@ -1,20 +1,20 @@
 ---
 layout: default
-title: "The DuckLake Manifesto: SQL as a Lakehouse Format"
+title: "The DuckLake Manifesto: SQL as a lakehouse Format"
 subtitle: An integrated data lake and catalog format
-description: DuckLake delivers advanced data lake features without traditional Lakehouse complexity by using Parquet files and your SQL database. It’s an open, standalone format from the DuckDB team.
+description: DuckLake delivers advanced data lake features without traditional lakehouse complexity by using Parquet files and your SQL database. It’s an open, standalone format from the DuckDB team.
 body_class: manifesto
 max_page_width: small
 toc: false
 ---
 
 <div class="wrap pagetitle">
-  <h1>The DuckLake Manifesto:<br/> SQL as a Lakehouse Format</h1>
+  <h1>The DuckLake Manifesto:<br/> SQL as a lakehouse Format</h1>
 </div>
 
 **Authors:** Mark Raasveldt and Hannes Mühleisen
 
-DuckLake simplifies Lakehouses by using a standard SQL database for all metadata, instead of complex file-based systems, while still storing data in open formats like Parquet. This makes it more reliable, faster, and easier to manage.
+DuckLake simplifies lakehouses by using a standard SQL database for all metadata, instead of complex file-based systems, while still storing data in open formats like Parquet. This makes it more reliable, faster, and easier to manage.
 
 _Would you rather listen to the content of this manifesto? We also released a [podcast episode](https://www.youtube.com/watch?v=zeonmOO9jm4) explaining how we came up with the [DuckLake format](https://www.youtube.com/watch?v=zeonmOO9jm4)._
 
@@ -31,7 +31,7 @@ But quickly it emerged that – shockingly – people would like to *make change
 
 ## Iceberg and Delta
 
-To address the basic task of changing data in the lake, various new open standards emerged, most prominently Apache Iceberg and Linux Foundation Delta Lake. Both formats were designed to essentially recover some sanity of making changes to tables *without* giving up the basic premise: use open formats on blob storage. For example, Iceberg uses a maze of JSON and Avro files to define schemas, snapshots and which Parquet files are part of the table at a point in time. The result was christened the [“Lakehouse”](https://www.cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf), effectively an addition of database features to data lakes that enabled a lot of new exciting use cases for data management, e.g., cross-engine data sharing.
+To address the basic task of changing data in the lake, various new open standards emerged, most prominently Apache Iceberg and Linux Foundation Delta Lake. Both formats were designed to essentially recover some sanity of making changes to tables *without* giving up the basic premise: use open formats on blob storage. For example, Iceberg uses a maze of JSON and Avro files to define schemas, snapshots and which Parquet files are part of the table at a point in time. The result was christened the [“lakehouse”](https://www.cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf), effectively an addition of database features to data lakes that enabled a lot of new exciting use cases for data management, e.g., cross-engine data sharing.
 
 ![Iceberg table architecture](/images/manifesto/iceberg-table-architecture.png){: .lightmode-img }
 ![Iceberg table architecture](/images/manifesto/dark/iceberg-table-architecture.png){: .darkmode-img }
@@ -55,13 +55,13 @@ But as pointed out above, the Iceberg and Delta Lake designs *already* had to co
 
 ## DuckLake
 
-Here at [DuckDB](https://duckdb.org/), we actually like databases. They are amazing tools to safely and efficiently manage fairly large datasets. Once a database has entered the Lakehouse stack anyway, it makes an insane amount of sense to also use it for managing the rest of the table metadata! We can still take advantage of the “endless” capacity and “infinite” scalability of blob stores for storing the actual table data in open formats like Parquet, but we can much more efficiently and effectively manage the metadata needed to support changes in a database! Coincidentally, this is also what Google BigQuery (with Spanner) and Snowflake (with FoundationDB) have chosen, just without the open formats at the bottom.
+Here at [DuckDB](https://duckdb.org/), we actually like databases. They are amazing tools to safely and efficiently manage fairly large datasets. Once a database has entered the lakehouse stack anyway, it makes an insane amount of sense to also use it for managing the rest of the table metadata! We can still take advantage of the “endless” capacity and “infinite” scalability of blob stores for storing the actual table data in open formats like Parquet, but we can much more efficiently and effectively manage the metadata needed to support changes in a database! Coincidentally, this is also what Google BigQuery (with Spanner) and Snowflake (with FoundationDB) have chosen, just without the open formats at the bottom.
 
 ![DuckLake's architecture](/images/manifesto/ducklake-architecture.png){: .lightmode-img }
 ![DuckLake's architecture](/images/manifesto/dark/ducklake-architecture.png){: .darkmode-img }
 *DuckLake's architecture: Just a database and some Parquet files*{: .caption }
 
-To resolve the fundamental problems of the existing Lakehouse architecture, we have created a new open table format called DuckLake. DuckLake re-imagines what a “Lakehouse” format should look like by acknowledging two simple truths:
+To resolve the fundamental problems of the existing lakehouse architecture, we have created a new open table format called DuckLake. DuckLake re-imagines what a “lakehouse” format should look like by acknowledging two simple truths:
 
 1. Storing *data* files in open formats on blob storage is a great idea for scalability and to prevent lock-in.
 2. Managing metadata is a complex and interconnected data management task best left to a database management system.
@@ -141,7 +141,7 @@ In addition, DuckLake snapshots are just a few rows added to the metadata store,
 
 ### Features
 
-DuckLake has all of your favorite Lakehouse features:
+DuckLake has all of your favorite lakehouse features:
 
 * **Arbitrary SQL:** DuckLake supports all the same vastness of SQL features that e.g. DuckDB supports.
 * **Data Changes:** DuckLake supports efficient appends, updates and deletes to data.

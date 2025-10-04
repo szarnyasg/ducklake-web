@@ -83,7 +83,7 @@ ATTACH 'ducklake:postgres:connection_string' AS my_ducklake;
 
 ## Storage Backup and Recovery
 
-Backup and recovery of the data files also depend on the storage you are using. In this document, we will only focus on cloud-based object storage since it is the most common for Lakehouse architectures.
+Backup and recovery of the data files also depend on the storage you are using. In this document, we will only focus on cloud-based object storage since it is the most common for lakehouse architectures.
 
 ### S3
 

@@ -10,7 +10,7 @@ On the technical side, consider the following:
 
 * If you would like to perform **local data warehousing with a single client**, use [DuckDB](#duckdb) as the catalog database.
 * If you would like to perform **local data warehousing using multiple local clients**, use [SQLite](#sqlite) as the catalog database.
-* If you would like to operate a **multi-user Lakehouse** with potentially remote clients, choose a transactional client-server database system as the catalog database: [MySQL](#mysql) or [PostgreSQL](#postgresql).
+* If you would like to operate a **multi-user lakehouse** with potentially remote clients, choose a transactional client-server database system as the catalog database: [MySQL](#mysql) or [PostgreSQL](#postgresql).
 
 ## DuckDB
 
