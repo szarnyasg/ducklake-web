@@ -19,15 +19,15 @@ For DuckDB, the best approach is to perform regular backups of the metadata data
 
 ```sql
 -- Backup
-ATTACH 'db.db' AS db (READ_ONLY);
-ATTACH 'backup.db' AS backup;
+ATTACH 'db.duckdb' AS db (READ_ONLY);
+ATTACH 'backup.duckdb' AS backup;
 COPY FROM DATABASE db TO backup;
 
 -- Recover
-ATTACH 'db.db' AS db;
-ATTACH 'backup.db' AS backup (READ_ONLY);
+ATTACH 'db.duckdb' AS db;
+ATTACH 'backup.duckdb' AS backup (READ_ONLY);
 COPY FROM DATABASE backup TO db;
-ATTACH 'ducklake:db.db' AS my_ducklake;
+ATTACH 'ducklake:db.duckdb' AS my_ducklake;
 ```
 
 It is very important to note that transactions committed to DuckLake after the metadata backup will not be tracked when recovering. The data from the transactions will exist in the data files, but the backup will point to a previous snapshot. If you are running batch jobs, make sure to always back up after the batch job. If you are regularly micro-batching or streaming data, then schedule periodic jobs to back up your metadata.
@@ -37,7 +37,7 @@ It is very important to note that transactions committed to DuckLake after the m
 > ```python
 > import duckdb
 > import datetime
-> con = duckdb.connection(f"backup_{datetime.datetime.now().strftime('%Y-%m-%d__%I_%M_%S')}.db")
+> con = duckdb.connection(f"backup_{datetime.datetime.now().strftime('%Y-%m-%d__%I_%M_%S')}.duckdb")
 > ```
 
 ### SQLite Catalog
@@ -46,15 +46,15 @@ For SQLite, the process is exactly the same as with DuckDB and has the same impl
 
 ```sql
 -- Backup
-ATTACH 'sqlite:db.db' AS db (READ_ONLY);
-ATTACH 'sqlite:backup.db' AS backup;
+ATTACH 'sqlite:db.duckdb' AS db (READ_ONLY);
+ATTACH 'sqlite:backup.duckdb' AS backup;
 COPY FROM DATABASE db TO backup;
 
 -- Recover
-ATTACH 'sqlite:db.db' AS db;
-ATTACH 'sqlite:backup.db' AS backup (READ_ONLY);
+ATTACH 'sqlite:db.duckdb' AS db;
+ATTACH 'sqlite:backup.duckdb' AS backup (READ_ONLY);
 COPY FROM DATABASE backup TO db;
-ATTACH 'ducklake:sqlite:db.db' AS my_ducklake;
+ATTACH 'ducklake:sqlite:db.duckdb' AS my_ducklake;
 ```
 
 ### PostgreSQL Catalog
@@ -69,12 +69,12 @@ Note that the SQL dump approach can also be managed by DuckDB using the [`postgr
 ```sql
 -- Backup
 ATTACH 'postgres:connection_string' AS db (READ_ONLY);
-ATTACH 'duckdb:backup.db' AS backup;
+ATTACH 'duckdb:backup.duckdb' AS backup;
 COPY FROM DATABASE db TO backup;
 
 -- Recover
 ATTACH 'postgres:connection_string' AS db;
-ATTACH 'duckdb:backup.db' AS backup (READ_ONLY);
+ATTACH 'duckdb:backup.duckdb' AS backup (READ_ONLY);
 COPY FROM DATABASE backup TO db;
 ATTACH 'ducklake:postgres:connection_string' AS my_ducklake;
 ```
@@ -97,10 +97,10 @@ Both the S3 backup service and S3 object versioning will restore data files in t
 
 ```sql
 -- Before
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://⟨og-bucket⟩/');
+ATTACH 'ducklake:some.duckdb' AS my_ducklake (DATA_PATH 's3://⟨og-bucket⟩/');
 
 -- After
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 's3://⟨replication-bucket⟩/');
+ATTACH 'ducklake:some.duckdb' AS my_ducklake (DATA_PATH 's3://⟨replication-bucket⟩/');
 ```
 
 ### GCS
@@ -115,8 +115,8 @@ Regarding cross-bucket replication, repointing to the new bucket will be necessa
 
 ```sql
 -- Before
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://⟨og-bucket⟩/');
+ATTACH 'ducklake:some.duckdb' AS my_ducklake (DATA_PATH 'gs://⟨og-bucket⟩/');
 
 -- After
-ATTACH 'ducklake:some.db' AS my_ducklake (DATA_PATH 'gs://⟨replication-bucket⟩/');
+ATTACH 'ducklake:some.duckdb' AS my_ducklake (DATA_PATH 'gs://⟨replication-bucket⟩/');
 ```

@@ -13,7 +13,7 @@ Data inlining must be enabled explicitly using the `DATA_INLINING_ROW_LIMIT` att
 When enabled, any inserts that write fewer than the given amount of rows are automatically written to inlined tables instead.
 
 ```sql
-ATTACH 'ducklake:inlining.db' (DATA_INLINING_ROW_LIMIT 10);
+ATTACH 'ducklake:inlining.duckdb' (DATA_INLINING_ROW_LIMIT 10);
 ```
 
 Inlined data behaves exactly the same as data written to Parquet files.
@@ -27,7 +27,7 @@ CREATE TABLE inlining.tbl (col INTEGER);
 -- Inserting 3 rows, data is inlined
 INSERT INTO inlining.tbl VALUES (1), (2), (3);
 -- No Parquet files exist
-SELECT count(*) FROM glob('inlining.db.files/**');
+SELECT count(*) FROM glob('inlining.duckdb.files/**');
 ```
 
 ```text
@@ -43,7 +43,7 @@ When inserting more data than the `DATA_INLINING_ROW_LIMIT`, inserts are automat
 
 ```sql
 INSERT INTO inlining.tbl FROM range(100);
-SELECT count(*) FROM glob('inlining.db.files/**');
+SELECT count(*) FROM glob('inlining.duckdb.files/**');
 ```
 
 ```text
