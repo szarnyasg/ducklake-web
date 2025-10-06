@@ -27,11 +27,11 @@ SELECT * FROM tbl AT (TIMESTAMP => now() - INTERVAL '1 week');
 Attach a DuckLake database at a specific snapshot version.
 
 ```sql
-ATTACH 'ducklake:file.db' (SNAPSHOT_VERSION 3);
+ATTACH 'ducklake:metadata.duckdb' (SNAPSHOT_VERSION 3);
 ```
 
 Attach a DuckLake database as it was at a specific time.
 
 ```sql
-ATTACH 'ducklake:file.db' (SNAPSHOT_TIME '2025-05-26 00:00:00');
+ATTACH 'ducklake:metadata.duckdb' (SNAPSHOT_TIME '2025-05-26 00:00:00');
 ```

@@ -11,7 +11,7 @@ DuckLake allows you to query the *changes that were made between any two snapsho
 Consider the following DuckLake instance:
 
 ```sql
-ATTACH 'ducklake:changes.db' AS db (DATA_PATH 'change_files/');
+ATTACH 'ducklake:changes.duckdb' AS db (DATA_PATH 'change_files/');
 -- Snapshot 1
 CREATE TABLE db.tbl (id INTEGER, val VARCHAR);
 -- Snapshot 2

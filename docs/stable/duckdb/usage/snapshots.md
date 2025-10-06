@@ -15,7 +15,7 @@ Every set of changes must be accompanied by a snapshot.
 The set of snapshots can be queried using the `snapshots` function. This returns a list of all snapshots and their changesets.
 
 ```sql
-ATTACH 'ducklake:snapshot_test.db' AS snapshot_test;
+ATTACH 'ducklake:snapshot_test.duckdb' AS snapshot_test;
 SELECT * FROM snapshot_test.snapshots();
 ```
 
