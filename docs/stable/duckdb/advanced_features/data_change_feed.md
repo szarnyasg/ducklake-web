@@ -28,21 +28,27 @@ UPDATE db.tbl SET val = concat(val, val, val);
 FROM db.table_changes('tbl', 2, 2);
 ```
 
-| snapshot_id | rowid | change_type | id |   val    |
-|------------:|------:|-------------|---:|----------|
-| 2           | 0     | insert      | 1  | Hello    |
-| 2           | 1     | insert      | 2  | DuckLake |
+<div class="monospace_table"></div>
+
+| snapshot_id | rowid | change_type |  id | val      |
+| ----------: | ----: | ----------- | --: | -------- |
+|           2 |     0 | insert      |   1 | Hello    |
+|           2 |     1 | insert      |   2 | DuckLake |
 
 ### Changes Made between Multiple Snapshots
 
 ```sql
-FROM db.table_changes('tbl', 3, 4);
+FROM db.table_changes('tbl', 3, 4)
+ORDER BY snapshot_id;
 ```
 
-|------------:|------:|------------------|---:|--------------------------|
-| 3           | 0     | delete           | 1  | Hello                    |
-| 4           | 1     | update_postimage | 2  | DuckLakeDuckLakeDuckLake |
-| 4           | 1     | update_preimage  | 2  | DuckLake                 |
+<div class="monospace_table"></div>
+
+| snapshot_id | rowid | change_type      |  id | val                      |
+| ----------: | ----: | ---------------- | --: | ------------------------ |
+|           3 |     0 | delete           |   1 | Hello                    |
+|           4 |     1 | update_preimage  |   2 | DuckLake                 |
+|           4 |     1 | update_postimage |   2 | DuckLakeDuckLakeDuckLake |
 
 ### Changes Made in the Last Week
 
@@ -57,11 +63,11 @@ The bounds can be given either as a [snapshot id]({% link docs/stable/duckdb/usa
 
 The result of the function is the set of changes, read using the table schema as of the end snapshot provided, and three extra columns: `snapshot_id`, `rowid` and `change_type`.
 
-|   Column    |                     Description                     |
-|-------------|-----------------------------------------------------|
-| snapshot_id | The snapshot which made the change                  |
-| rowid       | The row identifier of the row which was changed     |
-| change_type | insert, update_preimage, update_postimage or delete |
+| Column        | Description                                                 |
+| ------------- | ----------------------------------------------------------- |
+| `snapshot_id` | The snapshot which made the change                          |
+| `rowid`       | The row identifier of the row which was changed             |
+| `change_type` | `insert`, `update_preimage`, `update_postimage` or `delete` |
 
 Updates are split into two rows: the `update_preimage` and `update_postimage`.
 `update_preimage` is the row as it was prior to the update operation.
