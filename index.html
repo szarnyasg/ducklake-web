@@ -56,7 +56,7 @@ body_class: landing nowrap
 									<div class="broser-content">
 										<div class="ducklake">
 											<img src="{{ site.baseurl }}/images/deployment_diagram/ducklake_comb.svg" class="ducklake_icon">
-											<div class="sub">DuckLake client</div>
+											<!--<div class="sub">DuckLake client</div>-->
 										</div>
 									</div>
 								</div>
@@ -80,8 +80,9 @@ body_class: landing nowrap
 							
 						</div>
 						<div class="database-storage">
+							<h4>DuckLake</h4>
 							<div class="database">
-								<h4>Catalog database</h4>
+								<h4>Catalog: <span class="choosen-catalog"></span></h4>
 								
 								<div class="catalog">
 									<img src="{{ site.baseurl }}/images/deployment_diagram/database.svg" alt="Database Icon">
@@ -90,7 +91,6 @@ body_class: landing nowrap
 										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-postgre.svg" class="postgre">
 										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-sqlite.svg" class="sqlite">
 										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-mysql.svg" class="mysql">
-										<div class="sub">DuckDB</div>
 									</div>
 								</div>
 								
@@ -101,18 +101,13 @@ body_class: landing nowrap
 									</div>
 								</div>
 								
-								<div class="connector">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 9" fill="none">
-									  <path fill="#1A1A1A" d="M50 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8ZM4 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm46 4v.75H4v-1.5h46v.75Z" />
-									</svg>
-								</div>
+								
 							</div>
 							<div class="storage">
-								<h4>Storage</h4>
+								<h4>Storage: <span class="choosen-storage">Parquet</span></h4>
 								
 								<div class="folder">
 									<img src="{{ site.baseurl }}/images/deployment_diagram/parquet_folder.svg" alt="Parquet Folder">
-									<div class="sub">Parquet</div>
 								</div>
 								
 								<div class="hover-content">
@@ -121,12 +116,11 @@ body_class: landing nowrap
 										<p>DuckLake can store your data on any object storage such as AWS S3.</p>
 									</div>
 								</div>
-								
-								<div class="connector">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 9" fill="none">
-									  <path fill="#1A1A1A" d="M50 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8ZM4 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm46 4v.75H4v-1.5h46v.75Z" />
-									</svg>
-								</div>
+							</div>
+							<div class="connector">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 9" fill="none">
+								  <path fill="#1A1A1A" d="M50 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8ZM4 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm46 4v.75H4v-1.5h46v.75Z" />
+								</svg>
 							</div>
 						</div>
 					</div>

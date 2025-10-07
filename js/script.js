@@ -567,13 +567,13 @@ $(document).ready(function(){
 		const $activeDiagramItem = $diagramItems.filter(".active");
 
 		const $catalogIconsContainer = $architectureIllustration.find('.catalog .icons');
-		const $catalogSubText = $catalogIconsContainer.find('.sub');
+		const $chosenCatalog = $architectureIllustration.find('.choosen-catalog');
 		const $multiImages = $architectureIllustration.find('.browser > img.multi');
 		const $clientHeading = $architectureIllustration.find('.diagram .client h4');
 		const $hoverContentPanels = $architectureIllustration.find('.diagram .hover-content');
-		
+
 		let previousDataMulti = $activeDiagramItem.data('multi');
-		
+
 		function updateDiagramView($item) {
 			updateHighlight($diagramTopbar, $item);
 
@@ -585,7 +585,7 @@ $(document).ready(function(){
 			if (iconClassToShow) {
 				$catalogIconsContainer.find('img.' + iconClassToShow).addClass('active-icon');
 			}
-			$catalogSubText.text(tabText);
+			$chosenCatalog.text(tabText);
 
 			$clientHeading.text(currentDataMulti === true ? 'Clients' : 'Client');
 
