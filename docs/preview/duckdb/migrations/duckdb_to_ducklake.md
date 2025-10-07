@@ -11,7 +11,7 @@ If you are not using any of the unsupported features, migrating from DuckDB to D
 
 ```sql
 ATTACH 'ducklake:my_ducklake.ducklake' AS my_ducklake;
-ATTACH 'duckdb.db' AS my_duckdb;
+ATTACH 'db.duckdb' AS my_duckdb;
 
 COPY FROM DATABASE my_duckdb TO my_ducklake;
 ```

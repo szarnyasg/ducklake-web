@@ -105,7 +105,7 @@ Secrets support the same list of parameters as `ATTACH`, in addition to the `MET
 -- Default (unnamed) secret
 CREATE SECRET (
     TYPE ducklake,
-    METADATA_PATH '⟨metadata.db⟩',
+    METADATA_PATH '⟨metadata.duckdb⟩',
     DATA_PATH '⟨metadata_files/⟩'
 );
 
