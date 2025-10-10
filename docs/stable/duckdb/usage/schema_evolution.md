@@ -49,7 +49,7 @@ To rename the top-level column `new_column` to `new_name`, use:
 ALTER TABLE tbl RENAME new_column TO new_name;
 ```
 
-Field scan be renamed by specifying the full path to the field.
+Fields can be renamed by specifying the full path to the field.
 For example, to rename the field `new_field` within the struct column `nested_column` to `new_name`:
 
 ```sql
