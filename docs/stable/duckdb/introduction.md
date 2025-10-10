@@ -73,21 +73,21 @@ ATTACH 'ducklake:my_ducklake.ducklake' AS my_ducklake;
 USE my_ducklake;
 ```
 
-Let's now import the dataset into the a new table:
+Let's now import the dataset into a new table:
 
 ```sql
 CREATE TABLE nl_train_stations AS
     FROM 'https://blobs.duckdb.org/nl_stations.csv';
 ```
 
-Now Let's peek behind the courtains. The data was just read into a Parquet file, which we can also just query.
+Now let's peek behind the curtains. The data was just read into a Parquet file, which we can also just query.
 
 ```sql
 FROM glob('my_ducklake.ducklake.files/**/*');
 FROM 'my_ducklake.ducklake.files/**/*.parquet' LIMIT 10;
 ```
 
-But now lets change some things around. We're really unhappy with the name of the old name of the "Amsterdam Bijlmer ArenA" station now that the stadium has been renamed to "[Johan Cruijff](https://en.wikipedia.org/wiki/Johan_Cruyff) ArenA" and everyone here loves Johan. So let's change that.
+But now let's change some things around. We're really unhappy with the name of the old name of the "Amsterdam Bijlmer ArenA" station now that the stadium has been renamed to "[Johan Cruijff](https://en.wikipedia.org/wiki/Johan_Cruyff) ArenA" and everyone here loves Johan. So let's change that.
 
 ```sql
 UPDATE nl_train_stations
@@ -95,7 +95,7 @@ SET name_long = 'Johan Cruijff ArenA'
 WHERE code = 'ASB';
 ```
 
-Poof, its changed. We can confirm:
+Poof, it's changed. We can confirm:
 
 ```sql
 SELECT name_long
