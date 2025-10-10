@@ -96,7 +96,7 @@ FROM people;
 MERGE INTO people
     USING (
         SELECT
-            unnest([3, 2]) AS id,
+            unnest([3, 2]) AS id
     ) AS deletes
     ON (deletes.id = people.id)
     WHEN MATCHED AND people.salary > 100_000.0 THEN DELETE;

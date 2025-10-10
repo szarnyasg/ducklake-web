@@ -24,7 +24,7 @@ When loading an existing DuckLake, the `data_path` is loaded from the `ducklake_
 **Schemas.** When creating a schema, a schema path is set. By default, this path is the name of the schema for alphanumeric names (`⟨schema_name⟩/`{:.language-sql .highlight}) – or `⟨schema_uuid⟩/`{:.language-sql .highlight} otherwise.
 This path is set as relative to the root `data_path`.
 
-**Tables.** When creating a table, a table path is set. By default, this path is the name of the schema for alphanumeric names (`⟨table_name⟩⟩/`{:.language-sql .highlight}) – or `⟨table_uuid⟩/`{:.language-sql .highlight} otherwise.
+**Tables.** When creating a table, a table path is set. By default, this path is the name of the table for alphanumeric names (`⟨table_name⟩⟩/`{:.language-sql .highlight}) – or `⟨table_uuid⟩/`{:.language-sql .highlight} otherwise.
 This path is set as relative to the path of the parent schema.
 
 **Files.** When writing a new data or delete file to the table, a new file path is generated.

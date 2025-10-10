@@ -400,7 +400,7 @@ Refer to the [`ducklake_data_file` table]({% link docs/stable/specification/tabl
 
 > DuckLake also supports changing the schema, see [schema evolution]({% link docs/stable/duckdb/usage/schema_evolution.md %}).
 
-We also have to update some statistics in the [`ducklake_table_stats` table]({% link docs/stable/specification/tables/ducklake_table_stats.md %}) and [`ducklake_table_column_stats` table]({% link docs/stable/specification/tables/ducklake_table_column_stats.md %})` tables.
+We also have to update some statistics in the [`ducklake_table_stats` table]({% link docs/stable/specification/tables/ducklake_table_stats.md %}) and [`ducklake_table_column_stats` table]({% link docs/stable/specification/tables/ducklake_table_column_stats.md %}) tables.
 
 ```sql
 UPDATE ducklake_table_stats
