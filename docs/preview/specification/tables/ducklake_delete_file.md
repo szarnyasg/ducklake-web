@@ -3,7 +3,7 @@ layout: docu
 title: ducklake_delete_file
 ---
 
-Delete files contains the row ids of rows that are deleted. Each data file will have its own delete file if any deletes are present for this data file.
+Delete files contain the row ids of rows that are deleted. Each data file will have its own delete file if any deletes are present for this data file.
 
 | Column name        | Column type |             |
 | ------------------ | ----------- | ----------- |

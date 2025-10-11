@@ -5,7 +5,7 @@ title: Unsupported Features
 
 This page describes what is supported in DuckDB and DuckLake in relation to DuckDB standalone (i.e., `:memory:` or DuckDB file modes). We can make a distinction between:
 
-- What is **currently** not supported by the DuckLake specification. These are features that you are supported by DuckDB when using DuckDB's native database format but will not work with a DuckLake backend since the specification does not support them.
+- What is **currently** not supported by the DuckLake specification. These are features that are supported by DuckDB when using DuckDB's native database format but will not work with a DuckLake backend since the specification does not support them.
 
 - What is **currently** not supported by the `ducklake` DuckDB extension. These are features that are supported by the DuckLake specification but are not (yet) implemented in the DuckDB extension.
 

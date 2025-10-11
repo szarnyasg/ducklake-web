@@ -27,5 +27,5 @@ which introduces the queries used by DuckLake.
 
 ### Data Storage
 
-DuckLake works uses [Parquet](https://parquet.apache.org/docs/file-format/) files to represent its tables.
+DuckLake uses [Parquet](https://parquet.apache.org/docs/file-format/) files to represent its tables.
 These files can be stored in [object storage (blob storage)](https://en.wikipedia.org/wiki/Object_storage), block storage or file storage.
