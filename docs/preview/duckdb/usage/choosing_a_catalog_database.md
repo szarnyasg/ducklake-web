@@ -81,4 +81,4 @@ USE my_ducklake;
 
 For details on how to configure the connection, see the [`mysql` extension's documentation](https://duckdb.org/docs/stable/core_extensions/mysql#configuration).
 
-Using the `ducklake` and `mysql` extensions require MySQL 8 or newer.
+Using the `ducklake` and `mysql` extensions requires MySQL 8 or newer.
