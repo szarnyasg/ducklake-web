@@ -33,7 +33,7 @@ MERGE INTO people
     USING (
         SELECT
             unnest([3, 1]) AS id,
-            unnest(['Sarah', 'Jhon']) AS name,
+            unnest(['Sarah', 'John']) AS name,
             unnest([95_000.0, 105_000.0]) AS salary
     ) AS upserts
     ON (upserts.id = people.id)
@@ -45,9 +45,10 @@ FROM people;
 
 | id | name  |  salary  |
 |---:|-------|---------:|
-| 1  | Jhon  | 92000.0  |
+| 2  | Anna  | 100000.0 |
+| 1  | John  | 105000.0  |
 | 3  | Sarah | 95000.0  |
-| 2  | Anna  | 105000.0 |
+
 
 
 In the previous example we are updating the whole row if `id` matches. However, it is also a common pattern to receive a change set with some keys and the changed value. This is a good use for `SET`.
@@ -67,9 +68,9 @@ FROM people;
 
 | id | name  |  salary  |
 |---:|-------|---------:|
+| 2  | Anna  | 100000.0 |
 | 3  | Sarah | 95000.0  |
-| 2  | Anna  | 105000.0 |
-| 1  | Jhon  | 98000.0  |
+| 1  | John  | 98000.0  |
 
 Another common pattern is to receive a delete set of rows, which may only contain ids of rows to be deleted.
 
@@ -77,7 +78,7 @@ Another common pattern is to receive a delete set of rows, which may only contai
 MERGE INTO people
     USING (
         SELECT
-            1 AS id,
+            1 AS id
     ) AS deletes
     ON (deletes.id = people.id)
     WHEN MATCHED THEN DELETE;
@@ -87,8 +88,9 @@ FROM people;
 
 | id | name  |  salary  |
 |---:|-------|---------:|
+| 2  | Anna  | 100000.0 |
 | 3  | Sarah | 95000.0  |
-| 2  | Anna  | 105000.0 |
+
 
 `MERGE INTO` also supports more complex conditions, for example for a given delete set we can decide to only remove rows that contain a `salary` bigger than a certain amount.
 
@@ -99,7 +101,7 @@ MERGE INTO people
             unnest([3, 2]) AS id
     ) AS deletes
     ON (deletes.id = people.id)
-    WHEN MATCHED AND people.salary > 100_000.0 THEN DELETE;
+    WHEN MATCHED AND people.salary >= 100_000.0 THEN DELETE;
 
 FROM people;
 ```
@@ -117,7 +119,7 @@ MERGE INTO people
     USING (
         SELECT
             unnest([3, 1]) AS id,
-            unnest(['Sarah', 'Jhon']) AS name,
+            unnest(['Sarah', 'John']) AS name,
             unnest([95_000.0, 105_000.0]) AS salary
     ) AS upserts
     ON (upserts.id = people.id)
