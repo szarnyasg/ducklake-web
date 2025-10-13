@@ -92,7 +92,7 @@ FROM people;
 | 3  | Sarah | 95000.0  |
 
 
-`MERGE INTO` also supports more complex conditions, for example for a given delete set we can decide to only remove rows that contain a `salary` bigger than a certain amount.
+`MERGE INTO` also supports more complex conditions, for example for a given delete set we can decide to only remove rows that contain a `salary` greater than or equal to a certain amount.
 
 ```sql
 MERGE INTO people
