@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "DuckLake: Simplifying the lakehouse ecosystem"
+title: "DuckLake: Simplifying the Lakehouse Ecosystem"
 author: "Hannes Mühleisen and Mark Raasveldt (DuckDB Labs)"
 #thumb: "/images/media/thumbs/"
 #image: "/images/media/thumbs/"
