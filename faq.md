@@ -361,7 +361,7 @@ The [DuckLake specification]({% link docs/stable/specification/introduction.md %
 
 <div class="answer" markdown="1">
 
-Yes, you can download the documentation as a [single Markdown file](/ducklake-docs.md) and as a [PDF](/ducklake-docs.pdf).
+Yes, you can download the documentation as a [single Markdown file](https://blobs.duckdb.org/docs/ducklake-docs.md) and as a [PDF](https://blobs.duckdb.org/docs/ducklake-docs.pdf).
 
 </div>
 
