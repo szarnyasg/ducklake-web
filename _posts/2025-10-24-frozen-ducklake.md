@@ -11,6 +11,9 @@ excerpt: "We show how you can build high-performance data lakes with no moving p
 
 [DuckLakes](https://ducklake.select/) typically consist of two components: the catalog database and the storage. Obviously, there is no way around having some sort of storage to represent the data. But can we host a DuckLake without setting up a catalog database? In this blog post, we'll show how you can create a read-only cloud-based DuckLake without a database server. We call this a **“Frozen DuckLake”** because it is read-only and has no moving parts other than a cloud storage system. Maybe you do want to [build a snowman](https://www.youtube.com/watch?v=TeQ_TTyLGMs), too!
 
+![Frozen DuckLake at a glance]({% link images/blog/frozen-ducklake/frozen-ducklake-at-a-glance-light.svg %}){: .lightmode-img }
+![Frozen DuckLake at a glance]({% link images/blog/frozen-ducklake/frozen-ducklake-at-a-glance-dark.svg %}){: .darkmode-img }
+
 Frozen DuckLakes have several advantages:
 
 * They have almost zero cost overhead on top of the storage of the Parquet data files.
