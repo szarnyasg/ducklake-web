@@ -21,7 +21,12 @@ Frozen DuckLakes have several advantages:
 * They make the data immediately accessible in a SQL database with no special provisions required.
 * They allow data files to live in different cloud environments, while being referenced from the same Frozen DuckLake. 
 
-And, best of all, while a “Frozen DuckLake” is indeed frozen in time, the data can still be updated by creating a _new_ Frozen DuckLake – older versions can be accessed by retaining revisions of the DuckDB database file that encodes its catalog.
+And, best of all, while a “Frozen DuckLake” is indeed frozen in time, the data can still be updated by creating a _new_ Frozen DuckLake.
+Older versions can be accessed by retaining revisions of the DuckDB database file – or by simply using [time travel]({% link docs/stable/duckdb/usage/time_travel.md %}). For example, to travel back one week, you can use:
+
+```sql
+FROM table AT (TIMESTAMP => (now() - "1 week"::INTERVAL));
+```
 
 ## Designing Frozen DuckLakes
 
