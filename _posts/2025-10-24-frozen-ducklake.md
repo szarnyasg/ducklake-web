@@ -259,14 +259,14 @@ Once the DuckLake file has been published to the cloud, you can access it using 
 Using `ATTACH`, and providing the cloud reference:
 
 ```sql
-ATTACH 'ducklake:https://github.com/marhar/frozen/raw/refs/heads/main/space.ducklake' AS space;
+ATTACH 'ducklake:https://raw.githubusercontent.com/marhar/frozen/main/space.ducklake' AS space;
 USE space;
 ```
 
 Using the DuckLake `ducklake:` syntax:
 
 ```batch
-duckdb ducklake:https://github.com/marhar/frozen/raw/refs/heads/main/space.ducklake
+duckdb ducklake:https://raw.githubusercontent.com/marhar/frozen/main/space.ducklake
 ```
 
 ### Updating
