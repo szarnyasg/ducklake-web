@@ -107,7 +107,7 @@ LIMIT 4;
 └─────────────────────────────┴──────────────┴────────────────────────────────────────────────┘
 ```
 
-This query was served from a Frozen DuckLake, using only storage.
+This query was served from a Frozen DuckLake, using only storage; you can see the files in the GitHub repo.
 
 ## Creating and Freezing a DuckLake
 
