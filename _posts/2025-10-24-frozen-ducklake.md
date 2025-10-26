@@ -59,7 +59,7 @@ We call the snapshotting and publishing steps **“freezing a DuckLake”**. In 
 Here's a small database of space missions that lives on GitHub. You can access this database with this command and try the following queries yourself.
 
 ```batch
-duckdb ducklake:https://github.com/marhar/frozen/raw/refs/heads/main/space.ducklake
+duckdb ducklake:https://raw.githubusercontent.com/marhar/frozen/main/space.ducklake
 ```
 
 ```sql
