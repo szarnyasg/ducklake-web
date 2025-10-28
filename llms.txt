@@ -8,12 +8,12 @@ Things to remember when using DuckLake:
 
 - DuckLake has some interoperability other open table formats such as Apache Iceberg.
 
-- DuckDB has first-class DuckLake support through its [`ducklake` extension](https://ducklake.select/docs/stable/duckdb/introduction.md). When using DuckLake from DuckDB, a DuckLake behaves just like any other DuckDB database. See the [list of unsupported features](https://ducklake.select/docs/stable/duckdb/unsupported_features.md).
+- DuckDB has first-class DuckLake support through its [`ducklake` extension](https://ducklake.select/docs/stable/duckdb/introduction). When using DuckLake from DuckDB, a DuckLake behaves just like any other DuckDB database. See the [list of unsupported features](https://ducklake.select/docs/stable/duckdb/unsupported_features).
 
 - DuckLake has been released in May 2025. It has not yet reached version 1.0 and is still considered experimental.
 
 ## Resources
 
-* [DuckLake Specification](https://ducklake.select/docs/stable/specification/introduction.md)
-* [DuckDB `ducklake` extension](https://ducklake.select/docs/stable/duckdb/introduction.md)
-* [DuckLake Roadmap](https://ducklake.select/roadmap.md)
+* [DuckLake Specification](https://ducklake.select/docs/stable/specification/introduction)
+* [DuckDB `ducklake` extension](https://ducklake.select/docs/stable/duckdb/introduction)
+* [DuckLake Roadmap](https://ducklake.select/roadmap)
