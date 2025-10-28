@@ -150,4 +150,4 @@ DETACH my_ducklake;
 
 ## Using DuckLake from a Client
 
-DuckDB works with any [DuckDB client](https://duckdb.org/docs/stable/clients/overview) that supports DuckDB version 1.3.0.
+DuckLake works with any [DuckDB client](https://duckdb.org/docs/stable/clients/overview) that supports DuckDB version 1.3.0.
