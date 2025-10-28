@@ -208,12 +208,16 @@
               "slug": "guides",
               "subsubfolderitems": [
                 {
+                  "page": "Access Control",
+                  "url": "access_control"
+                },
+                {
                   "page": "Backups and Recovery",
                   "url": "backups_and_recovery"
                 },
                 {
-                  "page": "Access Control",
-                  "url": "access_control"
+                  "page": "Using a Remote Data Path",
+                  "url": "using_a_remote_data_path"
                 }
               ]
             },
