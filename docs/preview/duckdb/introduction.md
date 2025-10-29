@@ -84,7 +84,7 @@ FROM glob('my_ducklake.ducklake.files/**/*');
 FROM 'my_ducklake.ducklake.files/**/*.parquet' LIMIT 10;
 ```
 
-But now let's change some things around. We're really unhappy with the old name of the "Amsterdam Bijlmer ArenA" station now that the stadium has been renamed to "[Johan Cruijff](https://en.wikipedia.org/wiki/Johan_Cruyff) ArenA" and everyone here loves Johan. So let's change that.
+But now let's change some things around. We're really unhappy with the old name of the "Amsterdam Bijlmer ArenA" station now that the stadium has been renamed to "Johan Cruijff ArenA" and everyone here loves [Johan](https://en.wikipedia.org/wiki/Johan_Cruyff). So let's change that.
 
 ```sql
 UPDATE nl_train_stations
@@ -147,4 +147,4 @@ DETACH my_ducklake;
 
 ## Using DuckLake from a Client
 
-DuckDB works with any [DuckDB client](https://duckdb.org/docs/stable/clients/overview) that supports DuckDB version 1.3.0.
+DuckLake works with any [DuckDB client](https://duckdb.org/docs/stable/clients/overview) that supports DuckDB version 1.3.0.
