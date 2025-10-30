@@ -5,8 +5,8 @@ title: Using a Remote Data Path
 
 This guide shows how to set up and load a DuckLake locally, where the DuckLake will be served on an `https://` endpoint.
 
-> Tip DuckLake currently does not allow you to change the data path.
-> This is a known limitation and will change in the future, making this guide obsolete.
+> Tip DuckLake currently does not allow you to change the persisted data path in the catalog.
+> This is a known limitation that will be lifted in the future, rendering the future version of this guide almost trivial.
 
 In this guide, we assume that we want to create a DuckLake at `https://blobs.duckdb.org/datalake/tpch-sf1/` to serve a read-only copy of the TPC-H SF1 dataset.
 
