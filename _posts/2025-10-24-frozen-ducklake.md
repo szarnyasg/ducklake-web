@@ -337,6 +337,7 @@ CALL ducklake_add_data_files(
     'mission_crew',
     'https://raw.githubusercontent.com/marhar/frozen/main/space/mission_crew.p1.parquet'
 );
+
 ...
 ```
 
