@@ -106,6 +106,24 @@ You can also download individual logos:
 
 
 
+<!-- ----- ----- ----- ----- ----- ----- Q&A entry ----- ----- ----- ----- ----- ----- -->
+
+<div class="qa-wrap" markdown="1">
+
+### Where can I find more resources on DuckLake?
+
+<div class="answer" markdown="1">
+
+We have several [talks and podcast episodes on DuckLake]({% link media/index.html %}).
+Additionally, consider visiting the [`awesome-ducklake` repository](https://github.com/esadek/awesome-ducklake) maintained by community member [Emil Sadek](https://github.com/esadek).
+
+</div>
+
+</div>
+
+
+
+
 
 ## Architecture
 
@@ -383,5 +401,6 @@ See the [roadmap]({% link roadmap.md %}) for upcoming features.
 For past releases, see the [release calendar]({% link release_calendar.md %}).
 
 </div>
+
 
 </div>
