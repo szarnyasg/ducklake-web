@@ -96,8 +96,10 @@ You can also download individual logos:
 
 * Dark mode, inline layout: [png]({% link images/logo/DuckLake-dark-inline.png %}), [svg]({% link images/logo/DuckLake-dark-inline.svg %})
 * Dark mode, stacked layout: [png]({% link images/logo/DuckLake-dark-stacked.png %}), [svg]({% link images/logo/DuckLake-dark-stacked.svg %})
+* Dark mode, logo only: [png]({% link images/logo/DuckLake-dark-icon.png %}), [svg]({% link images/logo/DuckLake-dark-icon.svg %})
 * Light mode, inline layout: [png]({% link images/logo/DuckLake-light-inline.png %}), [svg]({% link images/logo/DuckLake-light-inline.svg %})
 * Light mode, stacked layout: [png]({% link images/logo/DuckLake-light-stacked.png %}), [svg]({% link images/logo/DuckLake-light-stacked.svg %})
+* Light mode, logo only: [png]({% link images/logo/DuckLake-light-icon.png %}), [svg]({% link images/logo/DuckLake-light-icon.svg %})
 
 </div>
 
