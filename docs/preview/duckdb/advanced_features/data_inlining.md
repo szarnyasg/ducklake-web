@@ -3,7 +3,7 @@ layout: docu
 title: Data Inlining
 ---
 
-> Data inlining is currently experimental. It needs to be enabled explicitly and is only supported for DuckDB databases. We are planning to improve support for this feature in the future.
+> Warning Data inlining is currently experimental. It needs to be enabled explicitly and is only supported for DuckDB catalog databases. It is not yet supported for MySQL, PostgreSQL or SQLite catalog databases. We are planning to improve support for this feature in the future.
 
 When writing small changes to DuckLake, it can be wasteful to write each changeset to an individual Parquet file.
 DuckLake supports directly writing small changes to the metadata using _data inlining_.
