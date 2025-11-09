@@ -49,8 +49,9 @@ INSTALL ducklake;
 INSTALL postgres;
 
 -- Make sure that the database `ducklake_catalog` exists in PostgreSQL.
-ATTACH 'ducklake:postgres:dbname=ducklake_catalog host=your_postgres_host' AS my_ducklake
-     (DATA_PATH 'data_files/');
+ATTACH 'ducklake:postgres:dbname=ducklake_catalog host=your_postgres_host'
+    AS my_ducklake
+    (DATA_PATH 'data_files/');
 USE my_ducklake;
 {% endhighlight %}
 </div>
