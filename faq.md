@@ -26,7 +26,7 @@ toc: false
 
 <div class="answer" markdown="1">
 
-DuckLake provides a lightweight one-stop solution if you need a data lake and catalog.
+DuckLake provides a lightweight one-stop solution if you need a _lakehouse,_ i.e., a data lake with a catalog.
 
 You can use DuckLake for a “multiplayer DuckDB” setup with multiple DuckDB instances reading and writing the same dataset –
 a concurrency model [not supported by vanilla DuckDB](https://duckdb.org/docs/stable/connect/concurrency).
