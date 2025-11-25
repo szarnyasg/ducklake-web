@@ -23,6 +23,7 @@ This section lists the features that we plan to work on before DuckLake v1.0. Th
 - Scalar and table macros.
 - Expressions as default values for columns.
 - Variant types.
+- Incremental compaction for large volumes of small files.
 - Revisit some internals, namely `DATA_PATH`, `add_data_files` and option scopes.
 
 Please note that there are **no guarantees** that a particular feature will be released within the next release. Everything on this page is subject to change without notice.
