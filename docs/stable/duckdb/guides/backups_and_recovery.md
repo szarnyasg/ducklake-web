@@ -66,6 +66,8 @@ For PostgreSQL, there are two main approaches to backup and recovery:
 
 Note that the SQL dump approach can also be managed by DuckDB using the [`postgres` extension](https://duckdb.org/docs/stable/core_extensions/postgres). In fact, the backup can be a DuckDB file.
 
+> Warning If your Postgres database has indexes, DuckDB will try to copy those over and fail.
+
 ```sql
 -- Backup
 ATTACH 'postgres:connection_string' AS db (READ_ONLY);
