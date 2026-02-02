@@ -50,7 +50,7 @@ The following Python script can be used to migrate from a DuckDB persisted datab
 
 <details markdown='1'>
 <summary markdown='span'>
-Click to see the Python script that migrates from DuckDB to DuckLake.
+**Click to see the Python script that migrates from DuckDB to DuckLake.**
 </summary>
 ```python
 import duckdb
@@ -246,7 +246,7 @@ if __name__ == "__main__":
 
 The script can be run in any Python environment with DuckDB installed. The usage is the following:
 
-```bash
+```text
 usage: migration.py [-h]
     --duckdb-catalog DUCKDB_CATALOG
     --duckdb-file DUCKDB_FILE
