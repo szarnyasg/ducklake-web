@@ -398,7 +398,7 @@ Yes, you can download the documentation as a [single Markdown file](https://blob
 
 <div class="answer" markdown="1">
 
-The DuckLake 0.4 standard will be released in late 2025.
+The DuckLake 1.0 standard will be released in early 2026.
 See the [roadmap]({% link roadmap.md %}) for upcoming features.
 For past releases, see the [release calendar]({% link release_calendar.md %}).
 
