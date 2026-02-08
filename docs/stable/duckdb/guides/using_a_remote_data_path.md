@@ -88,7 +88,7 @@ tpch-sf1
 ```
 
 We upload both of these to `https://blobs.duckdb.org/datalake/`.
-This particular URL is served by Cloudflare and is based on the content of a public Cloudflare R2 bucket – but DuckLake could work with any `http(s)://` URL.
+This particular URL is served by Cloudflare and is based on the content of a public Cloudflare R2 bucket – but DuckLake works with any `http(s)://` URL.
 
 ## Using the DuckLake
 
