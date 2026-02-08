@@ -54,6 +54,12 @@ ATTACH 'ducklake:my_ducklake.ducklake' AS my_ducklake;
 USE my_ducklake;
 ```
 
+If you use the DuckDB [command line client](https://duckdb.org/docs/stable/clients/cli/overview), you can pass it the filename or URL of the DuckLake as an argument:
+
+```batch
+duckdb ducklake:my_ducklake.ducklake
+```
+
 ## Using DuckLake
 
 DuckLake is used just like any other DuckDB database. You can create schemas and tables, insert data, update data, delete data, modify table schemas, etc.
