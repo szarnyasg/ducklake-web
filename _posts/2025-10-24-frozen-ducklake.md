@@ -231,7 +231,7 @@ ATTACH 'ducklake:myfrozen.ducklake' AS myfrozen
 .read tmp_add_data_files.sql
 ```
 
-The result will be a local DuckDB flavor DuckLake file called `myfrozen.ducklake`. You can attach to this DuckLake and verify your data is as you expect. Note that the `DATA_PATH` will be populated with one empty subdirectory per table. The `DATA_PATH` should otherwise be completely empty, since we only populate the Frozen DuckLake with `ducklake_add_data_files()`. During access time, this directory is not referred to, and does not need to be taken into account when publishing. Note that we could actually skip specifying the data path in this example, but we want to emphasize that (unlike a non-frozen DuckLake) that the directory is not needed.
+The result will be a local DuckDB flavor DuckLake file called `myfrozen.ducklake`. You can attach to this DuckLake and verify your data is as you expect. Note that the `DATA_PATH` will be populated with one empty subdirectory per table. The `DATA_PATH` should otherwise be completely empty, since we only populate the Frozen DuckLake with `ducklake_add_data_files()`. During access time, this directory is not referred to, and does not need to be taken into account when publishing. Note that we could actually skip specifying the data path in this example, but we want to emphasize that (unlike a non-frozen DuckLake) the directory is not needed.
 
 > **`DATA_PATH` for cloud-based Frozen DuckLakes.** Specify the data path as a cloud storage bucket, e.g., `(DATA_PATH 's3://tmp_always_empty')`, to ensure the appropriate storage module will be autoloaded when DuckDB attaches to the DuckLake.
 
@@ -246,7 +246,7 @@ When adding file `X.parquet`:
   - CALL ducklake_add_data_files(..., X.parquet)
 ```
 
-Note that you would have to take care that the paths are resolved correctly, as per the DuckLake documentation's [Paths page](https://ducklake.select/docs/stable/duckdb/usage/paths), For example, the two different strings `/foo/bar.parquet` and `/foo/./bar.parquet` refer to the same file.  This won't be an issue if all the file paths are generated relative to the same base directory.
+Note that you would have to take care that the paths are resolved correctly, as per the DuckLake documentation's [Paths page](https://ducklake.select/docs/stable/duckdb/usage/paths). For example, the two different strings `/foo/bar.parquet` and `/foo/./bar.parquet` refer to the same file.  This won't be an issue if all the file paths are generated relative to the same base directory.
 
 ### Publishing
 
