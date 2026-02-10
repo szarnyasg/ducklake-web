@@ -222,6 +222,10 @@
                 {
                   "page": "Using a Remote Data Path",
                   "url": "using_a_remote_data_path"
+                },
+                {
+                  "page": "Public DuckLake on Cloudflare R2",
+                  "url": "public_ducklake_on_cloudflare_r2"
                 }
               ]
             },
