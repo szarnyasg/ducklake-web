@@ -1,17 +1,19 @@
 ---
 layout: docu
-title: Read-Only DuckLake from Cloudflare R2
+title: Public DuckLake on Cloudflare R2
 ---
 
-This guide explains how to set up a public read-only DuckLake on Cloudflare R2.
+This guide explains how to set up a **public read-only DuckLake** on Cloudflare R2.
 Users can query this DuckLake through HTTPS without authentication and for free.
 The owner of the DuckLake pays for the storage costs but pays only a negligible amount for serving requests (see the [Pricing section](#pricing) for more details).
+
+> The setup described here is conceptually similar to [Frozen DuckLakes]{% post_url 2025-10-24-frozen-ducklake %} but it is simpler to set up.
 
 ## Steps
 
 ### Creating the Bucket
 
-Create a [public Cloudflare R2 bucket](https://developers.cloudflare.com/r2/buckets/create-buckets/).
+Create a new [Cloudflare R2 bucket](https://developers.cloudflare.com/r2/buckets/create-buckets/). Make it publicly accessible either directly or through a Cloudflare Worker.
 
 ### Creating the DuckLake
 
@@ -79,19 +81,69 @@ provider> 7
 
 To upload your data to the R2 bucket, run:
 
-```sql
--- TODO: simplify
+```bash
 rclone cp -v ⟨your_ducklake_catalog.ducklake⟩ ⟨your_rclone_remote⟩:⟨your_bucket_name⟩/⟨path⟩/
 rclone sync -v ⟨your_ducklake_directory⟩ ⟨your_rclone_remote⟩:⟨your_bucket_name⟩/⟨path⟩/
 ```
 
-### Setting the CORS Policy (Optional)
+### Setting the CORS Policy for Browser Access (Optional)
 
-If you try to query the dataset from another website – such as the [online DuckDB shell](https://shell.duckdb.org/) –, you will get an error due to CORS (Cross-Origin Resource Sharing) security mechanism. To allow querying the dataset, add a CORS policy to the Cloudflare configuration of the bucket. Assuming that you want to access the datasets using `shell.duckdb.org`, you can use the following configuration:
+If you try to query the dataset from another website – such as the [online DuckDB shell](https://shell.duckdb.org/) –, you will get an error due to the CORS (Cross-Origin Resource Sharing) security mechanism:
+
+```console
+IO Error: Failed to attach DuckLake MetaData "__ducklake_metadata_..." at path + "..."
+Cannot open database "..." in read-only mode: database does not exist
+```
+or
+```console
+Invalid Error: Failed to attach DuckLake MetaData "__ducklake_metadata..." at path + "..."
+Opening file '...' failed with error:
+NetworkError: Failed to execute 'send' on 'XMLHttpRequest': Failed to load '...'.
+```
+
+To allow querying the dataset, add a CORS policy to the Cloudflare configuration of the bucket. How to do this depends on whether you are serving directly from the bucket or through a Cloudflare Worker.
+
+If you are serving through a Cloudflare Worker, [edit the code of the Worker following the “CORS header proxy”](https://developers.cloudflare.com/workers/examples/cors-header-proxy/) and add the following to the JavaScript code of your `fetch` function:
+
+```js
+const allowedOrigins = [
+  "https://duckdb.org",
+  "https://shell.duckdb.org",
+];
+
+const origin = request.headers.get("Origin");
+
+let corsOrigin = "";
+
+if (allowedOrigins.includes(origin)) {
+  corsOrigin = origin;
+}
+return new Response(object.body, {
+  headers: {
+    "Content-Type": contentType,
+    "Access-Control-Allow-Origin": corsOrigin,
+    "Cache-Control": "public, max-age=3600",
+  }
+});
+```
+
+If you are serving directly from the bucket, navigate to its settings and add the following CORS Policy:
 
 ```json
-...
+[
+  {
+    "AllowedOrigins": [
+      "https://duckdb.org",
+      "https://shell.duckdb.org"
+    ],
+    "AllowedMethods": [
+      "GET"
+    ]
+  }
+]
 ```
+
+For the complete Cloudflare guide on CORS policies, see the [“Configure CORS” page](https://developers.cloudflare.com/r2/buckets/cors/).
 
 ## Pricing
 
