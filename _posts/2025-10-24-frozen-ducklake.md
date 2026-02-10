@@ -306,7 +306,7 @@ LOAD ducklake;
 LOAD httpfs;
 
 ATTACH 'ducklake:myfrozen.ducklake'
-AS myfrozen (DATA_PATH 'tmp_always_empty');
+    AS myfrozen (DATA_PATH 'tmp_always_empty');
 
 CREATE TABLE myfrozen.astronauts AS
     SELECT *
