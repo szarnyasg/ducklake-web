@@ -167,7 +167,7 @@ process $REPO $DPATH >> tmp_files.csv
 
 Full code for both of these methods is in the repository mentioned above, as [`cloud-filelist.sh`](https://github.com/marhar/duckdb_tools/blob/main/frozen-ducklake/bin/cloud-filelist.sh) and [`github-filelist.sh`](https://github.com/marhar/duckdb_tools/blob/main/frozen-ducklake/bin/github-filelist.sh). If you need to implement a custom file lister, one of these might be a good model.
 
-If the storage location is on GitHub (such as in our demo), we would run a command like this. Note the extra `"/tree/main/"` in the path:
+If the storage location is on GitHub (such as in our demo), we would run a command like this. Note the extra `/tree/main/` in the path:
 
 ```batch
 ./github-filelist.sh https://github.com/marhar/frozen/tree/main/space
@@ -206,7 +206,7 @@ CREATE TABLE myfrozen.astronauts AS
    WITH NO DATA;
 ```
 
-"WITH NO DATA" is a DuckDB extension; it does the same thing as "LIMIT 0" but emphasizes that no data will be fetched or processed.
+`WITH NO DATA` is a DuckDB extension; it does the same thing as `LIMIT 0` but emphasizes that no data will be fetched or processed.
 
 The generated file `tmp_add_data_files.sql` should contain one line per Parquet file that looks like this, calling `ducklake_add_data_files` with the attach name, table name, and a duckdb-readable file reference.
 
@@ -237,9 +237,9 @@ The result will be a local DuckDB flavor DuckLake file called `myfrozen.ducklake
 
 ### Idempotent File Addition
 
-Note that calling `ducklake_add_data_files()` multiple times on the same file will result in the data being duplicated. A future version of this function may add an "only-once" flag; until then, we can see if the file has been added by looking at the `path` column in the `ducklake_data_file` table.
+Note that calling `ducklake_add_data_files()` multiple times on the same file will result in the data being duplicated. A future version of this function may add an “only-once” flag; until then, we can see if the file has been added by looking at the `path` column in the `ducklake_data_file` table.
 
-When adding file X.parquet:
+When adding file `X.parquet`:
 
 ```sql
 - if X.parquet NOT IN column ducklake_data_path.path:
