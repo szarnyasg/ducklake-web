@@ -81,7 +81,7 @@ provider> 7
 
 To upload your data to the R2 bucket, run:
 
-```bash
+```sql
 rclone cp -v ⟨your_ducklake_catalog.ducklake⟩ ⟨your_rclone_remote⟩:⟨your_bucket_name⟩/⟨path⟩/
 rclone sync -v ⟨your_ducklake_directory⟩ ⟨your_rclone_remote⟩:⟨your_bucket_name⟩/⟨path⟩/
 ```
