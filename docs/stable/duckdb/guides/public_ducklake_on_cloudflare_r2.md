@@ -7,7 +7,7 @@ This guide explains how to set up a **public read-only DuckLake** on Cloudflare 
 Users can query this DuckLake through HTTPS without authentication and for free.
 The owner of the DuckLake pays for the storage costs but pays only a negligible amount for serving requests (see the [Pricing section](#pricing) for more details).
 
-> The setup described here is conceptually similar to [Frozen DuckLakes]{% post_url 2025-10-24-frozen-ducklake %} but it is simpler to set up.
+> The setup described here is conceptually similar to [Frozen DuckLakes]({% post_url 2025-10-24-frozen-ducklake %}) but it is simpler to set up.
 
 ## Steps
 
