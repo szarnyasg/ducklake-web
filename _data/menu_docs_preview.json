@@ -1,4 +1,4 @@
-{
+  {
   "docsmenu": [
     {
       "page": "Documentation",
@@ -222,6 +222,10 @@
                 {
                   "page": "Using a Remote Data Path",
                   "url": "using_a_remote_data_path"
+                },
+                {
+                  "page": "Public DuckLake on Object Storage",
+                  "url": "public_ducklake_on_object_storage"
                 }
               ]
             },
