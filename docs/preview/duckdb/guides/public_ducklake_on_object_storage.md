@@ -20,7 +20,7 @@ Create a new public bucket:
 * [Backblaze B2](https://www.backblaze.com/docs/cloud-storage-create-and-manage-buckets)
 * [Cloudflare R2](https://developers.cloudflare.com/r2/buckets/create-buckets/)
 
-Make sure that the bucket is accessible through the internet. The exact settings for this vary from platfrom to platform.
+Make sure that the bucket is accessible through the internet. The exact settings for this vary from platform to platform.
 
 ### Creating the DuckLake
 
