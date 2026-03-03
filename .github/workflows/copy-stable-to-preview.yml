@@ -1,6 +1,6 @@
 name: Copy stable to preview
 
-on: []
+on: workflow_dispatch
 
 jobs:
   CopyStableToArchive:
