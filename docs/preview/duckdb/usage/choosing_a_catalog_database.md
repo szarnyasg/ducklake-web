@@ -35,7 +35,7 @@ Install the `ducklake` and the `postgres` extension, and attach to your DuckLake
 INSTALL ducklake;
 INSTALL postgres;
 
--- Make sure that the database `ducklake_catalog` exists in PostgreSQL.
+-- Make sure that the database `ducklake_catalog` exists in PostgreSQL
 ATTACH 'ducklake:postgres:dbname=ducklake_catalog host=localhost' AS my_ducklake
     (DATA_PATH 'data_files/');
 USE my_ducklake;
