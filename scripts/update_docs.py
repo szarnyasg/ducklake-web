@@ -269,6 +269,17 @@ Focus on accuracy and minimal diff. Only document what the PR actually implement
 speculate about features not shown in the PR description or code changes. Prefer targeted
 edits over rewrites of sections that are already correct.
 
+When writing or extending SQL examples:
+- Read the existing examples in the file you are editing before writing new ones.
+- Reuse the same `ATTACH` statement syntax already present in the file. For example, if the
+  file uses `ATTACH 'ducklake:inlining.duckdb' AS my_ducklake`, do not introduce a different
+  connection string or alias such as `ATTACH 'ducklake:metadata.duckdb' AS ducklake`.
+- Reuse table and schema definitions already established in the file. Many pages are written
+  as a continuous SQL flow (e.g., `upserting.md`) where later examples build on tables
+  created earlier. New examples should fit into that flow rather than redefining tables.
+- Only introduce new table or schema definitions when the example genuinely requires data
+  that does not exist yet in the file.
+
 If the PR changes are purely internal (refactoring, test improvements) with no
 user-facing impact, state that no documentation changes are needed and make no edits.
 """)
