@@ -110,7 +110,7 @@ CALL ducklake_flush_inlined_data(
 
 ### Time Travel and Deletions
 
-When flushing inlined data that has had rows deleted, DuckLake creates both the materialized Parquet data file and a corresponding deletion file. The deletion file records which rows were deleted and at which snapshot, preserving full time-travel support for the flushed data.
+When flushing inlined data that has had rows deleted, DuckLake creates both the materialized Parquet data file and a *partial deletion file*. Rather than creating one deletion file per delete snapshot, the partial deletion file consolidates all deletions into a single Parquet file with an extra column that records the snapshot in which each row was deleted. This preserves full time-travel support while keeping the number of files minimal.
 
 For example:
 

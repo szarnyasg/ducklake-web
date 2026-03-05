@@ -48,6 +48,10 @@ class IssueResult:
     pr_title: str = ""
     status: str = "PENDING"  # DONE, SKIPPED, ERROR
     reason: str = ""
+    input_tokens: int = 0
+    output_tokens: int = 0
+    cache_read_tokens: int = 0
+    cache_write_tokens: int = 0
 
 
 # ---------------------------------------------------------------------------
@@ -405,7 +409,13 @@ def process_issue(
         return result
 
     log(issue_num, f"Invoking Claude (model: {model})...")
-    claude_cmd = ["claude", "--print", "--dangerously-skip-permissions"]
+    claude_cmd = [
+        "claude",
+        "--print",
+        "--dangerously-skip-permissions",
+        "--output-format",
+        "json",
+    ]
     if model != DEFAULT_MODEL:
         claude_cmd.extend(["--model", model])
     claude_cmd.append(prompt)
@@ -432,6 +442,30 @@ def process_issue(
         result.status = "ERROR"
         result.reason = "claude timed out (300s)"
         return result
+
+    # Parse token usage from JSON output
+    try:
+        output = json.loads(proc.stdout)
+        usage = output.get("usage", {})
+        result.input_tokens = usage.get("input_tokens", 0)
+        result.output_tokens = usage.get("output_tokens", 0)
+        result.cache_read_tokens = usage.get("cache_read_input_tokens", 0)
+        result.cache_write_tokens = usage.get("cache_creation_input_tokens", 0)
+        total = result.input_tokens + result.output_tokens
+        cache_info = ""
+        if result.cache_read_tokens or result.cache_write_tokens:
+            cache_info = (
+                f" (cache: {result.cache_read_tokens} read"
+                f" / {result.cache_write_tokens} write)"
+            )
+        log(
+            issue_num,
+            f"Tokens — input: {result.input_tokens:,}"
+            f" | output: {result.output_tokens:,}"
+            f" | total: {total:,}{cache_info}",
+        )
+    except (json.JSONDecodeError, AttributeError):
+        log(issue_num, "WARNING: could not parse token usage from Claude output")
 
     log(issue_num, "Claude finished successfully.")
     result.status = "DONE"
@@ -511,12 +545,25 @@ def print_summary(results: list[IssueResult]) -> None:
     errors = sum(1 for r in results if r.status == "ERROR")
     total = len(results)
 
+    total_input = sum(r.input_tokens for r in results)
+    total_output = sum(r.output_tokens for r in results)
+    total_cache_read = sum(r.cache_read_tokens for r in results)
+    total_cache_write = sum(r.cache_write_tokens for r in results)
+
     print(f"\n{'='*20}")
     print(f"=== Summary ===")
     print(f"Processed: {total}")
     print(f"  DONE:    {done}")
     print(f"  SKIPPED: {skipped}")
     print(f"  ERROR:   {errors}")
+    if total_input or total_output:
+        print(f"Tokens:")
+        print(f"  Input:       {total_input:>10,}")
+        print(f"  Output:      {total_output:>10,}")
+        print(f"  Total:       {total_input + total_output:>10,}")
+        if total_cache_read or total_cache_write:
+            print(f"  Cache read:  {total_cache_read:>10,}")
+            print(f"  Cache write: {total_cache_write:>10,}")
 
 
 # ---------------------------------------------------------------------------

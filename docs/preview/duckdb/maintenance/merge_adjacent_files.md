@@ -8,9 +8,8 @@ If small insertions are performed, the Parquet files that are written are small.
 For performance reasons, it is generally recommended that Parquet files are at least a few megabytes each.
 
 DuckLake supports merging of files **without needing to expire snapshots**.
-This is supported due to the _lightweight snapshots_ that can refer to a part of a Parquet file.
 Effectively, we can merge multiple Parquet files into a single Parquet file that holds data inserted by multiple snapshots.
-The data file is then setup so that the snapshots refer to only part of that Parquet file.
+The resulting file is a *partial data file*: each snapshot records which row range within that file belongs to it, stored in the [`partial_file_info`]({% link docs/preview/specification/tables/ducklake_data_file.md %}) column of `ducklake_data_file`.
 
 This preserves all of the original behavior – including time travel and data change feeds – for these snapshots.
 In effect, this manner of compaction is completely transparent from a user perspective.
