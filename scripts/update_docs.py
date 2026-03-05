@@ -247,21 +247,27 @@ All changes must go in `docs/{docs_version}/`, NOT in any other docs version dir
 1. Use Glob/Read/Grep to explore the existing docs in `docs/{docs_version}/` and understand
    the current documentation structure and content.
 2. Read `_data/menu_docs_{docs_version}.json` to understand the navigation structure.
-3. Based on the PR description and code changes above, determine what documentation
+3. For each aspect of the PR, check whether it is already documented:
+   - If it is already documented and the behaviour is unchanged, make no edits to that part.
+   - If it is already documented but the PR changes the behaviour, update only what changed
+     (e.g., rename an option, adjust a default value, add a clarification).
+   - If it is not yet documented, add it following the guidelines below.
+4. Based on the PR description and code changes above, determine what documentation
    changes are needed. This could be:
    - Updating existing pages with new features, parameters, or behavior changes
    - Adding new documentation pages for entirely new features
    - Updating configuration/settings documentation
    - Adding or updating SQL examples
-4. Make the documentation changes:
-   - Edit existing files where the feature extends current functionality
+5. Make the documentation changes:
+   - Edit existing files where the feature extends or changes current functionality
    - Create new files only if the feature warrants a dedicated page
    - If creating a new page, also update `_data/menu_docs_{docs_version}.json`
-5. Ensure all changes follow the style guide above.
-6. Use `{{% link docs/{docs_version}/path.md %}}` for any cross-references to other doc pages.
+6. Ensure all changes follow the style guide above.
+7. Use `{{% link docs/{docs_version}/path.md %}}` for any cross-references to other doc pages.
 
-Focus on accuracy. Only document what the PR actually implements — do not speculate
-about features not shown in the PR description or code changes.
+Focus on accuracy and minimal diff. Only document what the PR actually implements — do not
+speculate about features not shown in the PR description or code changes. Prefer targeted
+edits over rewrites of sections that are already correct.
 
 If the PR changes are purely internal (refactoring, test improvements) with no
 user-facing impact, state that no documentation changes are needed and make no edits.
