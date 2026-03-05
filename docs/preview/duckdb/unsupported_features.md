@@ -25,18 +25,6 @@ Within this group, we are going to make a distinction between what is not suppor
 
 - [`CHECK` constraints](https://duckdb.org/docs/stable/sql/constraints#check-constraint). (Not to be confused with Primary or Foreign Key constraints.)
 
-- [Scalar and table macros (functions)](https://duckdb.org/docs/stable/sql/statements/create_macro#examples). However, if the catalog database supports it, there is a workaround:
-
-  ```sql
-  -- Using DuckDB as a catalog, create the macro in the catalog
-  USE __ducklake_metadata_my_ducklake;
-  CREATE MACRO add_and_multiply(a, b, c) AS (a + b) * c;
-
-  -- Use the macro to create a table in DuckLake
-  CREATE TABLE my_ducklake.table_w_macro AS
-      SELECT add_and_multiply(1, 2, 3) AS col;
-  ```
-
 - Default values that are not literals. See the following example:
 
   ```sql

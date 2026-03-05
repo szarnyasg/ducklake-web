@@ -47,7 +47,10 @@
                 {"page": "table_column_stats", "url": "ducklake_table_column_stats"},
                 {"page": "table_stats", "url": "ducklake_table_stats"},
                 {"page": "tag", "url": "ducklake_tag"},
-                {"page": "view", "url": "ducklake_view"}
+                {"page": "view", "url": "ducklake_view"},
+                {"page": "macro", "url": "ducklake_macro"},
+                {"page": "macro_impl", "url": "ducklake_macro_impl"},
+                {"page": "macro_parameters", "url": "ducklake_macro_parameters"}
               ]
             }
           ]
@@ -168,6 +171,10 @@
                 {
                   "page": "Row Lineage",
                   "url": "row_lineage"
+                },
+                {
+                  "page": "Macros",
+                  "url": "macros"
                 },
                 {
                   "page": "Views",

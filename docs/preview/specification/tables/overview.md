@@ -3,7 +3,7 @@ layout: docu
 title: Tables
 ---
 
-DuckLake 0.3 uses 22 tables to store metadata and to stage data fragments for data inlining. Below we describe all those tables and their semantics.
+DuckLake 0.4 uses 25 tables to store metadata and to stage data fragments for data inlining. Below we describe all those tables and their semantics.
 
 The following figure shows the most important 11 tables defined by the DuckLake schema:
 
@@ -21,6 +21,12 @@ The following figure shows the most important 11 tables defined by the DuckLake 
 * [`ducklake_table`]({% link docs/preview/specification/tables/ducklake_table.md %})
 * [`ducklake_view`]({% link docs/preview/specification/tables/ducklake_view.md %})
 * [`ducklake_column`]({% link docs/preview/specification/tables/ducklake_column.md %})
+
+## Macros
+
+* [`ducklake_macro`]({% link docs/preview/specification/tables/ducklake_macro.md %})
+* [`ducklake_macro_impl`]({% link docs/preview/specification/tables/ducklake_macro_impl.md %})
+* [`ducklake_macro_parameters`]({% link docs/preview/specification/tables/ducklake_macro_parameters.md %})
 
 ## Data Files and Tables
 
@@ -84,4 +90,7 @@ CREATE TABLE ducklake_inlined_data_tables (table_id BIGINT, table_name VARCHAR, 
 CREATE TABLE ducklake_column_mapping (mapping_id BIGINT, table_id BIGINT, type VARCHAR);
 CREATE TABLE ducklake_name_mapping (mapping_id BIGINT, column_id BIGINT, source_name VARCHAR, target_field_id BIGINT, parent_column BIGINT, is_partition BOOLEAN);
 CREATE TABLE ducklake_schema_versions (begin_snapshot BIGINT, schema_version BIGINT);
+CREATE TABLE ducklake_macro (schema_id BIGINT, macro_id BIGINT, macro_name VARCHAR, begin_snapshot BIGINT, end_snapshot BIGINT);
+CREATE TABLE ducklake_macro_impl (macro_id BIGINT, impl_id BIGINT, dialect VARCHAR, sql VARCHAR, type VARCHAR);
+CREATE TABLE ducklake_macro_parameters (macro_id BIGINT, impl_id BIGINT, column_id BIGINT, parameter_name VARCHAR, parameter_type VARCHAR, default_value VARCHAR, default_value_type VARCHAR);
 ```
