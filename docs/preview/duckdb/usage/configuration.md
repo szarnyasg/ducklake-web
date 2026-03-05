@@ -90,3 +90,23 @@ The most specific scope that is set is always used for any given setting, i.e., 
 |        2 | Schema        |
 |        3 | Global        |
 |        4 | Default       |
+
+## DuckLake Instance Settings
+
+The `ducklake_settings` function returns metadata about a DuckLake instance: the catalog type, the extension version and the data path.
+
+| Column              | Description                                              |
+| ------------------- | -------------------------------------------------------- |
+| `catalog_type`      | Metadata catalog backend (`duckdb`, `postgres`, `sqlite`) |
+| `extension_version` | Version of the `ducklake` extension                      |
+| `data_path`         | Path where data files are stored                         |
+
+```sql
+FROM ducklake_settings('my_ducklake');
+```
+
+Using the convenience macro on an attached DuckLake:
+
+```sql
+FROM my_ducklake.settings();
+```
