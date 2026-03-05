@@ -64,6 +64,12 @@ SELECT count(*) FROM glob('inlining.duckdb.files/**');
 └──────────────┘
 ```
 
+## Metadata Catalog Support
+
+Data inlining is supported when using DuckDB, PostgreSQL or SQLite as the metadata catalog.
+
+When using a non-DuckDB metadata catalog, nested types (`STRUCT`, `MAP` and `LIST`) are stored as `VARCHAR` strings in the inlined data table. DuckLake automatically casts the values back to the correct type when reading.
+
 ## Flushing Inlined Data
 
 Inlined data can be manually flushed to Parquet files by calling the `ducklake_flush_inlined_data` function.
