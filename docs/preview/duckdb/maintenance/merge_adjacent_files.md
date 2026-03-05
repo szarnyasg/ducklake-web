@@ -52,14 +52,14 @@ With the above settings, calling `ducklake_merge_adjacent_files('my_ducklake')` 
 
 The `merge_adjacent_files` function supports optional parameters to filter which files are considered for compaction and control memory usage. This enables advanced compaction strategies and more granular control over the compaction process.
 
-- **`max_compacted_files`**: Limits the maximum number of files to compact in a single operation. Compacting data files can be a very memory intensive operation, so you may consider performing this operation in batches by specifying this parameter.
+- **`max_compacted_files`**: Limits the maximum number of compaction operations produced in a single call. Compacting data files can be a very memory intensive operation, so you may consider performing this operation in batches by specifying this parameter. Note that the number of actual compacted files is highly dependent on the `target_file_size` setting.
 - **`min_file_size`**: Files smaller than this size (in bytes) are excluded from compaction. If not specified, all files are considered regardless of minimum size.
 - **`max_file_size`**: Files at or larger than this size (in bytes) are excluded from compaction. If not specified, it defaults to `target_file_size`. Must be greater than 0.
 
 Example with compacted files limit:
 
 ```sql
-CALL ducklake_merge_adjacent_files('my_ducklake', max_compacted_files => 100);
+CALL ducklake_merge_adjacent_files('my_ducklake', 'my_table', max_compacted_files => 10);
 ```
 
 Example with size filtering:
