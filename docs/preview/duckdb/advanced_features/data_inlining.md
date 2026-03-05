@@ -135,6 +135,10 @@ After flushing, time travel to snapshots before the deletions still returns the 
 SELECT * FROM t1 AT (VERSION => 1);
 ```
 
+### Sorted Flush
+
+If a table has a [sort order defined]({% link docs/preview/duckdb/advanced_features/sorted_tables.md %}), `ducklake_flush_inlined_data` sorts the output by those keys before writing the resulting Parquet file. The sort order applied is the one currently active on the table at the time of the flush.
+
 ### Interaction with `auto_compact`
 
 If a table has `auto_compact` set to `false`, `ducklake_flush_inlined_data` will skip it when flushing the whole lake or a whole schema. The same applies when flushing via `CHECKPOINT`, since `CHECKPOINT` calls `ducklake_flush_inlined_data` internally.

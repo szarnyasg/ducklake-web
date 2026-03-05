@@ -94,5 +94,9 @@ CALL ducklake_set_option('my_ducklake', 'target_file_size', '128MB');
 CALL ducklake_merge_adjacent_files('my_ducklake', min_file_size => 10485760, max_file_size => 67108864);
 ```
 
+## Sorted Compaction
+
+If a table has a [sort order defined]({% link docs/preview/duckdb/advanced_features/sorted_tables.md %}), `ducklake_merge_adjacent_files` sorts the merged output by those keys before writing the resulting Parquet file. The sort order applied is the one currently active on the table at the time compaction runs — not the order that was active when the original files were written.
+
 > Calling this function does not immediately delete the old files.
 > See the [cleanup old files]({% link docs/preview/duckdb/maintenance/cleanup_of_files.md %}) section on how to trigger a cleanup of these files.

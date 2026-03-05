@@ -50,7 +50,9 @@
                 {"page": "view", "url": "ducklake_view"},
                 {"page": "macro", "url": "ducklake_macro"},
                 {"page": "macro_impl", "url": "ducklake_macro_impl"},
-                {"page": "macro_parameters", "url": "ducklake_macro_parameters"}
+                {"page": "macro_parameters", "url": "ducklake_macro_parameters"},
+                {"page": "sort_info", "url": "ducklake_sort_info"},
+                {"page": "sort_expression", "url": "ducklake_sort_expression"}
               ]
             }
           ]
@@ -183,6 +185,10 @@
                 {
                   "page": "Comments",
                   "url": "comments"
+                },
+                {
+                  "page": "Sorted Tables",
+                  "url": "sorted_tables"
                 }
               ]
             },

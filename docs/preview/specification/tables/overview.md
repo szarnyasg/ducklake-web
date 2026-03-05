@@ -3,7 +3,7 @@ layout: docu
 title: Tables
 ---
 
-DuckLake 0.4 uses 25 tables to store metadata and to stage data fragments for data inlining. Below we describe all those tables and their semantics.
+DuckLake 0.4 uses 27 tables to store metadata and to stage data fragments for data inlining. Below we describe all those tables and their semantics.
 
 The following figure shows the most important 11 tables defined by the DuckLake schema:
 
@@ -56,6 +56,13 @@ DuckLake supports defining explicit partitioning.
 * [`ducklake_partition_column`]({% link docs/preview/specification/tables/ducklake_partition_column.md %})
 * [`ducklake_file_partition_value`]({% link docs/preview/specification/tables/ducklake_file_partition_value.md %})
 
+## Sort Information
+
+DuckLake supports defining a sort order for tables to improve query performance.
+
+* [`ducklake_sort_info`]({% link docs/preview/specification/tables/ducklake_sort_info.md %})
+* [`ducklake_sort_expression`]({% link docs/preview/specification/tables/ducklake_sort_expression.md %})
+
 ## Auxiliary Tables
 
 * [`ducklake_metadata`]({% link docs/preview/specification/tables/ducklake_metadata.md %})
@@ -93,4 +100,6 @@ CREATE TABLE ducklake_schema_versions (begin_snapshot BIGINT, schema_version BIG
 CREATE TABLE ducklake_macro (schema_id BIGINT, macro_id BIGINT, macro_name VARCHAR, begin_snapshot BIGINT, end_snapshot BIGINT);
 CREATE TABLE ducklake_macro_impl (macro_id BIGINT, impl_id BIGINT, dialect VARCHAR, sql VARCHAR, type VARCHAR);
 CREATE TABLE ducklake_macro_parameters (macro_id BIGINT, impl_id BIGINT, column_id BIGINT, parameter_name VARCHAR, parameter_type VARCHAR, default_value VARCHAR, default_value_type VARCHAR);
+CREATE TABLE ducklake_sort_info (sort_id BIGINT, table_id BIGINT, begin_snapshot BIGINT, end_snapshot BIGINT);
+CREATE TABLE ducklake_sort_expression (sort_id BIGINT, table_id BIGINT, sort_key_index BIGINT, expression VARCHAR, dialect VARCHAR, sort_direction VARCHAR, null_order VARCHAR);
 ```
