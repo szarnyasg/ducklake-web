@@ -108,6 +108,23 @@ CALL ducklake_flush_inlined_data(
 );
 ```
 
+### Return Values
+
+`ducklake_flush_inlined_data` returns one row per table that had data flushed, with the following columns:
+
+| Column | Type | Description |
+|---|---|---|
+| `schema_name` | `VARCHAR` | Name of the schema containing the table |
+| `table_name` | `VARCHAR` | Name of the table |
+| `rows_flushed` | `BIGINT` | Number of rows flushed from inlined storage to Parquet |
+
+Tables with no inlined data are not included in the result. Example:
+
+```sql
+SELECT schema_name, table_name, rows_flushed
+FROM ducklake_flush_inlined_data('my_ducklake');
+```
+
 ### Time Travel and Deletions
 
 When flushing inlined data that has had rows deleted, DuckLake creates both the materialized Parquet data file and a *partial deletion file*. Rather than creating one deletion file per delete snapshot, the partial deletion file consolidates all deletions into a single Parquet file with an extra column that records the snapshot in which each row was deleted. This preserves full time-travel support while keeping the number of files minimal.

@@ -51,11 +51,11 @@ With the above settings, calling `ducklake_merge_adjacent_files('my_ducklake')` 
 
 The `merge_adjacent_files` function supports optional parameters to filter which files are considered for compaction and control memory usage. This enables advanced compaction strategies and more granular control over the compaction process.
 
-- **`max_compacted_files`**: Limits the maximum number of compaction operations produced in a single call. Compacting data files can be a very memory intensive operation, so you may consider performing this operation in batches by specifying this parameter. Note that the number of actual compacted files is highly dependent on the `target_file_size` setting.
+- **`max_compacted_files`**: Limits the maximum number of compaction operations produced in a single call, *per table*. Compacting data files can be a very memory intensive operation, so you may consider performing this operation in batches by specifying this parameter. Note that the number of actual compacted files is highly dependent on the `target_file_size` setting.
 - **`min_file_size`**: Files smaller than this size (in bytes) are excluded from compaction. If not specified, all files are considered regardless of minimum size.
 - **`max_file_size`**: Files at or larger than this size (in bytes) are excluded from compaction. If not specified, it defaults to `target_file_size`. Must be greater than 0.
 
-Example with compacted files limit:
+Example with compacted files limit (applies per table when running across all tables):
 
 ```sql
 CALL ducklake_merge_adjacent_files('my_ducklake', 'my_table', max_compacted_files => 10);
@@ -92,6 +92,25 @@ CALL ducklake_merge_adjacent_files('my_ducklake', min_file_size => 1048576, max_
 -- Tier 2 → Tier 3: merge large files
 CALL ducklake_set_option('my_ducklake', 'target_file_size', '128MB');
 CALL ducklake_merge_adjacent_files('my_ducklake', min_file_size => 10485760, max_file_size => 67108864);
+```
+
+## Return Values
+
+`ducklake_merge_adjacent_files` returns one row per output file created, with the following columns:
+
+| Column | Type | Description |
+|---|---|---|
+| `schema_name` | `VARCHAR` | Name of the schema containing the table |
+| `table_name` | `VARCHAR` | Name of the table |
+| `files_processed` | `BIGINT` | Number of input files merged into this output file |
+| `files_created` | `BIGINT` | Always `1` — each row represents one output file created |
+
+Because each row corresponds to one output file, `files_created` is always `1`. To see the total number of output files produced per table, use a `GROUP BY`:
+
+```sql
+SELECT schema_name, table_name, sum(files_created) AS total_output_files
+FROM ducklake_merge_adjacent_files('my_ducklake')
+GROUP BY schema_name, table_name;
 ```
 
 ## Sorted Compaction
