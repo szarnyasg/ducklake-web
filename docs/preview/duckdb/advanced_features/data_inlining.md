@@ -108,6 +108,33 @@ CALL ducklake_flush_inlined_data(
 );
 ```
 
+### Time Travel and Deletions
+
+When flushing inlined data that has had rows deleted, DuckLake creates both the materialized Parquet data file and a corresponding deletion file. The deletion file records which rows were deleted and at which snapshot, preserving full time-travel support for the flushed data.
+
+For example:
+
+```sql
+ATTACH 'ducklake:inlining.duckdb' AS my_ducklake (DATA_PATH 'data/', DATA_INLINING_ROW_LIMIT 10);
+USE my_ducklake;
+
+CREATE TABLE t1 (a INTEGER);
+INSERT INTO t1 VALUES (1), (2), (3), (4), (5), (6), (7), (8);
+
+DELETE FROM t1 WHERE a = 2;
+DELETE FROM t1 WHERE a = 5;
+
+-- Flush materializes data to Parquet and creates a deletion file with snapshot information
+CALL ducklake_flush_inlined_data('ducklake');
+```
+
+After flushing, time travel to snapshots before the deletions still returns the deleted rows:
+
+```sql
+-- Returns all 8 original rows
+SELECT * FROM t1 AT (VERSION => 1);
+```
+
 ### Interaction with `auto_compact`
 
 If a table has `auto_compact` set to `false`, `ducklake_flush_inlined_data` will skip it when flushing the whole lake or a whole schema. The same applies when flushing via `CHECKPOINT`, since `CHECKPOINT` calls `ducklake_flush_inlined_data` internally.
