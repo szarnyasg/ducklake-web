@@ -49,8 +49,7 @@ Configuration is persisted in the [`ducklake_metadata`]({% link docs/preview/spe
 | `rewrite_delete_threshold`     | Minimum fraction of data removed from a file before a rewrite is warranted (0...1)               | `0.95`   |
 | `delete_older_than`            | How old unused files must be to be removed by cleanup functions                                  |          |
 | `expire_older_than`            | How old snapshots must be to be expired by default                                               |          |
-| `compaction_schema`            | Pre-defined schema used as a default value for compaction functions                              |          |
-| `compaction_table`             | Pre-defined table used as a default value for compaction functions                               |          |
+| `auto_compact`                 | Whether a table is included when compaction functions are called without a specific table argument | `true`   |
 | `encrypted`                    | Whether or not to encrypt Parquet files written to the data path                                 | `false`  |
 | `per_thread_output`            | Whether to create separate output files per thread during parallel insertion                     | `false`  |
 

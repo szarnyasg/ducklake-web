@@ -30,3 +30,21 @@ Set a specific threshold for the whole catalog:
 ```sql
 CALL my_ducklake.set_option('rewrite_delete_threshold', 0.5);
 ```
+
+Set a specific threshold for a schema:
+
+```sql
+CALL my_ducklake.set_option('rewrite_delete_threshold', 0.5, schema => 'my_schema');
+```
+
+Set a specific threshold for a table:
+
+```sql
+CALL my_ducklake.set_option('rewrite_delete_threshold', 0.5, table_name => 'my_table');
+```
+
+Disable automatic compaction for a specific table:
+
+```sql
+CALL my_ducklake.set_option('auto_compact', false, table_name => 'my_table');
+```

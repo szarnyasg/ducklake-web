@@ -27,6 +27,27 @@ Or if you want to target a specific table within a schema:
 CALL ducklake_merge_adjacent_files('my_ducklake', 't', schema => 'some_schema');
 ```
 
+## Controlling Which Tables Are Compacted
+
+When `ducklake_merge_adjacent_files` is called without a table argument, it runs on all tables where the `auto_compact` option is `true` (the default). This lets you opt specific tables or schemas out of bulk compaction calls.
+
+> **Note** `auto_compact` does not trigger compaction automatically after writes. Compaction always runs explicitly when you call a maintenance function. The option only controls *which tables are included* when the function is called without a specific table argument.
+
+Disable compaction for a specific table:
+
+```sql
+CALL my_ducklake.set_option('auto_compact', false, table_name => 'my_table');
+```
+
+Disable compaction for an entire schema, then re-enable it for one table within that schema:
+
+```sql
+CALL my_ducklake.set_option('auto_compact', false, schema => 'my_schema');
+CALL my_ducklake.set_option('auto_compact', true, schema => 'my_schema', table_name => 'important_table');
+```
+
+With the above settings, calling `ducklake_merge_adjacent_files('my_ducklake')` will compact only `my_schema.important_table` and skip all other tables in `my_schema`. Tables in other schemas are unaffected and will still be compacted by default.
+
 ## Advanced Options
 
 The `merge_adjacent_files` function supports optional parameters to filter which files are considered for compaction and control memory usage. This enables advanced compaction strategies and more granular control over the compaction process.

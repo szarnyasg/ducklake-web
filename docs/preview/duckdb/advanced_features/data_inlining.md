@@ -107,3 +107,9 @@ CALL ducklake_flush_inlined_data(
     table_name => 'my_table'
 );
 ```
+
+### Interaction with `auto_compact`
+
+If a table has `auto_compact` set to `false`, `ducklake_flush_inlined_data` will skip it when flushing the whole lake or a whole schema. The same applies when flushing via `CHECKPOINT`, since `CHECKPOINT` calls `ducklake_flush_inlined_data` internally.
+
+> **Note** `auto_compact` does not cause flushing to happen automatically after writes. It only determines whether a table is eligible for flushing when a maintenance function is called.
