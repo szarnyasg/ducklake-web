@@ -21,8 +21,8 @@ Data files contain the actual row data.
 | `row_id_start`      | `BIGINT`    |             |
 | `partition_id`      | `BIGINT`    |             |
 | `encryption_key`    | `VARCHAR`   |             |
-| `partial_file_info` | `VARCHAR`   |             |
 | `mapping_id`        | `BIGINT`    |             |
+| `partial_max`       | `BIGINT`    |             |
 
 - `data_file_id` is the numeric identifier of the file. It is a primary key. `data_file_id` is incremented from `next_file_id` in the [`ducklake_snapshot` table]({% link docs/preview/specification/tables/ducklake_snapshot.md %}).
 - `table_id` refers to a `table_id` from the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %}).
@@ -38,5 +38,5 @@ Data files contain the actual row data.
 - `row_id_start` is the first logical row id in the file. (Every row has a unique row id that is maintained.)
 - `partition_id` refers to a `partition_id` from the `ducklake_partition_info` table.
 - `encryption_key` contains the encryption for the file if [encryption]({% link docs/preview/duckdb/advanced_features/encryption.md %}) is enabled.
-- `partial_file_info` is used when multiple snapshots share a single Parquet file. This happens after [merging adjacent files]({% link docs/preview/duckdb/maintenance/merge_adjacent_files.md %}): the merged file is written once, and each original snapshot records its row range inside `partial_file_info` so that reads and time travel are scoped to the correct rows. It is `NULL` for files that are not shared across snapshots.
 - `mapping_id` refers to a `mapping_id` from the [`ducklake_column_mapping` table]({% link docs/preview/specification/tables/ducklake_column_mapping.md %}).
+- `partial_max` is the maximum snapshot id stored in a partial data file. When multiple snapshots are [merged into a single file]({% link docs/preview/duckdb/maintenance/merge_adjacent_files.md %}), per-row snapshot ownership is tracked via the `_ducklake_internal_snapshot_id` column embedded in the Parquet file. `partial_max` records the highest snapshot id present in that merged file, so reads and time travel can determine whether snapshot filtering is necessary. It is `NULL` for files that are not shared across snapshots.

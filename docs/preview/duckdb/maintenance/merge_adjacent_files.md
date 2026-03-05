@@ -9,7 +9,7 @@ For performance reasons, it is generally recommended that Parquet files are at l
 
 DuckLake supports merging of files **without needing to expire snapshots**.
 Effectively, we can merge multiple Parquet files into a single Parquet file that holds data inserted by multiple snapshots.
-The resulting file is a *partial data file*: each snapshot records which row range within that file belongs to it, stored in the [`partial_file_info`]({% link docs/preview/specification/tables/ducklake_data_file.md %}) column of `ducklake_data_file`.
+The resulting file is a *partial data file*: per-row snapshot ownership is tracked via a `_ducklake_internal_snapshot_id` column embedded in the Parquet file, and the highest snapshot id present in the merged file is stored in the [`partial_max`]({% link docs/preview/specification/tables/ducklake_data_file.md %}) column of `ducklake_data_file`.
 
 This preserves all of the original behavior – including time travel and data change feeds – for these snapshots.
 In effect, this manner of compaction is completely transparent from a user perspective.
