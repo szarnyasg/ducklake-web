@@ -154,6 +154,8 @@ Data inlining is supported when using DuckDB, PostgreSQL or SQLite as the metada
 
 When using a non-DuckDB metadata catalog, nested types (`STRUCT`, `MAP` and `LIST`) are stored as `VARCHAR` strings in the inlined data table. DuckLake automatically casts the values back to the correct type when reading.
 
+Inlining of `VARIANT` columns is only supported when using DuckDB as the metadata catalog. PostgreSQL and SQLite cannot inline `VARIANT` values because the type does not round-trip through a string representation without losing type information. Tables with `VARIANT` columns will not have their data inlined when using a non-DuckDB metadata catalog.
+
 ## Flushing Inlined Data
 
 Inlined data — both inlined inserts and inlined deletions — can be manually flushed to Parquet files by calling the `ducklake_flush_inlined_data` function.
