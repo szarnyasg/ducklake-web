@@ -9,11 +9,12 @@ The `ducklake` extension also allows for some configuration regarding retry mech
 
 ### Option List
 
-| Name                       | Description                                                     | Default |
-| -------------------------- | --------------------------------------------------------------- | ------: |
-| `ducklake_max_retry_count` | The maximum amount of retry attempts for a DuckLake transaction |      10 |
-| `ducklake_retry_wait_ms`   | Time between retries in ms                                      |     100 |
-| `ducklake_retry_backoff`   | Backoff factor for exponentially increasing retry wait time     |     1.5 |
+| Name                                       | Description                                                                  | Default |
+| ------------------------------------------ | ---------------------------------------------------------------------------- | ------: |
+| `ducklake_max_retry_count`                 | The maximum amount of retry attempts for a DuckLake transaction              |      10 |
+| `ducklake_retry_wait_ms`                   | Time between retries in ms                                                   |     100 |
+| `ducklake_retry_backoff`                   | Backoff factor for exponentially increasing retry wait time                  |     1.5 |
+| `ducklake_default_data_inlining_row_limit` | Default row limit for data inlining across all connections (0 disables inlining) |      10 |
 
 ### Setting Config Values
 
@@ -21,6 +22,7 @@ The `ducklake` extension also allows for some configuration regarding retry mech
 SET ducklake_max_retry_count = 100;
 SET ducklake_retry_wait_ms = 100;
 SET ducklake_retry_backoff = 2;
+SET ducklake_default_data_inlining_row_limit = 50;
 ```
 
 ## DuckLake Specific Configuration
@@ -34,7 +36,7 @@ Configuration is persisted in the [`ducklake_metadata`]({% link docs/preview/spe
 
 | Name                           | Description                                                                                      | Default  |
 | ------------------------------ | ------------------------------------------------------------------------------------------------ | -------- |
-| `data_inlining_row_limit`      | Maximum amount of rows to inline in a single insert                                              | `0`      |
+| `data_inlining_row_limit`      | Maximum amount of rows to inline in a single insert                                              | `10`     |
 | `parquet_compression`          | Compression algorithm for Parquet files (uncompressed, snappy, gzip, zstd, brotli, lz4, lz4_raw) | `snappy` |
 | `parquet_version`              | Parquet format version (1 or 2)                                                                  | `1`      |
 | `parquet_compression_level`    | Compression level for Parquet files                                                              | `3`      |

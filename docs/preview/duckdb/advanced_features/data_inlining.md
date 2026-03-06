@@ -14,17 +14,33 @@ Data inlining applies to both inserts and deletes:
 
 Inlined data behaves exactly the same as data written to Parquet files. The only difference is that it lives in the metadata catalog rather than in Parquet files in the data path.
 
-## Enabling Data Inlining
+## Configuring Data Inlining
 
-Data inlining can be enabled in two ways.
+Data inlining is enabled by default with a row limit of 10. Any inserts or deletes that affect fewer rows than `data_inlining_row_limit` are automatically written to inlined tables instead of Parquet files.
 
-Using the `DATA_INLINING_ROW_LIMIT` attach parameter. This is bounded to your DuckLake connection, so if you detach and reattach without the parameter, data inlining won't be used.
+### Global Default
+
+The global default row limit is controlled by the `ducklake_default_data_inlining_row_limit` DuckDB setting. This applies to all DuckLake connections that do not have an explicit `data_inlining_row_limit` configured:
+
+```sql
+-- Change the default row limit to 50 rows
+SET ducklake_default_data_inlining_row_limit = 50;
+
+-- Disable data inlining by default
+SET ducklake_default_data_inlining_row_limit = 0;
+```
+
+### Per-Connection Override
+
+The `DATA_INLINING_ROW_LIMIT` ATTACH parameter overrides the default for a single connection. This setting is not persisted and must be specified on each attach:
 
 ```sql
 ATTACH 'ducklake:inlining.duckdb' AS my_ducklake (DATA_INLINING_ROW_LIMIT 10);
 ```
 
-Using the option `data_inlining_row_limit` which can be set at the table, schema or global level. This is persisted in the `ducklake_metadata` table and will be reused across connections.
+### Persistent Override
+
+The `data_inlining_row_limit` option can be persisted in the DuckLake metadata at the table, schema or global level. A persisted value takes priority over both the global DuckDB default and the ATTACH parameter:
 
 ```sql
 ATTACH 'ducklake:inlining.duckdb' AS my_ducklake;
@@ -32,8 +48,6 @@ USE my_ducklake;
 CREATE TABLE t (a INT);
 CALL my_ducklake.set_option('data_inlining_row_limit', 10, table_name => 't');
 ```
-
-When enabled, any inserts or deletes that affect fewer rows than `data_inlining_row_limit` are automatically written to inlined tables instead of Parquet files.
 
 ## Insertion Inlining
 
@@ -122,6 +136,17 @@ DELETE FROM tbl WHERE col < 2;
 -- No new delete file is created
 SELECT count(*) FROM glob('inlining.duckdb.files/**/*.parquet') WHERE file LIKE '%-delete.parquet';
 ```
+
+## ALTER TABLE Support
+
+The following `ALTER TABLE` operations are supported within a transaction that also contains inlined data:
+
+* `ADD COLUMN`
+* `DROP COLUMN`
+* `RENAME TABLE`
+* `RENAME COLUMN`
+* `ALTER COLUMN TYPE`
+* `SET NOT NULL` / `DROP NOT NULL`
 
 ## Metadata Catalog Support
 
