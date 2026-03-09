@@ -1,5 +1,6 @@
 ---
 layout: docu
+redirect_from: null
 title: Data Change Feed
 ---
 
@@ -76,6 +77,44 @@ Updates are split into two rows: the `update_preimage` and `update_postimage`.
 When the schema of a table is altered, changes are read as of the schema of the table as of the end snapshot.
 As such, if a column is dropped in between the provided bounds, the dropped column is omitted from the entire result.
 If a column is added, any changes made to the table prior to the addition of the column will have the column substituted with its default value.
+
+## `table_deletions`
+
+The `table_deletions` function returns only the rows that were *deleted* between two snapshots.
+It has the same signature as `table_changes`: it takes a table name and two bounds (start and end snapshot, inclusive), which can be given as snapshot ids or timestamps.
+
+```sql
+FROM db.table_deletions('tbl', 3, 3);
+```
+
+<div class="monospace_table"></div>
+
+| snapshot_id | rowid | id |  val  |
+| ----------: | ----: | -: | ----- |
+|           3 |     0 |  1 | Hello |
+
+The result contains `snapshot_id` and `rowid` columns followed by the data columns of the table.
+There is no `change_type` column because all rows returned are deletions.
+
+`table_deletions` is an alias for the `ducklake_table_deletions` function.
+
+## `table_insertions`
+
+The `table_insertions` function returns only the rows that were *inserted* between two snapshots.
+It has the same signature as `table_changes`.
+
+```sql
+FROM db.table_insertions('tbl', 2, 2);
+```
+
+<div class="monospace_table"></div>
+
+| snapshot_id | rowid |  id | val      |
+| ----------: | ----: | --: | -------- |
+|           2 |     0 |   1 | Hello    |
+|           2 |     1 |   2 | DuckLake |
+
+`table_insertions` is an alias for the `ducklake_table_insertions` function.
 
 ## Compaction
 

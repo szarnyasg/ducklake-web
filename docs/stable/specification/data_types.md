@@ -1,5 +1,6 @@
 ---
 layout: docu
+redirect_from: null
 title: Data Types
 ---
 
@@ -48,6 +49,18 @@ The following nested types are supported:
 | `list`   | Collection of values with a single child type |
 | `struct` | A tuple of typed values                       |
 | `map`    | A collection of key-value pairs               |
+
+## Semi-Structured Types
+
+| Type      | Description                                                                                        |
+| --------- | -------------------------------------------------------------------------------------------------- |
+| `variant` | A dynamically typed value that can hold any primitive or nested type, stored in a binary encoding. |
+
+The `variant` type is similar to JSON but is more strongly typed internally, supports a wider range of types (e.g., `date`, `timestamp`, `decimal`), and is stored in a binary-encoded format rather than as a string. Variants are stored in Parquet files according to the [Parquet variant encoding specification](https://github.com/apache/parquet-format/blob/master/VariantEncoding.md).
+
+Variants can be **shredded** into their constituent primitive types when all rows share a consistent schema for a given sub-field. Shredded fields are stored and queried with the same efficiency as native primitive columns. Per-file statistics for shredded sub-fields are recorded in the [`ducklake_file_variant_stats`]({% link docs/stable/specification/tables/ducklake_file_variant_stats.md %}) table.
+
+> Note The `variant` type is natively supported in DuckDB. For catalog databases that do not have a native variant type (e.g., PostgreSQL, SQLite), variants cannot yet be stored as inline values in those catalogs.
 
 ## Geometry Types
 
