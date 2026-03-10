@@ -1,5 +1,6 @@
 ---
 layout: docu
+redirect_from: null
 title: Configuration
 ---
 
@@ -9,11 +10,12 @@ The `ducklake` extension also allows for some configuration regarding retry mech
 
 ### Option List
 
-| Name                       | Description                                                     | Default |
-| -------------------------- | --------------------------------------------------------------- | ------: |
-| `ducklake_max_retry_count` | The maximum amount of retry attempts for a DuckLake transaction |      10 |
-| `ducklake_retry_wait_ms`   | Time between retries in ms                                      |     100 |
-| `ducklake_retry_backoff`   | Backoff factor for exponentially increasing retry wait time     |     1.5 |
+| Name                                       | Description                                                                  | Default |
+| ------------------------------------------ | ---------------------------------------------------------------------------- | ------: |
+| `ducklake_max_retry_count`                 | The maximum amount of retry attempts for a DuckLake transaction              |      10 |
+| `ducklake_retry_wait_ms`                   | Time between retries in ms                                                   |     100 |
+| `ducklake_retry_backoff`                   | Backoff factor for exponentially increasing retry wait time                  |     1.5 |
+| `ducklake_default_data_inlining_row_limit` | Default row limit for data inlining across all connections (0 disables inlining) |      10 |
 
 ### Setting Config Values
 
@@ -21,6 +23,7 @@ The `ducklake` extension also allows for some configuration regarding retry mech
 SET ducklake_max_retry_count = 100;
 SET ducklake_retry_wait_ms = 100;
 SET ducklake_retry_backoff = 2;
+SET ducklake_default_data_inlining_row_limit = 50;
 ```
 
 ## DuckLake Specific Configuration
@@ -34,7 +37,7 @@ Configuration is persisted in the [`ducklake_metadata`]({% link docs/stable/spec
 
 | Name                           | Description                                                                                      | Default  |
 | ------------------------------ | ------------------------------------------------------------------------------------------------ | -------- |
-| `data_inlining_row_limit`      | Maximum amount of rows to inline in a single insert                                              | `0`      |
+| `data_inlining_row_limit`      | Maximum amount of rows to inline in a single insert                                              | `10`     |
 | `parquet_compression`          | Compression algorithm for Parquet files (uncompressed, snappy, gzip, zstd, brotli, lz4, lz4_raw) | `snappy` |
 | `parquet_version`              | Parquet format version (1 or 2)                                                                  | `1`      |
 | `parquet_compression_level`    | Compression level for Parquet files                                                              | `3`      |
@@ -49,8 +52,7 @@ Configuration is persisted in the [`ducklake_metadata`]({% link docs/stable/spec
 | `rewrite_delete_threshold`     | Minimum fraction of data removed from a file before a rewrite is warranted (0...1)               | `0.95`   |
 | `delete_older_than`            | How old unused files must be to be removed by cleanup functions                                  |          |
 | `expire_older_than`            | How old snapshots must be to be expired by default                                               |          |
-| `compaction_schema`            | Pre-defined schema used as a default value for compaction functions                              |          |
-| `compaction_table`             | Pre-defined table used as a default value for compaction functions                               |          |
+| `auto_compact`                 | Whether a table is included when compaction functions are called without a specific table argument | `true`   |
 | `encrypted`                    | Whether or not to encrypt Parquet files written to the data path                                 | `false`  |
 | `per_thread_output`            | Whether to create separate output files per thread during parallel insertion                     | `false`  |
 
@@ -91,3 +93,23 @@ The most specific scope that is set is always used for any given setting, i.e., 
 |        2 | Schema        |
 |        3 | Global        |
 |        4 | Default       |
+
+## DuckLake Instance Settings
+
+The `ducklake_settings` function returns metadata about a DuckLake instance: the catalog type, the extension version and the data path.
+
+| Column              | Description                                              |
+| ------------------- | -------------------------------------------------------- |
+| `catalog_type`      | Metadata catalog backend (`duckdb`, `postgres`, `sqlite`) |
+| `extension_version` | Version of the `ducklake` extension                      |
+| `data_path`         | Path where data files are stored                         |
+
+```sql
+FROM ducklake_settings('my_ducklake');
+```
+
+Using the convenience macro on an attached DuckLake:
+
+```sql
+FROM my_ducklake.settings();
+```

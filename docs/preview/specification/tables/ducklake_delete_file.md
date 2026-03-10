@@ -19,6 +19,7 @@ Delete files contain the row ids of rows that are deleted. Each data file will h
 | `file_size_bytes`  | `BIGINT`    |             |
 | `footer_size`      | `BIGINT`    |             |
 | `encryption_key`   | `VARCHAR`   |             |
+| `partial_max`      | `BIGINT`    |             |
 
 - `delete_file_id` is the numeric identifier of the delete file. It is a primary key. `delete_file_id` is incremented from `next_file_id` in the [`ducklake_snapshot` table]({% link docs/preview/specification/tables/ducklake_snapshot.md %}).
 - `table_id` refers to a `table_id` from the [`ducklake_table` table]({% link docs/preview/specification/tables/ducklake_table.md %}).
@@ -32,3 +33,4 @@ Delete files contain the row ids of rows that are deleted. Each data file will h
 - `file_size_bytes` is the size of the file in bytes.
 - `footer_size` is the size of the file metadata footer, in the case of Parquet the Thrift data. This is an optimization that allows for faster reading of the file.
 - `encryption_key` contains the encryption for the file if [encryption]({% link docs/preview/duckdb/advanced_features/encryption.md %}) is enabled.
+- `partial_max` is the maximum snapshot id stored in a partial deletion file. When multiple deletes target the same data file across different snapshots, the deletion file is rewritten as a partial deletion file that tracks which rows were deleted in which snapshot. This column stores the highest snapshot id present in such a file. It is `NULL` for standard (non-partial) delete files.

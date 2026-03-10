@@ -33,6 +33,7 @@
                 {"page": "data_file", "url": "ducklake_data_file"},
                 {"page": "delete_file", "url": "ducklake_delete_file"},
                 {"page": "file_column_stats", "url": "ducklake_file_column_stats"},
+                {"page": "file_variant_stats", "url": "ducklake_file_variant_stats"},
                 {"page": "file_partition_value", "url": "ducklake_file_partition_value"},
                 {"page": "files_scheduled_for_deletion", "url": "ducklake_files_scheduled_for_deletion"},
                 {"page": "inlined_data_tables", "url": "ducklake_inlined_data_tables"},
@@ -47,7 +48,12 @@
                 {"page": "table_column_stats", "url": "ducklake_table_column_stats"},
                 {"page": "table_stats", "url": "ducklake_table_stats"},
                 {"page": "tag", "url": "ducklake_tag"},
-                {"page": "view", "url": "ducklake_view"}
+                {"page": "view", "url": "ducklake_view"},
+                {"page": "macro", "url": "ducklake_macro"},
+                {"page": "macro_impl", "url": "ducklake_macro_impl"},
+                {"page": "macro_parameters", "url": "ducklake_macro_parameters"},
+                {"page": "sort_info", "url": "ducklake_sort_info"},
+                {"page": "sort_expression", "url": "ducklake_sort_expression"}
               ]
             }
           ]
@@ -170,12 +176,20 @@
                   "url": "row_lineage"
                 },
                 {
+                  "page": "Macros",
+                  "url": "macros"
+                },
+                {
                   "page": "Views",
                   "url": "views"
                 },
                 {
                   "page": "Comments",
                   "url": "comments"
+                },
+                {
+                  "page": "Sorted Tables",
+                  "url": "sorted_tables"
                 }
               ]
             },
@@ -220,12 +234,16 @@
                   "url": "backups_and_recovery"
                 },
                 {
+                  "page": "Public DuckLake on Object Storage",
+                  "url": "public_ducklake_on_object_storage"
+                },
+                {
                   "page": "Using a Remote Data Path",
                   "url": "using_a_remote_data_path"
                 },
                 {
-                  "page": "Public DuckLake on Object Storage",
-                  "url": "public_ducklake_on_object_storage"
+                  "page": "Troubleshooting",
+                  "url": "troubleshooting"
                 }
               ]
             },

@@ -1,5 +1,6 @@
 ---
 layout: docu
+redirect_from: null
 title: Using a Remote Data Path
 ---
 
