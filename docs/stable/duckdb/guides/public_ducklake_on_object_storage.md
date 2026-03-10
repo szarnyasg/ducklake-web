@@ -1,5 +1,6 @@
 ---
 layout: docu
+redirect_from: null
 title: Public DuckLake on Object Storage
 ---
 
@@ -15,6 +16,7 @@ Users can query this DuckLake through HTTPS **without authentication**.
 ### Creating the Bucket
 
 Create a new public bucket:
+
 * [Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)
 * [Backblaze B2](https://www.backblaze.com/docs/cloud-storage-create-and-manage-buckets)
 * [Cloudflare R2](https://developers.cloudflare.com/r2/buckets/create-buckets/)
@@ -43,17 +45,8 @@ Storage configuration in Rclone
 Option Storage.
 Type of storage to configure.
 Choose a number from below, or type in your own value.
- 1 / 1Fichier
-   \ (fichier)
- 2 / Akamai NetStorage
-   \ (netstorage)
- 3 / Alias for an existing remote
-   \ (alias)
- 4 / Amazon S3 Compliant Storage Providers including AWS, Alibaba, ArvanCloud, BizflyCloud, Ceph, ChinaMobile, Cloudflare, Cubbit, DigitalOcean, Dreamhost, Exaba, FileLu, FlashBlade, GCS, Hetzner, HuaweiOBS, IBMCOS, IDrive, Intercolo, IONOS, Leviia, Liara, Linode, LyveCloud, Magalu, Mega, Minio, Netease, Outscale, OVHcloud, Petabox, Qiniu, Rabata, RackCorp, Rclone, Scaleway, SeaweedFS, Selectel, Servercore, SpectraLogic, StackPath, Storj, Synology, TencentCOS, Wasabi, Zata, Other
-   \ (s3)
- 5 / Backblaze B2
-   \ (b2)
 ...
+Storage> s3
 ```
 </details>
 
@@ -72,7 +65,9 @@ If you are using Cloudflare as your storage and try to query the dataset from an
 IO Error: Failed to attach DuckLake MetaData "__ducklake_metadata_..." at path + "..."
 Cannot open database "..." in read-only mode: database does not exist
 ```
+
 or
+
 ```console
 Invalid Error: Failed to attach DuckLake MetaData "__ducklake_metadata..." at path + "..."
 Opening file '...' failed with error:

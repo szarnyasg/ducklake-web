@@ -1,5 +1,6 @@
 ---
 layout: docu
+redirect_from: null
 title: ducklake_file_partition_value
 ---
 

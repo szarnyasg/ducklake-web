@@ -1,5 +1,6 @@
 ---
 layout: docu
+redirect_from: null
 title: Rewrite Heavily Deleted Files
 ---
 
@@ -29,4 +30,41 @@ Set a specific threshold for the whole catalog:
 
 ```sql
 CALL my_ducklake.set_option('rewrite_delete_threshold', 0.5);
+```
+
+Set a specific threshold for a schema:
+
+```sql
+CALL my_ducklake.set_option('rewrite_delete_threshold', 0.5, schema => 'my_schema');
+```
+
+Set a specific threshold for a table:
+
+```sql
+CALL my_ducklake.set_option('rewrite_delete_threshold', 0.5, table_name => 'my_table');
+```
+
+Disable automatic compaction for a specific table:
+
+```sql
+CALL my_ducklake.set_option('auto_compact', false, table_name => 'my_table');
+```
+
+## Return Values
+
+`ducklake_rewrite_data_files` returns one row per output file created, with the following columns:
+
+| Column | Type | Description |
+|---|---|---|
+| `schema_name` | `VARCHAR` | Name of the schema containing the table |
+| `table_name` | `VARCHAR` | Name of the table |
+| `files_processed` | `BIGINT` | Number of input files rewritten into this output file |
+| `files_created` | `BIGINT` | Always `1` — each row represents one output file created |
+
+Because each row corresponds to one output file, `files_created` is always `1`. To see the total number of output files produced per table, use a `GROUP BY`:
+
+```sql
+SELECT schema_name, table_name, sum(files_created) AS total_output_files
+FROM ducklake_rewrite_data_files('my_ducklake')
+GROUP BY schema_name, table_name;
 ```
