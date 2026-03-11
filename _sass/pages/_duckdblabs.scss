@@ -14,17 +14,23 @@ footer .sitefooter .footercontent > div a:hover {
 header .headerline .headercontent .header-actions {
 	display: flex;
 	align-items: center;
-	gap: 15px;
+	gap: 35px;
 	z-index: 25;
 	font-size: 15px;
+
+	a {
+		text-decoration: none;
+		color: var(--menu-topmenu-text-color, #F2F2F2);
+		transition: color .3s;
+		&:hover {
+			color: var(--orange-50);
+		}
+	}
 
 	a.duckdb-link {
 		display: flex;
 		align-items: center;
 		gap: 5px;
-		text-decoration: none;
-		color: var(--menu-topmenu-text-color, #F2F2F2);
-		transition: color .3s;
 		.icon {
 			width: 16px;
 			height: 16px;
@@ -32,7 +38,6 @@ header .headerline .headercontent .header-actions {
 			transition: color .3s;
 		}
 		&:hover {
-			color: var(--orange-50);
 			.icon {
 				color: var(--orange-50);
 			}
@@ -47,8 +52,18 @@ body.landing{
 	}
 	
 	section.welcome{
-		padding-top: 84px; 
-		
+		padding-top: 84px;
+		.wrap{
+			max-width: 1150px;
+			//max-width: var(--page-max-width-large, 1150px);
+		}
+		.logo-grid-section{
+			max-width: unset;
+			.logo-cell{
+				width: 286px;
+				
+			}
+		}
 		h1{
 			@include display-1();
 		}
@@ -67,10 +82,12 @@ body.landing{
 		.type{
 			display: inline-block;
 			white-space: nowrap;
-			border-bottom: 10px solid var(--orange-50);
-			line-height: 0.8em;
+			border-bottom: 8px solid var(--orange-50);
+			line-height: 0.9em;
 			margin-top: 0.2em;
 			margin-bottom: 0.12em;
+			border-image: linear-gradient(to right, var(--orange-50), var(--orange-transparent-20)) 1;
+
 			.typecursor{
 				font-weight: 450;
 				margin-left: 1px;
@@ -125,7 +142,6 @@ body.landing section.about-cards{
 
 /** LOGO GRID **/
 .logo-grid-section{
-	max-width: 846px;
 	margin: 0 auto;
 	margin-top: 90px;
 
@@ -161,9 +177,33 @@ body.landing section.about-cards{
 			}
 		}
 	}
+	.logo-cell.logo-hidden{
+		display: none;
+	}
+	.logo-grid.expanded .logo-cell.logo-hidden{
+		display: flex;
+	}
+	.logo-expand{
+		display: block;
+		margin: 10px auto 0;
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-size: var(--type-tiny, 10px);
+		color: var(--main-quaternary-color, #666);
+		text-transform: uppercase;
+		text-decoration: underline;
+		letter-spacing: 0.05em;
+		padding: 4px 8px;
+		transition: color .3s;
+		
+		&:hover{
+			color: var(--orange-50);
+		}
+	}
 	.read-more{
 		display: block;
-		text-align: right;
+		text-align: center;
 		margin-top: 10px;
 		font-size: var(--type-tiny, 10px);
 		color: var(--main-quaternary-color, #666);
@@ -415,6 +455,12 @@ footer .sitefooter .footercontent .footerlogo{
 
 /** SPECIAL DUCKLAKE RESPONSIVE STYLES **/
 
+@media only screen and (max-width: 1180px) {
+	body.landing section.welcome .logo-grid-section .logo-cell{
+		width: auto;
+	}
+}
+
 @media only screen and (max-width: 1000px) {
 	.form .sidecolumn{
 		width: 290px;
@@ -472,12 +518,23 @@ footer .sitefooter .footercontent .footerlogo{
 		.logo-cell:nth-child(2n){
 			border-right: none;
 		}
-		.logo-cell:nth-child(n+5){
-			border-bottom: 1px solid var(--doc-codebox-border-color, #333);
-		}
-		.logo-cell:nth-child(n+7){
+		// Collapsed: remove border-bottom from last visible row (logos 7+8 in 2-col)
+		.logo-cell:nth-child(7),
+		.logo-cell:nth-child(8){
 			border-bottom: none;
 		}
+		// Expanded: restore borders and remove from actual last row
+		&.expanded .logo-cell:nth-child(7),
+		&.expanded .logo-cell:nth-child(8){
+			border-bottom: 1px solid var(--doc-codebox-border-color, #333);
+		}
+		&.expanded .logo-cell:last-child,
+		&.expanded .logo-cell:nth-last-child(2):nth-child(odd){
+			border-bottom: none;
+		}
+	}
+	body.landing section.welcome .logo-grid-section{
+		width: 100%;
 	}
 	section#jobs .jobs_collection .job{
 		align-items: center;
@@ -497,6 +554,10 @@ footer .sitefooter .footercontent .footerlogo{
 		.logo-cell:nth-child(2n){
 			border-right: none;
 		}
+		.logo-cell:last-child,
+		.logo-cell:nth-last-child(2):nth-child(odd){
+			border-bottom: none;
+		}
 	}
 	footer .sitefooter .footercontent .footernavigation > div{
 		width: 100%!important;
@@ -508,6 +569,7 @@ footer .sitefooter .footercontent .footerlogo{
 	.form .maincolumn > h1{
 		margin-bottom: 24px;
 	}
+	
 }
 
 

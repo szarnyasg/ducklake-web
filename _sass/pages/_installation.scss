@@ -36,16 +36,28 @@ body.installation{
 			}
 			&::after{
 				content: " ";
-				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none'%3E%3Cpath stroke='%230D0D0D' stroke-linecap='square' stroke-width='1.5' d='m18 9.5-6 6-6-6'/%3E%3C/svg%3E");
 				background-color: var(--doc-codebox-button-background-color, #E6E6E6);
-				background-size: contain;
-				background-repeat: no-repeat;
-				width: 28px;
-				height: 28px;
+				width: 30px;
+				height: 30px;
 				border-radius: 50%;
 				position: absolute;
 				right: 0px;
 				top: -5px;
+				cursor: pointer;
+			}
+			&::before{
+				content: " ";
+				mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' viewBox='0 0 14 14'%3E%3Cpath stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.35' d='m2.102 5.05 4.9 4.9 4.9-4.9'/%3E%3C/svg%3E");
+				mask-size: contain;
+				mask-position: center center;
+				mask-repeat: no-repeat;
+				background-color: var(--main-text-primary-color, #0D0D0D);
+				width: 14px;
+				height: 14px;
+				position: absolute;
+				right: 8px;
+				top: 3px;
+				z-index: 1;
 				-webkit-transition: -webkit-transform .3s;
 				transition: -webkit-transform .3s;
 				-o-transition: transform .3s;
@@ -72,7 +84,7 @@ body.installation{
 		-o-transition: border .3s;
 		transition: border .3s;
 		
-		&.open h3::after{
+		&.open h3::before{
 			-webkit-transform: rotate(180deg);
 				-ms-transform: rotate(180deg);
 					transform: rotate(180deg);
@@ -114,6 +126,11 @@ body.installation{
 		justify-content: flex-start;
 		gap: 8px;
 		
+		a.option{
+			text-decoration: none;
+			color: inherit;
+		}
+
 		.option{
 			border-radius: 10px;
 			border: 1px solid var(--interactive-folderbox-border-color, #E6E6E6);
@@ -179,14 +196,78 @@ body.installation{
 	.installation-instructions,
 	.instruction-collection{
 		margin-top: 50px;
-		
+
 		h2{
-			.currentversion{
-				color: var(--main-text-secondary-color, #666);
-				font-size: 12px;
-				margin-left: 10px;
-				font-weight: 400;
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 24px;
+
+		}
+
+		.version-switch{
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+
+			&[hidden]{
+				display: none;
 			}
+		}
+
+		.version-switch-label{
+			@include label-1;
+			color: var(--main-text-secondary-color, #666);
+			font-weight: 400;
+		}
+
+		.version-switch-toggle{
+			display: inline-flex;
+			position: relative;
+			background: var(--interactive-filterbox-background-color, #FAFAFA);
+			border: 1px solid var(--interactive-filterbox-border-color, #E6E6E6);
+			border-radius: 50px;
+			padding: 4px;
+		}
+
+		.version-switch-option{
+			position: relative;
+			z-index: 1;
+			background: none;
+			border: none;
+			padding: 8px 14px;
+			border-radius: 50px;
+			cursor: pointer;
+			@include label-1;
+			font-weight: 500;
+			color: var(--interactive-filter-unselected-text-color, #666);
+			transition: color 0.3s, opacity 0.3s;
+			white-space: nowrap;
+
+			&.active{
+				color: var(--main-text-primary-color, #0D0D0D);
+			}
+
+			&:disabled{
+				opacity: 0.35;
+				cursor: not-allowed;
+			}
+
+			&:focus-visible{
+				outline: 2px solid var(--interactive-installation-box-border, #BEB3FF);
+				outline-offset: -2px;
+			}
+		}
+
+		.version-switch-slider{
+			position: absolute;
+			top: 4px;
+			left: 4px;
+			height: calc(100% - 8px);
+			border-radius: 50px;
+			background: var(--interactive-filter-selected-background-color, #E6E6E6);
+			transition: transform 0.3s ease, width 0.3s ease;
+			pointer-events: none;
 		}
 		
 		h4{

@@ -10,9 +10,9 @@
 	{% endif %}
 
 	<script src="{{ site.baseurl }}/js/jquery-3.5.1.min.js"></script>
-	<link rel="stylesheet" href="{{ site.baseurl }}/css/main.css?{{ site.data['hash'] }}">
+	<link rel="stylesheet" href="{{ site.baseurl }}/css/main.css?{{ site.time | date: '%s' }}">
 	{% if page.railroad and page.railroad != "" and page.railroad != nil %}
-	<link rel="stylesheet" href="{{ site.baseurl }}/css/railroad.css?{{ site.data['hash'] }}">
+	<link rel="stylesheet" href="{{ site.baseurl }}/css/railroad.css?{{ site.time | date: '%s' }}">
 	{% endif %}
 
 	<link rel="icon" type="image/png" href="{{ site.baseurl }}/images/favicon/favicon-96x96.png" sizes="96x96" />
@@ -25,7 +25,7 @@
 
 	{% seo title=false %}
 
-	<script src="{{ site.baseurl }}/js/determine_color_scheme.js?{{ site.data['hash'] }}"></script>
+	<script src="{{ site.baseurl }}/js/determine_color_scheme.js?{{ site.time | date: '%s' }}"></script>
 </head>
 
 {% comment %} By default, we assume that the users is interested in the stable version. {% endcomment %}
@@ -83,7 +83,7 @@
 								{% assign version_viewed_pretty = version_viewed %}
 							{% endif %}
 
-							<div><span class="selectedversion" data-current="{{ version_viewed_pretty }}">{{ version_viewed_pretty }}</span><span class="arrow"></div>
+							<div><span class="selectedversion" data-current="{{ version_viewed_pretty }}">{{ version_viewed_pretty }}</span><svg class="arrow"><use href="#chevron-down"></use></svg></div>
 							<div class="versionsidebar">
 								<ul>
 									{% comment %} Remove the leading part, e.g., "docs/stable" or "docs/1.0" (version number) {% endcomment %}
@@ -186,16 +186,16 @@
 		{% include icons.html %}
 	</div>
 
-	<script src="{{ site.baseurl }}/js/minisearch.js?{{ site.data['hash'] }}" defer></script>
-	<script src="{{ site.baseurl }}/js/search.js?{{ site.data['hash'] }}" defer></script>
+	<script src="{{ site.baseurl }}/js/minisearch.js?{{ site.time | date: '%s' }}" defer></script>
+	<script src="{{ site.baseurl }}/js/search.js?{{ site.time | date: '%s' }}" defer></script>
 
-	<script src="{{ site.baseurl }}/js/script.js?{{ site.data['hash'] }}" defer></script>
-	<script src="{{ site.baseurl }}/js/copy_button.js?{{ site.data['hash'] }}" defer></script>
-	<script src="{{ site.baseurl }}/js/noteboxes.js?{{ site.data['hash'] }}" defer></script>
+	<script src="{{ site.baseurl }}/js/script.js?{{ site.time | date: '%s' }}" defer></script>
+	<script src="{{ site.baseurl }}/js/copy_button.js?{{ site.time | date: '%s' }}" defer></script>
+	<script src="{{ site.baseurl }}/js/noteboxes.js?{{ site.time | date: '%s' }}" defer></script>
 
 	{% if page.body_class == "installation" %}
 		<script src="{{ site.baseurl }}/js/js-yaml.min.js" defer></script>
-		<script src="{{ site.baseurl }}/js/installation.js?{{ site.data['hash'] }}" defer></script>
+		<script src="{{ site.baseurl }}/js/installation.js?{{ site.time | date: '%s' }}" defer></script>
 	{% endif %}
 	{% if page.railroad and page.railroad != "" and page.railroad != nil %}
 		<script src="{{ site.baseurl }}/js/{{ version_viewed }}/railroad.js" defer></script>
