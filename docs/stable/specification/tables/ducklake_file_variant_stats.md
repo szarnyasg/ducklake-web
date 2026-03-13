@@ -25,9 +25,9 @@ This table contains per-file statistics for the shredded sub-fields of `variant`
 - `table_id` refers to a `table_id` from the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
 - `column_id` refers to a `column_id` from the [`ducklake_column` table]({% link docs/stable/specification/tables/ducklake_column.md %}) and identifies the `variant` column that contains the shredded field.
 - `variant_path` is the path to the shredded sub-field within the variant. Named fields are always quoted (e.g., `"l_orderkey"`), and any quote characters within a field name are escaped by doubling them. Two special path values exist:
-    * `root` — the variant value itself is a primitive (i.e., not nested).
-    * `element` — the statistics apply to elements of an array-typed variant.
-    * Paths can be composed, e.g., `element."a"` refers to the `a` field of each element of an array.
+    - `root` — the variant value itself is a primitive (i.e., not nested).
+    - `element` — the statistics apply to elements of an array-typed variant.
+    - Paths can be composed, e.g., `element."a"` refers to the `a` field of each element of an array.
 - `shredded_type` is the DuckLake type name of the shredded field (e.g., `int64`, `date`, `decimal(15,2)`, `varchar`).
 - `column_size_bytes` is the byte size of the shredded field in this file.
 - `value_count` is the number of non-null values in the shredded field.
