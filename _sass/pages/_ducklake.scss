@@ -577,12 +577,6 @@ body.manifesto{
 	}
 }
 
-body.notfound{
-	.pagetitle{
-		text-align: center;
-	}
-}
-
 /* Footer **/
 footer .sitefooter .footercontent > div a:hover{
 	color: var(--blue-70, #2eafff);
@@ -832,7 +826,13 @@ pre.highlight {
 	white-space: pre;
 	overflow-x: auto;
 	padding: 15px;
+	padding-right: 0;
 	margin: 0;
+
+	> code {
+		width: fit-content;
+		padding-right: 15px;
+	}
 
 	&::-webkit-scrollbar {
 		height: 5px;

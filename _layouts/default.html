@@ -11,9 +11,9 @@
     <title>{{ page.title }} – DuckLake</title>
 	{% endif %}
 
-    <link rel="stylesheet" href="{{ site.baseurl }}/css/main.css?{{ site.data['hash'] }}">
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/main.css?{{ site.time | date: '%s' }}">
 	{% if page.add_css %}
-	<link rel="stylesheet" href="{{ site.baseurl }}/css/{{ page.add_css }}?{{ site.data['hash'] }}">
+	<link rel="stylesheet" href="{{ site.baseurl }}/css/{{ page.add_css }}?{{ site.time | date: '%s' }}">
 	{% endif %}
 	
 	<link rel="icon" type="image/png" href="{{ site.baseurl }}/images/favicon/favicon-96x96.png" sizes="96x96" />
@@ -26,7 +26,7 @@
 
 	{% seo title=false %}
 	
-	<script src="{{ site.baseurl }}/js/determine_color_scheme.js?{{ site.data['hash'] }}"></script>
+	<script src="{{ site.baseurl }}/js/determine_color_scheme.js?{{ site.time | date: '%s' }}"></script>
 </head>
 <body class="layout_default{% if page.body_class %} {{ page.body_class }}{% endif %}">
 
@@ -123,7 +123,7 @@
 	<script src="{{ site.baseurl }}/js/search.js" defer></script>
 	<script src="{{ site.baseurl }}/js/jquery-3.5.1.min.js" defer></script>
 	<script src="{{ site.baseurl }}/js/copy_button.js" defer></script>
-	<script src="{{ site.baseurl }}/js/script.js?{{ site.data['hash'] }}" defer></script>
+	<script src="{{ site.baseurl }}/js/script.js?{{ site.time | date: '%s' }}" defer></script>
 
 </body>
 </html>

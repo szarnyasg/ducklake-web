@@ -75,4 +75,7 @@ toc:
   max_level: 3
   ordered_list: false
 
+sass:
+  style: compressed
+
 exclude: ['Gemfile', 'Gemfile.lock', 'node_modules', 'vendor/bundle', 'vendor/cache', 'vendor/gems', 'vendor/ruby', 'bundle']
