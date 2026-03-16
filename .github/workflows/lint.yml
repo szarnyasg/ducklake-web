@@ -30,4 +30,4 @@ jobs:
       with:
         options: "--check --skip-string-normalization --verbose --diff --color"
         src: "./scripts"
-        version: "24.8.0"
+        version: "26.3.1"
