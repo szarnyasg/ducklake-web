@@ -17,7 +17,6 @@ import sys
 import duckdb
 import frontmatter
 
-
 # ---------------------------------------------------------------------------
 # Anchor / slug generation (matches Kramdown defaults)
 # ---------------------------------------------------------------------------
@@ -202,8 +201,7 @@ def build_duckdb(chunks, output_path):
 
     con = duckdb.connect(output_path)
 
-    con.execute(
-        """
+    con.execute("""
         CREATE TABLE docs_chunks (
             chunk_id   VARCHAR PRIMARY KEY,
             page_title VARCHAR NOT NULL,
@@ -213,8 +211,7 @@ def build_duckdb(chunks, output_path):
             version    VARCHAR NOT NULL,
             text       TEXT NOT NULL
         )
-    """
-    )
+    """)
 
     con.executemany(
         """
@@ -241,8 +238,7 @@ def build_duckdb(chunks, output_path):
     # Build FTS index
     con.execute('INSTALL fts')
     con.execute('LOAD fts')
-    con.execute(
-        """
+    con.execute("""
         PRAGMA create_fts_index(
             'docs_chunks',
             'chunk_id',
@@ -253,8 +249,7 @@ def build_duckdb(chunks, output_path):
             lower     = 1,
             overwrite = 1
         )
-    """
-    )
+    """)
     print('FTS index built')
 
     con.close()
@@ -270,8 +265,7 @@ def validate(output_path):
     con = duckdb.connect(output_path, read_only=True)
     con.execute('LOAD fts')
 
-    results = con.execute(
-        """
+    results = con.execute("""
         SELECT chunk_id, page_title, score
         FROM (
             SELECT *,
@@ -281,8 +275,7 @@ def validate(output_path):
         WHERE score IS NOT NULL
         ORDER BY score DESC
         LIMIT 5
-    """
-    ).fetchall()
+    """).fetchall()
 
     con.close()
 
