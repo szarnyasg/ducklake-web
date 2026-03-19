@@ -4,7 +4,6 @@ import re
 import json
 from textwrap import shorten
 
-
 SKIP_TYPES = [marko.block.HTMLBlock, marko.inline.Image, marko.inline.InlineHTML]
 
 

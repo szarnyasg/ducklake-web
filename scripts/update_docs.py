@@ -242,8 +242,7 @@ def build_prompt(
 
     parts.append(f"\n{build_style_guide(docs_version)}\n")
 
-    parts.append(
-        f"""\
+    parts.append(f"""\
 ## Instructions
 
 You are updating the DuckLake documentation based on the PR described above.
@@ -287,8 +286,7 @@ When writing or extending SQL examples:
 
 If the PR changes are purely internal (refactoring, test improvements) with no
 user-facing impact, state that no documentation changes are needed and make no edits.
-"""
-    )
+""")
 
     return "".join(parts)
 
