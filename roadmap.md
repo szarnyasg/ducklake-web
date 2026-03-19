@@ -14,15 +14,10 @@ toc: false
 
 The DuckLake project is governed by the [non-profit DuckDB Foundation](https://duckdb.org/foundation/).
 
-## Planned Features (Last Updated: November 2025)
+## Planned Features (Last Updated: March 2026)
 
 This section lists the features that we plan to work on before DuckLake v1.0. The list was compiled by the DuckLake maintainers and is based on the long-term vision for the project and general interactions with users in the open-source community.
 
-- Data inlining with PostgreSQL as a catalog.
-- Inline of deletes/updates.
-- Scalar and table macros.
-- Expressions as default values for columns.
-- Variant types.
 - Incremental compaction for large volumes of small files.
 - Revisit some internals, namely `DATA_PATH`, `add_data_files` and option scopes.
 

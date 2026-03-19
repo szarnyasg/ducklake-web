@@ -185,7 +185,7 @@ You can run the _catalog database_ anywhere, e.g., in an AWS Aurora database.
 <div class="answer" markdown="1">
 
 While we tested DuckLake extensively, it is not yet production-ready as demonstrated by its version number {{ site.stable_ducklake_version }}.
-We expect DuckLake to mature over the course of 2025.
+We expect DuckLake to mature by Q2 2026.
 
 </div>
 
@@ -234,6 +234,28 @@ Further improvements are on the roadmap.
 
 
 
+<!-- ----- ----- ----- ----- ----- ----- Q&A entry ----- ----- ----- ----- ----- ----- -->
+
+<div class="qa-wrap" markdown="1">
+
+### Is there an example DuckLake?
+
+<div class="answer" markdown="1">
+
+Yes, we published a DuckLake that contains the [Dutch Railway Dataset](https://duckdb.org/docs/stable/guides/snippets/dutch_railway_datasets).
+This DuckLake uses DuckDB as its catalog database and is served from [object storage](docs/stable/duckdb/guides/public_ducklake_on_object_storage.md).
+To attach to it from a DuckDB instance, run:
+
+```sql
+ATTACH 'https://blobs.duckdb.org/datalake/nl-railway.ducklake' AS nl_railway
+    (TYPE ducklake);
+USE nl_railway;
+FROM services LIMIT 1;
+```
+
+</div>
+
+</div>
 
 
 
