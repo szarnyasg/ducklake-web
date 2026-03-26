@@ -129,6 +129,7 @@ body.installation{
 		a.option{
 			text-decoration: none;
 			color: inherit;
+			padding: 8px 12px;
 		}
 
 		.option{
@@ -168,6 +169,12 @@ body.installation{
 				}
 			}
 			
+			svg.icon{
+				width: 14px;
+				height: 14px;
+				stroke-width: 2.5px;
+			}
+
 			&:hover{
 				border: 1px solid var(--interactive-folderbox-border-color-hover, #CCC);
 				background: var(--interactive-folderbox-background-color-hover, rgba(242, 242, 242, 0.60));
@@ -176,7 +183,7 @@ body.installation{
 					background: var(--interactive-installation-icon-background, rgba(230, 230, 230, 0.60));
 				}
 			}
-			
+
 			&:focus-visible{
 				outline: none;
 			}
