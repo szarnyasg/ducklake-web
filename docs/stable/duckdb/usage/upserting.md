@@ -4,7 +4,7 @@ redirect_from: null
 title: Upserting
 ---
 
-Upserting is the combination of updating and inserting. In database operations this usually means *do something to a record if it already exists* and *do something else if it doesn't*. Many databases support primary keys to assist with this behavior. This is also the case with DuckDB, which allows for the syntax [`INSERT INTO ... ON CONFLICT`](https://duckdb.org/docs/stable/sql/statements/insert#on-conflict-clause).
+Upserting is the combination of updating and inserting. In database operations this usually means *do something to a record if it already exists* and *do something else if it doesn't*. Many databases support primary keys to assist with this behavior. This is also the case with DuckDB, which allows for the syntax [`INSERT INTO ... ON CONFLICT`](https://duckdb.org/docs/current/sql/statements/insert#on-conflict-clause).
 
 DuckLake, on the other hand, does not support primary keys. However, the `MERGE INTO` syntax provides the same upserting functionality.
 

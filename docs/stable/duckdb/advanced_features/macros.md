@@ -4,7 +4,7 @@ redirect_from: null
 title: Macros
 ---
 
-DuckLake supports both scalar and table macros. Macros can be created using the standard [`CREATE MACRO` syntax](https://duckdb.org/docs/stable/sql/statements/create_macro).
+DuckLake supports both scalar and table macros. Macros can be created using the standard [`CREATE MACRO` syntax](https://duckdb.org/docs/current/sql/statements/create_macro).
 
 Macros are stored in the DuckLake metadata across three catalog tables: [`ducklake_macro`]({% link docs/stable/specification/tables/ducklake_macro.md %}), [`ducklake_macro_impl`]({% link docs/stable/specification/tables/ducklake_macro_impl.md %}), and [`ducklake_macro_parameters`]({% link docs/stable/specification/tables/ducklake_macro_parameters.md %}).
 

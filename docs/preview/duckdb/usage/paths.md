@@ -30,7 +30,7 @@ This path is set as relative to the path of the parent schema.
 **Files.** When writing a new data or delete file to the table, a new file path is generated.
 For unpartitioned tables, this path is `ducklake-⟨uuid⟩.parquet`{:.language-sql .highlight} – relative to the table path.
 
-**Partitioned Files.** When writing data to a partitioned table, the files are by default written to directories in the [Hive partitioning style](https://duckdb.org/docs/stable/data/partitioning/hive_partitioning#hive-partitioning).
+**Partitioned Files.** When writing data to a partitioned table, the files are by default written to directories in the [Hive partitioning style](https://duckdb.org/docs/current/data/partitioning/hive_partitioning#hive-partitioning).
 Writing data in this manner is not required as the partition values are tracked in the catalog server itself.
 
 This results in the following path structure:

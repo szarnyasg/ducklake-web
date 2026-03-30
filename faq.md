@@ -29,7 +29,7 @@ toc: false
 DuckLake provides a lightweight one-stop solution if you need a _lakehouse,_ i.e., a data lake with a catalog.
 
 You can use DuckLake for a “multiplayer DuckDB” setup with multiple DuckDB instances reading and writing the same dataset –
-a concurrency model [not supported by vanilla DuckDB](https://duckdb.org/docs/stable/connect/concurrency).
+a concurrency model [not supported by vanilla DuckDB](https://duckdb.org/docs/current/connect/concurrency).
 
 If you only use DuckDB for both your DuckLake entry point and your catalog database, you can still benefit from DuckLake:
 you can run [time travel queries]({% link docs/stable/duckdb/usage/time_travel.md %}),
@@ -242,7 +242,7 @@ Further improvements are on the roadmap.
 
 <div class="answer" markdown="1">
 
-Yes, we published a DuckLake that contains the [Dutch Railway Dataset](https://duckdb.org/docs/stable/guides/snippets/dutch_railway_datasets).
+Yes, we published a DuckLake that contains the [Dutch Railway Dataset](https://duckdb.org/docs/current/guides/snippets/dutch_railway_datasets).
 This DuckLake uses DuckDB as its catalog database and is served from [object storage](docs/stable/duckdb/guides/public_ducklake_on_object_storage.md).
 To attach to it from a DuckDB instance, run:
 

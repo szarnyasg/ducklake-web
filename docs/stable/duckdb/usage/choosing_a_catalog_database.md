@@ -16,7 +16,7 @@ On the technical side, consider the following:
 ## DuckDB
 
 DuckDB can, of course, natively connect to DuckDB database files.
-So, to get started, you only need to install the [`ducklake` extension](https://duckdb.org/docs/stable/core_extensions/ducklake) and attach to your DuckLake:
+So, to get started, you only need to install the [`ducklake` extension](https://duckdb.org/docs/current/core_extensions/ducklake) and attach to your DuckLake:
 
 ```sql
 INSTALL ducklake;
@@ -29,7 +29,7 @@ Note that if you are using DuckDB as your catalog database, you're limited to a 
 
 ## PostgreSQL
 
-DuckDB can interact with a PostgreSQL database using the [`postgres` extension](https://duckdb.org/docs/stable/core_extensions/postgres).
+DuckDB can interact with a PostgreSQL database using the [`postgres` extension](https://duckdb.org/docs/current/core_extensions/postgres).
 Install the `ducklake` and the `postgres` extension, and attach to your DuckLake as follows:
 
 ```sql
@@ -42,13 +42,13 @@ ATTACH 'ducklake:postgres:dbname=ducklake_catalog host=localhost' AS my_ducklake
 USE my_ducklake;
 ```
 
-For details on how to configure the connection, see the [`postgres` extension's documentation](https://duckdb.org/docs/stable/core_extensions/postgres#configuration).
+For details on how to configure the connection, see the [`postgres` extension's documentation](https://duckdb.org/docs/current/core_extensions/postgres#configuration).
 
 The `ducklake` and `postgresql` extensions require PostgreSQL 12 or newer.
 
 ## SQLite
 
-DuckDB can read and write a SQLite database file using the [`sqlite` extension](https://duckdb.org/docs/stable/core_extensions/sqlite).
+DuckDB can read and write a SQLite database file using the [`sqlite` extension](https://duckdb.org/docs/current/core_extensions/sqlite).
 Install the `ducklake` and the `sqlite` extension, and attach to your DuckLake as follows:
 
 ```sql
@@ -67,7 +67,7 @@ This allows a reasonable amount of multi-processing support (effectively hiding 
 
 > Warning There are a number of known issues with MySQL as a catalog for DuckLake. This is due to some limitations regarding the DuckDB MySQL connector. We therefore do not recommend to use MySQL as a catalog for DuckLake.
 
-DuckDB can interact with a MySQL database using the [`mysql` extension](https://duckdb.org/docs/stable/core_extensions/mysql).
+DuckDB can interact with a MySQL database using the [`mysql` extension](https://duckdb.org/docs/current/core_extensions/mysql).
 Install the `ducklake` and the `mysql` extension, and attach to your DuckLake as follows:
 
 ```sql
@@ -80,6 +80,6 @@ ATTACH 'ducklake:mysql:db=ducklake_catalog host=localhost' AS my_ducklake
 USE my_ducklake;
 ```
 
-For details on how to configure the connection, see the [`mysql` extension's documentation](https://duckdb.org/docs/stable/core_extensions/mysql#configuration).
+For details on how to configure the connection, see the [`mysql` extension's documentation](https://duckdb.org/docs/current/core_extensions/mysql#configuration).
 
 Using the `ducklake` and `mysql` extensions requires MySQL 8 or newer.

@@ -118,7 +118,7 @@ Let's discuss the three principles of DuckLake: **Simplicity**, **Scalability** 
 
 ### Simplicity
 
-DuckLake follows the DuckDB design principles of keeping things *simple and incremental*. In order to run DuckLake on a laptop, it is enough to just install DuckDB with the [`ducklake` extension](https://duckdb.org/docs/stable/core_extensions/ducklake). This is great for testing purposes, development and prototyping. In this case, the catalog store is just a local DuckDB file.
+DuckLake follows the DuckDB design principles of keeping things *simple and incremental*. In order to run DuckLake on a laptop, it is enough to just install DuckDB with the [`ducklake` extension](https://duckdb.org/docs/current/core_extensions/ducklake). This is great for testing purposes, development and prototyping. In this case, the catalog store is just a local DuckDB file.
 
 The next step is making use of *external storage systems*. DuckLake data files are immutable, it never requires modifying files in place or re-using file names. This allows use with almost any storage system. DuckLake supports integration with any storage system like local disk, local NAS, S3, Azure Blob Store, GCS, etc. The storage prefix for data files (e.g., `s3://mybucket/mylake/`) is specified when the metadata tables are created.
 
