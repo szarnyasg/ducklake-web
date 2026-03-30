@@ -3,7 +3,7 @@ layout: docu
 title: Introduction
 ---
 
-In DuckDB, DuckLake is supported through the [`ducklake` extension](https://duckdb.org/docs/stable/core_extensions/ducklake).
+In DuckDB, DuckLake is supported through the [`ducklake` extension](https://duckdb.org/docs/current/core_extensions/ducklake).
 
 ## Installation
 
@@ -20,7 +20,7 @@ To use DuckLake, you need to make two decisions: which [metadata catalog databas
 
 ## Creating a New Database
 
-DuckLake databases are created by simply starting to use them with the [`ATTACH` statement](https://duckdb.org/docs/stable/sql/statements/attach#attach). In the simplest case, you can create a local, DuckDB-backed DuckLake like so:
+DuckLake databases are created by simply starting to use them with the [`ATTACH` statement](https://duckdb.org/docs/current/sql/statements/attach#attach). In the simplest case, you can create a local, DuckDB-backed DuckLake like so:
 
 ```sql
 ATTACH 'ducklake:my_ducklake.ducklake' AS my_ducklake;
@@ -51,7 +51,7 @@ ATTACH 'ducklake:my_ducklake.ducklake' AS my_ducklake;
 USE my_ducklake;
 ```
 
-If you use the DuckDB [command line client](https://duckdb.org/docs/stable/clients/cli/overview), you can pass it the filename or URL of the DuckLake as an argument:
+If you use the DuckDB [command line client](https://duckdb.org/docs/current/clients/cli/overview), you can pass it the filename or URL of the DuckLake as an argument:
 
 ```batch
 duckdb ducklake:my_ducklake.ducklake
@@ -144,7 +144,7 @@ Time travel finally achieved!
 
 ### Detaching from a DuckLake
 
-To detach from a DuckLake, make sure that your DuckLake is not your default database, then use the [`DETACH` statement](https://duckdb.org/docs/stable/sql/statements/attach#detach):
+To detach from a DuckLake, make sure that your DuckLake is not your default database, then use the [`DETACH` statement](https://duckdb.org/docs/current/sql/statements/attach#detach):
 
 ```sql
 USE memory;
@@ -153,4 +153,4 @@ DETACH my_ducklake;
 
 ## Using DuckLake from a Client
 
-DuckLake works with any [DuckDB client](https://duckdb.org/docs/stable/clients/overview) that supports DuckDB version 1.3.0.
+DuckLake works with any [DuckDB client](https://duckdb.org/docs/current/clients/overview) that supports DuckDB version 1.3.0.

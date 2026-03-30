@@ -16,7 +16,7 @@ When connecting to an existing DuckLake, the data storage location is loaded fro
 ATTACH 'ducklake:⟨metadata_storage_location⟩' (DATA_PATH '⟨data_storage_location⟩');
 ```
 
-In addition, DuckLake connection parameters can also be stored in [secrets](https://duckdb.org/docs/stable/configuration/secrets_manager).
+In addition, DuckLake connection parameters can also be stored in [secrets](https://duckdb.org/docs/current/configuration/secrets_manager).
 
 ```sql
 ATTACH 'ducklake:⟨secret_name⟩';
@@ -122,4 +122,4 @@ CREATE SECRET ⟨my_secret⟩ (
 ATTACH 'ducklake:⟨my_secret⟩' AS my_ducklake;
 ```
 
-To persist secrets, use the [`CREATE PERSISTENT SECRET` statement](https://duckdb.org/docs/stable/configuration/secrets_manager#persistent-secrets).
+To persist secrets, use the [`CREATE PERSISTENT SECRET` statement](https://duckdb.org/docs/current/configuration/secrets_manager#persistent-secrets).

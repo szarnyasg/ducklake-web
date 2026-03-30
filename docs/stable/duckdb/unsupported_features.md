@@ -16,15 +16,15 @@ Within this group, we are going to make a distinction between what is not suppor
 
 ### Likely to be Supported in the Future
 
-- [User defined types](https://duckdb.org/docs/stable/sql/statements/create_type).
+- [User defined types](https://duckdb.org/docs/current/sql/statements/create_type).
 
-- Fixed-size arrays, i.e., [`ARRAY` type](https://duckdb.org/docs/stable/sql/data_types/array)
+- Fixed-size arrays, i.e., [`ARRAY` type](https://duckdb.org/docs/current/sql/data_types/array)
 
-- [`ENUM` type](https://duckdb.org/docs/stable/sql/data_types/enum)
+- [`ENUM` type](https://duckdb.org/docs/current/sql/data_types/enum)
 
 - Variant types
 
-- [`CHECK` constraints](https://duckdb.org/docs/stable/sql/constraints#check-constraint). (Not to be confused with Primary or Foreign Key constraints.)
+- [`CHECK` constraints](https://duckdb.org/docs/current/sql/constraints#check-constraint). (Not to be confused with Primary or Foreign Key constraints.)
 
 - Default values that are not literals. See the following example:
 
@@ -36,25 +36,25 @@ Within this group, we are going to make a distinction between what is not suppor
   CREATE TABLE t1 (id INTEGER, d DATE DEFAULT now());
   ```
 
-- Dropping dependencies, such as views, when calling `DROP ... CASCADE`. Note that this is also a [DuckDB limitation](https://duckdb.org/docs/stable/sql/statements/drop#dependencies-on-views).
+- Dropping dependencies, such as views, when calling `DROP ... CASCADE`. Note that this is also a [DuckDB limitation](https://duckdb.org/docs/current/sql/statements/drop#dependencies-on-views).
 
-- [Generated columns](https://duckdb.org/docs/stable/sql/statements/create_table#generated-columns)
+- [Generated columns](https://duckdb.org/docs/current/sql/statements/create_table#generated-columns)
 
 ### Unlikely to be Supported in the Future
 
-- [Indexes](https://duckdb.org/docs/stable/sql/indexes)
+- [Indexes](https://duckdb.org/docs/current/sql/indexes)
 
-- [Primary key or enforced unique constraints](https://duckdb.org/docs/stable/sql/constraints#primary-key-and-unique-constraint) and [foreign key constraints](https://duckdb.org/docs/stable/sql/constraints#foreign-keys) are unlikely to be supported as these are prohibitively expensive to enforce in data lake setups. We may consider supporting unenforced primary keys, similar to [BigQuery's implementation](https://cloud.google.com/bigquery/docs/primary-foreign-keys).
+- [Primary key or enforced unique constraints](https://duckdb.org/docs/current/sql/constraints#primary-key-and-unique-constraint) and [foreign key constraints](https://duckdb.org/docs/current/sql/constraints#foreign-keys) are unlikely to be supported as these are prohibitively expensive to enforce in data lake setups. We may consider supporting unenforced primary keys, similar to [BigQuery's implementation](https://cloud.google.com/bigquery/docs/primary-foreign-keys).
 
 - Upserting is only supported via the [`MERGE INTO`]({% link docs/stable/duckdb/usage/upserting.md %}) syntax since primary keys are not supported in DuckLake.
 
-- [Sequences](https://duckdb.org/docs/stable/sql/statements/create_sequence)
+- [Sequences](https://duckdb.org/docs/current/sql/statements/create_sequence)
 
-- [`VARINT` type](https://duckdb.org/docs/stable/sql/data_types/numeric#variable-integer)
+- [`VARINT` type](https://duckdb.org/docs/current/sql/data_types/numeric#variable-integer)
 
-- [`BITSTRING` type](https://duckdb.org/docs/stable/sql/data_types/bitstring)
+- [`BITSTRING` type](https://duckdb.org/docs/current/sql/data_types/bitstring)
 
-- [`UNION` type](https://duckdb.org/docs/stable/sql/data_types/union)
+- [`UNION` type](https://duckdb.org/docs/current/sql/data_types/union)
 
 ## Unsupported by the `ducklake` DuckDB Extension
 

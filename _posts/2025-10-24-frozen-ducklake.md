@@ -134,7 +134,7 @@ In a typical Frozen DuckLake scenario, there is another program which is already
 
 > **Multi-site Frozen DuckLakes.** A Frozen DuckLake is not limited to referencing data files in a single repository or data store. File references to multiple sites can be added when creating the DuckLake file. This might be an effective way to integrate two independent systems that are operating in different environments.
 
-If we are using cloud storage directly supported by DuckDB such as S3 or GCS, the task is made very simple using DuckDB's built-in [recursive file globbing](https://duckdb.org/docs/stable/data/multiple_files/overview.html#multi-file-reads-and-globs):
+If we are using cloud storage directly supported by DuckDB such as S3 or GCS, the task is made very simple using DuckDB's built-in [recursive file globbing](https://duckdb.org/docs/current/data/multiple_files/overview.html#multi-file-reads-and-globs):
 
 ```sql
 COPY (
