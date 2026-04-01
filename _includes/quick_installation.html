@@ -13,7 +13,6 @@
                         <li data-client="duckdb" class="active">DuckDB</li>
                         <li data-client="sqlite">SQLite</li>
                         <li data-client="postgresql">PostgreSQL</li>
-                        <li data-client="mysql">MySQL</li>
                     </ul>
                     <div class="hoverlabel">&#8592; Choose catalog database</div>
                 </div>
@@ -62,18 +61,6 @@ INSTALL ducklake;
 INSTALL sqlite;
 
 ATTACH 'ducklake:sqlite:metadata.sqlite' AS my_ducklake
-    (DATA_PATH 'data_files/');
-USE my_ducklake;
-{% endhighlight %}
-</div>
-
-<div data-install="mysql">
-{% highlight sql %}
-INSTALL ducklake;
-INSTALL mysql;
-
--- Make sure that the database `ducklake_catalog` exists in MySQL
-ATTACH 'ducklake:mysql:db=ducklake_catalog host=your_mysql_host' AS my_ducklake
     (DATA_PATH 'data_files/');
 USE my_ducklake;
 {% endhighlight %}

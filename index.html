@@ -34,7 +34,6 @@ body_class: landing nowrap
 							<div class="select-highlight"></div>
 							<li data-tab="arch-tab2" data-iconclass="postgre" data-multi="true"  class="active">PostgreSQL</li>
 							<li data-tab="arch-tab3" data-iconclass="sqlite" data-multi="true">SQLite</li>
-							<li data-tab="arch-tab4" data-iconclass="mysql" data-multi="true">MySQL</li>
 							<li data-tab="arch-tab1" data-iconclass="duckdb" data-multi="false">DuckDB</li>
 						</ul>
 						<div class="hoverlabel">&#8592; Choose catalog database</div>
@@ -63,9 +62,9 @@ body_class: landing nowrap
 							</div>
 							
 							<div class="hover-content">
-								<div class="mysql postgre sqlite">
+								<div class="postgre sqlite">
 									<h4>Clients</h4>
-									<p>Users can run multiple DuckLake clients and connect concurrently to the catalog database – PostgreSQL, MySQL or SQLite – to work over the same DuckLake dataset.</p>
+									<p>Users can run multiple DuckLake clients and connect concurrently to the catalog database – PostgreSQL or SQLite – to work over the same DuckLake dataset.</p>
 								</div>
 								<div class="duckdb">
 									<h4>Client</h4>
@@ -85,12 +84,11 @@ body_class: landing nowrap
 										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-duckdb.svg" class="duckdb">
 										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-postgre.svg" class="postgre">
 										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-sqlite.svg" class="sqlite">
-										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-mysql.svg" class="mysql">
 									</div>
 								</div>
 								
 								<div class="hover-content">
-									<div class="mysql postgre duckdb sqlite">
+									<div class="postgre duckdb sqlite">
 										<h4>Catalog</h4>
 										<p>DuckLake can use any SQL database as its catalog, provided that it supports ACID transactions and primary key constraints.</p>
 									</div>
@@ -106,9 +104,9 @@ body_class: landing nowrap
 								</div>
 								
 								<div class="hover-content">
-									<div class="mysql postgre sqlite duckdb">
+									<div class="postgre sqlite duckdb">
 										<h4>Storage</h4>
-										<p>DuckLake can store its data as Parquet files on a local disk, or in an object storage such as AWS S3 or Google Cloud Storage.</p>
+										<p>DuckLake can store its data as Parquet files on a local disk, or in an object storage (such as AWS S3, Azure Blob Storage, or Google Cloud Storage).</p>
 									</div>
 								</div>
 							</div>
