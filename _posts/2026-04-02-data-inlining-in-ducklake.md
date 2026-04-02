@@ -2,39 +2,40 @@
 layout: post
 title: "Data Inlining in DuckLake: Unlocking Streaming for Data Lakes"
 author: "Pedro Holanda"
-excerpt: "How DuckLake's data inlining feature solves the small file problem and unlocks streaming for data lakes."
+thumb: "/images/blog/thumbs/ducklake-inlining.svg"
+image: "/images/blog/thumbs/ducklake-inlining.png"
+excerpt: "DuckLake’s data inlining stores small updates directly in the catalog, eliminating the “small files problem” and making continuous streaming into data lakes practical. Our benchmark using DuckLake 1.0-dev shows 926× faster queries and 105× faster ingestion when compared to Iceberg."
 tags: ["deep dive"]
 ---
 
-When you stream data into a data lake, every insertion creates a tiny Parquet file and metadata files. A thousand inserts per second means a thousand of these little files accumulating, which causes performance to degrade. The damage is done; you are then forced to compact your files, schedule and babysit these maintenance operations to keep your data lake running, which in turn affects performance even more while the maintenance job executes. [DuckLake](https://ducklake.select/) flips the script: because it uses an actual DBMS as a catalog, DuckLake is able to inline updates directly in the catalog, effectively solving the small file issue.
+Data lakes let users avoid being locked into a single database. They work by storing data in open formats (most commonly [Parquet](https://parquet.apache.org/)). Most data lakes, like [Iceberg](https://iceberg.apache.org/), [Hudi](https://hudi.apache.org/), and [Delta](https://delta.io/), also store their metadata (the bits of information that tell you which files you need to read for a certain query) in open formats such as JSON and Avro files. This means anyone can implement a system that reads and writes these formats, freeing users from being locked into a single commercial solution.
 
-> TODO [Gabor]: What is inlining? We should define it.
+Storing data in traditional data lakes is often connected to performance issues. The root of the problem is that every small write creates a new data file and updates the metadata. This leads to a proliferation of tiny objects in storage. On the read side, queries now have to traverse an increasing number of metadata entries just to figure out what to scan.
 
-Small files are never created. No compaction jobs to schedule or babysit. Queries stay fast from the get-go.
+These are particularly painful problems for streaming workloads as they perform many small insertions over long periods of time: every insert creates a tiny Parquet file and metadata files. A thousand inserts per second means a thousand of these little files accumulating, which causes performance to degrade. At this point, you are then forced to compact your files, which requires you to schedule and execute these maintenance operations to keep your data lake running, which in turn affects performance even more while the maintenance job executes. 
 
-|                          | Traditional Data Lakes | DuckLake with Inlining   |
-|--------------------------|------------------------|--------------------------|
-| **Small insert**         | Creates a Parquet file | Stored in the catalog    |
-| **Small delete**         | Creates a deletion file| Stored in the catalog    |
-| **Files after 1K inserts** | 1,000 Parquet files  | 0 files                  |
-| **Compaction needed**    | Yes, periodically      | No, flush when ready     |
-| **Query performance**    | Degrades with file count | Not affected by small writes |
-| **Configuration**        | Tuning required        | Works out of the box     |
+[DuckLake]({% link index.html %}) flips the script: because it uses a database as its catalog, it can store small updates directly in the catalog instead of immediately writing them to storage as Parquet files. We call this technique _data inlining_ and will describe it in this blog post.
 
-## What Is the Problem?
+## Example: Streaming Sensor Data
 
-Data lakes allow users to avoid [having their data held hostage](https://duckdb.org/library/dont-hold-my-data-hostage/) by a DBMS storage model. They work by storing data in open formats (most commonly [Parquet](https://parquet.apache.org/)). Most data lakes, like [Iceberg](https://iceberg.apache.org/), [Hudi](https://hudi.apache.org/), and [Delta](https://delta.io/), also store their metadata (the bits of information that tell you which files you need to read for a certain query) in open formats such as JSON and Avro files. This means anyone can implement a system that reads and writes these formats, freeing users from being locked in to a single commercial solution.
+The typical example of a streaming workload is sensor data that is updated at a constant interval. For a practical example consider a case where we insert 100 observations to the datalake.
 
-However, storing data this way creates performance issues. Every small write creates a new data file and updates the metadata. This leads to a proliferation of tiny objects in storage. On the read side, queries now have to traverse an increasing number of metadata entries just to figure out what to scan. These are particularly painful problems for streaming workloads as they perform many small insertions over long periods of time.
-
-The typical example of a streaming workload is sensor data that is updated at a constant interval. For a practical example consider the following script using [`pyiceberg`](https://py.iceberg.apache.org/):
-
+<details markdown='1'>
+<summary markdown='span'>
+Click here to see an example script creating the table with the sensor data.
+</summary>
+    
 ```python
 from pyiceberg.catalog import load_catalog
 from datetime import datetime
 import pyarrow as pa
 
-catalog = load_catalog("default")
+catalog = load_catalog("default", **{
+    "type": "sql",
+    "uri": "sqlite:///catalog.db",
+    "warehouse": "file://warehouse",
+})
+catalog.create_namespace_if_not_exists("default")
 schema = pa.schema([
     ("sensor_id", pa.int32()),
     ("temperature", pa.float64()),
@@ -44,27 +45,61 @@ table = catalog.create_table("default.readings", schema=schema)
 
 for i in range(100):
     batch = pa.table({
-        "sensor_id": [1],
+        "sensor_id": pa.array([1], type=pa.int32()),
         "temperature": [21.5],
         "ts": [datetime.now()],
     })
     table.append(batch)
 ```
-In Iceberg (and other traditional data lakes), each of these tiny insertions would create its own Parquet file, bloating both the data and metadata layers and having a drastic impact on query performance.
 
+</details>
 
-The way data lake systems have addressed this is by implementing periodic compaction jobs that merge small files into larger ones to reduce I/O costs. But these compaction routines don't solve the problem at write time, you still pay the cost of creating all those tiny files, and they don't help query performance until they actually run.
+In traditional data lakes, each insertion creates its own Parquet file along with the relavant metadata files. Running the example above creates more than 300+ metadata files (200 Avro and 101 JSON files) as well as 100 Parquet files.
 
+<details markdown='1'>
+<summary markdown='span'>
+Click here to see the directory structure created by the `pyiceberg` script.
+</summary>
+    
+```batch
+tree warehouse
+```
 
-[DuckLake](https://ducklake.select/) takes a fundamentally different approach. Because the catalog is managed by a DBMS of the user's choice, DuckLake can store small updates, insertions, and deletions directly in the catalog instead of writing them out as files. Database systems already have decades of research into efficiently handling exactly these types of small reads and writes, making them a natural fit for this workload.
+```text
+warehouse
+└── default
+    └── readings
+        ├── data
+        │   ├── 00000-0-01a02dc3-deec-4be5-ab0f-5582e926419a.parquet
+        │   ├── ...
+        └── metadata
+            ├── 00000-0a837115-bff0-4fd7-a3a0-51df4e0b5764.metadata.json
+            ├── ...
+            ├── 01a02dc3-deec-4be5-ab0f-5582e926419a-m0.avro
+            ├── ...
+            ├── snap-1086579672596758615-0-288b7b1d-f159-4692-9404-b2dba114fba2.avro
+            └── ...
 
-Take the same sensor workload from above and run it against DuckLake:
+5 directories, 401 files
+```
 
+</details>
+
+Having this many files bloats both the data and metadata layers, has a drastic impact on query performance, and on your storage (S3, GCS, ...) bill. This is known as the “small files problem”. The way data lake systems have addressed this is by implementing periodic compaction jobs that merge small files into larger ones to reduce I/O costs. But these compaction routines don't solve the problem at write time, you still pay the cost of creating all those tiny files, and they don't help query performance until they actually run.
+
+DuckLake takes a fundamentally different approach. Because the catalog is managed by a database of the user's choice, DuckLake can store small updates, insertions, and deletions directly in the catalog instead of writing them out as files. Database systems already have decades of research into efficiently handling exactly these types of small reads and writes, making them a natural fit for this workload. Inlining is also designed to fully integrate with the time-travel nature of data lakes.
+
+Take the same sensor workload from above and run it against DuckLake with SQLite as the catalog database.
+
+<details markdown='1'>
+<summary markdown='span'>
+Click here to see the Python script that loads the data into DuckLake.
+</summary>
+    
 ```python
 import duckdb
 
 con = duckdb.connect()
-con.execute("LOAD ducklake")
 con.execute("ATTACH 'ducklake:sqlite:sensors.ducklake' AS lake (DATA_PATH 'sensor_data/')")
 con.execute("""
     CREATE TABLE lake.readings (
@@ -76,40 +111,58 @@ for i in range(100):
     con.execute(f"INSERT INTO lake.readings VALUES (1, 21.5, now())")
 
 # How many Parquet files were created?
-print(con.execute("SELECT count(*) FROM glob('sensor_data/*.parquet')").fetchone())
-# (0,) -- zero files, everything is inlined in the catalog
+print(con.execute("SELECT count(*) FROM glob('sensor_data/*.parquet')")
+    .fetchone()[0])
+# 0 -- zero files, everything is inlined in the catalog
 ```
+</details>
 
-After 100 inserts: **zero Parquet files**. All data lives in the catalog, and queries work exactly as expected. With Iceberg, those same 100 inserts would have created 100 Parquet files and 100 metadata snapshots.
+After 100 inserts, we have **zero Parquet files**. All data lives in the catalog, and queries work exactly as expected. The figure below depicts the difference between a traditional data lake and DuckLake for our sensor workload. In DuckLake, the data lives in the catalog, and after flushing it to the object storage, only a single Parquet file is created, containing all the data.
 
-The figure below depicts the exact difference between Iceberg and DuckLake for our sensor workload. Iceberg ends up with 300 files (Avro and JSON) created for its metadata and 100 Parquet files for its data. In DuckLake, the data lives in the catalog, and after flushing, exactly one Parquet file is created containing all the data.
+![Comparison of Iceberg vs. DuckLake after 100 single-row inserts. Iceberg creates 100 Parquet files and 100 metadata snapshots. DuckLake stores all data inlined in the catalog with zero Parquet files, and after flushing consolidates everything into a single Parquet file.]({% link images/blog/ducklake-iceberg-comparison-light.svg %}){: .lightmode-img }
+![Comparison of Iceberg vs. DuckLake after 100 single-row inserts. Iceberg creates 100 Parquet files and 100 metadata snapshots. DuckLake stores all data inlined in the catalog with zero Parquet files, and after flushing consolidates everything into a single Parquet file.]({% link images/blog/ducklake-iceberg-comparison-dark.svg %}){: .darkmode-img }
 
-<img src="/images/blog/ducklake_iceberg_comparison.png" alt="Comparison of Iceberg vs DuckLake after 100 single-row inserts. Iceberg creates 100 Parquet files and 100 metadata snapshots. DuckLake stores all data inlined in the catalog with zero Parquet files, and after flushing consolidates everything into a single Parquet file." />
+In the rest of this blog post, we will present a benchmark comparison of DuckLake with and without inlining for a high-contention streaming workload and cover how inlining works under the hood.
 
-## Why This Matters
+## Streaming Benchmark
 
-This is not just a storage optimization. It changes what is practical with a data lake:
+To understand the impact of streaming in DuckLake, we designed a benchmark that simulates an autonomous car streaming sensor data. The benchmark contains one table with 23 columns of varying types (e.g., `ts` as the sensor timestamp, `speed_mps` as a float for meters per second). The insertion rate is 100 rows per second, done in 10 batches of 10 rows. After all inserts, we run 9 aggregation queries over the table columns (e.g., `avg(speed_mps)`, `stddev(speed_mps)`, `min(speed_mps)`). Then, we perform a checkpoint, which (depending on the system) triggers compaction, flushing, and clean-up steps. All writes are performed by a single duckdb process.
 
-- **No compaction jobs.**  Small writes never create small files, so there is nothing to compact.
-- **Queries don't drastically slow down.** Traditional data lakes get slower as small files pile up; small files make performance degrade because of the numerous I/O calls to open and transform them for the execution layer.  With inlining, streaming writes don't affect query performance because there are no extra files to scan.
-- **Lower storage costs.** Fewer file writes means fewer compaction runs, which means fewer object storage operations and lower S3/GCS bills.
-- **Simpler architecture.** Your streaming pipeline writes directly to DuckLake. When you're ready, a single `CHECKPOINT` stores inlined data as Parquet files.
-- **Zero configuration.** Inlining is on by default. Queries are transparent. You never need to know whether data is inlined or in files.
+We simulated 50 minutes of data, which contains 300,000 rows and 30,000 batches. The catalog database was [Amazon RDS PostgreSQL](https://aws.amazon.com/rds/) 16.10, running on an EC2 [c7g.2xlarge](https://instances.vantage.sh/aws/ec2/c7g.2xlarge) instance, and the data was stored in an S3 bucket located in the same region.
 
-Starting with DuckLake 1.0 (to be released in April, together with [DuckDB v1.5.2](https://duckdb.org/release_calendar)), all insert, delete, and update statements can be inlined. This is also available today in DuckDB v1.5.1 by installing DuckLake from core_nightly:
+| Step          | No inlining | With inlining | Improvement |
+| ------------- | ----------: | ------------: | ----------: |
+| Insert        |     1,964 s |       375.0 s |        5.2× |
+| Aggregations  |     1,574 s |         1.7 s |      925.9× |
+| Checkpointing |        30 s |         2.1 s |       14.5× |
 
-```sql
-FORCE INSTALL ducklake FROM core_nightly;
-LOAD ducklake;
-```
+Insertion is approximately 5× faster with inlining. The round-tripping cost of storing data in PostgreSQL is significantly smaller than writing a Parquet file to S3 for each batch.
 
-In the rest of this blog post, we will cover how inlining works under the hood and present a benchmark comparison of DuckLake with and without inlining for a high-contention streaming workload.
+The most striking result is aggregation performance: a 926× difference. Without inlining, every query must open all 30,000 individual Parquet files on S3. With inlining, the data lives in PostgreSQL and the query executes directly against it, avoiding thousands of remote file reads entirely.
 
-## How It Works
+For checkpointing, the non-inlined case must compact 30,000 Parquet files into one, while the inlined case simply flushes data from the PostgreSQL catalog to a single Parquet file on S3, resulting in a 14.5× improvement.
 
-If you're curious about what happens under the hood, this section walks through the internals. If you just want to use it, you can skip straight to the [benchmark](#streaming-benchmark).
+### We Need to Talk about Iceberg
 
-When you insert, delete, or update fewer rows than the inlining threshold (10 by default), DuckLake stores the change in the catalog database instead of writing a Parquet file. This means you can stream thousands of small writes without creating any files. The threshold can be changed at the global, schema, or table level:
+We also ran the benchmark against Iceberg using `pyiceberg` and [Apache Polaris](https://github.com/apache/polaris), which is a common setup to manage Iceberg tables in production. The 50-minute streaming workload took prohibitively long for Iceberg, so we scaled it down to just 100 seconds (10,000 rows, 1,000 batches in total).
+
+| Step          | Iceberg (Polaris) | DuckLake with inlining | Improvement |
+| ------------- | ----------------: | ---------------------: | ----------: |
+| Insert        |        1,148.77 s |                10.88 s |        105× |
+| Aggregation   |           83.06 s |                 0.09 s |        923× |
+| Checkpointing |           52.83 s |                 0.28 s |        189× |
+
+DuckLake with inlining is _two orders of magnitude faster_ across the board, and _nearly three orders of magnitude faster_ for aggregations. The gap comes down to architecture: Iceberg has an extra REST hop (Polaris) between client and PostgreSQL, and its snapshot model (manifest + manifest-list + metadata JSON) writes around four S3 files per batch vs. zero for DuckLake with inlining. This explains the drastic performance difference.
+
+> We did our best to create a realistic setup for all systems. It is possible to alleviate the small files problem with architectural and design changes, such as buffering writes on the client's side or inserting larger batches, but that sacrifices ACID guarantees and limits multi-user support, which defeats much of the point of streaming into a data lake.
+> 
+> DuckLake is easy to set up, so you are welcome to give it a spin and run your own workloads to see the difference yourself.
+
+## How Inlining Works
+
+If you're curious about what happens under the hood, this section walks through the internals.
+
+When you insert, delete, or update fewer rows than the inlining threshold (by default, 10), DuckLake stores the change in the catalog database instead of writing a Parquet file. The threshold can be changed at the global, schema, or table level:
 
 ```sql
 -- Global: change the default for all tables
@@ -122,20 +175,22 @@ ALTER TABLE lake.readings SET (data_inlining_row_limit = 100);
 SET ducklake_default_data_inlining_row_limit = 0;
 ```
 
-In practice, this means you can stream data into DuckLake without worrying about file explosion. DuckLake manages the inlined data through insertion and deletion tables in the catalog, tracked by internal tables in the [spec](https://ducklake.select/docs/preview/specification/tables/ducklake_inlined_data_tables). At query time, DuckLake seamlessly combines inlined data with any existing Parquet files, so queries always return the right result regardless of where the data lives. Below we walk through how each operation works.
+In practice, this means you can stream data into DuckLake without worrying about the proliferation of small files. DuckLake manages the inlined data through insertion and deletion tables in the catalog, tracked by internal tables in the [specification]({% link docs/preview/specification/tables/ducklake_inlined_data_tables.md %}). During query time, DuckLake seamlessly combines inlined data with any existing Parquet files, so queries always return the right result regardless of where the data lives. Below we walk through how each operation works.
 
 ### Insertion
-When an insert falls below the threshold, DuckLake does not create a Parquet file. Instead, it stores the rows directly in an inlined data table inside the catalog database. This table contains the original columns plus three metadata columns: 
-1. `row_id` - the identifier of that row
-2. `begin_snapshot` - the snapshot where the row was inserted
-3. `end_snapshot` - the snapshot where the row was deleted, or `NULL` if it is still live
 
-These snapshot columns let DuckLake maintain full [time-travel](https://ducklake.select/docs/stable/duckdb/advanced_features/time_travel) support even for inlined data.
+When the size of an insert fits below the inlining threshold, DuckLake does not create a Parquet file. Instead, it stores the rows directly in an inlined data table inside the catalog database. This table contains the original columns plus three metadata columns: 
+
+1. `row_id` – the identifier of that row
+2. `begin_snapshot` – the snapshot where the row was inserted
+3. `end_snapshot` – the snapshot where the row was deleted or `NULL` if it still exists
+
+The snapshot columns let DuckLake maintain full [time travel]({% link docs/preview/duckdb/usage/time_travel.md %}) support even for inlined data.
 
 Let's walk through a concrete example. First, we set up a DuckLake catalog and create a table:
 
 ```sql
-ATTACH 'ducklake:sqlite:sensors.ducklake' AS lake (DATA_PATH 'sensor_data/');
+ATTACH 'ducklake:sensors.ducklake' AS lake (DATA_PATH 'sensor_data/');
 
 CREATE TABLE lake.readings (
     sensor_id INTEGER,
@@ -152,7 +207,7 @@ INSERT INTO lake.readings VALUES (2, 22.1, '2025-03-27 10:00:10');
 INSERT INTO lake.readings VALUES (1, 21.8, '2025-03-27 10:00:20');
 ```
 
-None of these inserts created a Parquet file. Instead, all three rows live in the catalog database in an inlined data table named `ducklake_inlined_data_{table_id}_{schema_version}`. If we peek inside the catalog:
+None of these inserts created a Parquet file. Instead, all three rows live in the catalog database in an inlined data table named `ducklake_inlined_data_⟨table-id⟩_⟨schema-version⟩`{:.language-sql .highlight}. If we peek inside the catalog:
 
 ```sql
 ATTACH 'sensors.ducklake' AS catalog_db;
@@ -189,14 +244,13 @@ DELETE FROM lake.readings WHERE sensor_id = 2;
 └────────┴────────────────┴──────────────┴───────────┴─────────────┴─────────────────────┘
 ```
 
-Sensor 2's row now has `end_snapshot = 5`, meaning it was deleted in snapshot 5. A regular query will filter it out, but time-travel queries can still see it.
-
+Sensor 2's row now has `end_snapshot = 5`, meaning it was deleted in snapshot 5. A regular query will filter it out, but time travel queries can still see it.
 
 ### Deletion
 
-Deletion inlining covers a different case: deleting rows that already live in Parquet files. Instead of rewriting the Parquet file or creating a separate deletion file, DuckLake records the deletion in a per-table inlined deletion table inside the catalog. This table tracks which rows in which Parquet files have been deleted, along with the snapshot that caused the deletion.
+Deletion inlining covers a different case: deleting rows that already live in Parquet files. Instead of rewriting the Parquet files or creating a separate deletion file, DuckLake records the deletion in a per-table inlined deletion table inside the catalog. This table tracks which rows in which Parquet files have been deleted, along with the snapshot that caused the deletion.
 
-For example, let's say we have a `data.parquet` file with some sensor readings that we want to [add to our table](https://ducklake.select/docs/stable/duckdb/metadata/adding_files):
+For example, let's say we have a `data.parquet` file with some sensor readings that we want to [add to our table]({% link docs/preview/duckdb/metadata/adding_files.md %}):
 
 ```sql
 CALL ducklake_add_data_files('lake', 'readings', 'data.parquet');
@@ -215,12 +269,12 @@ SELECT * FROM lake.readings;
 └───────────┴─────────────┴─────────────────────┘
 ```
 
-Now if we delete one row from this file, DuckLake does not rewrite the Parquet file. Instead, it creates an inlined deletion table in the catalog named `ducklake_inlined_delete_{table_id}`:
+Now if we delete one row from this file, DuckLake does not rewrite the Parquet file. Instead, it creates an inlined deletion table in the catalog named `ducklake_inlined_delete_⟨table-id⟩`{:.language-sql .highlight}:
 
 ```sql
 DELETE FROM lake.readings WHERE sensor_id = 3;
 
-SELECT * FROM catalog_db.ducklake_inlined_delete_0;
+SELECT * FROM catalog_db.ducklake_inlined_delete_1;
 ```
 
 ```text
@@ -238,9 +292,9 @@ The entry tells DuckLake that row 2 in file 0 was deleted in snapshot 6. At quer
 
 Updates are simply a deletion followed by an insertion, so they follow the exact same steps described above and are fully supported.
 
-### Flush
+### Flushing
 
-Inlined data can of course grow over time, so DuckLake also provides a [flushing operation](https://ducklake.select/docs/stable/duckdb/advanced_features/data_inlining) that materializes inlined rows into consolidated Parquet files. This is useful when performance requires it or for migration purposes.
+Inlined data can of course grow over time, so DuckLake also provides a [flushing operation]({% link docs/preview/duckdb/advanced_features/data_inlining.md %}) that materializes inlined rows into consolidated Parquet files. This is useful when performance requires it or for migration purposes.
 
 ```sql
 -- Flush all inlined data in the catalog
@@ -250,28 +304,34 @@ CALL ducklake_flush_inlined_data('lake');
 CALL ducklake_flush_inlined_data('lake', table_name => 'readings');
 ```
 
-Alternatively, flushing is also part of the [checkpoint routine](https://ducklake.select/docs/stable/duckdb/maintenance/checkpoint), which runs all maintenance operations (flush, snapshot expiration, file merging, and cleanup) in sequence:
+Alternatively, flushing is also part of the [checkpoint routine]({% link docs/preview/duckdb/maintenance/checkpoint.md %}), which runs all maintenance operations (flush, snapshot expiration, file merging, and cleanup) in sequence:
 
 ```sql
 CHECKPOINT lake;
 ```
 
-## Streaming Benchmark
-
-To see the impact of inlining in practice, we simulate an autonomous car streaming sensor data into a DuckLake table. The workload inserts 10,000 rows per second, broken into batches of 10 rows each (1,000 batches per second). After each simulated day (864 million rows), we run a summary query and a checkpoint. We repeat this for 30 days, totaling approximately 25.9 billion rows.
-
-In order to make the benchmark more realistic, we execute it on an EC2 instance (describe it) with a PostgreSQL RDS instance as the catalog. We use PostgreSQL as the catalog to allow for multi-user usage, and EC2 with S3 storage to properly account for the network overhead of writing to remote object storage.
-
-We run the benchmark twice: once with inlining enabled (threshold set to 20, so our 10-row batches get inlined) and once with inlining disabled (threshold set to 0, so every batch writes a Parquet file).
-
-[Write up about the benchmark when we execute it.]
-
 ## Conclusion
 
-The small file problem has been one of the main pain points of data lakes for streaming workloads. Traditional systems create it at write time and clean it up afterwards in a maintenance job. DuckLake avoids it entirely by storing small changes directly in the catalog, where database systems have been optimizing exactly this kind of workload for decades.
+The “small files problem” has been one of the main pain points of data lakes for streaming workloads. For such workloads, traditional data lake formats end up with small files during write time and clean it up afterwards in a maintenance job. DuckLake avoids it entirely by storing small changes directly in the catalog, where database systems have been optimizing exactly this kind of workload for decades.
+
+|                               | Traditional data lakes   | DuckLake with inlining       |
+| ----------------------------- | ------------------------ | ---------------------------- |
+| **Small insert**              | Creates a Parquet file   | Stored in the catalog        |
+| **Small delete**              | Creates a deletion file  | Stored in the catalog        |
+| **Files after 1,000 inserts** | 1,000+ files             | 0 files                      |
+| **Compaction needed**         | Yes, periodically        | No, flush when ready         |
+| **Query performance**         | Degrades with file count | Not affected by small writes |
+| **Configuration**             | Tuning required          | Works out of the box         |
 
 Inlining works out of the box with zero configuration. Inserts, deletes, and updates are all supported. When the data is ready to be stored as Parquet files, a single checkpoint takes care of it.
 
-Data inlining will ship with [DuckLake 1.0](https://ducklake.select/) in April alongside [DuckDB v1.5.2](https://duckdb.org/release_calendar), but you don't have to wait. Install DuckLake from core_nightly on DuckDB v1.5.1, point it at a streaming workload, and see the difference for yourself, run your own benchmarks, and get a feel for it. It takes five minutes to set up and zero configuration to run.
+Data inlining will ship with [DuckLake 1.0]({% link release_calendar.md %}) in April alongside [DuckDB v1.5.2](https://duckdb.org/release_calendar), but you don't have to wait. Install DuckLake from the `core_nightly` repository of DuckDB v1.5.1.
 
-If you hit any issues, open them on [GitHub](https://github.com/duckdb/ducklake/issues). If you run into special cases and want to discuss them, we have an active community on the [DuckDB Discord](https://discord.duckdb.org/).
+```sql
+FORCE INSTALL ducklake FROM core_nightly;
+LOAD ducklake;
+```
+
+You can then point it at a streaming workload and see the difference for yourself. Run your own benchmarks and get a feel for it. It takes five minutes to set up and zero configuration to run.
+
+If you encounter any issues, open them on [GitHub](https://github.com/duckdb/ducklake/issues). If you run into special cases and want to discuss them, we have an active community on the [DuckDB Discord](https://discord.duckdb.org/) channel.
