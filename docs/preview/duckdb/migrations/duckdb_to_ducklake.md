@@ -26,18 +26,6 @@ If you have been using DuckDB for a while, there is a chance you are using some 
 
 - Macros can be migrated to a DuckDB persisted database. If you are using DuckDB as your catalog for DuckLake, then this will be the destination. If you are using other catalogs like PostgreSQL, SQLite or MySQL, DuckDB macros are not supported and therefore can't be migrated.
 
-- Default values that are not literals require you to change the logic of your insertion. See the following example:
-
-  ```sql
-  -- Works in DuckDB, doesn't work in DuckLake
-  CREATE TABLE t1 (id INTEGER, d DATE DEFAULT now());
-  INSERT INTO t1 VALUES (2);
-
-  -- Works in DuckLake and simulates the same behavior
-  CREATE TABLE t1 (id INTEGER, d DATE);
-  INSERT INTO t1 VALUES (2, now());
-  ```
-
 - Generated columns are the same as defaults that are not literals and therefore they need to be specified when inserting the data into the destination table. This means that the values will always be persisted (no `VIRTUAL` option).
 
 ### Migration Script
