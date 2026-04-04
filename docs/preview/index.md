@@ -10,8 +10,8 @@ Welcome to the DuckLake documentation. This documentation has two parts:
 
 ## DuckLake Clients
 
-DuckLake currently has the following clients:
+The `ducklake` DuckDB extension serves as the reference implementation for DuckLake clients.
+Additionally, DuckLake currently has the following clients:
 
-* [`ducklake` DuckDB extension]({% link docs/preview/duckdb/introduction.md %})
 * [DataFusion-DuckLake](https://github.com/hotdata-dev/datafusion-ducklake)
 * [DuckLake Spark Connection](https://github.com/motherduckdb/ducklake-spark)
