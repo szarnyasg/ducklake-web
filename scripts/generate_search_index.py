@@ -309,8 +309,7 @@ def main():
     args = parser.parse_args()
 
     versions = [
-        ('docs/stable', 'stable'),
-        ('docs/preview', 'preview'),
+        ('docs/stable', 'stable')
     ]
 
     all_chunks = []
