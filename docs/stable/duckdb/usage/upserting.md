@@ -1,6 +1,5 @@
 ---
 layout: docu
-redirect_from: null
 title: Upserting
 ---
 
@@ -113,7 +112,7 @@ FROM people;
 
 ## Unsupported Behavior
 
-Multiple `UPDATE` or `DELETE` operators are not currently supported. The following query **would not work**:
+Multiple `UPDATE` or `DELETE` operators are not currently supported. The following query **would not work:**
 
 ```sql
 MERGE INTO people

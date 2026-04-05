@@ -26,18 +26,10 @@ docs/
         ├── guides/             # Tutorials (access control, backups, object storage)
         └── migrations/         # Migration guides (e.g., duckdb_to_ducklake)
 _data/
-  menu_docs_preview.json        # Navigation sidebar for preview docs
   menu_docs_stable.json         # Navigation sidebar for stable docs
 scripts/                        # Utility scripts (Python, Bash)
 CONTRIBUTING.md                 # Style guide and contribution rules
 ```
-
-### Docs Versions: preview vs. stable
-
-- **`docs/preview/`** — New features and unreleased changes go here first. This is the default target for `update_docs.py`.
-- **`docs/stable/`** — Published documentation for the current release. Promoted from preview at release time (via `scripts/copy_stable_to_preview.py`).
-- Cross-references must use the matching version path: `{% link docs/preview/... %}` in preview, `{% link docs/stable/... %}` in stable.
-- Each version has its own nav menu JSON: `_data/menu_docs_preview.json` / `_data/menu_docs_stable.json`.
 
 ## Key Conventions
 
@@ -67,10 +59,10 @@ Run `scripts/lint.sh` to check everything:
 
 ## Common Tasks
 
-### Adding Documentation for a New DuckLake Feature
+### Adding Documentation for a DuckLake Feature
 
 1. Determine if it extends an existing page or needs a new one.
-2. Edit/create the Markdown file in the appropriate `docs/preview/duckdb/` subdirectory (new features go to preview first).
+2. Edit/create the Markdown file in the appropriate `docs/stable/` subdirectory.
 3. If creating a new page, add it to `_data/menu_docs_preview.json` in the correct position.
 4. Follow the style guide in CONTRIBUTING.md.
 5. Run `scripts/lint.sh` to verify.
@@ -80,7 +72,7 @@ Run `scripts/lint.sh` to check everything:
 `scripts/update_docs.py` automates documentation updates from merged PRs in duckdb/ducklake:
 
 ```bash
-python scripts/update_docs.py 277                          # single issue (preview)
+python scripts/update_docs.py 277                           # single issue (preview)
 python scripts/update_docs.py 277,286                       # multiple issues
 python scripts/update_docs.py --full-batch                  # all matching open issues
 python scripts/update_docs.py 277 --dry-run                 # print prompt only

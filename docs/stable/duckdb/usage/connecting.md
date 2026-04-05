@@ -1,6 +1,5 @@
 ---
 layout: docu
-redirect_from: null
 title: Connecting
 ---
 
@@ -33,25 +32,25 @@ ATTACH 'ducklake:';
 Connect to DuckLake, reading the configuration from the secret named `my_secret`:
 
 ```sql
-ATTACH 'ducklake:my_secret';
+ATTACH 'ducklake:⟨my_secret⟩';
 ```
 
 Use a DuckDB database `duckdb_database.ducklake` as the catalog database with the data path defaulting to `duckdb_database.ducklake.files`:
 
 ```sql
-ATTACH 'ducklake:duckdb_database.ducklake';
+ATTACH 'ducklake:⟨duckdb_database.ducklake⟩';
 ```
 
 Use a DuckDB database `duckdb_database.ducklake` as the catalog database with the data path explicitly specified as the `my_files` directory:
 
 ```sql
-ATTACH 'ducklake:duckdb_database.ducklake' (DATA_PATH 'my_files/');
+ATTACH 'ducklake:⟨duckdb_database.ducklake⟩' (DATA_PATH '⟨my_files/⟩');
 ```
 
 Use a PostgreSQL database as the catalog database and an S3 path as the data path:
 
 ```sql
-ATTACH 'ducklake:postgres:dbname=postgres' (DATA_PATH 's3://my-bucket/my-data/');
+ATTACH 'ducklake:postgres:dbname=postgres' (DATA_PATH 's3://⟨my-bucket/my-data/⟩');
 ```
 
 Connect to DuckLake in read-only mode:
@@ -60,10 +59,10 @@ Connect to DuckLake in read-only mode:
 ATTACH 'ducklake:postgres:dbname=postgres' (READ_ONLY);
 ```
 
-It is also possible to override the data path for a particular connection. This will not change the value of the `data_path` stored in the DuckLake metadata, but it will override it for the current connection allowing data to be stored in a different path.
+It is also possible to override the data path for a particular connection. This will not change the value of the `DATA_PATH` stored in the DuckLake metadata, but it will override it for the current connection allowing data to be stored in a different path.
 
 ```sql
-ATTACH 'ducklake:duckdb_database.ducklake' (DATA_PATH 'other_data_path/', OVERRIDE_DATA_PATH true);
+ATTACH 'ducklake:⟨duckdb_database.ducklake⟩' (DATA_PATH '⟨other_data_path/⟩', OVERRIDE_DATA_PATH true);
 ```
 
 > If `OVERRIDE_DATA_PATH` is used, data under the original `DATA_PATH` will not be able to be queried in the current connection. This behavior may be changed in the future to allow to query data in a catalog regardless of the current write `DATA_PATH`.

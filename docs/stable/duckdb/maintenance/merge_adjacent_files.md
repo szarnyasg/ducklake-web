@@ -1,6 +1,5 @@
 ---
 layout: docu
-redirect_from: null
 title: Merge Adjacent Files
 ---
 
@@ -52,9 +51,9 @@ With the above settings, calling `ducklake_merge_adjacent_files('my_ducklake')` 
 
 The `merge_adjacent_files` function supports optional parameters to filter which files are considered for compaction and control memory usage. This enables advanced compaction strategies and more granular control over the compaction process.
 
-- **`max_compacted_files`**: Limits the maximum number of compaction operations produced in a single call, *per table*. Compacting data files can be a very memory intensive operation, so you may consider performing this operation in batches by specifying this parameter. Note that the number of actual compacted files is highly dependent on the `target_file_size` setting.
-- **`min_file_size`**: Files smaller than this size (in bytes) are excluded from compaction. If not specified, all files are considered regardless of minimum size.
-- **`max_file_size`**: Files at or larger than this size (in bytes) are excluded from compaction. If not specified, it defaults to `target_file_size`. Must be greater than 0.
+- **`max_compacted_files`:** Limits the maximum number of compaction operations produced in a single call, *per table*. Compacting data files can be a very memory intensive operation, so you may consider performing this operation in batches by specifying this parameter. Note that the number of actual compacted files is highly dependent on the `target_file_size` setting.
+- **`min_file_size`:** Files smaller than this size (in bytes) are excluded from compaction. If not specified, all files are considered regardless of minimum size.
+- **`max_file_size`:** Files at or larger than this size (in bytes) are excluded from compaction. If not specified, it defaults to `target_file_size`. Must be greater than 0.
 
 Example with compacted files limit (applies per table when running across all tables):
 
@@ -73,9 +72,9 @@ CALL ducklake_merge_adjacent_files('my_ducklake', min_file_size => 10240, max_fi
 
 File size filtering enables tiered compaction strategies, which are particularly useful for realtime/streamed ingestion patterns. A tiered approach merges files in stages:
 
-- **Tier 0 → Tier 1**: Done often, merge small files (< 1MB) into ~5MB files
-- **Tier 1 → Tier 2**: Done occasionally, merge medium files (1MB-10MB) into ~32MB files
-- **Tier 2 → Tier 3**: Done rarely, merge large files (10MB-64MB) into ~128MB files
+- **Tier 0 → Tier 1:** Done often, merge small files (< 1MB) into ~5MB files
+- **Tier 1 → Tier 2:** Done occasionally, merge medium files (1MB-10MB) into ~32MB files
+- **Tier 2 → Tier 3:** Done rarely, merge large files (10MB-64MB) into ~128MB files
 
 This compaction strategy provides more predictable I/O amplification and better incremental compaction for streaming workloads.
 

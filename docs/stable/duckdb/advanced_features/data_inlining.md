@@ -1,6 +1,5 @@
 ---
 layout: docu
-redirect_from: null
 title: Data Inlining
 ---
 
@@ -33,7 +32,7 @@ SET ducklake_default_data_inlining_row_limit = 0;
 
 ### Per-Connection Override
 
-The `DATA_INLINING_ROW_LIMIT` ATTACH parameter overrides the default for a single connection. This setting is not persisted and must be specified on each attach:
+The `DATA_INLINING_ROW_LIMIT` parameter of the `ATTACH` statement overrides the default for a single connection. This setting is not persisted and must be specified on each attach:
 
 ```sql
 ATTACH 'ducklake:inlining.duckdb' AS my_ducklake (DATA_INLINING_ROW_LIMIT 10);
@@ -56,7 +55,7 @@ When insertion inlining is enabled, small inserts are stored directly in the met
 
 ```sql
 -- created and managed internally by DuckLake; one table per schema version
-ducklake_inlined_data_{table_id}_{schema_version} (
+ducklake_inlined_data_⟨table_id⟩_⟨schema_version⟩ (
     row_id         BIGINT,
     begin_snapshot BIGINT,
     end_snapshot   BIGINT,
@@ -111,7 +110,7 @@ When deletion inlining is enabled, deletes from existing Parquet data files that
 
 ```sql
 -- created and managed internally by DuckLake; one table per DuckLake table
-ducklake_inlined_delete_{table_id} (
+ducklake_inlined_delete_⟨table_id⟩ (
     file_id        BIGINT,
     row_id         BIGINT,
     begin_snapshot BIGINT

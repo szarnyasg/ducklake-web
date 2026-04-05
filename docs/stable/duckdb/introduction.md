@@ -10,8 +10,7 @@ In DuckDB, DuckLake is supported through the [`ducklake` extension](https://duck
 
 ## Installation
 
-Install the latest stable [DuckDB](https://duckdb.org/install/).
-(The `ducklake` extension requires DuckDB v1.3.0 “Ossivalis” or later.)
+Install the [latest DuckDB release](https://duckdb.org/install/).
 
 ```sql
 INSTALL ducklake;
@@ -38,7 +37,7 @@ If you would like to use another directory, you can specify this in the `DATA_PA
 
 ```sql
 ATTACH 'ducklake:my_other_ducklake.ducklake' AS my_other_ducklake (DATA_PATH 'some/other/path/');
-USE ...;
+USE my_other_ducklake;
 ```
 
 The path is stored in the DuckLake metadata and does not have to be specified again to attach to an existing DuckLake catalog.
@@ -156,4 +155,4 @@ DETACH my_ducklake;
 
 ## Using DuckLake from a Client
 
-DuckLake works with any [DuckDB client](https://duckdb.org/docs/current/clients/overview) that supports DuckDB version 1.3.0.
+DuckLake v1.0 is supported by with [DuckDB v1.5.2+](https://duckdb.org/docs/current/clients/overview).
