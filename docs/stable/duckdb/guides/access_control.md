@@ -262,7 +262,7 @@ Unable to connect to URL "https://ducklake-access-control.s3.amazonaws.com/main/
 
 Authentication Failure - this is usually caused by invalid or missing credentials.
 * No credentials are provided.
-* See https://duckdb.org/docs/current/extensions/httpfs/s3api.html
+* See https://duckdb.org/docs/stable/extensions/httpfs/s3api.html
 ```
 
 > The error message is the generic one used when DuckDB cannot access an object in S3; nothing specific to DuckLake.
