@@ -43,11 +43,11 @@ MERGE INTO people
 FROM people;
 ```
 
-| id | name  |  salary  |
-|---:|-------|---------:|
-| 2  | Anna  | 100000.0 |
-| 1  | John  | 105000.0  |
-| 3  | Sarah | 95000.0  |
+|   id | name  |   salary |
+| ---: | ----- | -------: |
+|    2 | Anna  | 100000.0 |
+|    1 | John  | 105000.0 |
+|    3 | Sarah |  95000.0 |
 
 
 
@@ -66,11 +66,11 @@ MERGE INTO people
 FROM people;
 ```
 
-| id | name  |  salary  |
-|---:|-------|---------:|
-| 2  | Anna  | 100000.0 |
-| 3  | Sarah | 95000.0  |
-| 1  | John  | 98000.0  |
+|   id | name  |   salary |
+| ---: | ----- | -------: |
+|    2 | Anna  | 100000.0 |
+|    3 | Sarah |  95000.0 |
+|    1 | John  |  98000.0 |
 
 Another common pattern is to receive a delete set of rows, which may only contain ids of rows to be deleted.
 
@@ -86,10 +86,10 @@ MERGE INTO people
 FROM people;
 ```
 
-| id | name  |  salary  |
-|---:|-------|---------:|
-| 2  | Anna  | 100000.0 |
-| 3  | Sarah | 95000.0  |
+|   id | name  |   salary |
+| ---: | ----- | -------: |
+|    2 | Anna  | 100000.0 |
+|    3 | Sarah |  95000.0 |
 
 
 `MERGE INTO` also supports more complex conditions, for example for a given delete set we can decide to only remove rows that contain a `salary` greater than or equal to a certain amount.
@@ -106,9 +106,9 @@ MERGE INTO people
 FROM people;
 ```
 
-| id | name  | salary  |
-|---:|-------|--------:|
-| 3  | Sarah | 95000.0 |
+|   id | name  |  salary |
+| ---: | ----- | ------: |
+|    3 | Sarah | 95000.0 |
 
 ## Unsupported Behavior
 

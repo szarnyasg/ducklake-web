@@ -98,12 +98,12 @@ CALL ducklake_merge_adjacent_files('my_ducklake', min_file_size => 10485760, max
 
 `ducklake_merge_adjacent_files` returns one row per output file created, with the following columns:
 
-| Column | Type | Description |
-|---|---|---|
-| `schema_name` | `VARCHAR` | Name of the schema containing the table |
-| `table_name` | `VARCHAR` | Name of the table |
-| `files_processed` | `BIGINT` | Number of input files merged into this output file |
-| `files_created` | `BIGINT` | Always `1` — each row represents one output file created |
+| Column            | Type      | Description                                              |
+| ----------------- | --------- | -------------------------------------------------------- |
+| `schema_name`     | `VARCHAR` | Name of the schema containing the table                  |
+| `table_name`      | `VARCHAR` | Name of the table                                        |
+| `files_processed` | `BIGINT`  | Number of input files merged into this output file       |
+| `files_created`   | `BIGINT`  | Always `1` — each row represents one output file created |
 
 Because each row corresponds to one output file, `files_created` is always `1`. To see the total number of output files produced per table, use a `GROUP BY`:
 

@@ -198,11 +198,11 @@ CALL ducklake_flush_inlined_data(
 
 `ducklake_flush_inlined_data` returns one row per table that had data flushed, with the following columns:
 
-| Column | Type | Description |
-|---|---|---|
-| `schema_name` | `VARCHAR` | Name of the schema containing the table |
-| `table_name` | `VARCHAR` | Name of the table |
-| `rows_flushed` | `BIGINT` | Number of rows flushed from inlined storage to Parquet |
+| Column         | Type      | Description                                            |
+| -------------- | --------- | ------------------------------------------------------ |
+| `schema_name`  | `VARCHAR` | Name of the schema containing the table                |
+| `table_name`   | `VARCHAR` | Name of the table                                      |
+| `rows_flushed` | `BIGINT`  | Number of rows flushed from inlined storage to Parquet |
 
 Tables with no inlined data are not included in the result. Example:
 
