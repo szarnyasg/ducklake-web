@@ -8,7 +8,7 @@ This table contains the valid snapshots in a DuckLake.
 | Column name       | Column type                |             |
 | ----------------- | -------------------------- | ----------- |
 | `snapshot_id`     | `BIGINT`                   | Primary key |
-| `snapshot_time`   | `TIMESTAMP`                |             |
+| `snapshot_time`   | `TIMESTAMPTZ`              |             |
 | `schema_version`  | `BIGINT`                   |             |
 | `next_catalog_id` | `BIGINT`                   |             |
 | `next_file_id`    | `BIGINT`                   |             |
