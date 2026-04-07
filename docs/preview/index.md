@@ -15,3 +15,4 @@ Additionally, DuckLake currently has the following clients:
 
 * [DataFusion-DuckLake](https://github.com/hotdata-dev/datafusion-ducklake)
 * [DuckLake Spark Connection](https://github.com/motherduckdb/ducklake-spark)
+* [pg_ducklake](https://github.com/relytcloud/pg_ducklake)
