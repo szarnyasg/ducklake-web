@@ -8,6 +8,10 @@
           "url": "/docs/stable",
           "subfolderitems": [
             {
+              "page": "Overview",
+              "url": "/docs/stable"
+            },
+            {
               "page": "Specification",
               "url": "/docs/stable/specification/introduction"
             },

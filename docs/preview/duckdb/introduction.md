@@ -35,7 +35,7 @@ If you would like to use another directory, you can specify this in the `DATA_PA
 
 ```sql
 ATTACH 'ducklake:my_other_ducklake.ducklake' AS my_other_ducklake (DATA_PATH 'some/other/path/');
-USE ...;
+USE my_other_ducklake;
 ```
 
 The path is stored in the DuckLake metadata and does not have to be specified again to attach to an existing DuckLake catalog.
