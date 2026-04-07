@@ -7,8 +7,8 @@ DuckLake 0.4 uses 28 tables to store metadata and to stage data fragments for da
 
 The following figure shows the most important 11 tables defined by the DuckLake schema:
 
-![DuckLake schema](/images/schema/ducklake-schema-v0.3.png){: .lightmode-img }
-![DuckLake schema](/images/schema/dark/ducklake-schema-v0.3.png){: .darkmode-img }
+![DuckLake schema]({% link images/schema/ducklake-schema-v0.3.png %}){: .lightmode-img }
+![DuckLake schema]({% link images/schema/dark/ducklake-schema-v0.3.png %}){: .darkmode-img }
 
 ## Snapshots
 
