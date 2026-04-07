@@ -203,7 +203,7 @@ We expect DuckLake to mature by Q2 2026.
 
 <div class="answer" markdown="1">
 
-DuckLake piggybacks on the authentication of the metadata catalog database. For example, if your catalog database is PostgreSQL, you can use PostgreSQL's [authentication](https://www.postgresql.org/docs/current/auth-methods.html) and [authorization](https://www.postgresql.org/docs/current/ddl-priv.html) [methods](https://www.postgresql.org/docs/current/ddl-rowsecurity.html) to protect your DuckLake. This is particularly effective when enabling encryption of DuckLake files.
+DuckLake relies on the authentication of the metadata catalog database. For example, if your catalog database is PostgreSQL, you can use PostgreSQL's [authentication](https://www.postgresql.org/docs/current/auth-methods.html) and [authorization](https://www.postgresql.org/docs/current/ddl-priv.html) [methods](https://www.postgresql.org/docs/current/ddl-rowsecurity.html) to protect your DuckLake. This is particularly effective when enabling encryption of DuckLake files.
 
 </div>
 
@@ -223,8 +223,8 @@ DuckLake piggybacks on the authentication of the metadata catalog database. For 
 The “small files problem” is a well-known problem in data lake formats and occurs e.g. when data is inserted in small batches,
 yielding many small files with each storing only a small amount of data.
 DuckLake significantly mitigates this problem by storing the metadata in a database system (catalog database) and making the compaction step simple.
-DuckLake also harnesses the catalog database to stage data (a technique called “data inlining”) before serializing it into Parquet files.
-Further improvements are on the roadmap.
+DuckLake also uses a technique called “data inlining”, i.e., it harnesses the catalog database to stage data before serializing it into Parquet files.
+For more details, see the [“Data Inlining in DuckLake” blog post]({% post_url 2026-04-02-data-inlining-in-ducklake %}).
 
 </div>
 
@@ -243,7 +243,7 @@ Further improvements are on the roadmap.
 <div class="answer" markdown="1">
 
 Yes, we published a DuckLake that contains the [Dutch Railway Dataset](https://duckdb.org/docs/current/guides/snippets/dutch_railway_datasets).
-This DuckLake uses DuckDB as its catalog database and is served from [object storage](docs/stable/duckdb/guides/public_ducklake_on_object_storage.md).
+This DuckLake uses DuckDB as its catalog database and is served from [object storage]({% link docs/stable/duckdb/guides/public_ducklake_on_object_storage.md %}).
 To attach to it from a DuckDB instance, run:
 
 ```sql
