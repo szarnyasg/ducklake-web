@@ -1,6 +1,8 @@
 ---
 layout: docu
 title: Queries
+redirect_from:
+- /queries
 ---
 
 This page explains the queries issued to the DuckLake catalog database for reading and writing data.

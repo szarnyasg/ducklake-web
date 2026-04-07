@@ -3,6 +3,7 @@ layout: docu
 redirect_from:
 - /docs/stable/duckdb
 - /docs/stable/duckdb/
+- /extension
 title: Introduction
 ---
 

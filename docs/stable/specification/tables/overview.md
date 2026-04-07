@@ -1,6 +1,8 @@
 ---
 layout: docu
 title: Tables
+redirect_from:
+- /tables
 ---
 
 DuckLake 1.0 uses 28 tables to store metadata and to stage data fragments for data inlining. Below we describe all those tables and their semantics.
