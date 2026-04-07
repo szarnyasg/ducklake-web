@@ -159,6 +159,8 @@
 
     var modeObserver = new MutationObserver(function () {
         readColors();
+        currentColors.sky = targetColors.sky.slice();
+        currentColors.white = targetColors.white.slice();
     });
 
     modeObserver.observe(document.documentElement, {
