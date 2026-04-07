@@ -19,3 +19,4 @@ Additionally, DuckLake currently has implementations for the following libraries
 * [DataFusion](https://github.com/hotdata-dev/datafusion-ducklake)
 * [Spark](https://github.com/motherduckdb/ducklake-spark)
 * [Trino](https://github.com/awitten1/trino-ducklake)
+* [PostgreSQL (`pg_duckdb`)](https://github.com/relytcloud/pg_ducklake)
