@@ -128,42 +128,26 @@ body_class: landing nowrap
 <section class="features">
 	<div class="wrap">
 		<h2>DuckLake’s key features</h2>
-		<div class="cards vertical icons">
-			<div class="card">
-				<div class="icon">
-					<img src="{{ site.baseurl }}/images/icons/waves.svg" alt="wave icon">
-				</div>
-				<div class="content">
-					<h3>Data lake operations</h3>
-					<p>DuckLake supports snapshots, time travel queries, schema evolution and partitioning.</p>
-				</div>
+		<div class="icon-grid" style="--icon-grid-columns: 4;">
+			<div class="icon-grid-item">
+				<svg class="icon"><use href="#waves"></use></svg>
+				<h3>Data lake operations</h3>
+				<p>DuckLake supports snapshots, time travel queries, schema evolution and partitioning.</p>
 			</div>
-			<div class="card">
-				<div class="icon">
-					<img src="{{ site.baseurl }}/images/icons/documents.svg" alt="wave icon">
-				</div>
-				<div class="content">
-					<h3>Lightweight snapshots</h3>
-					<p>You can have as many snapshots as you want without frequent compacting steps!</p>
-				</div>
+			<div class="icon-grid-item">
+				<svg class="icon"><use href="#feather"></use></svg>
+				<h3>Lightweight snapshots</h3>
+				<p>You can have as many snapshots as you want without frequent compacting steps!</p>
 			</div>
-			<div class="card">
-				<div class="icon">
-					<img src="{{ site.baseurl }}/images/icons/pipette.svg" alt="wave icon">
-				</div>
-				<div class="content">
-					<h3>ACID transactions</h3>
-					<p>DuckLake allows concurrent access with ACID transactional guarantees over multi-table operations.</p>
-				</div>
+			<div class="icon-grid-item">
+				<svg class="icon"><use href="#coins-swap-01"></use></svg>
+				<h3>ACID transactions</h3>
+				<p>DuckLake allows concurrent access with ACID transactional guarantees over multi-table operations.</p>
 			</div>
-			<div class="card">
-				<div class="icon">
-					<img src="{{ site.baseurl }}/images/icons/clock.svg" alt="wave icon">
-				</div>
-				<div class="content">
-					<h3>Performance-oriented</h3>
-					<p>DuckLake uses statistics for filter pushdown, enabling fast queries even on large datasets.</p>
-				</div>
+			<div class="icon-grid-item">
+				<svg class="icon"><use href="#code-browser"></use></svg>
+				<h3>Performance-oriented</h3>
+				<p>DuckLake uses statistics for filter pushdown, enabling fast queries even on large datasets.</p>
 			</div>
 		</div>
 	</div>
