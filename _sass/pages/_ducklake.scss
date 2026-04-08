@@ -159,11 +159,12 @@ body.landing{
 			gap: 50px;
 			align-items: center;
 			.install{
-				width: 565px;
-				flex-shrink: 0;
+				flex: 1 1 0;
+				min-width: 0;
 			}
 			.section-text{
-				flex: 1;
+				flex: 1 1 0;
+				min-width: 0;
 				max-width: unset;
 				margin: 0;
 			}
@@ -177,14 +178,15 @@ body.landing{
 			gap: 50px;
 			align-items: center;
 			.section-image{
-				width: 565px;
-				flex-shrink: 0;
+				flex: 1 1 0;
+				min-width: 0;
 				max-width: unset;
 				margin: 0;
 				margin-top: 0;
 			}
 			.section-text{
-				flex: 1;
+				flex: 1 1 0;
+				min-width: 0;
 				max-width: unset;
 				margin: 0;
 			}
@@ -644,6 +646,25 @@ footer .sitefooter .footercontent > div a:hover{
 			flex-direction: row;
 			padding: 0;
 		}
+	}
+	body.landing section#quickinstall .wrap .install{
+		margin-top: 0;
+	}
+	body.landing section.podcast .wrap,
+	body.landing section#quickinstall .wrap{
+		gap: 24px;
+	}
+	body.landing section#quickinstall .wrap .install,
+	body.landing section.podcast .wrap .section-image{
+		flex: none;
+		width: 100%;
+		order: 2;
+	}
+	body.landing section#quickinstall .wrap .section-text,
+	body.landing section.podcast .wrap .section-text{
+		flex: none;
+		width: 100%;
+		order: 1;
 	}
 	body.landing h1{
 		max-width: unset;
