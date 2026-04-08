@@ -156,14 +156,38 @@ body.landing{
 	// }
 	section#quickinstall{
 		.wrap{
+			gap: 50px;
+			align-items: center;
 			.install{
-				margin: 0 auto;
-				margin-top: 50px;
-				width: 750px;
+				width: 565px;
+				flex-shrink: 0;
+			}
+			.section-text{
+				flex: 1;
+				max-width: unset;
+				margin: 0;
 			}
 		}
 		&:after{
 			display: none;
+		}
+	}
+	section.podcast{
+		.wrap{
+			gap: 50px;
+			align-items: center;
+			.section-image{
+				width: 565px;
+				flex-shrink: 0;
+				max-width: unset;
+				margin: 0;
+				margin-top: 0;
+			}
+			.section-text{
+				flex: 1;
+				max-width: unset;
+				margin: 0;
+			}
 		}
 	}
 	section{
@@ -178,7 +202,7 @@ body.landing{
 		@include display-1();
 	}
 	h2{
-		@include display-2();
+		@include display-3();
 		text-align: center;
 	}
 	h3{
@@ -190,6 +214,7 @@ body.landing{
 	}
 	.faq{
 		.frequentlyaskedquestions{
+			max-width: 950px;
 			margin-top: 50px;
 		}
 		.cta{
@@ -584,8 +609,16 @@ footer .sitefooter .footercontent > div a:hover{
 	body.landing .window .content{
 		padding: 15px;
 	}
-	body.landing section#quickinstall .wrap .install{
+	body.landing section#quickinstall .wrap .install,
+	body.landing section.podcast .wrap .section-image{
 		width: 100%;
+		order: 2;
+	}
+	body.landing section#quickinstall .wrap .section-text,
+	body.landing section.podcast .wrap .section-text{
+		width: 100%;
+		order: 1;
+		text-align: center;
 	}
 	
 	.topbar{ 

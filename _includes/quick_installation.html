@@ -1,9 +1,8 @@
 <section id="quickinstall">
-    <div class="wrap">
+    <div class="wrap flexwrap">
         <div class="section-text">
             <h2>Create your first DuckLake with DuckDB</h2>
             <p>DuckDB provides first-class support for DuckLake through its highly portable extension, running wherever DuckDB does.</p>
-            <!--<a href="/docs/installation/" class="button transparent">More installation options</a>-->
         </div>
         <div class="install">
             <div class="window">
@@ -16,7 +15,7 @@
                     </ul>
                     <div class="hoverlabel">&#8592; Choose catalog database</div>
                 </div>
-                
+
                 <div class="result content">
 {% highlight sql %}
 INSTALL ducklake;
@@ -25,7 +24,8 @@ ATTACH 'ducklake:metadata.ducklake' AS my_ducklake;
 USE my_ducklake;
 {% endhighlight %}
                 </div>
-                
+            </div>
+        </div>
     </div>
 </section>
 
