@@ -340,6 +340,7 @@ section.architecture {
 					width: 20px;
 					height: 20px;
 					color: var(--blue-70);
+					flex-shrink: 0;
 				}
 			}
 
@@ -436,6 +437,7 @@ section.architecture {
 						height: 14px;
 						flex-shrink: 0;
 						color: var(--blue-70, #2eafff);
+						flex-shrink: 0;
 					}
 				}
 			}
@@ -531,6 +533,7 @@ section.architecture {
 				width: 20px;
 				height: 20px;
 				color: var(--blue-70);
+				flex-shrink: 0;
 			}
 		}
 		.ducklake-header{
@@ -625,13 +628,23 @@ footer .sitefooter .footercontent > div a:hover{
 	section.architecture .diagram .client .browser-wrap .browser{
 		width: 200px;
 		.broser-content{
-			top: 52px;
+			top: 47px;
 		}
 	}
 	
 }
 
 @media only screen and (max-width: 940px) {
+	section.architecture{
+		.architecture-container{
+			flex-direction: column;
+			gap: 15px;
+		}
+		.architecture-tabs ul{
+			flex-direction: row;
+			padding: 0;
+		}
+	}
 	body.landing h1{
 		max-width: unset;
 	}
@@ -644,10 +657,86 @@ footer .sitefooter .footercontent > div a:hover{
 	}
 }
 
-@media only screen and (max-width: 730px) {
+@media only screen and (max-width: 770px) {
+	section.architecture{
+		.diagram {
+			flex-wrap: wrap;
+			gap: 10px;
 
+			.client,
+			.database,
+			.storage {
+				padding: 10px;
+			}
+
+			.client {
+				flex: none;
+				width: 100%;
+				min-height: 290px;
+			}
+
+			.connector{
+				position: relative;
+				top: auto;
+				left: auto;
+				transform: rotate(90deg);
+				margin: -6px auto;
+			}
+
+			.database-storage {
+				flex: none;
+				width: 100%;
+				flex-direction: row;
+				flex-wrap: wrap;
+
+				.ducklake-header{
+					width: 100%;
+				}
+			}
+
+			.database,
+			.storage {
+				width: calc(50% - 8px);
+				min-height: 150px;
+			}
+		}
+	}
 }
+
 @media only screen and (max-width: 690px) {
+	section.architecture .diagram{
+		.database,
+		.storage{
+			display: flex;
+			flex-direction: column;
+			min-height: unset;
+			gap: 4px;
+			>p{
+				max-width: unset;
+				order: 3;
+			}
+		}
+		.database .database-header,
+		.storage .storage-header{
+			order: 1;
+		}
+		.database .catalog,
+		.storage .folder{
+			position: static;
+			order: 2;
+			margin: 10px auto 0;
+			.icons{
+				top: 80px;
+				img{
+					width: 20px;
+				}
+			}
+		}
+	}
+	section.architecture .database-storage,
+	section.architecture .architecture-container{
+		padding: 16px;
+	}
 	body.landing {
 		// .wave{
 		// 	height: 15px;
@@ -685,53 +774,6 @@ footer .sitefooter .footercontent > div a:hover{
 		}
 	}
 
-	section.architecture{
-		.architecture-container{
-			flex-direction: column;
-			gap: 15px;
-		}
-		.architecture-tabs ul{
-			flex-direction: row;
-		}
-		.diagram {
-			flex-wrap: wrap;
-
-			.client,
-			.database,
-			.storage {
-				padding: 10px;
-			}
-
-			.client {
-				width: 100%;
-				min-height: 250px;
-			}
-
-			.connector{
-				left: calc(50% - 18px);
-				top: auto;
-				bottom: -14px;
-				transform: rotate(90deg);
-			}
-
-			.database-storage {
-				width: 100%;
-				flex-direction: row;
-				flex-wrap: wrap;
-
-				.ducklake-header{
-					width: 100%;
-				}
-			}
-
-			.database,
-			.storage {
-				width: calc(50% - 8px);
-				min-height: 150px;
-			}
-		}
-	}
-	
 }
 
 @media only screen and (max-width: 550px) {
