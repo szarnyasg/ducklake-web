@@ -668,20 +668,30 @@ $(document).ready(function(){
 	// DEPLOYMENT DIAGRAM
 	const $architectureIllustration = $(".architecture .illustration");
 	if ($architectureIllustration.length) {
-		const $diagramTopbar = $architectureIllustration.find(".architecture-tabs .topbar");
-		const $diagramItems = $diagramTopbar.find("> ul > li");
+		const $architectureTabs = $architectureIllustration.find(".architecture-tabs");
+		const $diagramItems = $architectureTabs.find("> ul > li");
 		const $activeDiagramItem = $diagramItems.filter(".active");
 
 		const $catalogIconsContainer = $architectureIllustration.find('.catalog .icons');
 		const $chosenCatalog = $architectureIllustration.find('.choosen-catalog');
-		const $multiImages = $architectureIllustration.find('.browser > img.multi');
-		const $clientHeading = $architectureIllustration.find('.diagram .client h4');
-		const $hoverContentPanels = $architectureIllustration.find('.diagram .hover-content');
+		const $clientHeading = $architectureIllustration.find('.diagram .client .client-header h4');
+		const $multiLabel = $architectureIllustration.find('.diagram .client .multi-label');
 
-		let previousDataMulti = $activeDiagramItem.data('multi');
+		function updateArchitectureHighlight($item) {
+			const $highlight = $architectureTabs.find(".select-highlight");
+			if ($highlight.length && $item.length) {
+				const itemPos = $item.position();
+				$highlight.css({
+					top: itemPos.top || 0,
+					left: itemPos.left || 0,
+					width: $item.outerWidth() || 0,
+					height: $item.outerHeight() || 0,
+				});
+			}
+		}
 
 		function updateDiagramView($item) {
-			updateHighlight($diagramTopbar, $item);
+			updateArchitectureHighlight($item);
 
 			const iconClassToShow = $item.data('iconclass');
 			const tabText = $item.text();
@@ -694,6 +704,7 @@ $(document).ready(function(){
 			$chosenCatalog.text(tabText);
 
 			$clientHeading.text(currentDataMulti === true ? 'Clients' : 'Client');
+			$multiLabel.text(currentDataMulti === true ? 'Multiple clients' : 'Single client');
 
 			const $browserWrap = $architectureIllustration.find('.client .browser-wrap');
 			if (currentDataMulti === true) {
@@ -701,18 +712,10 @@ $(document).ready(function(){
 			} else {
 				$browserWrap.removeClass('contains-multi');
 			}
-
-			previousDataMulti = currentDataMulti;
-
-			$hoverContentPanels.each(function() {
-				const $currentPanel = $(this);
-				$currentPanel.children('div').removeClass('active-item');
-				$currentPanel.children('div.' + iconClassToShow).addClass('active-item');
-			});
 		}
-		
+
 		updateDiagramView($activeDiagramItem);
-	
+
 		$diagramItems.click(function () {
 			const $this = $(this);
 			$diagramItems.removeClass("active");

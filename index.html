@@ -23,103 +23,85 @@ body_class: landing nowrap
 
 <section class="architecture">
 	<div class="wrap">
+		{% comment %}
 		<div class="section-text">
 			<h2>DuckLake’s architecture</h2>
 			<p>With DuckLake, all you need to run your own data warehouse is a catalog database and storage for Parquet files.</p>
 		</div>
+		{% endcomment %}
 		<div class="illustration">
-				<div class="window architecture-tabs">
-					<div class="topbar">
-						<ul>
-							<div class="select-highlight"></div>
-							<li data-tab="arch-tab2" data-iconclass="postgre" data-multi="true"  class="active">PostgreSQL</li>
-							<li data-tab="arch-tab3" data-iconclass="sqlite" data-multi="true">SQLite</li>
-							<li data-tab="arch-tab1" data-iconclass="duckdb" data-multi="false">DuckDB</li>
-						</ul>
-						<div class="hoverlabel">&#8592; Choose catalog database</div>
-					</div>
-					
-				
-					<div class="diagram">
-						<div class="client">
-							<h4>Client</h4>
-							
-							<div class="browser-wrap contains-multi">
-								<div class="browser">
-									<img src="{{ site.baseurl }}/images/deployment_diagram/window.svg" alt="Database Icon">
-									<div class="broser-content">
-										<div class="ducklake">
-											<img src="{{ site.baseurl }}/images/deployment_diagram/ducklake_comb.svg" class="ducklake_icon">
-											<!--<div class="sub">DuckLake client</div>-->
-										</div>
-									</div>
-								</div>
-								<div class="browser multi">
-									<img src="{{ site.baseurl }}/images/deployment_diagram/window.svg" alt="Database Icon">
-									
-								</div>
-								
-							</div>
-							
-							<div class="hover-content">
-								<div class="postgre sqlite">
-									<h4>Clients</h4>
-									<p>Users can run multiple DuckLake clients and connect concurrently to the catalog database – PostgreSQL or SQLite – to work over the same DuckLake dataset.</p>
-								</div>
-								<div class="duckdb">
-									<h4>Client</h4>
-									<p>DuckLake also works with DuckDB as the catalog database. In this case, you are limited to a single client but still get to enjoy the data lake features such as time travel.</p>
-								</div>
-							</div>
-							
-						</div>
-						<div class="database-storage">
-							<h4>DuckLake</h4>
-							<div class="database">
-								<h4>Catalog: <span class="choosen-catalog"></span></h4>
-								
-								<div class="catalog">
-									<img src="{{ site.baseurl }}/images/deployment_diagram/database.svg" alt="Database Icon">
-									<div class="icons">
-										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-duckdb.svg" class="duckdb">
-										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-postgre.svg" class="postgre">
-										<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-sqlite.svg" class="sqlite">
-									</div>
-								</div>
-								
-								<div class="hover-content">
-									<div class="postgre duckdb sqlite">
-										<h4>Catalog</h4>
-										<p>DuckLake can use any SQL database as its catalog, provided that it supports ACID transactions and primary key constraints.</p>
-									</div>
-								</div>
-								
-								
-							</div>
-							<div class="storage">
-								<h4>Storage: <span class="choosen-storage">Parquet</span></h4>
-								
-								<div class="folder">
-									<img src="{{ site.baseurl }}/images/deployment_diagram/parquet_folder.svg" alt="Parquet Folder">
-								</div>
-								
-								<div class="hover-content">
-									<div class="postgre sqlite duckdb">
-										<h4>Storage</h4>
-										<p>DuckLake can store its data as Parquet files on a local disk, or in an object storage (such as AWS S3, Azure Blob Storage, or Google Cloud Storage).</p>
-									</div>
-								</div>
-							</div>
-							<div class="connector">
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 9" fill="none">
-								  <path fill="#1A1A1A" d="M50 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8ZM4 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm46 4v.75H4v-1.5h46v.75Z" />
-								</svg>
-							</div>
-						</div>
-					</div>
-					
-					
+			<div class="architecture-container">
+				<div class="architecture-tabs">
+					<ul>
+						<div class="select-highlight"></div>
+						<li data-iconclass="postgre" data-multi="true" class="active">PostgreSQL</li>
+						<li data-iconclass="sqlite" data-multi="true">SQLite</li>
+						<li data-iconclass="duckdb" data-multi="false">DuckDB</li>
+					</ul>
 				</div>
+				<div class="diagram">
+					<div class="client">
+						<div class="client-header">
+							<svg class="icon"><use href="#terminal-browser"></use></svg>
+							<h4>Client</h4>
+						</div>
+						<div class="browser-wrap contains-multi">
+							<div class="browser">
+								<img src="{{ site.baseurl }}/images/deployment_diagram/window.svg" alt="Client Window">
+								<div class="broser-content">
+									<div class="ducklake">
+										<img src="{{ site.baseurl }}/images/deployment_diagram/ducklake_comb.svg" class="ducklake_icon">
+									</div>
+								</div>
+							</div>
+							<div class="browser multi">
+								<img src="{{ site.baseurl }}/images/deployment_diagram/window.svg" alt="Client Window">
+							</div>
+						</div>
+						<ul class="checklist">
+							<li class="multi-item"><svg class="icon"><use href="#check"></use></svg> <span class="multi-label">Multiple clients</span></li>
+							<li><svg class="icon"><use href="#check"></use></svg> Works locally or in the cloud</li>
+							<li><svg class="icon"><use href="#check"></use></svg> No vendor lock-in</li>
+						</ul>
+					</div>
+					<div class="connector">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 9" fill="none">
+						  <path fill="#1A1A1A" d="M50 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8ZM4 .5a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm46 4v.75H4v-1.5h46v.75Z" />
+						</svg>
+					</div>
+					<div class="database-storage">
+						<div class="ducklake-header">
+							<svg class="icon"><use href="#waves"></use></svg>
+							<h4>DuckLake</h4>
+						</div>
+						<div class="database">
+							<div class="database-header">
+								<svg class="icon"><use href="#database-01"></use></svg>
+								<h4>Catalog: <span class="choosen-catalog"></span></h4>
+							</div>
+							<p>An ACID-compliant SQL database</p>
+							<div class="catalog">
+								<img src="{{ site.baseurl }}/images/deployment_diagram/database.svg" alt="Database Icon">
+								<div class="icons">
+									<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-duckdb.svg" class="duckdb">
+									<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-postgre.svg" class="postgre">
+									<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-sqlite.svg" class="sqlite">
+								</div>
+							</div>
+						</div>
+						<div class="storage">
+							<div class="storage-header">
+								<svg class="icon"><use href="#server-04"></use></svg>
+								<h4>Storage: <span class="choosen-storage">Parquet files</span></h4>
+							</div>
+							<p>Local disk or object storage</p>
+							<div class="folder">
+								<img src="{{ site.baseurl }}/images/deployment_diagram/parquet_folder.svg" alt="Parquet Folder">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
