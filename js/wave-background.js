@@ -1,11 +1,20 @@
 (function () {
     'use strict';
 
-    var COLUMN_COUNT = 9;
     var LERP_SPEED = 0.07;
     var MOUSE_LERP = 0.06;
     var MOUSE_FADE_IN = 0.03;
     var SCROLL_THRESHOLD = 30;
+
+    function getColumnCount() {
+        var w = window.innerWidth;
+        if (w < 768) return 4;
+        if (w < 1200) return 8;
+        if (w < 1700) return 9;
+        return 12;
+    }
+
+    var columnCount = getColumnCount();
 
     var section = document.querySelector('body.landing section.welcome');
     if (!section) return;
@@ -68,12 +77,19 @@
     container.className = 'wave-bg';
 
     var cols = [];
-    for (var i = 0; i < COLUMN_COUNT; i++) {
-        var col = document.createElement('div');
-        col.className = 'wave-bg-col';
-        container.appendChild(col);
-        cols.push(col);
+
+    function buildColumns() {
+        container.innerHTML = '';
+        cols = [];
+        for (var i = 0; i < columnCount; i++) {
+            var col = document.createElement('div');
+            col.className = 'wave-bg-col';
+            container.appendChild(col);
+            cols.push(col);
+        }
     }
+
+    buildColumns();
 
     document.body.insertBefore(container, document.body.firstChild);
 
@@ -84,7 +100,6 @@
     }
 
     updateContainerHeight();
-    window.addEventListener('resize', updateContainerHeight);
 
     section.style.background = 'transparent';
 
@@ -113,8 +128,21 @@
 
     // --- Animation state ---
 
-    var wave = new Float32Array(COLUMN_COUNT);
-    for (var j = 0; j < COLUMN_COUNT; j++) wave[j] = 0.6;
+    var wave = new Float32Array(columnCount);
+    for (var j = 0; j < columnCount; j++) wave[j] = 0.6;
+
+    function rebuildIfNeeded() {
+        var newCount = getColumnCount();
+        if (newCount !== columnCount) {
+            columnCount = newCount;
+            buildColumns();
+            wave = new Float32Array(columnCount);
+            for (var j = 0; j < columnCount; j++) wave[j] = 0.6;
+        }
+        updateContainerHeight();
+    }
+
+    window.addEventListener('resize', rebuildIfNeeded);
 
     var mouseXNorm = 0.5;
     var mouseYNorm = 0.5;
@@ -185,9 +213,9 @@
         smoothMouseY += (mouseYNorm - smoothMouseY) * MOUSE_LERP;
         mousePresence += (targetMousePresence - mousePresence) * MOUSE_FADE_IN;
 
-        var mouseCol = smoothMouseX * (COLUMN_COUNT - 1);
+        var mouseCol = smoothMouseX * (columnCount - 1);
 
-        for (var i = 0; i < COLUMN_COUNT; i++) {
+        for (var i = 0; i < columnCount; i++) {
             var idlePeak = 0.55
                 + 0.48 * Math.sin(t * 0.9 + i * 0.5)
                 + 0.27 * Math.sin(t * 0.5 - i * 0.3)
@@ -207,7 +235,7 @@
         var skyCol = rgb(currentColors.sky);
         var whiteCol = rgb(currentColors.white);
 
-        for (var k = 0; k < COLUMN_COUNT; k++) {
+        for (var k = 0; k < columnCount; k++) {
             var p = wave[k];
 
             var fadeStart = (10 + p * 45).toFixed(1);

@@ -120,12 +120,12 @@ body.landing{
 		.production-users{
 			margin-top: 60px;
 			text-align: center;
-			max-width: 770px;
+			max-width: min(770px, 100%);
 			margin-left: auto;
 			margin-right: auto;
 			p{
 				@include pre-title;
-				color: var(--main-quaternary-color, #CCC);
+				color: var(--main-text-tertiary-color);
 				margin-bottom: 25px;
 			}
 			.production-users-logos{
@@ -644,6 +644,13 @@ footer .sitefooter .footercontent > div a:hover{
 }
 
 
+@media only screen and (min-width: 1900px) {
+	body.landing section.welcome{
+		padding: 200px 15px;
+	}
+}
+
+
 @media only screen and (max-width: 1200px) {
 
 	section.architecture .diagram .client .browser-wrap .browser{
@@ -778,15 +785,21 @@ footer .sitefooter .footercontent > div a:hover{
 		padding: 16px;
 	}
 	body.landing {
-		// .wave{
-		// 	height: 15px;
-		// 	transform: translateY(-15px);
-		// }
 		section.architecture{
 			padding-top: 50px;
 		}
 		section.welcome{
 			padding-bottom: 100px;
+		}
+		.production-users{
+			margin-top: 40px;
+			p{
+				margin-bottom: 15px;
+			}
+			.production-users-track img{
+				height: 28px;
+				margin-right: 35px;
+			}
 		}
 	}
 
