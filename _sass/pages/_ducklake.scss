@@ -280,6 +280,7 @@ section.architecture {
 
 	.architecture-tabs{
 		flex-shrink: 0;
+		width: calc(25% - 40px);
 		ul{
 			list-style: none;
 			padding: 5px;
@@ -652,14 +653,18 @@ footer .sitefooter .footercontent > div a:hover{
 
 
 @media only screen and (max-width: 1200px) {
-
 	section.architecture .diagram .client .browser-wrap .browser{
 		width: 200px;
 		.broser-content{
 			top: 47px;
 		}
 	}
-	
+}
+
+@media only screen and (max-width: 1000px) {
+	section.architecture .architecture-tabs{
+		width: auto;
+	}
 }
 
 @media only screen and (max-width: 940px) {
