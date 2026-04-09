@@ -104,7 +104,7 @@ body.landing{
 	@include body-standard();
 	section.welcome{
 		background: linear-gradient(180deg, var(--lake-background-gradient-start, #F5FBFF) 0%, var(--lake-background-gradient-end, #E5F5FF) 100%);
-		padding: 160px 15px;
+		padding: 100px 15px;
 		position: relative;
 		.ducklake{
 			margin: 0 auto;
@@ -116,6 +116,39 @@ body.landing{
 			p{
 				margin: 0;
 			}
+		}
+		.production-users{
+			margin-top: 60px;
+			text-align: center;
+			max-width: 770px;
+			margin-left: auto;
+			margin-right: auto;
+			p{
+				@include pre-title;
+				color: var(--main-quaternary-color, #CCC);
+				margin-bottom: 25px;
+			}
+			.production-users-logos{
+				overflow: hidden;
+				mask-image: linear-gradient(to right, transparent, black 30px, black calc(100% - 30px), transparent);
+				-webkit-mask-image: linear-gradient(to right, transparent, black 30px, black calc(100% - 30px), transparent);
+			}
+			.production-users-track{
+				display: flex;
+				align-items: center;
+				width: max-content;
+				animation: marquee 40s linear infinite;
+				img{
+					height: 40px;
+					width: auto;
+					flex-shrink: 0;
+					margin-right: 50px;
+				}
+			}
+		}
+		@keyframes marquee{
+			0%{ transform: translateX(0); }
+			100%{ transform: translateX(-50%); }
 		}
 	}
 	.wave-bg{
@@ -138,24 +171,8 @@ body.landing{
 		}
 	}
 	section.architecture{
-		padding-top: 80px;
+		padding-top: 20px;
 	}
-	// .wave{
-	// 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 364.8 28.6'%3E%3Cpath d='M364.8 0h-.1c-45.5 0-68.3 4.2-91.1 8.3-22.8 4.2-45.5 8.3-91 8.3s-68.3-4.2-91.1-8.3C68.7 4.2 45.9 0 .4 0H0v28.6h364.8V0Z' style='fill:%23fbfbfb'/%3E%3C/svg%3E");
-	// 	width: 100%;
-	// 	height: 30px;
-	// 	background-size: contain;
-	// 	background-repeat: repeat-x;
-	// 	transform: translateY(-20px);
-	// 	position: relative;
-	// 	z-index: 200;
-	// 	background-position: 0 bottom;
-	// 	animation: waveMove 20s linear infinite;
-	// }
-	// @keyframes waveMove {
-	// 	0% { background-position-x: 0; }
-	// 	100% { background-position-x: 1000px; }
-	// }
 	section#quickinstall{
 		.wrap{
 			gap: 50px;
