@@ -729,10 +729,12 @@ $(document).ready(function(){
 		const $envTopbar = $("#quickinstall .install .environment");
 		const $envItems = $envTopbar.find("> ul > li");
 		const $activeEnvItem = $envItems.filter(".active");
-		
+		const $installBox = $("#quickinstall .install");
+
 		function updateInstallation($item) {
 			updateHighlight($envTopbar, $item);
 			const activeClient = $item.attr("data-client");
+			$installBox.attr("data-active", activeClient);
 			let installation = $(
 				`#quick-installation div[data-install='${activeClient} ${OSdatid}']`
 			).html();
@@ -743,9 +745,9 @@ $(document).ready(function(){
 			}
 			$("#quickinstall .result").html(installation);
 		}
-		
+
 		updateInstallation($activeEnvItem);
-	
+
 		$envItems.click(function () {
 			$envItems.removeClass("active");
 			$(this).addClass("active");
