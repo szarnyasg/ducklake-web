@@ -7,8 +7,6 @@ title: Configuration
 
 The `ducklake` extension also allows for some configuration regarding retry mechanism for transaction conflicts.
 
-### Option List
-
 | Name                                       | Description                                                                      | Default |
 | ------------------------------------------ | -------------------------------------------------------------------------------- | ------: |
 | `ducklake_default_data_inlining_row_limit` | Default row limit for data inlining across all connections (0 disables inlining) |    `10` |
@@ -16,23 +14,23 @@ The `ducklake` extension also allows for some configuration regarding retry mech
 | `ducklake_retry_backoff`                   | Backoff factor for exponentially increasing retry wait time                      |   `1.5` |
 | `ducklake_retry_wait_ms`                   | Time between retries in ms                                                       |   `100` |
 
-### Setting Config Values
+To set these configuration options, use the [`SET` statement](https://duckdb.org/docs/current/sql/statements/set):
 
 ```sql
-SET ducklake_max_retry_count = 100;
-SET ducklake_retry_wait_ms = 100;
-SET ducklake_retry_backoff = 2;
 SET ducklake_default_data_inlining_row_limit = 50;
+SET ducklake_max_retry_count = 100;
+SET ducklake_retry_backoff = 2;
+SET ducklake_retry_wait_ms = 100;
 ```
 
-## DuckLake Specific Configuration
+## DuckLake-Specific Configuration
 
 DuckLake supports persistent and scoped configuration operations.
-These options can be set using the `set_option` function.
+These options can be set using the `set_option` function call.
 The options that have been set can be queried using the `options` function.
 Configuration is persisted in the [`ducklake_metadata`]({% link docs/stable/specification/tables/ducklake_metadata.md %}) table.
 
-### Option List
+### DuckLake-Specific Configuration Options
 
 | Name                           | Description                                                                                        | Default  |
 | ------------------------------ | -------------------------------------------------------------------------------------------------- | -------- |
@@ -55,7 +53,7 @@ Configuration is persisted in the [`ducklake_metadata`]({% link docs/stable/spec
 | `target_file_size`             | The target data file size for insertion and compaction operations                                  | `512MB`  |
 | `version`                      | DuckLake format version                                                                            |          |
 
-### Setting Config Values
+### Setting DuckLake-Specific Configuration Values
 
 Set the global Parquet compression algorithm used when writing Parquet files:
 
