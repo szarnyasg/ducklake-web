@@ -1,6 +1,5 @@
 ---
 layout: docu
-redirect_from: null
 title: ducklake_file_partition_value
 ---
 
@@ -12,7 +11,6 @@ This table defines which data file belongs to which partition.
 | `table_id`            | `BIGINT`    |             |
 | `partition_key_index` | `BIGINT`    |             |
 | `partition_value`     | `VARCHAR`   |             |
-
 
 - `data_file_id` refers to a `data_file_id` from the `ducklake_data_file` table.
 - `table_id` refers to a `table_id` from the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).

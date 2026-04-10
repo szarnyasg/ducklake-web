@@ -1,6 +1,5 @@
 ---
 layout: docu
-redirect_from: null
 title: Access Control
 ---
 
@@ -27,7 +26,7 @@ In this guide, we focus on three different roles regarding access control in Duc
 
 > These roles are not actually implemented in DuckLake; they are constructs used in this guide, as they represent the most common types of roles present in data management systems.
 
-DuckLake has two components: the metadata catalog, which resides in a SQL database, and the storage, which can be any filesystem backend. The roles mentioned above require different specific permissions at the **catalog level**:
+DuckLake has two components: the metadata catalog, which resides in a SQL database, and the storage, which can be any filesystem backend. The roles mentioned above require different specific permissions at the **catalog level:**
 - The DuckLake Superuser needs all permissions under the specified schema (`public` by default). Since this user initializes all tables, they also become the owner. Subsequent migrations between different version of the DuckLake specification must be carried out by this user.
 - The DuckLake Writer only needs permissions to `INSERT`, `UPDATE`, `DELETE`, and `SELECT` at the catalog level. This is sufficient for any operation in DuckLake, including operations that expire snapshots.
 - The DuckLake Reader only needs `SELECT` permissions at the catalog level.
@@ -45,7 +44,7 @@ Using this convention and the policy mechanisms of certain filesystems (such as 
 
 The following diagram shows how these roles and their necessary permissions work in DuckLake:
 
-![DuckLake schema](/images/docs/guides/ducklake_access_control.svg)
+![DuckLake schema]({% link images/docs/guides/ducklake_access_control.svg %})
 
 ## Access Control with S3 and PostgreSQL
 
@@ -200,7 +199,7 @@ CREATE TABLE IF NOT EXISTS some_schema.some_table (id INTEGER, name VARCHAR);
 INSERT INTO some_schema.some_table VALUES (1, 'test');
 ```
 
-Now let's use the **DuckLake Writer**:
+Now let's use the **DuckLake Writer:**
 
 ```sql
 -- Drop this to avoid the extension defaulting to this secret
@@ -262,7 +261,7 @@ Unable to connect to URL "https://ducklake-access-control.s3.amazonaws.com/main/
 
 Authentication Failure - this is usually caused by invalid or missing credentials.
 * No credentials are provided.
-* See https://duckdb.org/docs/current/extensions/httpfs/s3api.html
+* See https://duckdb.org/docs/stable/extensions/httpfs/s3api.html
 ```
 
 > The error message is the generic one used when DuckDB cannot access an object in S3; nothing specific to DuckLake.

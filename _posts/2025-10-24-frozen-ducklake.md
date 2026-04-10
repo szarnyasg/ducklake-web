@@ -9,7 +9,7 @@ excerpt: "We show how you can build high-performance data lakes with no moving p
 
 > This is a guest blog post by [Mark Harrison](https://www.linkedin.com/in/marhar) ([Madhive](https://www.madhive.com) Data Engineering).
 
-[DuckLakes](https://ducklake.select/) typically consist of two components: the catalog database and the storage. Obviously, there is no way around having some sort of storage to represent the data. But can we host a DuckLake without setting up a catalog database? In this blog post, we'll show how you can create a read-only cloud-based DuckLake without a database server. We call this a **“Frozen DuckLake”** because it is read-only and has no moving parts other than a cloud storage system. Maybe you do want to [build a snowman](https://www.youtube.com/watch?v=TeQ_TTyLGMs), too!
+[DuckLakes]({% link index.html %}) typically consist of two components: the catalog database and the storage. Obviously, there is no way around having some sort of storage to represent the data. But can we host a DuckLake without setting up a catalog database? In this blog post, we'll show how you can create a read-only cloud-based DuckLake without a database server. We call this a **“Frozen DuckLake”** because it is read-only and has no moving parts other than a cloud storage system. Maybe you do want to [build a snowman](https://www.youtube.com/watch?v=TeQ_TTyLGMs), too!
 
 ![Frozen DuckLake at a glance]({% link images/blog/frozen-ducklake/frozen-ducklake-at-a-glance-light.svg %}){: .lightmode-img }
 ![Frozen DuckLake at a glance]({% link images/blog/frozen-ducklake/frozen-ducklake-at-a-glance-dark.svg %}){: .darkmode-img }
@@ -246,7 +246,7 @@ When adding file `X.parquet`:
   - CALL ducklake_add_data_files(..., X.parquet)
 ```
 
-Note that you would have to take care that the paths are resolved correctly, as per the DuckLake documentation's [Paths page](https://ducklake.select/docs/stable/duckdb/usage/paths). For example, the two different strings `/foo/bar.parquet` and `/foo/./bar.parquet` refer to the same file.  This won't be an issue if all the file paths are generated relative to the same base directory.
+Note that you would have to take care that the paths are resolved correctly, as per the DuckLake documentation's [Paths page]({% link docs/stable/duckdb/usage/paths.md %}). For example, the two different strings `/foo/bar.parquet` and `/foo/./bar.parquet` refer to the same file.  This won't be an issue if all the file paths are generated relative to the same base directory.
 
 ### Publishing
 

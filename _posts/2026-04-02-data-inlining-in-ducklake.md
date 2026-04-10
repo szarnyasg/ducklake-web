@@ -175,7 +175,7 @@ ALTER TABLE lake.readings SET (data_inlining_row_limit = 100);
 SET ducklake_default_data_inlining_row_limit = 0;
 ```
 
-In practice, this means you can stream data into DuckLake without worrying about the proliferation of small files. DuckLake manages the inlined data through insertion and deletion tables in the catalog, tracked by internal tables in the [specification]({% link docs/preview/specification/tables/ducklake_inlined_data_tables.md %}). During query time, DuckLake seamlessly combines inlined data with any existing Parquet files, so queries always return the right result regardless of where the data lives. Below we walk through how each operation works.
+In practice, this means you can stream data into DuckLake without worrying about the proliferation of small files. DuckLake manages the inlined data through insertion and deletion tables in the catalog, tracked by internal tables in the [specification]({% link docs/stable/specification/tables/ducklake_inlined_data_tables.md %}). During query time, DuckLake seamlessly combines inlined data with any existing Parquet files, so queries always return the right result regardless of where the data lives. Below we walk through how each operation works.
 
 ### Insertion
 
@@ -185,7 +185,7 @@ When the size of an insert fits below the inlining threshold, DuckLake does not 
 2. `begin_snapshot` – the snapshot where the row was inserted
 3. `end_snapshot` – the snapshot where the row was deleted or `NULL` if it still exists
 
-The snapshot columns let DuckLake maintain full [time travel]({% link docs/preview/duckdb/usage/time_travel.md %}) support even for inlined data.
+The snapshot columns let DuckLake maintain full [time travel]({% link docs/stable/duckdb/usage/time_travel.md %}) support even for inlined data.
 
 Let's walk through a concrete example. First, we set up a DuckLake catalog and create a table:
 
@@ -250,7 +250,7 @@ Sensor 2's row now has `end_snapshot = 5`, meaning it was deleted in snapshot 5.
 
 Deletion inlining covers a different case: deleting rows that already live in Parquet files. Instead of rewriting the Parquet files or creating a separate deletion file, DuckLake records the deletion in a per-table inlined deletion table inside the catalog. This table tracks which rows in which Parquet files have been deleted, along with the snapshot that caused the deletion.
 
-For example, let's say we have a `data.parquet` file with some sensor readings that we want to [add to our table]({% link docs/preview/duckdb/metadata/adding_files.md %}):
+For example, let's say we have a `data.parquet` file with some sensor readings that we want to [add to our table]({% link docs/stable/duckdb/metadata/adding_files.md %}):
 
 ```sql
 CALL ducklake_add_data_files('lake', 'readings', 'data.parquet');
@@ -294,7 +294,7 @@ Updates are simply a deletion followed by an insertion, so they follow the exact
 
 ### Flushing
 
-Inlined data can of course grow over time, so DuckLake also provides a [flushing operation]({% link docs/preview/duckdb/advanced_features/data_inlining.md %}) that materializes inlined rows into consolidated Parquet files. This is useful when performance requires it or for migration purposes.
+Inlined data can of course grow over time, so DuckLake also provides a [flushing operation]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) that materializes inlined rows into consolidated Parquet files. This is useful when performance requires it or for migration purposes.
 
 ```sql
 -- Flush all inlined data in the catalog
@@ -304,7 +304,7 @@ CALL ducklake_flush_inlined_data('lake');
 CALL ducklake_flush_inlined_data('lake', table_name => 'readings');
 ```
 
-Alternatively, flushing is also part of the [checkpoint routine]({% link docs/preview/duckdb/maintenance/checkpoint.md %}), which runs all maintenance operations (flush, snapshot expiration, file merging, and cleanup) in sequence:
+Alternatively, flushing is also part of the [checkpoint routine]({% link docs/stable/duckdb/maintenance/checkpoint.md %}), which runs all maintenance operations (flush, snapshot expiration, file merging, and cleanup) in sequence:
 
 ```sql
 CHECKPOINT lake;
