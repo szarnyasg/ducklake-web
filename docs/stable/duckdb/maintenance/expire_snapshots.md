@@ -32,7 +32,7 @@ CALL ducklake_expire_snapshots('my_ducklake', dry_run => true, older_than => now
 It is also possible to set a DuckLake option to expire snapshots that applies to the whole catalog.
 
 ```sql
-CALL ducklake.set_option('expire_older_than', '1 month');
+CALL my_ducklake.set_option('expire_older_than', '1 month');
 ```
 
 ## Cleaning Up Files
