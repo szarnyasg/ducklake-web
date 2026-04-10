@@ -1,6 +1,5 @@
 ---
 layout: docu
-redirect_from: null
 title: Using a Remote Data Path
 ---
 
@@ -25,7 +24,7 @@ DETACH tpch_sf1_ducklake;
 
 ## Generating the Data
 
-We generate the data using the [`tpchgen-cli`](https://github.com/clflushopt/tpchgen-rs/) tool:
+Generate the data using the [`tpchgen-cli`](https://github.com/clflushopt/tpchgen-rs/) tool:
 
 ```batch
 tpchgen-cli --scale-factor 1 --format parquet
@@ -33,31 +32,39 @@ tpchgen-cli --scale-factor 1 --format parquet
 
 ## Populating the DuckLake
 
-We attach to the DuckLake with a _local data path_ using the `OVERRIDE_DATA_PATH true` flag:
+Populating the DuckLake requires the following steps:
 
-```sql
-ATTACH 'tpch-sf1.ducklake' AS tpch_sf1_ducklake (
-    TYPE ducklake,
-    DATA_PATH 'tpch-sf1',
-    OVERRIDE_DATA_PATH true
-);
-USE tpch_sf1_ducklake;
-```
+1. Attach to the DuckLake with a _local data path_ using the `OVERRIDE_DATA_PATH true` flag:
 
-We then load the data into the DuckLake:
+   ```sql
+   ATTACH 'tpch-sf1.ducklake' AS tpch_sf1_ducklake (
+       TYPE ducklake,
+       DATA_PATH 'tpch-sf1',
+       OVERRIDE_DATA_PATH true
+   );
+   USE tpch_sf1_ducklake;
+   ```
 
-```sql
-CREATE TABLE customer AS FROM 'customer.parquet';
-CREATE TABLE lineitem AS FROM 'lineitem.parquet';
-CREATE TABLE nation AS FROM 'nation.parquet';
-CREATE TABLE orders AS FROM 'orders.parquet';
-CREATE TABLE part AS FROM 'part.parquet';
-CREATE TABLE partsupp AS FROM 'partsupp.parquet';
-CREATE TABLE region AS FROM 'region.parquet';
-CREATE TABLE supplier AS FROM 'supplier.parquet';
-```
+2. Load the data into the DuckLake:
 
-Finally, we close DuckDB with `Ctrl + D` or `.quit`.
+   ```sql
+   CREATE TABLE customer AS FROM 'customer.parquet';
+   CREATE TABLE lineitem AS FROM 'lineitem.parquet';
+   CREATE TABLE nation AS FROM 'nation.parquet';
+   CREATE TABLE orders AS FROM 'orders.parquet';
+   CREATE TABLE part AS FROM 'part.parquet';
+   CREATE TABLE partsupp AS FROM 'partsupp.parquet';
+   CREATE TABLE region AS FROM 'region.parquet';
+   CREATE TABLE supplier AS FROM 'supplier.parquet';
+   ```
+
+3. Flush the inlined data:
+
+   ```sql
+   CALL ducklake_flush_inlined_data('tpch_sf1_ducklake');
+   ```
+
+4. Close the DuckDB session with `Ctrl + D` or `.quit`.
 
 ## Uploading the DuckLake
 

@@ -319,3 +319,5 @@ duckdb-web-venv/
 duckdb_web_venv/
 
 *.ducklake
+*.duckdb
+*.wal

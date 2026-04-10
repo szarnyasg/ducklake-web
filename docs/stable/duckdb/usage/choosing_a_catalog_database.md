@@ -1,6 +1,5 @@
 ---
 layout: docu
-redirect_from: null
 title: Choosing a Catalog Database
 ---
 
@@ -11,12 +10,12 @@ On the technical side, consider the following:
 
 * If you would like to perform **local data warehousing with a single client**, use [DuckDB](#duckdb) as the catalog database.
 * If you would like to perform **local data warehousing using multiple local clients**, use [SQLite](#sqlite) as the catalog database.
-* If you would like to operate a **multi-user lakehouse** with potentially remote clients, choose a transactional client-server database system as the catalog database: [MySQL](#mysql) or [PostgreSQL](#postgresql).
+* If you would like to operate a **multi-user lakehouse** with potentially remote clients, use [PostgreSQL](#postgresql) as the catalog database.
 
 ## DuckDB
 
 DuckDB can, of course, natively connect to DuckDB database files.
-So, to get started, you only need to install the [`ducklake` extension](https://duckdb.org/docs/current/core_extensions/ducklake) and attach to your DuckLake:
+So, to get started with using DuckDB _as your DuckLake catalog database,_ you only need to install the [`ducklake` extension](https://duckdb.org/docs/current/core_extensions/ducklake) and attach to your DuckLake:
 
 ```sql
 INSTALL ducklake;
@@ -44,7 +43,7 @@ USE my_ducklake;
 
 For details on how to configure the connection, see the [`postgres` extension's documentation](https://duckdb.org/docs/current/core_extensions/postgres#configuration).
 
-The `ducklake` and `postgresql` extensions require PostgreSQL 12 or newer.
+The `ducklake` and `postgres` extensions require PostgreSQL 12 or newer.
 
 ## SQLite
 

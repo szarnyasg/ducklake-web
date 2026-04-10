@@ -1,6 +1,5 @@
 ---
 layout: docu
-redirect_from: null
 title: Public DuckLake on Object Storage
 ---
 

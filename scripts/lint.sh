@@ -22,5 +22,5 @@ if ! $(which vale); then
 fi
 
 vale sync
-vale docs/stable/ docs/preview/ _posts/
+vale docs/stable/ _posts/
 

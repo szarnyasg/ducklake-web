@@ -1,6 +1,5 @@
 ---
 layout: docu
-redirect_from: null
 title: Cleanup of Files
 ---
 
@@ -83,5 +82,5 @@ CALL ducklake_delete_orphaned_files(
 There is also a catalog-level option available.
 
 ```sql
-CALL ducklake.set_option('delete_older_than', '1 week');
+CALL my_ducklake.set_option('delete_older_than', '1 week');
 ```
