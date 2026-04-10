@@ -77,7 +77,7 @@ DuckLake supports geometry types using the `geometry` type of the Parquet format
 | `linestring_z`       | A `linestring` geometry with an additional Z (elevation) coordinate for each point.             |
 | `geometrycollection` | A heterogeneous collection of geometry primitives (e.g., points, lines, polygons, etc.).        |
 
-## String Encoding for Statistics
+## Type Encoding for Statistics
 
 Statistics values are string-encoded, as they must be stored as `VARCHAR`, since thatallows storing types that are not native to the catalog database system (e.g., PostgreSQL does not support `VARIANT` natively). Statistics are stored in both `ducklake_file_column_stats` and `ducklake_table_column_stats`.
 Most types follow a straightforward encoding, however some do not. The following table describes the encoding of each type:
