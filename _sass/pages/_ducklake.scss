@@ -157,7 +157,8 @@ body.landing{
 			margin-right: auto;
 			p{
 				@include pre-title;
-				color: var(--main-text-secondary-color);
+				font-size: 11px;
+				color: var(--main-text-tertiary-color);
 				margin-bottom: 25px;
 			}
 			.production-users-logos{
@@ -201,9 +202,12 @@ body.landing{
 		.wave-bg{
 			display: none;
 		}
-		section#quickinstall .install::before{
+		section#quickinstall .install::before,
+		section#quickinstall .install[data-active="sqlite"]::before,
+		section#quickinstall .install[data-active="postgresql"]::before{
 			animation: none;
 			border-radius: 66% 34% 37% 63% / 58% 42% 65% 35%;
+			clip-path: shape(from 46.99% 18.93%, curve to 70.87% 19.13% with 57.83% 14.37%, curve to 91.35% 37.97% with 83.90% 23.90%, curve to 85.34% 61.01% with 98.80% 52.05%, curve to 64.19% 84.39% with 71.88% 69.98%, curve to 43.80% 89.30% with 56.51% 98.81%, curve to 19.97% 71.42% with 31.09% 79.79%, curve to 8.03% 47.71% with 8.85% 63.05%, curve to 21.68% 27.93% with 7.22% 32.37%, curve to 46.99% 18.93% with 36.14% 23.49%);
 		}
 	}
 	section.architecture{
@@ -231,16 +235,19 @@ body.landing{
 					bottom: -80px;
 					background: linear-gradient(180deg, rgba(46, 175, 255, 0.00) 0%, rgba(46, 175, 255, 0.60) 100%);
 					border-radius: 66% 34% 37% 63% / 58% 42% 65% 35%;
+					clip-path: shape(from 46.99% 18.93%, curve to 70.87% 19.13% with 57.83% 14.37%, curve to 91.35% 37.97% with 83.90% 23.90%, curve to 85.34% 61.01% with 98.80% 52.05%, curve to 64.19% 84.39% with 71.88% 69.98%, curve to 43.80% 89.30% with 56.51% 98.81%, curve to 19.97% 71.42% with 31.09% 79.79%, curve to 8.03% 47.71% with 8.85% 63.05%, curve to 21.68% 27.93% with 7.22% 32.37%, curve to 46.99% 18.93% with 36.14% 23.49%);
 					z-index: -1;
 					pointer-events: none;
-					transition: border-radius 0.6s ease;
+					transition: border-radius 0.6s ease, clip-path 0.8s cubic-bezier(.65, 0, .35, 1);
 					animation: lake-float 10s ease-in-out infinite;
 				}
 				&[data-active="sqlite"]::before{
 					border-radius: 40% 60% 65% 35% / 35% 60% 40% 65%;
+					clip-path: shape(from 41.83% 7.78%, curve to 71.84% 14.81% with 57.85% 8.85%, curve to 91.89% 35.72% with 85.83% 20.78%, curve to 88.71% 63.05% with 97.94% 50.67%, curve to 68.14% 83.72% with 79.47% 75.44%, curve to 41.62% 90.77% with 56.80% 92.00%, curve to 14.91% 77.88% with 26.43% 89.53%, curve to 8.57% 51.23% with 3.39% 66.23%, curve to 19.78% 21.48% with 13.75% 36.23%, curve to 41.83% 7.78% with 25.81% 6.72%);
 				}
 				&[data-active="postgresql"]::before{
 					border-radius: 55% 45% 30% 70% / 70% 30% 55% 45%;
+					clip-path: shape(from 40.18% 15.55%, curve to 71.18% 20.85% with 54.71% 23.28%, curve to 85.57% 34.20% with 87.65% 18.41%, curve to 82.96% 63.61% with 83.48% 50.00%, curve to 70.19% 86.17% with 82.43% 77.21%, curve to 47.11% 84.45% with 57.96% 95.12%, curve to 26.78% 67.84% with 36.27% 73.77%, curve to 13.95% 48.79% with 17.28% 61.91%, curve to 18.14% 21.75% with 10.63% 35.67%, curve to 40.18% 15.55% with 25.65% 7.83%);
 				}
 			}
 			.section-text{
@@ -249,6 +256,10 @@ body.landing{
 				max-width: unset;
 				margin: 0;
 				margin-top: 20px;
+			}
+			.highlight{
+				background: transparent;
+				border: 1px solid var(--main-codebox-border-color, #E6E6E6);
 			}
 		}
 		&:after{
