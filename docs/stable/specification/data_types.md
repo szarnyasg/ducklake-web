@@ -40,8 +40,7 @@ The types of columns are defined in the `column_type` field of the `ducklake_col
 
 ## Nested Types
 
-DuckLake supports nested types and primitive types. Nested types are defined recursively, i.e.,
-in order to define a column of type `INT[]` two columns are defined. The top-level column is of type `list`, which has a child column of type `int32`.
+DuckLake supports nested types and primitive types. Nested types are defined recursively using the `parent_column` field in the [`ducklake_column`]({% link docs/stable/specification/tables/ducklake_column.md %}) table. For example, a column of type `INT[]` is stored as two rows: a parent column of type `list`, and a child column of type `int32` whose `parent_column` points to the parent.
 
 The following nested types are supported:
 
@@ -80,8 +79,8 @@ DuckLake supports geometry types using the `geometry` type of the Parquet format
 
 ## String Encoding for Statistics
 
-Statistics values are string-encoded, as they must be stored as `VARCHAR`. Statistics are stored in both `ducklake_file_column_stats` and `ducklake_table_column_stats`. This encoding allows storing types that are not native to the catalog database system (e.g., PostgreSQL does not support `VARIANT` natively).
-Most types follow a straightforward encoding, however some do not. Nested types (`list`, `struct`, `map`) do not have min/max statistics themselves, statistics are collected recursively for their child columns instead. The following table describes the encoding of each type:
+Statistics values are string-encoded, as they must be stored as `VARCHAR`, since thatallows storing types that are not native to the catalog database system (e.g., PostgreSQL does not support `VARIANT` natively). Statistics are stored in both `ducklake_file_column_stats` and `ducklake_table_column_stats`.
+Most types follow a straightforward encoding, however some do not. The following table describes the encoding of each type:
 
 | Type | Description | Example |
 | ---- | ----------- | ------- |
@@ -114,6 +113,33 @@ The following types do not currently have min/max statistics, as they are not su
 2. `uint128` 
 3. `timetz` 
 4. `interval`
+
+### Nested Types
+
+Nested types (`list`, `struct`, `map`) do not have min/max statistics themselves, statistics are collected recursively for their child columns instead. For example:
+
+Given the following table:
+
+```sql
+CREATE TABLE nested_types (
+    col_list INT[],
+    col_struct STRUCT(a INT, b VARCHAR),
+    col_map MAP(VARCHAR, INT)
+);
+INSERT INTO nested_types VALUES
+    ([1, 2, 3], {'a': 10, 'b': 'hello'}, MAP {'x': 1}),
+    ([4, 5, 6], {'a': 20, 'b': 'world'}, MAP {'y': 2});
+```
+
+The parent columns (`col_list`, `col_struct`, `col_map`) have no min/max statistics. Instead, the child columns store:
+
+| Child column | Type      | min     | max     |
+| ------------ | --------- | ------- | ------- |
+| `element`    | `int32`   | `1`     | `6`     |
+| `a`          | `int32`   | `10`    | `20`    |
+| `b`          | `varchar` | `hello` | `world` |
+| `key`        | `varchar` | `x`     | `y`     |
+| `value`      | `int32`   | `1`     | `2`     |
 
 ### Extra Statistics
 
