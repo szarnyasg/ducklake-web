@@ -625,7 +625,7 @@ html.darkmode {
   --page-element-spacing-small: 20px;
   --page-section-padding: 20px;
   --page-element-spacing-medium: 25px;
-  --page-docs-page-padding: 30px;
+  --page-docs-page-padding: 32px;
   --page-element-spacing-large: 50px;
   --page-section-spacing: 105px;
   --page-max-width-tiny: 500px;
@@ -662,9 +662,9 @@ html.darkmode {
   :root {
     --type-weight-standard: 400;
     /* Mobile */
-    --page-docs-page-padding: 15px;
     --page-element-spacing-small: 15px;
     --page-section-padding: 15px;
+    --page-docs-page-padding: 16px;
     --page-element-spacing-medium: 20px;
     --page-element-spacing-large: 35px;
     --page-section-spacing: 55px;
@@ -683,17 +683,17 @@ html.darkmode {
     --type-side-menu: 13px;
     --type-title-3: 13px;
     --type-body-normal: 14px;
+    --type-title-2: 14px;
     --type-code-large: 15px;
-    --type-title-2: 15px;
+    --type-menu-items: 15px;
     --type-body-large: 16px;
-    --type-menu-items: 16px;
     --type-title-1: 16px;
-    --type-headline-3: 19px;
-    --type-headline-2: 23px;
-    --type-headline-1: 27px;
-    --type-display-3: 30px;
-    --type-display-2: 34px;
-    --type-display-1: 38px;
+    --type-headline-3: 18px;
+    --type-headline-2: 20px;
+    --type-headline-1: 22px;
+    --type-display-3: 24px;
+    --type-display-2: 28px;
+    --type-display-1: 32px;
     --border-radius-box: 10px;
   }
 }
