@@ -745,7 +745,7 @@ footer .sitefooter .footercontent > div a:hover{
 	section.architecture{
 		.architecture-container{
 			flex-direction: column;
-			gap: 15px;
+			gap: 24px;
 		}
 		.architecture-tabs ul{
 			flex-direction: row;
@@ -833,6 +833,21 @@ footer .sitefooter .footercontent > div a:hover{
 }
 
 @media only screen and (max-width: 690px) {
+	body.landing section.welcome{
+		padding-top: 72px!important;
+		.ducklake{
+			row-gap: 16px;
+		}
+	}
+	body.landing section.welcome .production-users{
+		margin-top: 44px;
+	}
+	body.landing h1{
+		font-size: 32px;
+	}
+	body.landing section h2{
+		margin-bottom: 16px;
+	}
 	section.architecture .diagram{
 		.database,
 		.storage{
@@ -866,9 +881,12 @@ footer .sitefooter .footercontent > div a:hover{
 	section.architecture .architecture-container{
 		padding: 16px;
 	}
+	section.architecture .illustration{
+		margin: 0;
+	}
 	body.landing {
 		section.architecture{
-			padding-top: 50px;
+			padding-top: 17px;
 		}
 		section.welcome{
 			padding-bottom: 100px;
