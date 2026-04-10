@@ -69,6 +69,15 @@ header .headerline .headercontent .landingmenu nav .hasSub + .submenuwrap ul li 
 	color: var(--blue-60, #2eafff);
 }
 
+header .headerline .headercontent .options button.mode{
+	border: 1px solid var(--lake-nav-button-border, #357197);
+	color: var(--lake-nav-button-border, #357197);
+	&:hover{
+		border-color: var(--lake-nav-button-border-hover, #225677);
+		color: var(--lake-nav-button-border-hover, #225677);
+	}
+}
+
 body.landing header .headerline{
 	border-bottom-color: transparent;
 	transition: border-bottom-color .3s;
@@ -78,8 +87,6 @@ body.landing header .headerline{
 		backdrop-filter: none;
 		transition: background .3s, backdrop-filter .3s;
 	}
-
-	.headercontent .options button.mode,
 	.headercontent .landingmenu .hamburger{
 		background: transparent;
 		border-color: var(--lake-nav-button-border, #357197);
@@ -91,6 +98,16 @@ body.landing header .headerline{
 			background-color: var(--lake-nav-button-border, #357197);
 		}
 	}
+	.headercontent .options button.mode{
+		background: transparent;
+		border: 1px solid var(--lake-nav-button-border, #357197);
+		color: var(--lake-nav-button-border, #357197);
+		&:hover{
+			border-color: var(--lake-nav-button-border-hover, #225677);
+			color: var(--lake-nav-button-border-hover, #225677);
+		}
+	}
+
 	&.header-scrolled,
 	&:hover{
 		border-bottom-color: var(--main-codebox-border-color, #E6E6E6);
@@ -99,8 +116,6 @@ body.landing header .headerline{
 			background: var(--menu-topmenu-background-color, rgba(250, 250, 250, 0.60));
 			backdrop-filter: blur(15px);
 		}
-
-		.headercontent .options button.mode,
 		.headercontent .landingmenu .hamburger{
 			background: var(--menu-topmenu-background-color, rgba(250, 250, 250, 0.60));
 			border-color: var(--menu-dropdown-border-color, #333);
@@ -119,7 +134,7 @@ body.landing{
 	@include body-standard();
 	overflow-x: clip;
 	section.welcome{
-		background: linear-gradient(180deg, var(--lake-background-gradient-start, #F5FBFF) 0%, var(--lake-background-gradient-end, #E5F5FF) 100%);
+		background: linear-gradient(180deg, var(--lake-animated-column-background-gradient-start) 0%, var(--main-body-background-color) 100%);
 		padding: 100px 15px;
 		position: relative;
 		.ducklake{
@@ -202,7 +217,7 @@ body.landing{
 	section#quickinstall{
 		.wrap{
 			gap: 50px;
-			align-items: center;
+			align-items: flex-start;
 			.install{
 				flex: 1 1 0;
 				min-width: 0;
@@ -233,6 +248,7 @@ body.landing{
 				min-width: 0;
 				max-width: unset;
 				margin: 0;
+				margin-top: 20px;
 			}
 		}
 		&:after{
@@ -872,7 +888,6 @@ footer .sitefooter .footercontent > div a:hover{
 		order: 1;
 		text-align: center;
 	}
-	
 	.topbar{ 
 		.hoverlabel{
 			display: none;
@@ -1027,6 +1042,6 @@ html.darkmode {
 	}
 	
 	body header .headerline .headercontent .options button.mode[data-mode=light]:hover{
-		border-color: var(--lake-nav-button-border, #357197)!important;
+		border-color: var(--lake-nav-button-border-hover, #225677)!important;
 	}
 }
