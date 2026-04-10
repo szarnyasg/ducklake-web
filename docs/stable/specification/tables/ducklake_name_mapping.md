@@ -19,4 +19,4 @@ This table contains the information used to map a name to a [`column_id`]({% lin
 - `source_name` refers to the name of the field this mapping applies to.
 - `target_field_id` refers to the `field-id` that a field with the `source_name` is mapped to.
 - `parent_column` is the `column_id` of the parent column. This is `NULL` for top-level and non-nested columns. For example, for `STRUCT` types, this would refer to the “parent” `STRUCT` column.
-- `is_partition` TODO
+- `is_partition` determines whether a column is used for a partition TODO.

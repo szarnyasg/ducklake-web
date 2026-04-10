@@ -35,5 +35,4 @@ This table describes the columns that are part of a table, including their types
 - `default_value_type` TODO
 - `default_value_dialect` TODO
 
-
 > Every `ALTER` of the column creates a new version of the column, which will use the same `column_id`.
