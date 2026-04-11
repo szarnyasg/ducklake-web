@@ -1,5 +1,7 @@
 - name: Summer Forever
   logo: summerforever.svg
+- name: Altertable
+  logo: altertable.svg
 - name: Windmill
   logo: windmill.svg
 - name: Decision Computing
@@ -12,8 +14,6 @@
   logo: mediaclusternorway.svg
 - name: Ascend.io
   logo: ascend.svg
-- name: Complexity Science Hub Vienna
-  logo: complexity.svg
 - name: PostHog
   logo: posthog.svg
 - name: Sliplane
