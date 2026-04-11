@@ -24,8 +24,6 @@ These extend to the [`ducklake` DuckDB extension]({% link docs/stable/duckdb/int
 This section lists the features that we plan to work on for future DuckLake releases.
 The list was compiled by the DuckLake maintainers and is based on the long-term vision for the project and general interactions with users in the open-source community.
 
-TODO: review these
-
 - Incremental compaction for large volumes of small files.
 - Revisit some internals, namely `DATA_PATH`, `add_data_files` and option scopes.
 
