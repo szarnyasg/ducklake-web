@@ -32,32 +32,32 @@
                 {"page": "Overview", "url": "overview"},
                 {"page": "column", "url": "ducklake_column"},
                 {"page": "column_mapping", "url": "ducklake_column_mapping"},
-                {"page": "name_mapping", "url": "ducklake_name_mapping"},
                 {"page": "column_tag", "url": "ducklake_column_tag"},
                 {"page": "data_file", "url": "ducklake_data_file"},
                 {"page": "delete_file", "url": "ducklake_delete_file"},
                 {"page": "file_column_stats", "url": "ducklake_file_column_stats"},
-                {"page": "file_variant_stats", "url": "ducklake_file_variant_stats"},
                 {"page": "file_partition_value", "url": "ducklake_file_partition_value"},
+                {"page": "file_variant_stats", "url": "ducklake_file_variant_stats"},
                 {"page": "files_scheduled_for_deletion", "url": "ducklake_files_scheduled_for_deletion"},
                 {"page": "inlined_data_tables", "url": "ducklake_inlined_data_tables"},
+                {"page": "macro", "url": "ducklake_macro"},
+                {"page": "macro_impl", "url": "ducklake_macro_impl"},
+                {"page": "macro_parameters", "url": "ducklake_macro_parameters"},
                 {"page": "metadata", "url": "ducklake_metadata"},
+                {"page": "name_mapping", "url": "ducklake_name_mapping"},
                 {"page": "partition_column", "url": "ducklake_partition_column"},
                 {"page": "partition_info", "url": "ducklake_partition_info"},
                 {"page": "schema", "url": "ducklake_schema"},
                 {"page": "schema_versions", "url": "ducklake_schema_versions"},
                 {"page": "snapshot", "url": "ducklake_snapshot"},
                 {"page": "snapshot_changes", "url": "ducklake_snapshot_changes"},
+                {"page": "sort_expression", "url": "ducklake_sort_expression"},
+                {"page": "sort_info", "url": "ducklake_sort_info"},
                 {"page": "table", "url": "ducklake_table"},
                 {"page": "table_column_stats", "url": "ducklake_table_column_stats"},
                 {"page": "table_stats", "url": "ducklake_table_stats"},
                 {"page": "tag", "url": "ducklake_tag"},
-                {"page": "view", "url": "ducklake_view"},
-                {"page": "macro", "url": "ducklake_macro"},
-                {"page": "macro_impl", "url": "ducklake_macro_impl"},
-                {"page": "macro_parameters", "url": "ducklake_macro_parameters"},
-                {"page": "sort_info", "url": "ducklake_sort_info"},
-                {"page": "sort_expression", "url": "ducklake_sort_expression"}
+                {"page": "view", "url": "ducklake_view"}
               ]
             }
           ]
@@ -194,6 +194,10 @@
                 {
                   "page": "Sorted Tables",
                   "url": "sorted_tables"
+                },
+                {
+                  "page": "Logging",
+                  "url": "logging"
                 }
               ]
             },

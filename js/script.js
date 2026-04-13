@@ -396,9 +396,20 @@ $(document).ready(function(){
 		return this.hostname && this.hostname !== location.hostname && $(this).find('img').length === 0;
 	}).addClass("externallink").attr('target','_blank');
 	
-	$('.headercontent a, .mainlinks a, .box-link a, .footercontent a').removeClass('externallink'); 
-	$('table a.externallink:contains(GitHub)').removeClass('externallink').addClass('nobg'); 
-	$('.supporterboard a.externallink').removeClass('externallink').addClass('nobg'); 
+	$('.headercontent a, .mainlinks a, .box-link a, .footercontent a').removeClass('externallink');
+	$('table a.externallink:contains(GitHub)').removeClass('externallink').addClass('nobg');
+	$('.supporterboard a.externallink').removeClass('externallink').addClass('nobg');
+
+	// Add download icon to links pointing to downloadable files
+	$('a').filter(function() {
+		var href = $(this).attr('href');
+		if (!href) return false;
+		return /\.(pdf|zip|tar\.gz|csv|parquet|mp3)(\?.*)?$/i.test(href) && $(this).find('img').length === 0 && !$(this).hasClass('button');
+	}).addClass("downloadlink").removeClass("externallink");
+
+	$('.headercontent a, .mainlinks a, .box-link a, .footercontent a').removeClass('downloadlink');
+	$('table a.downloadlink:contains(GitHub)').removeClass('downloadlink').addClass('nobg');
+	$('.supporterboard a.downloadlink').removeClass('downloadlink').addClass('nobg');
 	
 	// FOUNDATION PAGE SCRIPTS
 	if($('body').hasClass('foundation') && $('section.form').length){
@@ -657,20 +668,30 @@ $(document).ready(function(){
 	// DEPLOYMENT DIAGRAM
 	const $architectureIllustration = $(".architecture .illustration");
 	if ($architectureIllustration.length) {
-		const $diagramTopbar = $architectureIllustration.find(".architecture-tabs .topbar");
-		const $diagramItems = $diagramTopbar.find("> ul > li");
+		const $architectureTabs = $architectureIllustration.find(".architecture-tabs");
+		const $diagramItems = $architectureTabs.find("> ul > li");
 		const $activeDiagramItem = $diagramItems.filter(".active");
 
 		const $catalogIconsContainer = $architectureIllustration.find('.catalog .icons');
 		const $chosenCatalog = $architectureIllustration.find('.choosen-catalog');
-		const $multiImages = $architectureIllustration.find('.browser > img.multi');
-		const $clientHeading = $architectureIllustration.find('.diagram .client h4');
-		const $hoverContentPanels = $architectureIllustration.find('.diagram .hover-content');
+		const $clientHeading = $architectureIllustration.find('.diagram .client .client-header h4');
+		const $multiLabel = $architectureIllustration.find('.diagram .client .multi-label');
 
-		let previousDataMulti = $activeDiagramItem.data('multi');
+		function updateArchitectureHighlight($item) {
+			const $highlight = $architectureTabs.find(".select-highlight");
+			if ($highlight.length && $item.length) {
+				const itemPos = $item.position();
+				$highlight.css({
+					top: itemPos.top || 0,
+					left: itemPos.left || 0,
+					width: $item.outerWidth() || 0,
+					height: $item.outerHeight() || 0,
+				});
+			}
+		}
 
 		function updateDiagramView($item) {
-			updateHighlight($diagramTopbar, $item);
+			updateArchitectureHighlight($item);
 
 			const iconClassToShow = $item.data('iconclass');
 			const tabText = $item.text();
@@ -683,6 +704,7 @@ $(document).ready(function(){
 			$chosenCatalog.text(tabText);
 
 			$clientHeading.text(currentDataMulti === true ? 'Clients' : 'Client');
+			$multiLabel.text(currentDataMulti === true ? 'Multiple clients' : 'Single client');
 
 			const $browserWrap = $architectureIllustration.find('.client .browser-wrap');
 			if (currentDataMulti === true) {
@@ -690,18 +712,10 @@ $(document).ready(function(){
 			} else {
 				$browserWrap.removeClass('contains-multi');
 			}
-
-			previousDataMulti = currentDataMulti;
-
-			$hoverContentPanels.each(function() {
-				const $currentPanel = $(this);
-				$currentPanel.children('div').removeClass('active-item');
-				$currentPanel.children('div.' + iconClassToShow).addClass('active-item');
-			});
 		}
-		
+
 		updateDiagramView($activeDiagramItem);
-	
+
 		$diagramItems.click(function () {
 			const $this = $(this);
 			$diagramItems.removeClass("active");
@@ -715,10 +729,12 @@ $(document).ready(function(){
 		const $envTopbar = $("#quickinstall .install .environment");
 		const $envItems = $envTopbar.find("> ul > li");
 		const $activeEnvItem = $envItems.filter(".active");
-		
+		const $installBox = $("#quickinstall .install");
+
 		function updateInstallation($item) {
 			updateHighlight($envTopbar, $item);
 			const activeClient = $item.attr("data-client");
+			$installBox.attr("data-active", activeClient);
 			let installation = $(
 				`#quick-installation div[data-install='${activeClient} ${OSdatid}']`
 			).html();
@@ -729,9 +745,9 @@ $(document).ready(function(){
 			}
 			$("#quickinstall .result").html(installation);
 		}
-		
+
 		updateInstallation($activeEnvItem);
-	
+
 		$envItems.click(function () {
 			$envItems.removeClass("active");
 			$(this).addClass("active");

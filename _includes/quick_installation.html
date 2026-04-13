@@ -1,9 +1,12 @@
 <section id="quickinstall">
-    <div class="wrap">
+    <div class="wrap flexwrap">
         <div class="section-text">
-            <h2>Create your first DuckLake with DuckDB</h2>
-            <p>DuckDB provides first-class support for DuckLake through its highly portable extension, running wherever DuckDB does.</p>
-            <!--<a href="/docs/installation/" class="button transparent">More installation options</a>-->
+            <h2>Create your first DuckLake</h2>
+            <p>DuckDB provides first-class support for DuckLake and can use PostgreSQL, SQLite or DuckDB as the catalog database.</p>
+            <div class="cta">
+                <a class="button black" href="{% link docs/stable/duckdb/introduction.md %}">Documentation</a>
+                <a class="button transparent arrow-right" href="">Live demo</a>
+            </div>
         </div>
         <div class="install">
             <div class="window">
@@ -14,9 +17,8 @@
                         <li data-client="sqlite">SQLite</li>
                         <li data-client="postgresql">PostgreSQL</li>
                     </ul>
-                    <div class="hoverlabel">&#8592; Choose catalog database</div>
                 </div>
-                
+
                 <div class="result content">
 {% highlight sql %}
 INSTALL ducklake;
@@ -25,7 +27,8 @@ ATTACH 'ducklake:metadata.ducklake' AS my_ducklake;
 USE my_ducklake;
 {% endhighlight %}
                 </div>
-                
+            </div>
+        </div>
     </div>
 </section>
 
@@ -47,10 +50,10 @@ USE my_ducklake;
 INSTALL ducklake;
 INSTALL postgres;
 
--- Make sure that the database `ducklake_catalog` exists in PostgreSQL.
+-- Make sure that the database `ducklake_catalog`
+-- exists in PostgreSQL.
 ATTACH 'ducklake:postgres:dbname=ducklake_catalog host=your_postgres_host'
-    AS my_ducklake
-    (DATA_PATH 'data_files/');
+    AS my_ducklake (DATA_PATH 'data_files/');
 USE my_ducklake;
 {% endhighlight %}
 </div>

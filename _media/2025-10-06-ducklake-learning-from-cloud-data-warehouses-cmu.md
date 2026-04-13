@@ -2,8 +2,6 @@
 layout: post
 title: "DuckLake: Learning from Cloud Data Warehouses to Build a Robust “Lakehouse”"
 author: "Jordan Tigani"
-#thumb: "/images/media/thumbs/"
-#image: "/images/media/thumbs/"
 excerpt: ""
 toc: false
 tags: ["Podcast"]

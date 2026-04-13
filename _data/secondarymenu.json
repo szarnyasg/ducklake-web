@@ -26,12 +26,12 @@
           "url": "#",
           "subfolderitems": [
             {
-              "page": "Manifesto",
-              "url": "/manifesto"
-            },
-            {
               "page": "Blog",
               "url": "/news"
+            },
+            {
+              "page": "Manifesto",
+              "url": "/manifesto"
             },
             {
               "page": "Media",
