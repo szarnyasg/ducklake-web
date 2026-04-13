@@ -28,7 +28,7 @@ Delete files contain the row ids of rows that are deleted. Each data file will h
 - `data_file_id` refers to a `data_file_id` from the `ducklake_data_file` table.
 - `path` is the file name of the delete file, e.g., `my_file-deletes.parquet` for a relative path.
 - `path_is_relative` whether the `path` is relative to the [`path`]({% link docs/stable/specification/tables/ducklake_table.md %}) of the table (true) or an absolute path (false).
-- `format` is the storage format of the delete file. Currently, only `parquet` is allowed.
+- `format` is the storage format of the delete file. Supported values are `parquet` (positional delete file) and `puffin` (Iceberg V3 deletion vector, experimental).
 - `delete_count` is the number of deletion records in the file.
 - `file_size_bytes` is the size of the file in bytes.
 - `footer_size` is the size of the file metadata footer, in the case of Parquet the Thrift data. This is an optimization that allows for faster reading of the file.
