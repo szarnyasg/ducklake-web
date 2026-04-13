@@ -24,7 +24,8 @@
 INSTALL ducklake;
 
 ATTACH 'ducklake:metadata.ducklake'
-    AS my_ducklake;
+    AS my_ducklake
+    (DATA_PATH 'data/');
 
 USE my_ducklake;
 {% endhighlight %}
@@ -43,7 +44,8 @@ USE my_ducklake;
 INSTALL ducklake;
 
 ATTACH 'ducklake:metadata.ducklake'
-    AS my_ducklake;
+    AS my_ducklake
+    (DATA_PATH 'data/');
 
 USE my_ducklake;
 {% endhighlight %}
@@ -54,7 +56,8 @@ USE my_ducklake;
 INSTALL ducklake;
 INSTALL postgres;
 
-ATTACH 'ducklake:postgres:dbname=ducklake_catalog host=your_postgres_host' AS my_ducklake;
+ATTACH 'ducklake:postgres:dbname=ducklake_catalog host=your_postgres_host'
+    AS my_ducklake (DATA_PATH 'data/');
 USE my_ducklake;
 {% endhighlight %}
 </div>
@@ -64,7 +67,8 @@ USE my_ducklake;
 INSTALL ducklake;
 INSTALL sqlite;
 
-ATTACH 'ducklake:sqlite:metadata.sqlite' AS my_ducklake;
+ATTACH 'ducklake:sqlite:metadata.sqlite'
+    AS my_ducklake (DATA_PATH 'data/');
 
 USE my_ducklake;
 {% endhighlight %}
