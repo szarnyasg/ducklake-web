@@ -810,17 +810,13 @@
 
 /** TOUCH DEVICES **/
 @media (hover: none) {
-	html.darkmode body header .headerline .headercontent .options button.mode[data-mode=light]:hover,
-	header .headerline .headercontent .options button.mode[data-mode=dark]:hover,
-	header .headerline .headercontent .options button.mode[data-mode=light]:hover,
+	header .headerline .headercontent .options button.mode:hover{
+		border-color: var(--main-nav-icon-border) !important;
+		color: var(--main-nav-icon) !important;
+	}
 	.opensearch:hover,
 	body.documentation div.version > div:first-child:hover{
-		border: 1px solid var(--menu-dropdown-border-color, #333)!important;
-	}
-	html.darkmode body .opensearch:hover svg.icon,
-	header .headerline .headercontent .options button.mode[data-mode=dark]:hover,
-	header .headerline .headercontent .options button.mode[data-mode=light]:hover,
-	html.darkmode body header .headerline .headercontent .options button.mode[data-mode=light]:hover{
-		color: var(--main-text-secondary-color, #666)!important;
+		border-color: var(--menu-dropdown-border-color, #333) !important;
+		color: var(--main-text-secondary-color, #666) !important;
 	}
 }

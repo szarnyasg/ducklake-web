@@ -70,11 +70,44 @@ header .headerline .headercontent .landingmenu nav .hasSub + .submenuwrap ul li 
 }
 
 header .headerline .headercontent .options button.mode{
-	border: 1px solid var(--lake-nav-button-border, #357197);
-	color: var(--lake-nav-button-border, #357197);
+	border-color: var(--main-nav-icon-border);
+	color: var(--lake-nav-icon);
 	&:hover{
-		border-color: var(--lake-nav-button-border-hover, #225677);
-		color: var(--lake-nav-button-border-hover, #225677);
+		border-color: var(--lake-nav-icon-hover);
+		color: var(--lake-nav-icon-hover);
+	}
+}
+
+.hamburger{
+	border-color: var(--main-nav-icon-border);
+	.icon{
+		color: var(--lake-nav-icon);
+	}
+	.hamburger-inner,
+	.hamburger-inner:after,
+	.hamburger-inner:before{
+		background-color: var(--lake-nav-icon);
+	}
+	&.is-active .hamburger-inner,
+	&.is-active .hamburger-inner:after,
+	&.is-active .hamburger-inner:before{
+		background-color: var(--lake-nav-icon-hover);
+	}
+}
+
+body.documentation .opensearch:hover,
+body.documentation div.version > div:first-child:hover{
+	border-color: var(--lake-nav-icon-hover);
+}
+
+@media (hover: none) {
+	header .headerline .headercontent .options button.mode:hover{
+		border-color: var(--main-nav-icon-border) !important;
+		color: var(--lake-nav-icon) !important;
+	}
+	body.documentation .opensearch:hover,
+	body.documentation div.version > div:first-child:hover{
+		border-color: var(--main-nav-icon-border) !important;
 	}
 }
 
@@ -89,23 +122,10 @@ body.landing header .headerline{
 	}
 	.headercontent .landingmenu .hamburger{
 		background: transparent;
-		border-color: var(--lake-nav-button-border, #357197);
 		transition: background .3s, border-color .3s;
-		.icon{
-			color: var(--lake-nav-button-border, #357197);
-		}
-		.hamburger-inner, .hamburger-inner:after, .hamburger-inner:before{
-			background-color: var(--lake-nav-button-border, #357197);
-		}
 	}
 	.headercontent .options button.mode{
 		background: transparent;
-		border: 1px solid var(--lake-nav-button-border, #357197);
-		color: var(--lake-nav-button-border, #357197);
-		&:hover{
-			border-color: var(--lake-nav-button-border-hover, #225677);
-			color: var(--lake-nav-button-border-hover, #225677);
-		}
 	}
 
 	&.header-scrolled,
@@ -118,7 +138,6 @@ body.landing header .headerline{
 		}
 		.headercontent .landingmenu .hamburger{
 			background: var(--menu-topmenu-background-color, rgba(250, 250, 250, 0.60));
-			border-color: var(--menu-dropdown-border-color, #333);
 		}
 	}
 }
@@ -1065,9 +1084,5 @@ html.darkmode {
 				content: url('/images/deployment_diagram/dark/database.svg');
 			}
 		}
-	}
-	
-	body header .headerline .headercontent .options button.mode[data-mode=light]:hover{
-		border-color: var(--lake-nav-button-border-hover, #225677)!important;
 	}
 }
