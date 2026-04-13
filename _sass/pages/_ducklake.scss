@@ -70,7 +70,7 @@ header .headerline .headercontent .landingmenu nav .hasSub + .submenuwrap ul li 
 }
 
 header .headerline .headercontent .options button.mode{
-	border-color: var(--main-nav-icon-border);
+	border-color: var(--menu-topmenu-searchbar-border-color);
 	color: var(--lake-nav-icon);
 	&:hover{
 		border-color: var(--lake-nav-icon-hover);
@@ -79,7 +79,7 @@ header .headerline .headercontent .options button.mode{
 }
 
 .hamburger{
-	border-color: var(--main-nav-icon-border);
+	border-color: var(--menu-topmenu-searchbar-border-color);
 	.icon{
 		color: var(--lake-nav-icon);
 	}
@@ -102,12 +102,12 @@ body.documentation div.version > div:first-child:hover{
 
 @media (hover: none) {
 	header .headerline .headercontent .options button.mode:hover{
-		border-color: var(--main-nav-icon-border) !important;
+		border-color: var(--menu-topmenu-searchbar-border-color) !important;
 		color: var(--lake-nav-icon) !important;
 	}
 	body.documentation .opensearch:hover,
 	body.documentation div.version > div:first-child:hover{
-		border-color: var(--main-nav-icon-border) !important;
+		border-color: var(--menu-topmenu-searchbar-border-color) !important;
 	}
 }
 
@@ -122,10 +122,19 @@ body.landing header .headerline{
 	}
 	.headercontent .landingmenu .hamburger{
 		background: transparent;
+		border-color: var(--main-no-nav-icon-border);
 		transition: background .3s, border-color .3s;
+		&:hover{
+			border-color: var(--lake-nav-icon-hover);
+		}
 	}
 	.headercontent .options button.mode{
 		background: transparent;
+		border-color: var(--main-no-nav-icon-border);
+		&:hover{
+			border-color: var(--lake-nav-icon-hover);
+			color: var(--lake-nav-icon-hover);
+		}
 	}
 
 	&.header-scrolled,

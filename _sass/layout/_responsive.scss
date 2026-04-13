@@ -811,7 +811,7 @@
 /** TOUCH DEVICES **/
 @media (hover: none) {
 	header .headerline .headercontent .options button.mode:hover{
-		border-color: var(--main-nav-icon-border) !important;
+		border-color: var(--menu-topmenu-searchbar-border-color) !important;
 		color: var(--main-nav-icon) !important;
 	}
 	.opensearch:hover,
