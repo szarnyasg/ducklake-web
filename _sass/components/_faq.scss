@@ -75,6 +75,17 @@ body.documentation main .wrap.frequentlyaskedquestions{
 		>p:first-child{
 			margin-top: 0;
 		}
+		a{
+			color: inherit;
+			text-decoration: underline;
+			-webkit-transition: color .3s;
+			-o-transition: color .3s;
+			transition: color .3s;
+			&:hover{
+				color: $blue;
+				cursor: pointer;
+			}
+		}
 	}
 	.headlinebar{
 		margin-bottom: 40px;
