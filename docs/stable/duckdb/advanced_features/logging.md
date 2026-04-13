@@ -19,11 +19,11 @@ CALL enable_logging('DuckLakeMetadata');
 
 `DuckLakeMetadata` is a structured log type. Use `duckdb_logs_parsed` to query the individual fields directly:
 
-| Field | Type | Description |
-|---|---|---|
-| `catalog` | `VARCHAR` | The name of the DuckLake catalog that issued the query |
-| `query` | `VARCHAR` | The metadata SQL query that was executed against the catalog database |
-| `elapsed_ms` | `BIGINT` | The time the query took to execute, in milliseconds |
+| Field        | Type      | Description                                                           |
+| ------------ | --------- | --------------------------------------------------------------------- |
+| `catalog`    | `VARCHAR` | The name of the DuckLake catalog that issued the query                |
+| `query`      | `VARCHAR` | The metadata SQL query that was executed against the catalog database |
+| `elapsed_ms` | `BIGINT`  | The time the query took to execute, in milliseconds                   |
 
 ### Example
 

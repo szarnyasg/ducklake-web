@@ -82,31 +82,31 @@ DuckLake supports geometry types using the `geometry` type of the Parquet format
 Statistics values are string-encoded, as they must be stored as `VARCHAR`, since thatallows storing types that are not native to the catalog database system (e.g., PostgreSQL does not support `VARIANT` natively). Statistics are stored in both `ducklake_file_column_stats` and `ducklake_table_column_stats`.
 Most types follow a straightforward encoding, however some do not. The following table describes the encoding of each type:
 
-| Type | Description | Example |
-| ---- | ----------- | ------- |
-| `boolean` | `0` or `1` | `1` |
-| `int8` | Integer string | `42` |
-| `int16` | Integer string | `1000` |
-| `int32` | Integer string | `100000` |
-| `int64` | Integer string | `100000000` |
-| `uint8` | Integer string | `255` |
-| `uint16` | Integer string | `65535` |
-| `uint32` | Integer string | `4294967295` |
-| `uint64` | Integer string | `18446744073709551615` |
-| `float32` | Numeric string with special values: `inf`, `-inf`. `NaN` values are excluded from min/max, the `contains_nan` flag indicates their presence | `3.14` |
-| `float64` | Numeric string with special values: `inf`, `-inf`. `NaN` values are excluded from min/max, the `contains_nan` flag indicates their presence | `3.14159265358979` |
-| `decimal` | Numeric string (independent of precision and scale) | `12345.67` |
-| `date` | ISO 8601 date with special values: `infinity`, `-infinity` | `2024-01-15` |
-| `time` | ISO 8601 time with microseconds if non-zero | `12:30:00.123456` |
-| `timestamp` | ISO 8601 timestamp with microseconds if non-zero, with special values: `infinity`, `-infinity` | `2024-01-15 12:30:00.123456` |
-| `timestamptz` | ISO 8601 timestamp with UTC offset, with special values: `infinity`, `-infinity` | `2024-01-15 12:30:00.123456+00` |
-| `timestamp_s` | ISO 8601 timestamp (second precision) with special values: `infinity`, `-infinity` | `2024-01-15 12:30:00` |
-| `timestamp_ms` | ISO 8601 timestamp (millisecond precision) with special values: `infinity`, `-infinity` | `2024-01-15 12:30:00.123` |
-| `timestamp_ns` | ISO 8601 timestamp (nanosecond precision) with special values: `infinity`, `-infinity` | `2024-01-15 12:30:00.123456789` |
-| `varchar` | As-is | `hello` |
-| `json` | As-is | `{"key": "value"}` |
-| `blob` | Hex-encoded string of the raw bytes | `68656C6C6F20776F726C64` |
-| `uuid` | Standard UUID string | `550e8400-e29b-41d4-a716-446655440000` |
+| Type           | Description                                                                                                                                 | Example                                |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `boolean`      | `0` or `1`                                                                                                                                  | `1`                                    |
+| `int8`         | Integer string                                                                                                                              | `42`                                   |
+| `int16`        | Integer string                                                                                                                              | `1000`                                 |
+| `int32`        | Integer string                                                                                                                              | `100000`                               |
+| `int64`        | Integer string                                                                                                                              | `100000000`                            |
+| `uint8`        | Integer string                                                                                                                              | `255`                                  |
+| `uint16`       | Integer string                                                                                                                              | `65535`                                |
+| `uint32`       | Integer string                                                                                                                              | `4294967295`                           |
+| `uint64`       | Integer string                                                                                                                              | `18446744073709551615`                 |
+| `float32`      | Numeric string with special values: `inf`, `-inf`. `NaN` values are excluded from min/max, the `contains_nan` flag indicates their presence | `3.14`                                 |
+| `float64`      | Numeric string with special values: `inf`, `-inf`. `NaN` values are excluded from min/max, the `contains_nan` flag indicates their presence | `3.14159265358979`                     |
+| `decimal`      | Numeric string (independent of precision and scale)                                                                                         | `12345.67`                             |
+| `date`         | ISO 8601 date with special values: `infinity`, `-infinity`                                                                                  | `2024-01-15`                           |
+| `time`         | ISO 8601 time with microseconds if non-zero                                                                                                 | `12:30:00.123456`                      |
+| `timestamp`    | ISO 8601 timestamp with microseconds if non-zero, with special values: `infinity`, `-infinity`                                              | `2024-01-15 12:30:00.123456`           |
+| `timestamptz`  | ISO 8601 timestamp with UTC offset, with special values: `infinity`, `-infinity`                                                            | `2024-01-15 12:30:00.123456+00`        |
+| `timestamp_s`  | ISO 8601 timestamp (second precision) with special values: `infinity`, `-infinity`                                                          | `2024-01-15 12:30:00`                  |
+| `timestamp_ms` | ISO 8601 timestamp (millisecond precision) with special values: `infinity`, `-infinity`                                                     | `2024-01-15 12:30:00.123`              |
+| `timestamp_ns` | ISO 8601 timestamp (nanosecond precision) with special values: `infinity`, `-infinity`                                                      | `2024-01-15 12:30:00.123456789`        |
+| `varchar`      | As-is                                                                                                                                       | `hello`                                |
+| `json`         | As-is                                                                                                                                       | `{"key": "value"}`                     |
+| `blob`         | Hex-encoded string of the raw bytes                                                                                                         | `68656C6C6F20776F726C64`               |
+| `uuid`         | Standard UUID string                                                                                                                        | `550e8400-e29b-41d4-a716-446655440000` |
 
 The following types do not currently have min/max statistics, as they are not supported by the underlying Parquet format:
 1. `int128` 
@@ -192,44 +192,44 @@ When storing columns for data inlining, a table is created in the catalog to sto
 
 PostgreSQL does not natively support all DuckDB types. The following table describes how each DuckDB type is mapped to a PostgreSQL type for inlined data storage. Types not listed below (e.g., `BOOLEAN`, `SMALLINT`, `INTEGER`, `BIGINT`, `FLOAT`, `DOUBLE`, `DECIMAL`, `TIME`, `TIMETZ`, `INTERVAL`, `UUID`) are stored using their native PostgreSQL equivalents.
 
-| DuckDB Type | PostgreSQL Type | Encoding | Example |
-| ----------- | --------------- | -------- | ------- |
-| `TINYINT` | `SMALLINT` | Direct cast | `42` -> `42` |
-| `UTINYINT` | `INTEGER` | Direct cast | `200` -> `200` |
-| `USMALLINT` | `INTEGER` | Direct cast | `50000` -> `50000` |
-| `UINTEGER` | `BIGINT` | Direct cast | `3000000000` -> `3000000000` |
-| `UBIGINT` | `VARCHAR` | Stored as text | `18446744073709551615` -> `'18446744073709551615'` |
-| `HUGEINT` | `VARCHAR` | Stored as text | `-170141183460469231731687303715884105728` -> `'-170141183460469231731687303715884105728'` |
-| `UHUGEINT` | `VARCHAR` | Stored as text | `340282366920938463463374607431768211455` -> `'340282366920938463463374607431768211455'` |
-| `VARCHAR` | `BYTEA` | Text reinterpreted as bytes. PostgreSQL cannot store null bytes in `VARCHAR`/`TEXT` | `'hello world'` -> `\x68656c6c6f20776f726c64` |
-| `BLOB` | `BYTEA` | Binary data stored directly as `BYTEA` | `'\x00\xFF'::BLOB` -> `\x00ff` |
-| `JSON` | `BYTEA` | Text reinterpreted as bytes. DuckDB's `JSON` type is internally `VARCHAR`, so it follows the same as `VARCHAR` to `BYTEA` | `'{"key": "value"}'` -> `\x7b226b6579223a202276616c7565227d` |
-| `DATE` | `VARCHAR` | Stored as text | `2024-01-15` -> `'2024-01-15'` |
-| `TIMESTAMP` | `VARCHAR` | Stored as text | `2024-01-15 12:30:00.123456` -> `'2024-01-15 12:30:00.123456'` |
-| `TIMESTAMPTZ` | `VARCHAR` | Stored as text | `2024-01-15 12:30:00.123456+00` -> `'2024-01-15 12:30:00.123456+00'` |
-| `TIMESTAMP_S` | `VARCHAR` | Stored as text | `2024-01-15 12:30:00` -> `'2024-01-15 12:30:00'` |
-| `TIMESTAMP_MS` | `VARCHAR` | Stored as text | `2024-01-15 12:30:00.123` -> `'2024-01-15 12:30:00.123'` |
-| `TIMESTAMP_NS` | `VARCHAR` | Stored as text | `2024-01-15 12:30:00.123456789` -> `'2024-01-15 12:30:00.123456789'` |
-| Nested types | `VARCHAR` | Stored as text, similar to stats | `[1, 2, 3]` -> `'[1, 2, 3]'` |
+| DuckDB Type    | PostgreSQL Type | Encoding                                                                                                                  | Example                                                                                    |
+| -------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `TINYINT`      | `SMALLINT`      | Direct cast                                                                                                               | `42` -> `42`                                                                               |
+| `UTINYINT`     | `INTEGER`       | Direct cast                                                                                                               | `200` -> `200`                                                                             |
+| `USMALLINT`    | `INTEGER`       | Direct cast                                                                                                               | `50000` -> `50000`                                                                         |
+| `UINTEGER`     | `BIGINT`        | Direct cast                                                                                                               | `3000000000` -> `3000000000`                                                               |
+| `UBIGINT`      | `VARCHAR`       | Stored as text                                                                                                            | `18446744073709551615` -> `'18446744073709551615'`                                         |
+| `HUGEINT`      | `VARCHAR`       | Stored as text                                                                                                            | `-170141183460469231731687303715884105728` -> `'-170141183460469231731687303715884105728'` |
+| `UHUGEINT`     | `VARCHAR`       | Stored as text                                                                                                            | `340282366920938463463374607431768211455` -> `'340282366920938463463374607431768211455'`   |
+| `VARCHAR`      | `BYTEA`         | Text reinterpreted as bytes. PostgreSQL cannot store null bytes in `VARCHAR`/`TEXT`                                       | `'hello world'` -> `\x68656c6c6f20776f726c64`                                              |
+| `BLOB`         | `BYTEA`         | Binary data stored directly as `BYTEA`                                                                                    | `'\x00\xFF'::BLOB` -> `\x00ff`                                                             |
+| `JSON`         | `BYTEA`         | Text reinterpreted as bytes. DuckDB's `JSON` type is internally `VARCHAR`, so it follows the same as `VARCHAR` to `BYTEA` | `'{"key": "value"}'` -> `\x7b226b6579223a202276616c7565227d`                               |
+| `DATE`         | `VARCHAR`       | Stored as text                                                                                                            | `2024-01-15` -> `'2024-01-15'`                                                             |
+| `TIMESTAMP`    | `VARCHAR`       | Stored as text                                                                                                            | `2024-01-15 12:30:00.123456` -> `'2024-01-15 12:30:00.123456'`                             |
+| `TIMESTAMPTZ`  | `VARCHAR`       | Stored as text                                                                                                            | `2024-01-15 12:30:00.123456+00` -> `'2024-01-15 12:30:00.123456+00'`                       |
+| `TIMESTAMP_S`  | `VARCHAR`       | Stored as text                                                                                                            | `2024-01-15 12:30:00` -> `'2024-01-15 12:30:00'`                                           |
+| `TIMESTAMP_MS` | `VARCHAR`       | Stored as text                                                                                                            | `2024-01-15 12:30:00.123` -> `'2024-01-15 12:30:00.123'`                                   |
+| `TIMESTAMP_NS` | `VARCHAR`       | Stored as text                                                                                                            | `2024-01-15 12:30:00.123456789` -> `'2024-01-15 12:30:00.123456789'`                       |
+| Nested types   | `VARCHAR`       | Stored as text, similar to stats                                                                                          | `[1, 2, 3]` -> `'[1, 2, 3]'`                                                               |
 
 ### SQLite
 
 SQLite has a flexible type system with only five storage classes: `INTEGER`, `REAL`, `TEXT`, `BLOB`, and `NULL`. DuckDB's SQLite scanner maps all integer types to `BIGINT` (i.e., SQLite's `INTEGER` type) and most other types to `VARCHAR` (SQLite's `TEXT` type). Only `BLOB` is stored as `BLOB`. The following table describes the non-trivial type mappings:
 
-| DuckDB Type | SQLite Type | Encoding | Example |
-| ----------- | ----------- | -------- | ------- |
-| `BOOLEAN` | `BIGINT` | Stored as integer (`0`/`1`) | `true` -> `1` |
-| `TINYINT`, `SMALLINT`, `INTEGER`, `BIGINT` | `BIGINT` | All integer types use SQLite's `INTEGER` affinity | `42` -> `42` |
-| `UTINYINT`, `USMALLINT`, `UINTEGER` | `BIGINT` | Unsigned integers fit within `BIGINT` range | `200` -> `200` |
-| `UBIGINT` | `VARCHAR` | Stored as text | `18446744073709551615` -> `'18446744073709551615'` |
-| `HUGEINT` | `VARCHAR` | Stored as text | `-170141183460469231731687303715884105728` -> `'-170141183460469231731687303715884105728'` |
-| `UHUGEINT` | `VARCHAR` | Stored as text| `340282366920938463463374607431768211455` -> `'340282366920938463463374607431768211455'` |
-| `FLOAT` | `VARCHAR` | Stored as text | `3.14` -> `'3.14'` |
-| `DOUBLE` | `VARCHAR` | Stored as text | `3.14159265358979` -> `'3.14159265358979'` |
-| `DECIMAL` | `VARCHAR` | Stored as text | `12345.67` -> `'12345.67'` |
-| `UUID` | `VARCHAR` | Stored as text | `550e8400-...` -> `'550e8400-...'` |
-| `DATE`, `TIME`, `TIMETZ` | `VARCHAR` | Stored as text | `2024-01-15` -> `'2024-01-15'` |
-| `TIMESTAMP`, `TIMESTAMPTZ` | `VARCHAR` | Stored as text | `2024-01-15 12:30:00.123456` -> `'2024-01-15 12:30:00.123456'` |
-| `TIMESTAMP_S`, `TIMESTAMP_MS`, `TIMESTAMP_NS` | `VARCHAR` | Stored as text | `2024-01-15 12:30:00.123` -> `'2024-01-15 12:30:00.123'` |
-| `INTERVAL` | `VARCHAR` | Stored as text | `1 year 2 months 3 days` -> `'1 year 2 months 3 days'` |
-| Nested types | `VARCHAR` | Stored as text, similar to stats | `[1, 2, 3]` -> `'[1, 2, 3]'` |
+| DuckDB Type                                   | SQLite Type | Encoding                                          | Example                                                                                    |
+| --------------------------------------------- | ----------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `BOOLEAN`                                     | `BIGINT`    | Stored as integer (`0`/`1`)                       | `true` -> `1`                                                                              |
+| `TINYINT`, `SMALLINT`, `INTEGER`, `BIGINT`    | `BIGINT`    | All integer types use SQLite's `INTEGER` affinity | `42` -> `42`                                                                               |
+| `UTINYINT`, `USMALLINT`, `UINTEGER`           | `BIGINT`    | Unsigned integers fit within `BIGINT` range       | `200` -> `200`                                                                             |
+| `UBIGINT`                                     | `VARCHAR`   | Stored as text                                    | `18446744073709551615` -> `'18446744073709551615'`                                         |
+| `HUGEINT`                                     | `VARCHAR`   | Stored as text                                    | `-170141183460469231731687303715884105728` -> `'-170141183460469231731687303715884105728'` |
+| `UHUGEINT`                                    | `VARCHAR`   | Stored as text                                    | `340282366920938463463374607431768211455` -> `'340282366920938463463374607431768211455'`   |
+| `FLOAT`                                       | `VARCHAR`   | Stored as text                                    | `3.14` -> `'3.14'`                                                                         |
+| `DOUBLE`                                      | `VARCHAR`   | Stored as text                                    | `3.14159265358979` -> `'3.14159265358979'`                                                 |
+| `DECIMAL`                                     | `VARCHAR`   | Stored as text                                    | `12345.67` -> `'12345.67'`                                                                 |
+| `UUID`                                        | `VARCHAR`   | Stored as text                                    | `550e8400-...` -> `'550e8400-...'`                                                         |
+| `DATE`, `TIME`, `TIMETZ`                      | `VARCHAR`   | Stored as text                                    | `2024-01-15` -> `'2024-01-15'`                                                             |
+| `TIMESTAMP`, `TIMESTAMPTZ`                    | `VARCHAR`   | Stored as text                                    | `2024-01-15 12:30:00.123456` -> `'2024-01-15 12:30:00.123456'`                             |
+| `TIMESTAMP_S`, `TIMESTAMP_MS`, `TIMESTAMP_NS` | `VARCHAR`   | Stored as text                                    | `2024-01-15 12:30:00.123` -> `'2024-01-15 12:30:00.123'`                                   |
+| `INTERVAL`                                    | `VARCHAR`   | Stored as text                                    | `1 year 2 months 3 days` -> `'1 year 2 months 3 days'`                                     |
+| Nested types                                  | `VARCHAR`   | Stored as text, similar to stats                  | `[1, 2, 3]` -> `'[1, 2, 3]'`                                                               |

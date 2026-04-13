@@ -21,11 +21,11 @@ Partitions can refer to one or more columns, possibly with transformations such 
 
 The table of supported transforms is as follows.
 
-| Transform    | Source type(s)                                                                    | Description                                                                                     | Result&nbsp;type |
-| ------------ | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------- |
-| `identity`   | Any                                                                               | Source value, unmodified                                                                        | Source type      |
-| `bucket(N)`  | Any                                                                               | Hash the value with Murmur3 and assign to one of `N` buckets: `(murmur3_32(v) & INT_MAX) % N`  | `int32`          |
-| `year`       | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns` | Extract a date or timestamp year, as years from 1970                                            | `int64`          |
-| `month`      | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns` | Extract a date or timestamp month, as months from 1970-01-01                                    | `int64`          |
-| `day`        | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns` | Extract a date or timestamp day, as days from 1970-01-01                                        | `int64`          |
-| `hour`       | `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`         | Extract a timestamp hour, as hours from 1970-01-01 00:00:00                                     | `int64`          |
+| Transform   | Source type(s)                                                                    | Description                                                                                   | Result&nbsp;type |
+| ----------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ---------------- |
+| `identity`  | Any                                                                               | Source value, unmodified                                                                      | Source type      |
+| `bucket(N)` | Any                                                                               | Hash the value with Murmur3 and assign to one of `N` buckets: `(murmur3_32(v) & INT_MAX) % N` | `int32`          |
+| `year`      | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns` | Extract a date or timestamp year, as years from 1970                                          | `int64`          |
+| `month`     | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns` | Extract a date or timestamp month, as months from 1970-01-01                                  | `int64`          |
+| `day`       | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns` | Extract a date or timestamp day, as days from 1970-01-01                                      | `int64`          |
+| `hour`      | `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`         | Extract a timestamp hour, as hours from 1970-01-01 00:00:00                                   | `int64`          |
