@@ -184,8 +184,7 @@ You can run the _catalog database_ anywhere, e.g., in an AWS Aurora database.
 
 <div class="answer" markdown="1">
 
-While we tested DuckLake extensively, it is not yet production-ready as demonstrated by its version number {{ site.stable_ducklake_version }}.
-We expect DuckLake to mature by Q2 2026.
+Yes! We released [DuckLake v1.0]({% post_url 2026-04-13-ducklake-10 %}) in April 2026, which is a production-ready and guarantees backward-compatibility.
 
 </div>
 

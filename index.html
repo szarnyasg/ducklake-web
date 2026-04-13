@@ -10,7 +10,7 @@ body_class: landing nowrap
 	<div class="wrap">
 		<div class="ducklake">
 			<h1>DuckLake is an integrated data&nbsp;lake and catalog format</h1>
-			<p>DuckLake delivers advanced data&nbsp;lake features without traditional lakehouse complexity by using Parquet files and your SQL database. It's an open, standalone format from the DuckDB team.</p>
+			<p>We released <a href="{% post_url 2026-04-13-ducklake-10 %}">DuckLake v1.0</a>, a production-ready version of the DuckLake specification.</p>
 			<div class="cta">
 				<a class="button black" href="#quickinstall">Get started</a>
 				<a class="button transparent" href="{% link docs/stable/index.md %}">Documentation</a>
@@ -208,6 +208,16 @@ body_class: landing nowrap
 					<li>A <i>DuckLake instance</i> storing a dataset with the DuckLake lakehouse format.</li>
 					<li>The <a href="{% link docs/stable/duckdb/introduction.md %}"><code>ducklake</code> <i>DuckDB extension</i></a>, which supports reading/writing datasets using the DuckLake format.</li>
 				</ol>
+			</div>
+		</div>
+
+
+		<div class="qa-wrap">
+			<h3>
+				Is DuckLake production-ready?
+			</h3>
+			<div class="answer">
+				Yes! We released [DuckLake v1.0]({% post_url 2026-04-13-ducklake-10 %}) in April 2026, which is a production-ready and guarantees backward-compatibility.
 			</div>
 		</div>
 

@@ -5,7 +5,7 @@
             <p>DuckDB provides first-class support for DuckLake and can use PostgreSQL, SQLite or DuckDB as the catalog database.</p>
             <div class="cta">
                 <a class="button black" href="{% link docs/stable/duckdb/introduction.md %}">Documentation</a>
-                <a class="button transparent arrow-right" href="">Live demo</a>
+                <!--<a class="button transparent arrow-right" href="">Live demo</a>-->
             </div>
         </div>
         <div class="install">
@@ -23,7 +23,9 @@
 {% highlight sql %}
 INSTALL ducklake;
 
-ATTACH 'ducklake:metadata.ducklake' AS my_ducklake;
+ATTACH 'ducklake:metadata.ducklake'
+    AS my_ducklake;
+
 USE my_ducklake;
 {% endhighlight %}
                 </div>
@@ -40,7 +42,9 @@ USE my_ducklake;
 {% highlight sql %}
 INSTALL ducklake;
 
-ATTACH 'ducklake:metadata.ducklake' AS my_ducklake;
+ATTACH 'ducklake:metadata.ducklake'
+    AS my_ducklake;
+
 USE my_ducklake;
 {% endhighlight %}
 </div>
@@ -50,10 +54,7 @@ USE my_ducklake;
 INSTALL ducklake;
 INSTALL postgres;
 
--- Make sure that the database `ducklake_catalog`
--- exists in PostgreSQL.
-ATTACH 'ducklake:postgres:dbname=ducklake_catalog host=your_postgres_host'
-    AS my_ducklake (DATA_PATH 'data_files/');
+ATTACH 'ducklake:postgres:dbname=ducklake_catalog host=your_postgres_host' AS my_ducklake;
 USE my_ducklake;
 {% endhighlight %}
 </div>
@@ -63,8 +64,8 @@ USE my_ducklake;
 INSTALL ducklake;
 INSTALL sqlite;
 
-ATTACH 'ducklake:sqlite:metadata.sqlite' AS my_ducklake
-    (DATA_PATH 'data_files/');
+ATTACH 'ducklake:sqlite:metadata.sqlite' AS my_ducklake;
+
 USE my_ducklake;
 {% endhighlight %}
 </div>
