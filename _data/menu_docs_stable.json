@@ -194,6 +194,10 @@
                 {
                   "page": "Sorted Tables",
                   "url": "sorted_tables"
+                },
+                {
+                  "page": "Logging",
+                  "url": "logging"
                 }
               ]
             },
