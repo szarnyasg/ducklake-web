@@ -12,7 +12,7 @@ If you try to connect to a DuckLake created by an older version of the `ducklake
 
 ```console
 Invalid Input Error:
-DuckLake catalog version mismatch: catalog version is 0.3, but the extension requires version 0.4-dev1.
+DuckLake catalog version mismatch: catalog version is 0.3, but the extension requires version 1.0.
 To automatically migrate, set AUTOMATIC_MIGRATION to TRUE when attaching.
 ```
 
@@ -28,7 +28,7 @@ If you try to connect to a read-only DuckLake, you get the following error messa
 
 ```console
 Invalid Input Error:
-Failed to migrate DuckLake from v0.2 to v0.3:
+Failed to migrate DuckLake from v0.3 to v1.0:
 Cannot execute statement of type "CREATE" on database "__ducklake_metadata_sf1" which is attached in read-only mode!
 ```
 
