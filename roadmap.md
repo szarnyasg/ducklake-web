@@ -33,11 +33,13 @@ Please note that there are **no guarantees** that a particular feature will be r
 
 These are some of the items that we plan to support in the future. If you are interested in prioritizing some of this work, [get in touch with DuckDB Labs](https://duckdblabs.com/contact/).
 
-- PostgreSQL performance improvements: reduce number of roundtrips and explore optimizations for large metadata.
 - User-defined types.
+- Role-based access control.
+- Materialized views and incremental maintenance.
 - Protected snapshots.
 - [Branching/merge functionality](https://github.com/duckdb/ducklake/discussions/194).
 - Read performance improvements regarding Parquet Bloom filters and metadata scans. See issues [#389](https://github.com/duckdb/ducklake/discussions/389) and [#404](https://github.com/duckdb/ducklake/issues/404).
 - [Allow `PRIMARY KEY` syntax without enforcing it](https://github.com/duckdb/ducklake/discussions/323), similar to what other OLAP engines do (e.g., [BigQuery](https://cloud.google.com/bigquery/docs/primary-foreign-keys)).
 - Fixed-size arrays.
-- Improved [MySQL support]({% link docs/stable/duckdb/usage/choosing_a_catalog_database.md %}#mysql).
+- PostgreSQL performance improvements: reduce number of roundtrips and explore optimizations for large metadata (e.g., by using stored producedures).
+- [MySQL robustness improvements]({% link docs/stable/duckdb/usage/choosing_a_catalog_database.md %}#mysql).
