@@ -24,8 +24,8 @@ These extend to the [`ducklake` DuckDB extension]({% link docs/stable/duckdb/int
 This section lists the features that we plan to work on for future DuckLake releases.
 The list was compiled by the DuckLake maintainers and is based on the long-term vision for the project and general interactions with users in the open-source community.
 
-- Incremental compaction for large volumes of small files.
-- Revisit some internals, namely `DATA_PATH`, `add_data_files` and option scopes.
+- Inlining for the `VARIANT` type.
+- Multi-deletion vector Puffin files.
 
 Please note that there are **no guarantees** that a particular feature will be released within the next release. Everything on this page is subject to change without notice.
 
@@ -34,7 +34,7 @@ Please note that there are **no guarantees** that a particular feature will be r
 These are some of the items that we plan to support in the future. If you are interested in prioritizing some of this work, [get in touch with DuckDB Labs](https://duckdblabs.com/contact/).
 
 - PostgreSQL performance improvements: reduce number of roundtrips and explore optimizations for large metadata.
-- User defined types.
+- User-defined types.
 - Protected snapshots.
 - [Branching/merge functionality](https://github.com/duckdb/ducklake/discussions/194).
 - Read performance improvements regarding Parquet Bloom filters and metadata scans. See issues [#389](https://github.com/duckdb/ducklake/discussions/389) and [#404](https://github.com/duckdb/ducklake/issues/404).
