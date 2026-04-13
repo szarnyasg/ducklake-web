@@ -33,6 +33,18 @@ You can also partition using functions. For example, to partition based on the y
 ALTER TABLE tbl SET PARTITIONED BY (year(ts), month(ts));
 ```
 
+To distribute rows into a fixed number of buckets using an Iceberg-compatible hash (Murmur3), use the `bucket` transform:
+
+```sql
+ALTER TABLE tbl SET PARTITIONED BY (bucket(8, user_id));
+```
+
+Bucket partitioning can be combined with other transforms:
+
+```sql
+ALTER TABLE tbl SET PARTITIONED BY (bucket(8, user_id), month(ts));
+```
+
 Remove the partitioning keys of a table, such that new data added to the table is no longer partitioned.
 
 ```sql
@@ -43,10 +55,11 @@ DuckLake supports the following partition clauses:
 
 <div class="monospace_table"></div>
 
-| Transform | Expression |
-|-----------|------------|
-| identity  | col_name   |
-| year      | year(ts)   |
-| month     | month(ts)  |
-| day       | day(ts)    |
-| hour      | hour(ts)   |
+| Transform | Expression             |
+|-----------|------------------------|
+| identity  | col_name               |
+| bucket    | bucket(N, col_name)    |
+| year      | year(ts)               |
+| month     | month(ts)              |
+| day       | day(ts)                |
+| hour      | hour(ts)               |
