@@ -9,10 +9,13 @@ The `ducklake` extension also allows for some configuration regarding retry mech
 
 | Name                                       | Description                                                                      | Default |
 | ------------------------------------------ | -------------------------------------------------------------------------------- | ------: |
-| `ducklake_default_data_inlining_row_limit` | Default row limit for data inlining across all connections (0 disables inlining) |    `10` |
-| `ducklake_max_retry_count`                 | The maximum amount of retry attempts for a DuckLake transaction                  |    `10` |
-| `ducklake_retry_backoff`                   | Backoff factor for exponentially increasing retry wait time                      |   `1.5` |
-| `ducklake_retry_wait_ms`                   | Time between retries in ms                                                       |   `100` |
+| `ducklake_default_data_inlining_row_limit` | Default row limit for data inlining across all connections (0 disables inlining)                                            |    `10` |
+| `ducklake_max_retry_count`                 | The maximum amount of retry attempts for a DuckLake transaction                                                             |    `10` |
+| `ducklake_retry_backoff`                   | Backoff factor for exponentially increasing retry wait time                                                                 |   `1.5` |
+| `ducklake_retry_wait_ms`                   | Time between retries in ms                                                                                                  |   `100` |
+| `ducklake_write_deletion_vectors`          | **Experimental.** Write Iceberg V3 deletion vectors (puffin) instead of positional delete files (parquet) | `false` |
+
+> Warning Deletion vectors are an experimental feature.
 
 To set these configuration options, use the [`SET` statement](https://duckdb.org/docs/current/sql/statements/set):
 
@@ -48,10 +51,12 @@ Configuration is persisted in the [`ducklake_metadata`]({% link docs/stable/spec
 | `parquet_row_group_size`       | Number of rows per row group in Parquet files                                                      | `122880` |
 | `parquet_version`              | Parquet format version (1 or 2)                                                                    | `1`      |
 | `per_thread_output`            | Whether to create separate output files per thread during parallel insertion                       | `false`  |
-| `require_commit_message`       | If an explicit commit message is required for a snapshot commit.                                   | `false`  |
+| `require_commit_message`       | If an explicit commit message is required for a snapshot commit                                    | `false`  |
 | `rewrite_delete_threshold`     | Minimum fraction of data removed from a file before a rewrite is warranted (0...1)                 | `0.95`   |
+| `sort_on_insert`               | Whether to sort data on `INSERT` according to `SET SORTED BY`                                      | `true`   |
 | `target_file_size`             | The target data file size for insertion and compaction operations                                  | `512MB`  |
 | `version`                      | DuckLake format version                                                                            |          |
+| `write_deletion_vectors`       | **Experimental.** Write Iceberg V3 deletion vectors (puffin) instead of positional delete files (parquet) | `false` |
 
 ### Setting DuckLake-Specific Configuration Values
 

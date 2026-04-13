@@ -3,11 +3,9 @@ layout: docu
 title: Sorted Tables
 ---
 
-DuckLake tables can be configured with a sort order. When a sort order is defined, data is physically sorted by the specified columns whenever it is written out as Parquet — during [file compaction]({% link docs/stable/duckdb/maintenance/merge_adjacent_files.md %}) and [inlined data flushing]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}).
+DuckLake tables can be configured with a sort order. When a sort order is defined, data is physically sorted by the specified columns whenever it is written out as Parquet — during `INSERT`, [file compaction]({% link docs/stable/duckdb/maintenance/merge_adjacent_files.md %}) and [inlined data flushing]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}).
 
 Sorting data before writing improves the effectiveness of min/max statistics at query time, which allows the DuckDB query engine to skip data files whose value ranges do not overlap with a query's filter predicates.
-
-> **Note** Sorting applies during compaction (`ducklake_merge_adjacent_files`) and inlined data flushing (`ducklake_flush_inlined_data`). Data inserted directly is not sorted at write time. You can include an `ORDER BY` clause in your `INSERT` statement as a workaround until insert-time sorting is supported.
 
 ## Example Setup
 
@@ -68,6 +66,22 @@ ALTER TABLE events RESET SORTED BY;
 
 After resetting, subsequent compactions and flushes will write data without sorting.
 
+## Effect on Insert
+
+By default, `INSERT` statements automatically sort data according to the table's sort order before writing Parquet files. This behavior is controlled by the [`sort_on_insert`]({% link docs/stable/duckdb/usage/configuration.md %}) option, which defaults to `true`.
+
+To disable sorting on insert (e.g., when insertion speed is the primary concern):
+
+```sql
+CALL my_ducklake.set_option('sort_on_insert', false, table_name => 'events');
+```
+
+When `sort_on_insert` is disabled, data written to Parquet during compaction and inlined data flushing is still sorted according to the table's sort order.
+
+### Interaction with Data Inlining
+
+When [data inlining]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) is enabled and `sort_on_insert` is `false`, data that exceeds the inlining row limit is still sorted before being written to Parquet. Inlined data (which stays in the metadata catalog) is not sorted at insert time — it will be sorted when it is flushed.
+
 ## Effect on Compaction and Flush
 
 Once a sort order is set, the **current** sort order is applied at the time of compaction or flush — not the sort order that was active when the source data was written.
@@ -84,7 +98,3 @@ The same applies when flushing inlined data:
 ```sql
 CALL ducklake_flush_inlined_data('my_ducklake', table_name => 'events');
 ```
-
-## Limitations
-
-* Sorting happens during compaction and inlined data flush, not during `INSERT`. Use `ORDER BY` in your `INSERT` statement if you need sorted data at insert time.
