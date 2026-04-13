@@ -4,7 +4,7 @@
 	<!-- show nightly banner -->
 	<div class="banner nightly">
 		<div class="content">
-			<span class="icon_nightly"></span>
+			<svg class="icon"><use href="#stars-01"></use></svg>
 			<span title="The page is for the preview version of DuckDB, available in the nightly builds. The features shown in the documentation may not yet be available in the stable version.">Preview version</span>
 		</div>
 	</div>
@@ -29,7 +29,7 @@
 	{% endfor %}
 	<div class="banner outdated">
 		<div class="content">
-			<span class="icon_outdated"></span>
+			<svg class="icon"><use href="#alert-octagon"></use></svg>
 			{% assign new_filename = new_url | replace: ".html", ".md" %}
 			{% capture url_exists %}{% file_exists {{ new_filename }} %}{% endcapture %}
 			{% if url_exists == "true" %}
