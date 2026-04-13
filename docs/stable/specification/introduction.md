@@ -3,7 +3,7 @@ layout: docu
 title: Introduction
 ---
 
-This page contains the specification for the DuckLake format, version 0.3.
+This page contains the specification for the DuckLake format, version 1.0.
 
 ## Building Blocks
 
