@@ -32,7 +32,8 @@ a, a:active, a:focus, button, button:active, button:focus {
 
 table a,
 p a,
-li a{
+li a,
+summary a{
 	color: inherit;
 	text-decoration: underline;
 	-webkit-transition: color .3s;
