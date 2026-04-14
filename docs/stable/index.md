@@ -20,3 +20,10 @@ Additionally, DuckLake currently has implementations for the following libraries
 * [Spark](https://github.com/motherduckdb/ducklake-spark)
 * [Trino](https://github.com/awitten1/trino-ducklake)
 * [PostgreSQL (`pg_duckdb`)](https://github.com/relytcloud/pg_ducklake)
+
+## Single File Documentation
+
+You can download the documentation as a single file:
+
+* [DuckLake documentation in Markdown](https://blobs.duckdb.org/docs/ducklake-docs.md)
+* [DuckLake documentation as a PDF](https://blobs.duckdb.org/docs/ducklake-docs.pdf)
