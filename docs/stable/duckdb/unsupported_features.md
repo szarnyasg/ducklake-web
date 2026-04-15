@@ -15,15 +15,15 @@ Within this group, we are going to make a distinction between what is not suppor
 
 ### Likely to be Supported in the Future
 
+The following features are currently not supported in DuckLake but are likely to be supported in future versions:
+
 - [User defined types](https://duckdb.org/docs/current/sql/statements/create_type).
 
 - Fixed-size arrays, i.e., [`ARRAY` type](https://duckdb.org/docs/current/sql/data_types/array)
 
 - [`ENUM` type](https://duckdb.org/docs/current/sql/data_types/enum)
 
-- Variant types
-
-- [`CHECK` constraints](https://duckdb.org/docs/current/sql/constraints#check-constraint). (Not to be confused with Primary or Foreign Key constraints.)
+- [`CHECK` constraints](https://duckdb.org/docs/current/sql/constraints#check-constraint) (not to be confused with Primary or Foreign Key constraints)
 
 - Default values that are not literals. See the following example:
 
@@ -41,6 +41,8 @@ Within this group, we are going to make a distinction between what is not suppor
 
 ### Unlikely to be Supported in the Future
 
+The following features are currently not supported in DuckLake and are unlikely to be supported in future versions:
+
 - [Indexes](https://duckdb.org/docs/current/sql/indexes)
 
 - [Primary key or enforced unique constraints](https://duckdb.org/docs/current/sql/constraints#primary-key-and-unique-constraint) and [foreign key constraints](https://duckdb.org/docs/current/sql/constraints#foreign-keys) are unlikely to be supported as these are prohibitively expensive to enforce in data lake setups. We may consider supporting unenforced primary keys, similar to [BigQuery's implementation](https://cloud.google.com/bigquery/docs/primary-foreign-keys).
@@ -54,11 +56,3 @@ Within this group, we are going to make a distinction between what is not suppor
 - [`BITSTRING` type](https://duckdb.org/docs/current/sql/data_types/bitstring)
 
 - [`UNION` type](https://duckdb.org/docs/current/sql/data_types/union)
-
-## Unsupported by the `ducklake` DuckDB Extension
-
-The following features are currently unsupported by the `ducklake` DuckDB extension:
-
-- MySQL catalogs are not fully supported in the DuckDB extension
-
-- Updates that target the same row multiple times
