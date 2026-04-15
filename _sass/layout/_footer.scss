@@ -75,10 +75,13 @@ footer{
 					line-height: 2;
 				}
 			}
-			h6{
+			.footer-title{
 				text-decoration: none;
 				font-family: $fontSans;
+				font-size: var(--type-title-3, 14px);
 				font-weight: 500;
+				line-height: 1.2;
+				letter-spacing: 0.001em;
 				margin-top: 0px;
 				margin-bottom: 20px;
 				color: inherit;

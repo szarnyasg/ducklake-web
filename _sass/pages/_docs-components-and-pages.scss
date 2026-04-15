@@ -382,7 +382,7 @@ body.documentation {
         width: 100%;
         margin-top: 80px;
         font-weight: 400;
-        color: #979797;
+        color: var(--main-text-tertiary-color, #B2B2B2);
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
