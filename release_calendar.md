@@ -17,8 +17,6 @@ DuckLake follows [semantic versioning](https://semver.org/spec/v2.0.0.html).
 Larger new features are introduced in minor versions,
 while patch versions mostly contain bugfixes.
 
-DuckLake is expected to mature over the coming period with the DuckLake v1.0 release planned in 2026.
-
 ## Upcoming Releases
 
 Upcoming releases are shown in the table below. **Please note that these dates are tentative** and DuckLake maintainers may decide to push back release dates to ensure the stability and quality of releases. DuckLake specification releases are currently tied to `ducklake` extension releases, this may change in the future. It is also worth mentioning that some `ducklake` extension releases may have a dependency on DuckDB and therefore will need to adjust to the [DuckDB release calendar](https://duckdb.org/release_calendar).
