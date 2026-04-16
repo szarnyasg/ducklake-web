@@ -18,7 +18,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.8.10)
+    addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
     base64 (0.3.0)
     bigdecimal (4.1.1)
@@ -51,8 +51,8 @@ GEM
     ffi (1.17.4-x86_64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
     forwardable-extended (2.6.0)
-    github-pages-health-check (1.19.1)
-      addressable (~> 2.8.7)
+    github-pages-health-check (1.19.2)
+      addressable (~> 2.9)
       dnsruby (~> 1.60)
       octokit (>= 4, < 10)
       public_suffix (>= 3.0, < 7.0)
@@ -233,7 +233,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  github-pages-health-check (= 1.19.1)
+  github-pages-health-check (= 1.19.2)
   jekyll (= 4.4.1)
   jekyll-avatar (= 0.8.0)
   jekyll-coffeescript (= 2.0.0)
