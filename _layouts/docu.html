@@ -28,6 +28,14 @@
 	<script src="{{ site.baseurl }}/js/determine_color_scheme.js?{{ site.time | date: '%s' }}"></script>
 </head>
 
+{% capture issue_title %}Issue found on page '{{ page.title }}'{% endcapture %}
+{% capture issue_body %}
+> Please describe the problem you encountered in the DuckLake documentation and include the "Page URL" link shown below.
+> Note: only create an issue if you wish to report a problem with the DuckLake documentation. For questions about DuckLake, use [GitHub Discussions](https://github.com/duckdb/ducklake/discussions/) or [Discord](https://discord.duckdb.org/).
+
+Page URL: <https://ducklake.select{{ page.url }}>
+{% endcapture %}
+
 {% comment %} By default, we assume that the users is interested in the stable version. {% endcomment %}
 {% assign version_viewed = "stable" %}
 
@@ -148,7 +156,6 @@
 				</div>
 				{% endif %}
 
-				{% comment %}
 				{% if page.url contains '/docs/' %}
 				<div class="pagemeta">
 					<div>
@@ -156,14 +163,22 @@
 						<ul>
 							{% if page.github_repository %}<li><a href="{{ page.github_repository }}">See the repository of this feature on GitHub</a></li>{% endif %}
 							{% if page.github_directory %}<li><a href="{{ page.github_directory }}">See the source code of this feature on GitHub</a></li>{% endif %}
-							<li><a href="https://github.com/duckdb/duckdb-web/issues/new?title={{ issue_title | uri_escape }}&labels=issue%20found%20on%20page&body={{ issue_body | uri_escape }}" title="Create GitHub issue">Report content issue</a></li>
-							<li><a href="https://raw.githubusercontent.com/duckdb/duckdb-web/refs/heads/main/{{ page.path }}" title="See Markdown">See this page as Markdown</a></li>
-							<li><a href="https://github.com/duckdb/duckdb-web/edit/main/{{ page.path }}" title="Go to GitHub">Edit this page on GitHub</a></li>
+							<li><a href="https://github.com/duckdb/ducklake-web/issues/new?title={{ issue_title | uri_escape }}&labels=issue%20found%20on%20page&body={{ issue_body | uri_escape }}" title="Create GitHub issue">Report content issue</a></li>
+							<li><a href="https://raw.githubusercontent.com/duckdb/ducklake-web/refs/heads/main/{{ page.path }}" title="See Markdown">See this page as Markdown</a></li>
+							<li><a href="https://github.com/duckdb/ducklake-web/edit/main/{{ page.path }}" title="Go to GitHub">Edit this page on GitHub</a></li>
 						</ul>
 					</div>
 				</div>
+
+				<div class="bottomline">
+					<div>© {{ "now" | date: "%Y" }} DuckDB Foundation, Amsterdam NL</div>
+					<div>
+						<a href="{% link manifesto/index.md %}">Manifesto</a>
+						<a href="{% link news/index.html %}">Blog</a>
+					</div>
+				</div>
+
 				{% endif %}
-				{% endcomment %}
 				
 			</div>
 			

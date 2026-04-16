@@ -150,13 +150,13 @@
 
 @mixin code-standard {
 	font-size: var(--type-code, 14px);
-	line-height: 1.4;
+	line-height: 1.5;
 	font-family: "JetBrainsMono-Regular";
 }
 
 @mixin code-large {
 	font-size: var(--type-code-large, 16px);
-	line-height: 1.4;
+	line-height: 1.5;
 	font-family: "JetBrainsMono-Regular";
 }
 

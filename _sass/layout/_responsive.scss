@@ -795,7 +795,12 @@
 			margin-bottom: 0.8em;
 		}
 	}
-	
+
+	body.documentation .bottomline {
+		flex-direction: column-reverse;
+		gap: 16px;
+	}
+
 	body.documentation{
 		#duckdb_logo{
 			width: 38px;
