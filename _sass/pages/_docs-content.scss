@@ -259,6 +259,7 @@ body.documentation {
             list-style-position: outside;
             list-style-type: '\2022 \00a0\00a0';
             padding: 0 0 0 20px;
+            font-size: var(--type-body-normal, 16px);
             
             ul {
                 padding-left: 20px;
