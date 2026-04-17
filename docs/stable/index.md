@@ -18,7 +18,7 @@ DuckLake has all the features provided by lakehouse formats: you can run [time t
 exploit [data partitioning]({% link docs/stable/duckdb/advanced_features/partitioning.md %}), perform [schema evolution]({% link docs/stable/duckdb/usage/schema_evolution.md %}),
 and can store your data in multiple files instead of using a single (potentially very large) database file, that works well with object storage (e.g., Amazon S3).
 
-If you use DuckLake from DuckDB, you can use it to achieve a “multiplayer DuckDB” setup with multiple processes reading and writing the same dataset – a concurrency model [currently not supported by DuckDB's native database format](https://duckdb.org/docs/current/connect/concurrency).
+If you use DuckLake from [DuckDB]({% link docs/stable/duckdb/introduction.md %}), you can use it to achieve a “multiplayer DuckDB” setup with multiple processes reading and writing the same dataset – a concurrency model [currently not supported by DuckDB's native database format](https://duckdb.org/docs/current/connect/concurrency).
 
 ## List of DuckLake Clients
 
@@ -29,6 +29,12 @@ Additionally, DuckLake currently has implementations for the following libraries
 * [Spark](https://github.com/motherduckdb/ducklake-spark)
 * [Trino](https://github.com/awitten1/trino-ducklake)
 * [PostgreSQL (`pg_duckdb`)](https://github.com/relytcloud/pg_ducklake)
+
+## List of Hosted DuckLakes
+
+MotherDuck offers a [hosted solution for DuckLake v1.0](https://motherduck.com/blog/announcing-ducklake-1-0-on-motherduck/), currently, currently in public preview.
+
+For hosting read-only DuckLakes, see the guide for creating a [“Public DuckLake on Object Storage”]({% link docs/stable/duckdb/guides/public_ducklake_on_object_storage.md %}).
 
 ## Single File Documentation
 
