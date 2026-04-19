@@ -5,7 +5,7 @@ title: DuckDB to DuckLake
 
 Migrating from DuckDB to DuckLake is very simple to do with the DuckDB `ducklake` extension. However, if you are currently using some DuckDB features that are [unsupported in DuckLake]({% link docs/stable/duckdb/unsupported_features.md %}), this guide will definitely help you.
 
-## First Scenario: Everything is Supported
+## First Scenario: Everything Is Supported
 
 If you are not using any of the unsupported features, migrating from DuckDB to DuckLake will be as simple as running the following commands:
 
@@ -18,7 +18,7 @@ COPY FROM DATABASE my_duckdb TO my_ducklake;
 
 Note that it doesn't matter what catalog you are using as a metadata backend for DuckLake.
 
-## Second Scenario: Not Everything is Supported
+## Second Scenario: Not Everything Is Supported
 
 If you have been using DuckDB for a while, there is a chance you are using some very specific types, macros, default values that are not literals or even things like generated columns. If this is your case, then migrating will have some tradeoffs.
 

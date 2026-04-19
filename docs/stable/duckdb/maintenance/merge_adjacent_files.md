@@ -70,7 +70,7 @@ CALL ducklake_merge_adjacent_files('my_ducklake', min_file_size => 10240, max_fi
 
 ### Example: Tiered Compaction Strategy for Streaming Workloads
 
-File size filtering enables tiered compaction strategies, which are particularly useful for realtime/streamed ingestion patterns. A tiered approach merges files in stages:
+File size filtering enables tiered compaction strategies, which are particularly useful for real-time/streamed ingestion patterns. A tiered approach merges files in stages:
 
 - **Tier 0 → Tier 1:** Done often, merge small files (< 1MB) into ~5MB files
 - **Tier 1 → Tier 2:** Done occasionally, merge medium files (1MB-10MB) into ~32MB files

@@ -13,7 +13,7 @@ This page describes what is supported in DuckDB and DuckLake in relation to Duck
 
 Within this group, we are going to make a distinction between what is not supported now but is likely to be supported in the future and what is not supported and is unlikely to be supported.
 
-### Likely to be Supported in the Future
+### Likely to Be Supported in the Future
 
 The following features are currently not supported in DuckLake but are likely to be supported in future versions:
 
@@ -39,7 +39,7 @@ The following features are currently not supported in DuckLake but are likely to
 
 - [Generated columns](https://duckdb.org/docs/current/sql/statements/create_table#generated-columns)
 
-### Unlikely to be Supported in the Future
+### Unlikely to Be Supported in the Future
 
 The following features are currently not supported in DuckLake and are unlikely to be supported in future versions:
 
