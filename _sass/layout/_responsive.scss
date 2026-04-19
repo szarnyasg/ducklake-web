@@ -434,6 +434,7 @@
 		.title {
 			order: 3;
 			margin-top: 5px;
+			overflow-wrap: break-word;
 		}
 	}
 }
@@ -460,6 +461,12 @@
 
 	body.landing .install p {
 		margin-bottom: 25px;
+	}
+	
+	body.documentation #main_content_wrap{
+		h1, h2, h3, h4, h5{
+			overflow-wrap: break-word;
+		}
 	}
 }
 

@@ -65,8 +65,10 @@ svg path{
 header .headerline .headercontent .landingmenu nav .hasSub:hover,
 header .headerline .headercontent .landingmenu nav .hasSub:hover a,
 header .headerline .headercontent .landingmenu nav a:hover,
-header .headerline .headercontent .landingmenu nav .hasSub + .submenuwrap ul li a:hover{
-	color: var(--blue-60, #2eafff);
+header .headerline .headercontent .landingmenu nav .hasSub + .submenuwrap ul li a:hover,
+header .headerline .headercontent .landingmenu nav .search_icon:hover,
+a.github:hover .starcount{
+	color: var(--lake-topmenu-text-color-hover, #2eafff);
 }
 
 header .headerline .headercontent .options button.mode{
