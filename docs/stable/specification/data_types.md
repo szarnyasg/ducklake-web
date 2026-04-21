@@ -133,7 +133,7 @@ INSERT INTO nested_types VALUES
 
 The parent columns (`col_list`, `col_struct`, `col_map`) have no min/max statistics. Instead, the child columns store:
 
-| Child column | Type      | min     | max     |
+| Child column | Type      | Min     | Max     |
 | ------------ | --------- | ------- | ------- |
 | `element`    | `int32`   | `1`     | `6`     |
 | `a`          | `int32`   | `10`    | `20`    |

@@ -120,6 +120,9 @@ def adjust_links_in_doc_body(doc_body):
     # replace '<img>' HTML tags with Markdown's '![]()' construct
     doc_body = re.sub(r'<img src="([^"]*)"[^§]*?/>', r'![](\1)\n', doc_body, flags=re.MULTILINE)
 
+    # typeset specification tables with the same column widths
+    doc_body = re.sub(r'^\| -+ \| -+ \| -+ \| -+ \|$', '|--|---|---|---|', doc_body, flags=re.MULTILINE)
+
     # replace links to images
     doc_body = re.sub(
         r'{% link images/(.*?)\.(gif|jpg|png|svg) %}',
