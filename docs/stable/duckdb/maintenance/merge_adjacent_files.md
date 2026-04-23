@@ -70,7 +70,7 @@ CALL ducklake_merge_adjacent_files('my_ducklake', min_file_size => 10240, max_fi
 
 ### Example: Tiered Compaction Strategy for Streaming Workloads
 
-File size filtering enables tiered compaction strategies, which are particularly useful for realtime/streamed ingestion patterns. A tiered approach merges files in stages:
+File size filtering enables tiered compaction strategies, which are particularly useful for real-time/streamed ingestion patterns. A tiered approach merges files in stages:
 
 - **Tier 0 → Tier 1:** Done often, merge small files (< 1MB) into ~5MB files
 - **Tier 1 → Tier 2:** Done occasionally, merge medium files (1MB-10MB) into ~32MB files
@@ -116,6 +116,10 @@ GROUP BY schema_name, table_name;
 ## Sorted Compaction
 
 If a table has a [sort order defined]({% link docs/stable/duckdb/advanced_features/sorted_tables.md %}), `ducklake_merge_adjacent_files` sorts the merged output by those keys before writing the resulting Parquet file. The sort order applied is the one currently active on the table at the time compaction runs — not the order that was active when the original files were written.
+
+## Schema Evolution
+
+`ducklake_merge_adjacent_files` only merges files that share the same schema version. Schema-altering DDL statements such as `ADD COLUMN`, `DROP COLUMN`, `RENAME COLUMN`, or `ALTER COLUMN` create a new schema version, so files written before and after the change end up in separate compaction groups and are never merged together. Cosmetic alterations such as `COMMENT ON` or changes to the sort key do not bump the schema version.
 
 > Calling this function does not immediately delete the old files.
 > See the [cleanup old files]({% link docs/stable/duckdb/maintenance/cleanup_of_files.md %}) section on how to trigger a cleanup of these files.

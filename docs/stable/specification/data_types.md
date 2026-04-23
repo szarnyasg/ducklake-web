@@ -79,7 +79,7 @@ DuckLake supports geometry types using the `geometry` type of the Parquet format
 
 ## Type Encoding for Statistics
 
-Statistics values are string-encoded, as they must be stored as `VARCHAR`, since thatallows storing types that are not native to the catalog database system (e.g., PostgreSQL does not support `VARIANT` natively). Statistics are stored in both `ducklake_file_column_stats` and `ducklake_table_column_stats`.
+Statistics values are string-encoded, as they must be stored as `VARCHAR`, since that allows storing types that are not native to the catalog database system (e.g., PostgreSQL does not support `VARIANT` natively). Statistics are stored in both `ducklake_file_column_stats` and `ducklake_table_column_stats`.
 Most types follow a straightforward encoding, however some do not. The following table describes the encoding of each type:
 
 | Type           | Description                                                                                                                                 | Example                                |
