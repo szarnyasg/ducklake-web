@@ -454,7 +454,7 @@
 	}
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 720px) {
 	body.landing .welcome .mainlinks ul li {
 		min-width: 160px;
 	}
@@ -467,6 +467,13 @@
 		h1, h2, h3, h4, h5{
 			overflow-wrap: break-word;
 		}
+	}
+	body.documentation main .wrap {
+		h1 code { font-size: 21px; }
+		h2 code { font-size: 19px; }
+		h3 code { font-size: 17px; }
+		h4 code { font-size: 16px; }
+		h5 code { font-size: 14px; }
 	}
 }
 
@@ -746,11 +753,17 @@
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-	body.landing section.welcome,
 	body.landing section {
 		padding: 55px 15px;
 	}
-
+	body.landing section.welcome{
+		padding: 120px 15px 55px 15px;
+	}
+	
+	body.landing section.welcome .hero-protocol-boxes{
+		margin-top: 140px;
+	}
+	
 	body.landing .boxlayout .box:last-child {
 		margin-bottom: 0;
 	}
