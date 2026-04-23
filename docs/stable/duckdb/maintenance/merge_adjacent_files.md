@@ -117,5 +117,9 @@ GROUP BY schema_name, table_name;
 
 If a table has a [sort order defined]({% link docs/stable/duckdb/advanced_features/sorted_tables.md %}), `ducklake_merge_adjacent_files` sorts the merged output by those keys before writing the resulting Parquet file. The sort order applied is the one currently active on the table at the time compaction runs — not the order that was active when the original files were written.
 
+## Schema Evolution
+
+`ducklake_merge_adjacent_files` only merges files that share the same schema version. Schema-altering DDL statements such as `ADD COLUMN`, `DROP COLUMN`, `RENAME COLUMN`, or `ALTER COLUMN` create a new schema version, so files written before and after the change end up in separate compaction groups and are never merged together. Cosmetic alterations such as `COMMENT ON` or changes to the sort key do not bump the schema version.
+
 > Calling this function does not immediately delete the old files.
 > See the [cleanup old files]({% link docs/stable/duckdb/maintenance/cleanup_of_files.md %}) section on how to trigger a cleanup of these files.
