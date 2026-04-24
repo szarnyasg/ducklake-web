@@ -290,7 +290,7 @@ For more information, see the [list of unsupported features]({% link docs/stable
 
 <div class="answer" markdown="1">
 
-Yes. Starting with v0.3, you can copy from [DuckLake to Iceberg]({% post_url 2025-09-17-ducklake-03 %}#interoperability-with-iceberg).
+Yes, you can copy from [DuckLake to Iceberg]({% post_url 2025-09-17-ducklake-03 %}#interoperability-with-iceberg).
 
 </div>
 
