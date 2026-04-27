@@ -1,9 +1,9 @@
 ---
 layout: docu
-title: Using a Remote Data Path
+title: Using a Remote Data Path in Read-Only DuckLake
 ---
 
-This guide shows how to set up and load a DuckLake locally, where the DuckLake will be served on an `https://` endpoint.
+This guide shows how to set up a read-only DuckLake, where the DuckLake will be served on an `https://` endpoint.
 
 > Tip DuckLake currently does not allow you to change the persisted data path in the catalog.
 > This is a known limitation that will be lifted in the future, rendering the future version of this guide almost trivial.

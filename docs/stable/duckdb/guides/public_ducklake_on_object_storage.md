@@ -56,6 +56,8 @@ rclone cp -v ⟨your_ducklake_catalog.ducklake⟩ ⟨your_rclone_remote⟩:⟨yo
 rclone sync -v ⟨your_ducklake_directory⟩ ⟨your_rclone_remote⟩:⟨your_bucket_name⟩/⟨path⟩/
 ```
 
+## Provider-Specific Configuration
+
 ### Cloudflare: Setting the CORS Policy for Browser Access
 
 If you are using Cloudflare as your storage and try to query the dataset from another website – such as the [online DuckDB shell](https://shell.duckdb.org/) –, you will get an error due to the CORS (Cross-Origin Resource Sharing) security mechanism:
