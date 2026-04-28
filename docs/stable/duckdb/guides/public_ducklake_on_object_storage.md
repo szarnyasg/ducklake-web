@@ -24,7 +24,7 @@ Make sure that the bucket is accessible through the internet. The exact settings
 
 ### Creating the DuckLake
 
-Create a new DuckLake following the [“Using a Remove Data Path” guide]({% link docs/stable/duckdb/guides/using_a_remote_data_path.md %}) using DuckDB as the catalog database and set the data path to the `https://` URL that serves your bucket.
+Create a new DuckLake following the [“Using a Remote Data Path” guide]({% link docs/stable/duckdb/guides/using_a_remote_data_path.md %}) using DuckDB as the catalog database and set the data path to the `https://` URL that serves your bucket.
 
 ### Uploading the DuckLake
 
