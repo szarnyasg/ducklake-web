@@ -81,8 +81,6 @@ When comparing to other technologies, DuckLake is similar to Delta Lake with Uni
 
 
 
-
-
 <!-- ----- ----- ----- ----- ----- ----- Q&A entry ----- ----- ----- ----- ----- ----- -->
 
 <div class="qa-wrap" markdown="1">
@@ -251,6 +249,27 @@ ATTACH 'https://blobs.duckdb.org/datalake/nl-railway.ducklake' AS nl_railway
 USE nl_railway;
 FROM services LIMIT 1;
 ```
+
+</div>
+
+</div>
+
+
+
+
+<!-- ----- ----- ----- ----- ----- ----- Q&A entry ----- ----- ----- ----- ----- ----- -->
+
+<div class="qa-wrap" markdown="1">
+
+### What is a “Frozen DuckLake”?
+
+<div class="answer" markdown="1">
+
+A Frozen DuckLake is a read-only DuckLake, served through, for example, an HTTPS endpoint.
+There are multiple ways to implement a Frozen DuckLake, see
+the blog post [“Frozen DuckLakes for Multi-User, Serverless Data Access”]({% post_url 2025-10-24-frozen-ducklake %})
+and the guide [“Public DuckLake on Object Storage”]({% link docs/stable/duckdb/guides/public_ducklake_on_object_storage.md %}).
+Despite being “frozen”, you can update a Frozen DuckLake provided that you replace the catalog database.
 
 </div>
 
