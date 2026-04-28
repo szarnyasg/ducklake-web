@@ -57,14 +57,10 @@ body.documentation {
             }
         }
 
-        h4,
-        h5 {
-            margin-bottom: 20px;
-            margin-top: 40px;
-        }
-
         h4 {
             @include title-1;
+            margin-top: 25px;
+            margin-bottom: 8px;
 
             code {
                 font-size: 19px;
@@ -73,6 +69,8 @@ body.documentation {
 
         h5 {
             @include title-2;
+            margin-top: 20px;
+            margin-bottom: 6px;
 
             code {
                 font-size: 19px;
@@ -81,37 +79,30 @@ body.documentation {
 
         // Content spacing
         p {
-            margin: 15px 0;
-        }
-
-        // Spacing adjustments
-        h4+.highlighter-rouge {
-            margin-top: 5px;
-        }
-
-        p+h4,
-        .highlighter-rouge+h4 {
-            margin-top: 30px;
-        }
-
-        .highlighter-rouge+.highlighter-rouge,
-        .highlighter-rouge+p,
-        table+p {
             margin-top: 20px;
+            margin-bottom: 0;
         }
 
-        .highlighter-rouge+table {
-            margin-top: 25px;
+        // Spacing adjustments — text binds tight to the code below it,
+        // generous gap opens up after the code block before the next prose
+        .highlighter-rouge,
+        div.highlight {
+            margin-bottom: 24px;
+        }
+
+        h4+.highlighter-rouge,
+        h5+.highlighter-rouge {
+            margin-top: 5px;
         }
 
         p+.highlighter-rouge,
         p+table {
-            margin-top: 15px;
+            margin-top: 8px;
         }
-        
+
         p + .monospace_table,
-        div + .monospace_table{
-            margin-top: 20px;
+        div + .monospace_table {
+            margin-top: 8px;
         }
 
         .limit-width {
@@ -225,7 +216,7 @@ body.documentation {
         dl,
         ol,
         ul {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         li {
@@ -496,13 +487,13 @@ body.layout_default.blog_typography {
         tab-size: 4;
         white-space: pre;
         overflow-x: auto;
-        padding: 15px;
-        padding-right: 0;
+        padding: 16px;
+        padding-right: 16px;
         margin: 0;
 
         > code {
             width: fit-content;
-            padding-right: 15px;
+            padding-right: 16px;
         }
 
         &::-webkit-scrollbar {
@@ -561,7 +552,7 @@ body.layout_default.blog_typography {
     }
 
     pre {
-        padding: 15px;
+        padding: 16px;
         overflow: auto;
         background: var(--doc-codebox-background-color, #F2F2F2);
         border-radius: var(--border-radius-box);

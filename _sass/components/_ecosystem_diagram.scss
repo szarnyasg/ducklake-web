@@ -182,14 +182,8 @@
     background: var(--interactive-folderbox-background-color-hover, rgba(242, 242, 242, 0.6));
   }
 
-  &:hover .ecosystem-icon__label,
-  &.selected .ecosystem-icon__label {
+  &:hover .ecosystem-icon__label {
     opacity: 1;
-  }
-
-  &.selected {
-    background: var(--interactive-installation-box-background, #E9E5FF);
-    border-color: var(--interactive-installation-box-border, #BEB3FF);
   }
 }
 

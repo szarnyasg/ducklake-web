@@ -411,6 +411,17 @@ $(document).ready(function(){
 	$('table a.downloadlink:contains(GitHub)').removeClass('downloadlink').addClass('nobg');
 	$('.supporterboard a.downloadlink').removeClass('downloadlink').addClass('nobg');
 	
+	// Add play icon to links pointing to YouTube or Vimeo
+	$('a').filter(function() {
+		var href = $(this).attr('href');
+		if (!href) return false;
+		return /^(https?:)?\/\/(www\.|m\.)?(youtube\.com|youtu\.be|vimeo\.com)\//i.test(href) && $(this).find('img').length === 0 && !$(this).hasClass('button');
+	}).addClass("videolink").removeClass("externallink downloadlink");
+	
+	$('.headercontent a, .mainlinks a, .box-link a, .footercontent a, .highlight a, .button, .ecosystem-diagram a').removeClass('videolink');
+	$('table a.videolink:contains(GitHub)').removeClass('videolink').addClass('nobg');
+	$('.supporterboard a.videolink').removeClass('videolink').addClass('nobg');
+	
 	// FOUNDATION PAGE SCRIPTS
 	if($('body').hasClass('foundation') && $('section.form').length){
 		var hash = window.location.hash.replace('#', '');
