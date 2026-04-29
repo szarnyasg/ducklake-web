@@ -36,6 +36,11 @@ div.singleentry {
 			margin-bottom: 0!important;
 		}
 
+		.highlighter-rouge:last-child,
+		div.highlight:last-child {
+			margin-bottom: 0!important;
+		}
+
 		.content {
 			padding: 20px;
 			width: calc(100% - 45px);
