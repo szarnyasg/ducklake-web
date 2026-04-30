@@ -29,7 +29,7 @@ Additionally, DuckLake currently has implementations for the following libraries
 * [Spark](https://github.com/motherduckdb/ducklake-spark)
 * [Trino awitten1/trino-ducklake](https://github.com/awitten1/trino-ducklake)
 * [Trino brikk/trino-ducklake](https://github.com/brikk/ducklake-integrations/tree/main/jvm/trino-ducklake)
-* [PostgreSQL (`pg_duckdb`)](https://github.com/relytcloud/pg_ducklake)
+* [PostgreSQL (`pg_ducklake`)](https://github.com/relytcloud/pg_ducklake)
 
 ## List of Hosted DuckLakes
 
