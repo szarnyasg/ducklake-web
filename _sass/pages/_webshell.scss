@@ -106,6 +106,12 @@ body.layout_webshell {
 		}
 	}
 
+	header .headerline .headercontent .landingmenu nav {
+		max-height: calc(100vh - 110px);
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+
 	@media (max-width: 900px) {
 		header .headerline {
 			height: 70px;
@@ -115,6 +121,14 @@ body.layout_webshell {
 			width: 38px;
 			height: 38px;
 			background-size: auto 38px;
+		}
+
+		header .headerline .headercontent .options {
+			margin-right: 0;
+		}
+
+		header .headerline .headercontent .landingmenu nav .submenu-open .submenuwrap {
+			display: block;
 		}
 	}
 }

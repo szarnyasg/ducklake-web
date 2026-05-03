@@ -148,6 +148,10 @@
                 margin: 0;
             }
 
+            @media (max-width: 640px) {
+                display: none;
+            }
+
             .icon {
                 width: 16px;
                 height: 16px;
