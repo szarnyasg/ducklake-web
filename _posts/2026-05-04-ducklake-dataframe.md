@@ -17,13 +17,13 @@ That simplicity got me thinking: since a DuckLake implementation is fairly conta
     <img src="{% link images/blog/ducklake_dataframe_intern.png %}" alt="Dr. Peter van Holland, as he imagines himself" width="750" />
 </a>
 
-The goal was straightforward: build a DuckLake implementation for dataframes, fully in Python, working with Pandas, Polars, and PySpark. I picked dataframe libraries because they are easy to set up, which keeps testing and development simple, and because everything stays in Python, where I suspect my clanker intern does best, since most of the work is calling other libraries that do the heavy lifting. The dependency list is just the dataframe libraries plus [pyarrow](https://pypi.org/project/pyarrow/). For the catalogs you need SQLite, Postgres, or DuckDB. Notice that these dependencies are optional and will mostly depend on what you want to use as a dataframe library and catalog.
+The goal was straightforward: build a DuckLake implementation for dataframes, fully in Python, working with Pandas, Polars, and PySpark. I picked dataframe libraries because they are easy to set up, which keeps testing and development simple, and because everything stays in Python, where I suspect my clanker intern does best, since most of the work is calling other libraries that do the heavy lifting. The dependency list is just the dataframe libraries plus [PyArrow](https://pypi.org/project/pyarrow/). For the catalogs you need SQLite, Postgres, or DuckDB. Notice that these dependencies are optional and will mostly depend on what you want to use as a dataframe library and catalog.
 
-Peter's life mission was to reach read and write parity with DuckDB's DuckLake v1.0, using [DuckDB's `ducklake` extension]({% link docs/stable/duckdb/introduction.md %}) for testing. Whatever the reference implementation writes, he should read, and whatever he writes, the reference implementation should read. He had two instructions: add no extra dependencies, and make no mistakes™. The no-mistakes part was mostly ignored. Having an LLM counterpart is like having a junior intern who never learns, and you love them anyway. I devised an implementation plan and thought about reviewing his code, but Peter writes the most beautiful sloppy code and tests, making it impossible for me to keep up. So I gave him autonomy and let him do his thing, letting an an OpenClaw account autonomously drive the development. (For the AI bros: I spent zero effort minimizing token consumption.)
+Peter's life mission was to reach read and write parity with DuckDB's DuckLake v1.0, using [DuckDB's `ducklake` extension]({% link docs/stable/duckdb/introduction.md %}) for testing. Whatever the reference implementation writes, he should read, and whatever he writes, the reference implementation should read. He had two instructions: add no extra dependencies, and make no mistakes™. The no-mistakes part was mostly ignored. Having an LLM counterpart is like having a junior intern who never learns, and you love them anyway. I devised an implementation plan and thought about reviewing his code, but Peter writes the most beautiful sloppy code and tests, making it impossible for me to keep up. So I gave him autonomy and let him do his thing, letting an OpenClaw account autonomously drive the development. (For the AI bros: I spent zero effort minimizing token consumption.)
 
-In six days Dr. Van Holland made the reads and the writes, and on the seventh he did not rest. He shipped a library on PyPI. That library has parity with DuckLake 1.0, with interop for Pandas, Polars, and PySpark, and with DuckDB, SQLite, or Postgres as catalogs.
+In six days Dr. Van Holland made the reads and the writes, and on the seventh he did not rest. He shipped a library on PyPI. That library has parity with DuckLake 1.0, with interop for Pandas, Polars, and PySpark, and with DuckDB, SQLite, or Postgres as catalogs. And it is completely bug-free.
 
-In all seriousness, it was impressive to see the development speed of Dr. Van Holland, getting read parity (with the exception of inlining) was done in a few minutes. Inlining was definitely more challenging, as this might require type casting, depending on the catalog. Writes and maintenance routines took much longer, but he also managed to get something that seems to work reasonably well, fairly quickly.
+In all seriousness, despite some uncertainty about the quality of the end product, it was impressive to see the development speed of Dr. Van Holland. In just a few minutes, he achieved read parity – with the exception of inlining. Implementing inlining was definitely more challenging, as this might require type casting, depending on the catalog. Writes and maintenance routines took much longer, but he also managed to get something that seems to work reasonably well, fairly quickly.
 
 For this blog post we will focus on the `ducklake-pandas` part, but you can find tutorials for Polars and PySpark at the [`ducklake-dataframe` repository](https://github.com/pdet/ducklake-dataframe).
 
@@ -32,7 +32,7 @@ For this blog post we will focus on the `ducklake-pandas` part, but you can find
 > In the beginning there was empty darkness, and in the end there was a no-mistakes `ducklake-dataframe` library.
 
 All the code, documentation, and tutorials have been written by Peter. Even the initial releases were managed by Peter.
-You can check the library [GitHub's repository](https://github.com/pdet/ducklake-dataframe), its [documentation](https://github.com/pdet/ducklake-dataframe/wiki), and the [Pandas tutorial](https://github.com/pdet/ducklake-dataframe/blob/main/examples/tutorial_pandas.ipynb).
+You can check the library [GitHub's repository](https://github.com/pdet/ducklake-dataframe), its [documentation](https://github.com/pdet/ducklake-dataframe/wiki), the [Pandas tutorial](https://github.com/pdet/ducklake-dataframe/blob/main/examples/tutorial_pandas.ipynb), and [the rest of the examples](https://github.com/pdet/ducklake-dataframe/blob/main/examples/).
 
 Dr. Van Holland even dreamed up a benchmark he claims to have run against [PyIceberg](https://pypi.org/project/pyiceberg/), proving his implementation is top notch. You can see it in the [repository's README](https://github.com/pdet/ducklake-dataframe). I personally love the 100× speedup on column renames, clearly the major bottleneck for data lake users everywhere. TL;DR: Don't take these benchmarks too seriously...
 
@@ -44,7 +44,7 @@ pip install ducklake-dataframe[pandas]
 
 ### Reading
 
-Here we create a DuckLake database with DuckDB's ducklake extension and read it with the Pandas wrapper.
+Here we create a DuckLake database with DuckDB's `ducklake` extension and read it with the Pandas wrapper.
 
 ```python
 import duckdb
@@ -54,13 +54,17 @@ from ducklake_pandas import read_ducklake
 # Create a DuckLake catalog with DuckDB
 con = duckdb.connect()
 con.execute("INSTALL ducklake; LOAD ducklake;")
-con.execute("ATTACH 'ducklake:sqlite:catalog.ducklake' AS lake (DATA_PATH 'data/')")
+con.execute("""
+    ATTACH 'ducklake:sqlite:catalog.ducklake' AS lake
+        (DATA_PATH 'data/');
+    """
+)
 
 con.execute("""
     CREATE TABLE lake.users (
         id INTEGER, name VARCHAR, email VARCHAR,
         score DOUBLE, active BOOLEAN
-    )
+    );
 """)
 con.execute("""
     INSERT INTO lake.users VALUES
@@ -68,7 +72,7 @@ con.execute("""
         (2, 'Bob',   'bob@example.com',   87.3, true),
         (3, 'Carol', 'carol@example.com', 72.1, false),
         (4, 'Dave',  'dave@example.com',  91.0, true),
-        (5, 'Eve',   'eve@example.com',   68.5, false)
+        (5, 'Eve',   'eve@example.com',   68.5, false);
 """)
 con.close()
 
@@ -103,13 +107,16 @@ print(read_ducklake("catalog.ducklake", "users").sort_values("id"))
 # DuckDB can read what ducklake-dataframe wrote
 con = duckdb.connect()
 con.execute("INSTALL ducklake; LOAD ducklake;")
-con.execute("ATTACH 'ducklake:sqlite:catalog.ducklake' AS lake (DATA_PATH 'data/')")
-print(con.execute("SELECT * FROM lake.users ORDER BY id").df())
+con.execute("""
+    ATTACH 'ducklake:sqlite:catalog.ducklake' AS lake
+        (DATA_PATH 'data/');
+    """)
+print(con.execute("SELECT * FROM lake.users ORDER BY id;").df())
 ```
 
 ## Conclusion
 
-With this simple experiment, I wanted to demonstrate two things. First, DuckLake is a spec. A DuckLake implementation does not require a mandatory dependency on DuckDB at runtime, other than as an optional catalog backend. Second, DuckLake is genuinely simple to implement, especially compared to Iceberg. A few days back, I asked Claude to just set Iceberg up for me, and it required more handholding with that than with vibe-coding the read path of DuckLake's implementation from scratch. Again, this simplicity is by design. All the heavy lifting is done by battle-tested systems, either a Parquet reader/writer (e.g., PyArrow) or a DBMS catalog (e.g., Postgres, SQLite, DuckDB).
+With this simple experiment, I wanted to demonstrate two things. First, DuckLake is a spec. A DuckLake implementation does not require a mandatory dependency on DuckDB at runtime, other than as an optional catalog backend. Second, DuckLake is genuinely simple to implement, especially [compared to Iceberg](https://duckdb.org/2025/11/28/iceberg-writes-in-duckdb). A few days back, I asked Claude to just set Iceberg up for me, and it required more handholding with that than with vibe-coding the read path of DuckLake's implementation from scratch. Again, this simplicity is by design. All the heavy lifting is done by battle-tested systems, either a Parquet reader/writer (e.g., PyArrow) or a DBMS catalog (e.g., Postgres, SQLite, DuckDB).
 
 Although it is impressive how far Dr. Van Holland went by himself, I took this as a simple proof of concept experiment. This library is not intended to be used in production. I only have a high-level overview of what it does and have not checked the code and tests in detail, so it is probably buggy, especially on the more complex paths like writes and maintenance routines. But if an LLM can get this far in a few days, imagine what a team of humans could do, AI-assisted or not.
 
