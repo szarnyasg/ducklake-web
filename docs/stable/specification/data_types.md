@@ -109,10 +109,11 @@ Most types follow a straightforward encoding, however some do not. The following
 | `uuid`         | Standard UUID string                                                                                                                        | `550e8400-e29b-41d4-a716-446655440000` |
 
 The following types do not currently have min/max statistics, as they are not supported by the underlying Parquet format:
-1. `int128` 
-2. `uint128` 
-3. `timetz` 
-4. `interval`
+
+* `int128` 
+* `uint128` 
+* `timetz` 
+* `interval`
 
 ### Nested Types
 
