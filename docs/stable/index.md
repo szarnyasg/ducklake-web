@@ -25,7 +25,7 @@ If you use DuckLake from [DuckDB]({% link docs/stable/duckdb/introduction.md %})
 The [`ducklake` DuckDB extension]({% link docs/stable/duckdb/introduction.md %}) serves as the reference implementation for DuckLake clients.
 Additionally, DuckLake currently has implementations for the following libraries (at various levels of maturity):
 
-* [DataFusion](https://github.com/hotdata-dev/datafusion-ducklake)
+* [DataFusion](https://github.com/datafusion-contrib/datafusion-ducklake)
 * [Spark](https://github.com/motherduckdb/ducklake-spark)
 * [Trino awitten1/trino-ducklake](https://github.com/awitten1/trino-ducklake)
 * [Trino brikk/trino-ducklake](https://github.com/brikk/ducklake-integrations/tree/main/jvm/trino-ducklake)

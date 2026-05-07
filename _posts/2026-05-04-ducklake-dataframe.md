@@ -120,7 +120,7 @@ With this simple experiment, I wanted to demonstrate two things. First, DuckLake
 
 Although it is impressive how far Dr. Van Holland went by himself, I took this as a simple proof of concept experiment. This library is not intended to be used in production. I only have a high-level overview of what it does and have not checked the code and tests in detail, so it is probably buggy, especially on the more complex paths like writes and maintenance routines. But if an LLM can get this far in a few days, imagine what a team of humans could do, AI-assisted or not.
 
-Serious development will still require humans (sorry clankers) who actually understand what is happening under the hood. Speaking of which, a shoutout to our friends at Hotdata, who are putting real effort into building DuckLake for DataFusion. You can check [their repository](https://github.com/hotdata-dev/datafusion-ducklake).
+Serious development will still require humans (sorry clankers) who actually understand what is happening under the hood. Speaking of which, a shoutout to our friends at Hotdata, who created the initial implementation of DuckLake for DataFusion. You can check [their repository](https://github.com/datafusion-contrib/datafusion-ducklake).
 
 ## Found Any Bugs?
 
