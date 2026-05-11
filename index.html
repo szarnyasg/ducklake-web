@@ -49,7 +49,8 @@ body_class: landing nowrap
 						<div class="select-highlight"></div>
 						<li data-iconclass="postgre" data-multi="true" class="active">PostgreSQL</li>
 						<li data-iconclass="sqlite" data-multi="true">SQLite</li>
-						<li data-iconclass="duckdb" data-multi="false">DuckDB</li>
+						<li data-iconclass="duckdb" data-multi="false">DuckDB, in-process</li>
+						<li data-iconclass="duckdb" data-multi="true">DuckDB + Quack (beta)</li>
 					</ul>
 				</div>
 				<div class="diagram">
@@ -96,6 +97,7 @@ body_class: landing nowrap
 							<div class="catalog">
 								<img src="{{ site.baseurl }}/images/deployment_diagram/database.svg" alt="Database Icon">
 								<div class="icons">
+									<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-duckdb.svg" class="duckdb">
 									<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-duckdb.svg" class="duckdb">
 									<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-postgre.svg" class="postgre">
 									<img src="{{ site.baseurl }}/images/deployment_diagram/cat_icon-sqlite.svg" class="sqlite">
