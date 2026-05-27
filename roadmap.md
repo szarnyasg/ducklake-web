@@ -14,7 +14,7 @@ toc: false
 
 _(Last Updated: April 2026)_
 
-The DuckLake project is governed by the [non-profit DuckDB Foundation](https://duckdb.org/foundation/).
+The DuckLake project is governed by the [non-profit DuckDB Foundation](https://duckdb.foundation/).
 The Foundation and [DuckLabs](https://ducklabs.com/) are not funded by external investors (e.g., venture capital).
 Instead, the Foundation is funded by contributions from its members, while DuckLabs' revenue is based on commercial support and feature prioritization services.
 These extend to the [`ducklake` DuckDB extension]({% link docs/stable/duckdb/introduction.md %}).
