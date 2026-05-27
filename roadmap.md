@@ -15,7 +15,7 @@ toc: false
 _(Last Updated: April 2026)_
 
 The DuckLake project is governed by the [non-profit DuckDB Foundation](https://duckdb.org/foundation/).
-The Foundation and [DuckDB Labs](https://duckdblabs.com/) are not funded by external investors (e.g., venture capital).
+The Foundation and [DuckDB Labs](https://ducklabs.com/) are not funded by external investors (e.g., venture capital).
 Instead, the Foundation is funded by contributions from its members, while DuckDB Labs' revenue is based on commercial support and feature prioritization services.
 These extend to the [`ducklake` DuckDB extension]({% link docs/stable/duckdb/introduction.md %}).
 
@@ -31,7 +31,7 @@ Please note that there are **no guarantees** that a particular feature will be r
 
 ## Future Work / Looking for Funding
 
-These are some of the items that we plan to support in the future. If you are interested in prioritizing some of this work, [get in touch with DuckDB Labs](https://duckdblabs.com/contact/).
+These are some of the items that we plan to support in the future. If you are interested in prioritizing some of this work, [get in touch with DuckDB Labs](https://ducklabs.com/contact/).
 
 - User-defined types.
 - Role-based access control.
