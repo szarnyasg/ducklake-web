@@ -17,6 +17,6 @@ length: "55 min"
 |-------|-------|
 | **Date** | {{ page.date | date: "%Y-%m-%d" }} |
 | **Event** | [Systems Distributed 2025](https://systemsdistributed.com/) |
-| **Speaker** | [Hannes Mühleisen (DuckDB Labs)](https://hannes.muehleisen.org/) |
+| **Speaker** | [Hannes Mühleisen (DuckLabs)](https://hannes.muehleisen.org/) |
 | **Slide deck** | [Download](http://blobs.duckdb.org/slides/hannes-muehleisen-ducklake-systems-distributed.pdf) |
 | **YouTube** | [DuckLake – The SQL-Powered Lakehouse Format for the Rest of Us](https://www.youtube.com/watch?v=YQEUkFWa69o) |
