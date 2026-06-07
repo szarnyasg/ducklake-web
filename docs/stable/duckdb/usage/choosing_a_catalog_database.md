@@ -28,7 +28,7 @@ Note that if you are using DuckDB as your catalog database, you're limited to a 
 
 ## PostgreSQL
 
-DuckDB can interact with a PostgreSQL database using the [`postgres` extension](https://duckdb.org/docs/current/core_extensions/postgres).
+DuckDB can interact with a PostgreSQL database using the [`postgres` extension](https://duckdb.org/docs/current/core_extensions/postgres/overview).
 Install the `ducklake` and the `postgres` extension, and attach to your DuckLake as follows:
 
 ```sql
@@ -41,7 +41,7 @@ ATTACH 'ducklake:postgres:dbname=ducklake_catalog host=localhost' AS my_ducklake
 USE my_ducklake;
 ```
 
-For details on how to configure the connection, see the [`postgres` extension's documentation](https://duckdb.org/docs/current/core_extensions/postgres#configuration).
+For details on how to configure the connection, see the [`postgres` extension's documentation](https://duckdb.org/docs/current/core_extensions/postgres/overview#configuration).
 
 The `ducklake` and `postgres` extensions require PostgreSQL 12 or newer.
 
