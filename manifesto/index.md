@@ -16,7 +16,7 @@ toc: false
 
 DuckLake simplifies lakehouses by using a standard SQL database for all metadata, instead of complex file-based systems, while still storing data in open formats like Parquet. This makes it more reliable, faster, and easier to manage.
 
-_Would you rather listen to the content of this manifesto? We also released a [podcast episode](https://www.youtube.com/watch?v=zeonmOO9jm4) explaining how we came up with the [DuckLake format](https://www.youtube.com/watch?v=zeonmOO9jm4)._
+_Would you rather listen to the content of this manifesto? We also released a [podcast episode](https://www.youtube.com/watch?v=zeonmOO9jm4) explaining how we came up with the DuckLake format._
 
 ## Background
 
