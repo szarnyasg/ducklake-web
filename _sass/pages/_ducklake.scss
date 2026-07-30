@@ -722,11 +722,6 @@ body.manifesto{
 		margin: 0;
 		padding-left: 20px;
 	}
-	ol li,
-	ul li,
-	p{
-		@include body-large();
-	}
 	p + h4{
 		margin-top: 2em;
 	}
@@ -738,6 +733,14 @@ body.manifesto{
 			width: 100%;
 			height: auto;
 		}
+	}
+}
+
+body.manifesto{
+	ol li,
+	ul li,
+	p{
+		@include body-large();
 	}
 }
 

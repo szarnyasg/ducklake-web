@@ -399,7 +399,7 @@ $(document).ready(function(){
 		return this.hostname && this.hostname !== location.hostname && $(this).find('img, svg').length === 0;
 	}).addClass("externallink").attr('target','_blank');
 	
-	$('.headercontent a, .mainlinks a, .box-link a, .footercontent a').removeClass('externallink');
+	$('.headercontent a, .mainlinks a, .box-link a, .footercontent a, .download-btn').removeClass('externallink');
 	$('table a.externallink:contains(GitHub)').removeClass('externallink').addClass('nobg');
 	$('.supporterboard a.externallink').removeClass('externallink').addClass('nobg');
 
@@ -410,7 +410,7 @@ $(document).ready(function(){
 		return /\.(pdf|zip|tar\.gz|csv|parquet|mp3)(\?.*)?$/i.test(href) && $(this).find('img').length === 0 && !$(this).hasClass('button');
 	}).addClass("downloadlink").removeClass("externallink");
 
-	$('.headercontent a, .mainlinks a, .box-link a, .footercontent a').removeClass('downloadlink');
+	$('.headercontent a, .mainlinks a, .box-link a, .footercontent a, .download-btn').removeClass('downloadlink');
 	$('table a.downloadlink:contains(GitHub)').removeClass('downloadlink').addClass('nobg');
 	$('.supporterboard a.downloadlink').removeClass('downloadlink').addClass('nobg');
 	
