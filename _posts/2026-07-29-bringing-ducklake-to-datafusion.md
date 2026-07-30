@@ -19,13 +19,13 @@ This post covers why we adopted DuckLake, how we added support for it in DataFus
 
 ## What Is Apache DataFusion?
 
-Apache DataFusion is a query engine written in Rust that uses Apache Arrow as its in-memory format. It provides SQL and DataFrame APIs together with query planning, optimization, and vectorized execution.
+[Apache DataFusion](https://datafusion.apache.org/) is a query engine written in Rust that uses Apache Arrow as its in-memory format. It provides SQL and DataFrame APIs together with query planning, optimization, and vectorized execution.
 
 DataFusion is a mature engine that leaves the surrounding architecture largely undefined. It intentionally does not prescribe how tables, catalogs, snapshots, or metadata should be managed, allowing it to support multiple storage systems and table formats.
 
 ## What Is DuckLake?
 
-DuckLake is a lakehouse specification that stores table metadata in a transactional database while using Parquet files for the data. Unlike lakehouse formats that manage metadata as files in object storage, DuckLake performs all metadata operations through a relational database.
+[DuckLake]({% link index.html %}) is a lakehouse specification that stores table metadata in a transactional database while using Parquet files for the data. Unlike lakehouse formats that manage metadata as files in object storage, DuckLake performs all metadata operations through a relational database.
 
 That architecture avoids traversing chains of metadata files before determining which Parquet files to scan in a query. DuckLake is built by the same team that created DuckDB, but the format itself is engine-agnostic, so we decided to bring it to Apache DataFusion.
 
