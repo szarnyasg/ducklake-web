@@ -9,34 +9,21 @@
 		</div>
 	</div>
 {% else %}
-	<!-- show 'outdated' banner -->
-	{% assign url_parts = page.url | split: '/' %}
-	{% assign new_url = '' %}
-	{% assign skip_next = false %}
-	{% for part in url_parts %}
-		{% if part == 'archive' %}
-			{% assign skip_next = true %}
-			{% continue %}
-		{% elsif skip_next %}
-			{% assign skip_next = false %}
-			{% continue %}
-		{% else %}
-			{% assign new_url = new_url | append: part %}
-			{% unless forloop.last %}
-				{% assign new_url = new_url | append: '/' %}
-			{% endunless %}
-		{% endif %}
-	{% endfor %}
-	<div class="banner outdated">
+	<!-- show 'outdated' banner, linking to the same page in the stable version -->
+	{% assign basename = page.path | regex_replace: "docs/(stable|preview|\d*.\d*)/", "" %}
+	{% assign stable_filename = "docs/stable/" | append: basename %}
+	{% capture stable_exists %}{% file_exists {{ stable_filename }} %}{% endcapture %}
+	{% if stable_exists == "true" %}
+		{% assign stable_url = stable_filename | replace: ".md", "" %}
+		{% assign banner_title = "Outdated documentation. Go to this page in the stable version." %}
+	{% else %}
+		{% assign stable_url = "docs/stable/index" %}
+		{% assign banner_title = "Outdated documentation. This page is not available in the stable version – go to the documentation home." %}
+	{% endif %}
+	<a class="banner outdated" href="{{ site.baseurl }}/{{ stable_url }}" title="{{ banner_title }}">
 		<div class="content">
 			<svg class="icon"><use href="#alert-octagon"></use></svg>
-			{% assign new_filename = new_url | replace: ".html", ".md" %}
-			{% capture url_exists %}{% file_exists {{ new_filename }} %}{% endcapture %}
-			{% if url_exists == "true" %}
-				<span title="Outdated documentation. Please select the stable version.">Outdated documentation</span>
-			{% else %}
-				<span title="This page is not available in the stable version of the documentation.">Outdated documentation</span>
-			{% endif %}
+			<span>Outdated documentation</span>
 		</div>
-	</div>
+	</a>
 {% endif %}
