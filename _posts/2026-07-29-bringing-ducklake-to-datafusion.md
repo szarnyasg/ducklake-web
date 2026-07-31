@@ -55,9 +55,7 @@ To give a sense of how much overhead DuckLake adds to our queries, we decided to
 | SF1   | 4,398 ms  | 4,461 ms  | 0.99× |
 | SF10  | 50,932 ms | 53,942 ms | 0.94× |
 
-*DuckLake’s metadata layer did not introduce a measurable performance penalty.*{: .caption }
-
-In our benchmarks, DuckLake-backed tables performed slightly better than direct Parquet access. Both approaches ultimately use DataFusion’s Parquet reader, so the difference is due to lower planning overhead. DuckLake already knows the exact files that belong to a snapshot, avoiding some of the metadata discovery required when constructing a generic Parquet table.
+The results in the table above demonstrate that DuckLake’s metadata layer did not introduce a measurable performance penalty. In fact, DuckLake-backed tables in our benchmarks performed slightly better than direct Parquet access. Both approaches ultimately use DataFusion’s Parquet reader, so the difference is due to lower planning overhead. DuckLake already knows the exact files that belong to a snapshot, avoiding some of the metadata discovery required when constructing a generic Parquet table.
 
 Given that DuckLake’s metadata layer introduced no measurable overhead compared to direct Parquet access in our benchmarks, gaining snapshots, schema evolution, and catalog metadata made the decision straightforward.
 
