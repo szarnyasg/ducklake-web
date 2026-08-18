@@ -74,7 +74,7 @@ $(document).ready(function(){
 			itemSelector: '.postpreview',
 			layoutMode: 'fitRows',
 			fitRows: {
-				gutter: 20,
+				gutter: 32,
 				equalheight: true
 			},
 			getSortData: {
@@ -1050,4 +1050,24 @@ $(document).ready(function(){
 		videoContainer.show();
 		$(this).hide();
 	});
+});
+
+
+// Author marquee: keep the scroll speed constant regardless of name length
+$(document).on('mouseenter', '.postpreview', function() {
+	var author = this.querySelector('.byline .author, .meta .author');
+	if (!author) return;
+	var span = author.querySelector('span');
+	if (!span) return;
+
+	var distance = span.scrollWidth - author.clientWidth;
+	if (distance < 24) {
+		author.style.removeProperty('--marquee-duration');
+		return;
+	}
+
+	var SPEED = 65;      // pixels per second
+	var MOVING = 0.92;   // share of the animation that is not a pause
+	var duration = distance / SPEED / MOVING;
+	author.style.setProperty('--marquee-duration', duration.toFixed(2) + 's');
 });

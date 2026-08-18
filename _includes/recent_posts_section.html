@@ -20,7 +20,7 @@
 			
 			{% assign recent_count = 0 %}
 			{% for item in items %}
-				{% if item.url != page.url and recent_count < 2 %}
+				{% if item.url != page.url and recent_count < 3 %}
 					{% assign tag_classes = item.tags | default: "" | join: ' ' %}
 					
 					{% if page.collection == "media" %}
@@ -33,24 +33,28 @@
 									<img src="/images/blog/thumbs/placeholder.svg" alt="Placeholder" class="zoom-image">
 								{% endif %}
 							</div>
-							<div class="postdetails">
-								{% if item.tags %}
-								<div class="tags">
-									{% for tag in item.tags %}
-										<span class="tag">{{ tag }}</span>
-									{% endfor %}
-									{% if item.length %}
-										<span class="length">{{ item.length }}</span>
-									{% endif %}
+								<div class="postdetails">
+									<h3>{{ item.title }}</h3>
+									<div class="meta">
+										<div class="date">{{ item.date | date: "%Y-%m-%d" }}</div>
+										{% if item.tags %}
+											<div class="tags">
+												{% for tag in item.tags %}<span>{{ tag }}</span>{% endfor %}
+											</div>
+										{% endif %}
+										{% if item.length %}
+											<div class="length">{{ item.length }}</div>
+										{% endif %}
+									</div>
+									<div class="byline">
+										<div class="author"><span>{{ item.author | default: "DuckLake" }}</span></div>
+									</div>
 								</div>
-								{% endif %}
-								<h3>{{ item.title }}</h3>
-								<div class="meta">
-									<div class="date">{{ item.date | date: "%Y-%m-%d" }}</div>
-									<div class="author">{{ item.author | default: "DuckLake" }}</div>
-								</div>
-							</div>
 						</div>
+					{% elsif page.collection == "posts" %}
+
+						{% include post_card.html item=item default_thumb="/images/blog/thumbs/placeholder.svg" %}
+
 					{% else %}
 						{% if item.external_post_url %}
 							{% assign is_external = true %}
@@ -73,28 +77,27 @@
 								{% endif %}
 							</div>
 							<div class="postdetails">
-								{% if item.tags %}
-								<div class="tags">
-									{% if page.collection == "events" %}
-										<span class="eventdate">{{ item.date | date: "%Y-%m-%d" }}</span>
-									{% endif %}
-									{% for tag in item.tags %}
-										<span class="tag">{{ tag }}</span>
-									{% endfor %}
-								</div>
-								{% endif %}
 								<h3><a href="{{ post_link }}" target="{{ link_target }}"{% if link_rel != "" %} rel="{{ link_rel }}"{% endif %}>{{ item.title }}</a></h3>
 								<div class="meta">
-									{% if page.collection == 'events' %}
-										<div class="venue">{{ item.venue | default: "Venue not specified" }}</div>
-									{% else %}
-										{% if is_external %}
-											<div class="external-source">{{ item.external_post_url | extract_domain }}<svg class="icon"><use href="#link-external-02"></use></svg></div>
-										{% endif %}
-										<div class="date">{{ item.date | date: "%Y-%m-%d" }}</div>
+									<div class="date">{{ item.date | date: "%Y-%m-%d" }}</div>
+									{% if item.tags %}
+										<div class="tags">
+											{% for tag in item.tags %}<span>{{ tag }}</span>{% endfor %}
+										</div>
 									{% endif %}
-									<div class="author">{{ item.author | default: "DuckLake" }}</div>
+									{% if is_external %}
+										<div class="external-source">{{ item.external_post_url | extract_domain }}<svg class="icon"><use href="#link-external-02"></use></svg></div>
+									{% endif %}
 								</div>
+								{% if page.collection == "events" %}
+									<div class="byline">
+										<div class="venue">{{ item.venue | default: "Venue not specified" }}</div>
+									</div>
+								{% else %}
+									<div class="byline">
+										<div class="author"><span>{{ item.author | default: "DuckLake" }}</span></div>
+									</div>
+								{% endif %}
 							</div>
 						</div>
 					{% endif %}
