@@ -50,7 +50,7 @@ In the following, we list DuckLake's past releases.
 {% endfor %}
 
 | Release date | Spec. version | Extension version |
-|-------------:|--------------:|------------------:|
+|:-------------|--------------:|------------------:|
 {% for row in site.data.past_releases %}
   {%- if row.ducklake_extension == latest_version_number %}
     {% assign docs_version = "stable" %}
