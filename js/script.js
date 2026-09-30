@@ -1,10 +1,15 @@
+function docBannerHeight() {
+	var banner = document.querySelector('.banner.docversion');
+	return banner ? banner.offsetHeight : 0;
+}
+
 $(document).ready(function(){
 	
 	if (window.location.hash) {
 		var hash = window.location.hash;
 		if ($(hash).length) {
 			$('html, body').animate({
-				scrollTop: $(hash).offset().top-90
+				scrollTop: $(hash).offset().top - 90 - docBannerHeight()
 			}, 300, 'swing');
 			if( $('.frequentlyaskedquestions').length ){
 				$('h3'+hash).parent('.qa-wrap').addClass('open');
@@ -238,7 +243,7 @@ $(document).ready(function(){
 				if (target.length) {
 					// event.preventDefault();
 					$('html, body').animate({
-						scrollTop: target.offset().top - 90
+						scrollTop: target.offset().top - 90 - docBannerHeight()
 					}, scrollspeed);
 				}
 			}
@@ -1033,22 +1038,27 @@ $('h1, h2, h3, h4, h5, h6').find('svg.anchor-icon').each(function() {
 	
 	
 	/** HIDE BANNER **/
+	const $homeBanner = $('.banner').not('.docversion');
 	const showbanner = getWithExpiry("homeBanner");
 	if(showbanner == false){
-		$('.banner').css('display', 'none');
-		if( $('body').hasClass('documentation') ){
-			$('main').removeAttr('class');
-		}
+		$homeBanner.css('display', 'none');
 	} else {
-		$('.banner').css('display', 'flex');
+		$homeBanner.css('display', 'flex');
 	}
-	$('.banner .close').click(function(){
+	$homeBanner.find('.close').click(function(){
 		setWithExpiry('homeBanner', false, 172800000); // 900000 = 15 min, 172800000 = 2 days
-		$('.banner').slideUp(300);
-		if( $('body').hasClass('documentation') ){
-			$('main').removeAttr('class');
-		} 
+		$homeBanner.slideUp(300);
 	});
+
+	/** DOCS VERSION BANNER HEIGHT **/
+	var docBanner = document.querySelector('.banner.docversion');
+	if (docBanner) {
+		var syncDocBannerHeight = function() {
+			document.body.style.setProperty('--docbanner-height', docBanner.offsetHeight + 'px');
+		};
+		syncDocBannerHeight();
+		window.addEventListener('resize', syncDocBannerHeight);
+	}
 	//setWithExpiry('homeBanner', '', -1); // deletes content
 	
 	
