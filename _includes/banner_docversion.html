@@ -1,29 +1,27 @@
-{% if version_viewed == "stable" %}
-	<!-- this is the default and recommended version - do not show any extra warning -->
-{% elsif version_viewed == "preview" %}
-	<!-- show nightly banner -->
-	<div class="banner nightly">
-		<div class="content">
-			<svg class="icon"><use href="#stars-01"></use></svg>
-			<span title="The page is for the preview version of DuckDB, available in the nightly builds. The features shown in the documentation may not yet be available in the stable version.">Preview version</span>
-		</div>
-	</div>
-{% else %}
-	<!-- show 'outdated' banner, linking to the same page in the stable version -->
+{% if version_viewed != "stable" %}
 	{% assign basename = page.path | regex_replace: "docs/(stable|preview|\d*.\d*)/", "" %}
 	{% assign stable_filename = "docs/stable/" | append: basename %}
 	{% capture stable_exists %}{% file_exists {{ stable_filename }} %}{% endcapture %}
 	{% if stable_exists == "true" %}
 		{% assign stable_url = stable_filename | replace: ".md", "" %}
-		{% assign banner_title = "Outdated documentation. Go to this page in the stable version." %}
+		{% assign stable_link_text = "Switch to the stable version" %}
 	{% else %}
 		{% assign stable_url = "docs/stable/index" %}
-		{% assign banner_title = "Outdated documentation. This page is not available in the stable version – go to the documentation home." %}
+		{% assign stable_link_text = "Switch to the stable documentation" %}
 	{% endif %}
-	<a class="banner outdated" href="{{ site.baseurl }}/{{ stable_url }}" title="{{ banner_title }}">
+	{% if version_viewed == "preview" %}
+		{% assign banner_class = "preview" %}
+		{% assign banner_icon = "beaker-02" %}
+		{% capture banner_text %}This page is for DuckLake {{ site.preview_ducklake_version }} (preview).{% endcapture %}
+	{% else %}
+		{% assign banner_class = "outdated" %}
+		{% assign banner_icon = "alert-octagon" %}
+		{% capture banner_text %}This page is for DuckLake {{ version_viewed }}, which is outdated.{% endcapture %}
+	{% endif %}
+	<div class="banner docversion {{ banner_class }}">
 		<div class="content">
-			<svg class="icon"><use href="#alert-octagon"></use></svg>
-			<span>Outdated documentation</span>
+			<svg class="icon"><use href="#{{ banner_icon }}"></use></svg>
+			<span>{{ banner_text }} <a href="{{ site.baseurl }}/{{ stable_url }}">{{ stable_link_text }}</a>.</span>
 		</div>
-	</a>
+	</div>
 {% endif %}
