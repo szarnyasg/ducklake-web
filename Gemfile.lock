@@ -107,7 +107,7 @@ GEM
       octokit (>= 4, < 7, != 4.4.0)
     jekyll-include-cache (0.3.1)
       jekyll (>= 3.7, < 5.0)
-    jekyll-optional-front-matter (0.3.3)
+    jekyll-optional-front-matter (0.3.4)
       jekyll (>= 3.0, < 5.0)
     jekyll-paginate (1.1.0)
     jekyll-readme-index (0.4.0)
@@ -244,7 +244,7 @@ DEPENDENCIES
   jekyll-gist (= 1.5.0)
   jekyll-git-hash
   jekyll-include-cache (= 0.3.1)
-  jekyll-optional-front-matter (= 0.3.3)
+  jekyll-optional-front-matter (= 0.3.4)
   jekyll-paginate (= 1.1.0)
   jekyll-readme-index (= 0.4.0)
   jekyll-redirect-from (= 0.17.0)
