@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "Frozen DuckLakes for Multi-User, Serverless Data Access"
-author: "Mark Harrison (Madhive Data Engineering)"
+authors:
+  - Mark Harrison
 thumb: "/images/blog/thumbs/frozen-ducklake.svg"
 image: "/images/blog/thumbs/frozen-ducklake.png"
 excerpt: "We show how you can build high-performance data lakes with no moving parts."

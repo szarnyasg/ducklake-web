@@ -5,76 +5,13 @@ excerpt: The media page contains talks, podcast episodes, and other media conten
 body_class: media
 ---
 
-{% assign all_tags = "" %}
-{% for media in site.media %}
-	{% assign all_tags = all_tags | append: media.tags | join: "," | append: "," %}
-{% endfor %}
-{% assign unique_tags = all_tags | split: "," | uniq | sort %}
-
-<div class="wrap pagetitle">
-	<h1>{{ page.title }}</h1>
-
-	<div class="controls filterbar" data-all-available="{{ unique_tags | join: ', ' }}">
-		<input type="text" id="search-input" placeholder="Search...">
-		<button type="button" class="filter-toggle" aria-label="Filter">
-			<svg class="icon icon-filter"><use href="#filter-funnel-01"></use></svg>
-			<svg class="icon icon-close"><use href="#x-close"></use></svg>
-		</button>
-		<div class="filter-modal">
-			<div class="filter-group" data-filter-key="category">
-				<span class="filter-group-label">Category</span>
-				<div class="filtertags">
-					<div class="filter-highlight"></div>
-					<button type="button" class="filter-btn active" data-filter="*">All</button>
-					<button type="button" class="filter-btn" data-filter=".talk">Talk</button>
-					<button type="button" class="filter-btn" data-filter=".podcast">Podcast</button>
-					<button type="button" class="filter-btn" data-filter=".overview">Overview</button>
-				</div>
-			</div>
-		</div>
-		<div class="filter-overlay"></div>
-	</div>
-</div>
+{% include filterbar.html types="media" %}
 
 <div class="post-list wrap">
 	<div class="newstiles">
-		{% assign sorted_media = site.media | sort: 'date' | reverse %}
-		{% for media in sorted_media %}
-			{% assign random_number = forloop.index | modulo: 3 | plus: 1 %}
-			{% assign tag_classes = "" %}
-			{% for tag in media.tags %}
-				{% assign slugified_tag = tag | slugify %}
-				{% assign tag_classes = tag_classes | append: slugified_tag | append: " " %}
-			{% endfor %}
-			<div class="mediapreview postpreview {{ tag_classes | downcase }}" data-title="{{ media.title | escape }}">
-				<a href="/media/{{ media.slug | default: media.title | slugify }}/" title="{{ media.title }}" class="blocklink"></a>
-				<div class="postimg custom">
-					{% if media.thumb %}
-						<img src="{{ media.thumb }}" alt="{{ media.title }}" class="zoom-image">
-					{% else %}
-						<img src="/images/blog/thumbs/placeholder.svg" alt="Placeholder" class="zoom-image">
-					{% endif %}
-				</div>
-				<div class="postdetails">
-					<h3>{{ media.title }}</h3>
-					<div class="meta">
-						<div class="date">{{ media.date | date: "%Y-%m-%d" }}</div>
-						{% if media.tags %}
-							<div class="tags">
-								{% for tag in media.tags %}<span>{{ tag }}</span>{% endfor %}
-							</div>
-						{% endif %}
-						{% if media.length %}
-							<div class="length">{{ media.length }}</div>
-						{% endif %}
-					</div>
-					{% if media.author %}
-						<div class="byline">
-							<div class="author"><span>{{ media.author }}</span></div>
-						</div>
-					{% endif %}
-				</div>
-			</div>
+		{% assign entries = site.media | sort: "date" | reverse %}
+		{% for entry in entries %}
+			{% include card.html item=entry %}
 		{% endfor %}
 	</div>
 </div>

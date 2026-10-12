@@ -1,0 +1,22 @@
+# Filter buttons and headings for the post overview pages, plus display labels for the `tag` front matter value.
+# `value` is the class a card carries; `label` is the button text; `heading` replaces the page title when the filter is active.
+
+blog:
+  filters: []
+
+media:
+  filters:
+    - value: talk
+      label: Talk
+      heading: Talks
+    - value: podcast
+      label: Podcast
+      heading: Podcasts
+
+tag_labels:
+  using-ducklake: Using DuckLake
+  tutorial: Tutorial
+  deep-dive: Deep Dive
+  release: Release
+  talk: Talk
+  podcast: Podcast

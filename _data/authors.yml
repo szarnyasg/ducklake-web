@@ -1,0 +1,72 @@
+# Maps an author name, exactly as written in the `authors` front matter list, to an avatar.
+# Use `picture` for a person's photo or `icon` for a sprite symbol from _includes/icons/sources.svg (organizations).
+# Optional `role` is shown below the name in the header of single posts.
+
+DuckDB:
+  icon: source-duckdb
+
+The DuckDB team:
+  icon: source-duckdb
+
+DuckDB meetup organizers:
+  icon: source-duckdb
+
+DuckLabs:
+  icon: source-ducklabs
+
+Alex Monahan:
+  picture: /images/blog/authors/alex_monahan.jpg
+
+Carlo Piovesan:
+  picture: /images/blog/authors/carlo_piovesan.jpg
+
+Christina Sioula:
+  picture: /images/blog/authors/christina_sioula.jpg
+
+Elliana May:
+  picture: /images/blog/authors/elliana_may.jpg
+
+Gábor Szárnyas:
+  picture: /images/blog/authors/gabor_szarnyas.png
+
+Hannes Mühleisen:
+  picture: /images/blog/authors/hannes_muehleisen.jpg
+
+Laurens Kuiper:
+  picture: /images/blog/authors/laurens_kuiper.jpg
+
+Maia de Graaf:
+  picture: /images/blog/authors/maja.png
+
+Mark Raasveldt:
+  picture: /images/blog/authors/mark_raasveldt.jpg
+
+Max Gabrielsson:
+  picture: /images/blog/authors/max_gabrielsson.jpg
+
+Pedro Holanda:
+  picture: /images/blog/authors/pedro_holanda.jpg
+
+Richard Wesley:
+  picture: /images/blog/authors/richard_wesley.jpg
+
+Sam Ansmink:
+  picture: /images/blog/authors/sam_ansmink.png
+
+Tania Bogatsch:
+  picture: /images/blog/authors/tania_bogatsch.jpg
+
+Thijs Bruineman:
+  picture: /images/blog/authors/thijs_bruineman.jpg
+
+Tom Ebergen:
+  picture: /images/blog/authors/tom_ebergen.jpg
+
+Geertjan Wielenga:
+  picture: /images/blog/authors/geertjan_wielenga.jpg
+
+Guillermo Sanchez:
+  picture: /images/blog/authors/guillermo_sanchez.jpg
+
+Mustafa Khan:
+  picture: /images/blog/authors/mustafa_khan_atlan.jpg

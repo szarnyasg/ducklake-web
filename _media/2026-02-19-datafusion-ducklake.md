@@ -1,10 +1,11 @@
 ---
 layout: post
 title: "DataFusion + DuckLake"
-author: Zac Farrell
+authors:
+  - Zac Farrell
 excerpt: ""
 toc: false
-tags: ["Talk"]
+tag: talk
 length: "12 min"
 ---
 

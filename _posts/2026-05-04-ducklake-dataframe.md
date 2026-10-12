@@ -3,7 +3,9 @@ layout: post
 title: "The DuckLake Spec Is so Simple, Even a Clanker Can Build One for Dataframes"
 thumb: "/images/blog/thumbs/ducklake-dataframe.svg"
 image: "/images/blog/thumbs/ducklake-dataframe.png"
-author: "Pedro Holanda, Dr. Peter van Holland"
+authors:
+  - Pedro Holanda
+  - Dr. Peter van Holland
 excerpt: "We are showcasing the simplicity of DuckLake's v1.0 specification by developing a dataframe reader/writer with AI."
 ---
 
