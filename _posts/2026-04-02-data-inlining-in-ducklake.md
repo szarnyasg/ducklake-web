@@ -1,11 +1,12 @@
 ---
 layout: post
 title: "Data Inlining in DuckLake: Unlocking Streaming for Data Lakes"
-author: "Pedro Holanda"
+authors:
+  - Pedro Holanda
 thumb: "/images/blog/thumbs/ducklake-inlining.svg"
 image: "/images/blog/thumbs/ducklake-inlining.png"
 excerpt: "DuckLake’s data inlining stores small updates directly in the catalog, eliminating the “small files problem” and making continuous streaming into data lakes practical. Our benchmark shows 926× faster queries and 105× faster ingestion when compared to Iceberg."
-tags: ["deep dive"]
+tag: deep-dive
 ---
 
 Data lakes let users avoid being locked into a single database. They work by storing data in open formats (most commonly [Parquet](https://parquet.apache.org/)). Most data lakes, like [Iceberg](https://iceberg.apache.org/), [Hudi](https://hudi.apache.org/), and [Delta](https://delta.io/), also store their metadata (the bits of information that tell you which files you need to read for a certain query) in open formats such as JSON and Avro files. This means anyone can implement a system that reads and writes these formats, freeing users from being locked into a single commercial solution.

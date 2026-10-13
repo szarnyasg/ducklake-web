@@ -81,16 +81,18 @@ $(document).ready(function(){
 			fitRows: {
 				gutter: 32,
 				equalheight: true
-			},
-			getSortData: {
-				title: '[data-title]'
 			}
 		});
 
-		// --- Filter highlight ---
+		var $heading = $('.pagetitle h1').first();
+		var defaultHeading = $.trim($heading.text());
+		var $search = $('#search-input');
+		var $coreToggle = $('#core-toggle');
+		var $empty = $('.filter-empty');
+		var activeFilter = '*';
+
 		function updateFilterHighlight($button) {
-			var $filtertags = $button.closest('.filtertags');
-			var $highlight = $filtertags.find('.filter-highlight');
+			var $highlight = $button.closest('.filtertags').find('.filter-highlight');
 			if ($highlight.length && $button.is(':visible')) {
 				$highlight.css({
 					left: $button.position().left,
@@ -99,127 +101,111 @@ $(document).ready(function(){
 			}
 		}
 
-		// Initialize highlights for all visible filter groups
-		$('.filtertags').each(function() {
-			var $activeBtn = $(this).find('.filter-btn.active');
-			if ($activeBtn.length) {
-				updateFilterHighlight($activeBtn);
-			}
-		});
+		function setActiveFilter(value) {
+			activeFilter = value;
+			$('.filterbar .filtertags').each(function() {
+				var $buttons = $(this).find('.filter-btn').removeClass('active');
+				var $match = $buttons.filter('[data-filter="' + value + '"]').addClass('active');
+				updateFilterHighlight($match);
+			});
+			var heading = $('.filterbar .filter-btn.active').first().attr('data-heading');
+			$heading.text(heading || defaultHeading);
+		}
 
-		// --- Filter state per group ---
-		var filterState = {};
-
-		$('.filter-group').each(function() {
-			var key = $(this).attr('data-filter-key');
-			if (key) {
-				filterState[key] = '*';
+		function readFiltersFromURL() {
+			var params = new URLSearchParams(window.location.search);
+			var type = params.get('type');
+			if (type && $('.filterbar .filter-btn[data-filter=".' + type + '"]').length) {
+				setActiveFilter('.' + type);
 			}
-		});
+			if (params.get('q')) {
+				$search.val(params.get('q'));
+			}
+			if (params.get('core') === '1') {
+				$coreToggle.prop('checked', true);
+			}
+		}
+
+		function writeFiltersToURL() {
+			var params = new URLSearchParams();
+			if (activeFilter !== '*') {
+				params.set('type', activeFilter.replace(/^\./, ''));
+			}
+			if ($coreToggle.is(':checked')) {
+				params.set('core', '1');
+			}
+			if ($search.val()) {
+				params.set('q', $search.val());
+			}
+			history.replaceState(null, '', window.location.pathname + (params.toString() ? '?' + params.toString() : ''));
+		}
 
 		function applyFilters() {
-			var searchValue = $('#search-input').val().toLowerCase();
+			var searchValue = $search.val().toLowerCase().trim();
+			var coreOnly = $coreToggle.is(':checked');
+
+			$grid.closest('.events-section').removeClass('is-empty');
 
 			$grid.isotope({
 				filter: function() {
 					var $item = $(this);
-					if (searchValue) {
-						var title = $item.attr('data-title').toLowerCase();
-						if (!title.includes(searchValue)) return false;
-					}
-					for (var key in filterState) {
-						var value = filterState[key];
-						if (value === '*') continue;
-
-						var $group = $('.filter-group[data-filter-key="' + key + '"]').not('.filter-group-mobile-only').first();
-						var $filtertags = $group.find('.filtertags');
-						var attribute = $filtertags.attr('data-attribute');
-
-						if (attribute) {
-							var itemValue = $item.attr(attribute);
-							if (itemValue !== value) return false;
-						} else {
-							if (!$item.is(value)) return false;
-						}
-					}
+					if (activeFilter !== '*' && !$item.is(activeFilter)) return false;
+					if (coreOnly && $item.attr('data-core') !== 'true') return false;
+					if (searchValue && ($item.attr('data-search') || '').indexOf(searchValue) === -1) return false;
 					return true;
 				}
 			});
-		}
 
-		// Sync duplicate filter groups (desktop ↔ mobile-only) by filter-key
-		function syncFilterGroups($clickedBtn) {
-			var $group = $clickedBtn.closest('.filter-group');
-			var key = $group.attr('data-filter-key');
-			var filterValue = $clickedBtn.attr('data-filter');
-
-			$('.filter-group[data-filter-key="' + key + '"]').each(function() {
-				var $otherFiltertags = $(this).find('.filtertags');
-				$otherFiltertags.find('.filter-btn').removeClass('active');
-				var $matchingBtn = $otherFiltertags.find('.filter-btn[data-filter="' + filterValue + '"]');
-				$matchingBtn.addClass('active');
-				if ($matchingBtn.is(':visible')) {
-					updateFilterHighlight($matchingBtn);
-				}
+			var visible = 0;
+			$grid.each(function() {
+				var iso = $(this).data('isotope');
+				var count = iso ? iso.filteredItems.length : 0;
+				visible += count;
+				$(this).closest('.events-section').toggleClass('is-empty', count === 0);
 			});
+			$empty.prop('hidden', visible > 0);
 		}
 
-		// --- Click handler for filter buttons ---
 		$('.filterbar').on('click', 'button.filter-btn', function() {
-			var $btn = $(this);
-			var $group = $btn.closest('.filter-group');
-			var key = $group.attr('data-filter-key');
-			var filterValue = $btn.attr('data-filter');
-
-			if (key) {
-				filterState[key] = filterValue;
-			}
-
-			syncFilterGroups($btn);
+			setActiveFilter($(this).attr('data-filter'));
 			applyFilters();
+			writeFiltersToURL();
 		});
 
-		// --- Search input ---
-		$('#search-input').on('input', function() {
+		$search.on('input', function() {
 			applyFilters();
+			writeFiltersToURL();
+		});
+
+		$coreToggle.on('change', function() {
+			applyFilters();
+			writeFiltersToURL();
 		});
 
 		// --- Mobile filter modal ---
 		var $filterToggle = $('.filter-toggle');
 		var $filterModal = $('.filter-modal');
 		var $filterOverlay = $('.filter-overlay');
-		var filterModalOpen = false;
 
-		function openFilterModal() {
-			filterModalOpen = true;
-			$filterToggle.addClass('is-open');
-			$filterOverlay.addClass('is-open');
-			$filterModal.addClass('is-open');
-			$filterModal.find('.filtertags').each(function() {
-				var $activeBtn = $(this).find('.filter-btn.active');
-				if ($activeBtn.length) {
-					updateFilterHighlight($activeBtn);
-				}
-			});
-		}
-
-		function closeFilterModal() {
-			filterModalOpen = false;
-			$filterToggle.removeClass('is-open');
-			$filterModal.removeClass('is-open');
-			$filterOverlay.removeClass('is-open');
-		}
-
-		function toggleFilterModal() {
-			if (filterModalOpen) {
-				closeFilterModal();
-			} else {
-				openFilterModal();
+		function setFilterModal(open) {
+			$filterToggle.toggleClass('is-open', open);
+			$filterModal.toggleClass('is-open', open);
+			$filterOverlay.toggleClass('is-open', open);
+			if (open) {
+				updateFilterHighlight($filterModal.find('.filter-btn.active'));
 			}
 		}
 
-		$filterToggle.on('click', toggleFilterModal);
-		$filterOverlay.on('click', closeFilterModal);
+		$filterToggle.on('click', function() {
+			setFilterModal(!$filterModal.hasClass('is-open'));
+		});
+		$filterOverlay.on('click', function() {
+			setFilterModal(false);
+		});
+
+		setActiveFilter(activeFilter);
+		readFiltersFromURL();
+		applyFilters();
 	}
 	
 

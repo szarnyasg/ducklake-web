@@ -3,7 +3,7 @@ layout: default
 title: "The DuckLake Manifesto: SQL as a Lakehouse Format"
 subtitle: An integrated data lake and catalog format
 description: DuckLake delivers advanced data lake features without traditional lakehouse complexity by using Parquet files and your SQL database. It’s an open, standalone format from the DuckDB team.
-body_class: manifesto
+body_class: manifesto blog_typography post
 max_page_width: small
 toc: false
 ---

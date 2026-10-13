@@ -1,12 +1,13 @@
 ---
 layout: post
 title: "DuckLake – The SQL-Powered Lakehouse Format for the Rest of Us"
-author: "Hannes Mühleisen"
+authors:
+  - Hannes Mühleisen
 thumb: "/images/media/thumbs/2025-06-19-systems-distributed.png"
 image: "/images/media/thumbs/2025-06-19-systems-distributed.png"
 excerpt: ""
 toc: false
-tags: ["Talk"]
+tag: talk
 length: "55 min"
 ---
 

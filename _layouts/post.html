@@ -75,43 +75,58 @@
 					<div class="singleentry{% if page.toc != false %} contains_toc{% endif %}">
 						<div class="content">
 							<div class="contentwidth">
-								<h1>{{ page.title }}</h1>
-								
-								{% if page.author and page.event == false or page.collection != "events" %}
-									<div class="infoline">
-										{% assign author = site.data.authors[page.author] %}
-										{% assign cfg = site.data.post_sources %}
-										{% assign source = cfg.sources[cfg.default_domain] %}
-										{% assign use_sprite = false %}
-										{% unless author %}{% if page.collection != "science" %}{% assign use_sprite = true %}{% endif %}{% endunless %}
-										<div class="icon{% if use_sprite %} spriteicon{% endif %}">
-											{% if author %}
-												<img src="{{ author.picture }}" alt="Author Avatar">
-											{% elsif use_sprite %}
-												<svg class="source-icon"><use href="#{{ source.icon | default: cfg.fallback_icon }}"></use></svg>
-											{% endif %}
-										</div>
-										<div>
-											<span class="author">{{ page.author }}</span>
-											{% if page.event != true and page.collection != "events" %}
-												<div class="publishedinfo">
-													<span class="date">{{ page.date | date: "%Y-%m-%d" }}</span>
-													<span class="bullet">|</span>
-													<span class="readingtime"> {% if page.collection == "media" %}{{ page.length }}{% else %}{{ content | reading_time }}{% endif %}</span>
-												</div>
-											{% endif %}
-										</div>
-									</div>
+								{% if page.collection == "media" %}
+									{% assign crumb_label = "Media" %}{% assign crumb_url = "/media/" %}{% assign crumb_types = "media" %}
+								{% else %}
+									{% assign crumb_label = "Blog" %}{% assign crumb_url = "/news/" %}{% assign crumb_types = "blog" %}
 								{% endif %}
-								
-								{% if page.event == true or page.collection == "events" %}
-									<div class="infoline">
-										<div class="scheduled">
-											<span>Scheduled for</span>
-											<span class="date">{{ page.date | date: "%B %d, %Y" }}</span>
-										</div>
-										<div class="venue"><span>at {{ page.venue }}</span></div>
+								{% assign crumb_tag = page.tag %}
+								{% assign crumb_filter = site.data.post_types[crumb_types].filters | where: "value", crumb_tag | first %}
+								<nav class="post-breadcrumb" aria-label="Breadcrumb">
+									<a href="{{ site.baseurl }}{{ crumb_url }}">{{ crumb_label }}</a>
+									{% if crumb_tag %}
+										<span class="separator" aria-hidden="true">/</span>
+										{% assign crumb_tag_label = site.data.post_types.tag_labels[crumb_tag] | default: crumb_tag %}
+										{% if crumb_filter %}<a href="{{ site.baseurl }}{{ crumb_url }}?type={{ crumb_tag }}">{{ crumb_tag_label }}</a>{% else %}<span>{{ crumb_tag_label }}</span>{% endif %}
+									{% endif %}
+								</nav>
+								<h1>{{ page.title }}</h1>
+
+								<div class="postheader">
+									<div class="postheader-meta">
+										<span class="date">{{ page.date | date: "%Y-%m-%d" }}</span>
+										{% if page.collection == "media" %}
+											{% if page.length %}<span class="readingtime">{{ page.length }}</span>{% endif %}
+										{% else %}
+											<span class="readingtime">{{ content | reading_time }} read</span>
+										{% endif %}
 									</div>
+									{% if page.authors.size > 4 %}
+										<p class="postheader-authorlist">{{ page.authors | join: ", " }}</p>
+									{% elsif page.authors and page.authors.size > 0 %}
+										<div class="postheader-authors">
+											{% for post_author_name in page.authors %}
+												{% assign post_author = site.data.authors[post_author_name] %}
+												<div class="postheader-author">
+													{% if post_author.picture %}
+														<img src="{{ post_author.picture }}" alt="" class="avatar" loading="lazy">
+													{% elsif post_author.icon %}
+														<svg class="avatar"><use href="#{{ post_author.icon }}"></use></svg>
+													{% else %}
+														<svg class="avatar" aria-hidden="true"><use href="#avatar-placeholder"></use></svg>
+													{% endif %}
+													<div class="postheader-author-text">
+														<span class="name">{{ post_author_name }}</span>
+														{% if post_author.role %}<span class="role">{{ post_author.role }}</span>{% endif %}
+													</div>
+												</div>
+											{% endfor %}
+										</div>
+									{% endif %}
+								</div>
+
+								{% if page.thumb and page.collection != "media" %}
+									<img src="{{ page.thumb }}" alt="" class="postheader-thumb">
 								{% endif %}
 								
 								{% if page.excerpt != "" %}
@@ -120,7 +135,8 @@
 									</div>
 								{% endif %}
 								
-								{% include anchor_headings.html html=content %}
+								{% assign post_content = content | regex_replace: "<th>[[:space:]]*</th>", "<th></th>" %}
+								{% include anchor_headings.html html=post_content %}
 							</div>
 						</div>
 						

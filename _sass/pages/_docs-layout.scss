@@ -44,10 +44,6 @@ body.documentation {
         a {
             text-decoration: underline;
             text-underline-offset: 2px;
-
-            &:hover {
-                text-decoration: none;
-            }
         }
 
         &.lts {
