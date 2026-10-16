@@ -5,6 +5,16 @@ title: ducklake_table_column_stats
 
 This table contains column-level statistics for an entire table.
 
+## Snapshot Validity
+
+These statistics are mutable and describe the latest committed snapshot. A commit that removes data files may recompute the statistics from the surviving data. In particular, the resulting bounds need not contain values visible in older snapshots.
+
+A reader may use these statistics to prune a snapshot only when they were read from a consistent metadata view in which that snapshot was the latest, or when it has retained cached statistics known to be valid for that snapshot. Otherwise, the reader must use statistics valid for the files in its snapshot or scan without table-level statistics.
+
+A commit that narrows these statistics must advance `next_file_id` in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}), even if it creates no data or deletion files. This prevents readers that cache table statistics by `next_file_id` from reusing narrower bounds for an older snapshot.
+
+## Columns
+
 | Column name     | Column type |             |
 | --------------- | ----------- | ----------- |
 | `table_id`      | `BIGINT`    |             |
