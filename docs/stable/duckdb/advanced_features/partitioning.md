@@ -86,7 +86,7 @@ DuckLake supports the following partition clauses:
 | epoch_day   | epoch_day(ts)        |
 | epoch_hour  | epoch_hour(ts)       |
 
-The `epoch_year`, `epoch_month`, `epoch_day` and `epoch_hour` transforms count whole years, months, days and hours since January 1, 1970.
+The `epoch_year`, `epoch_month`, `epoch_day` and `epoch_hour` transforms count whole years, months, days and hours since January 1, 1970, rounding down, so values before 1970 are negative.
 Unlike calendar transforms such as `month(ts)`, epoch transforms distinguish units across years: January 2020 has `month` value `1` and `epoch_month` value `600`.
 Epoch transforms use the UTC instant for timestamps with time zones, independently of the session's time zone.
 These transforms require DuckLake format version 1.1.

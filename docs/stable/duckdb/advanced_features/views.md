@@ -17,7 +17,8 @@ CREATE VIEW v1 AS SELECT * FROM tbl;
 View columns support [`COMMENT ON COLUMN`]({% link docs/stable/duckdb/advanced_features/comments.md %}) with DuckLake format version 1.1.
 
 References to the view's own DuckLake catalog are stored without the catalog name, allowing views to be queried after reattaching the catalog under a different alias.
-When views reference [nested schemas]({% link docs/stable/duckdb/advanced_features/nested_schemas.md %}), keep parent schema names distinct from other attached catalog names to avoid ambiguous references in the stored SQL.
+The stored SQL omits the DuckLake catalog name, so keep schema names distinct from other attached catalog names.
+Otherwise, a reference such as `sales.tbl` becomes ambiguous, and a reference into a [nested schema]({% link docs/stable/duckdb/advanced_features/nested_schemas.md %}) such as `sales.europe.orders` resolves to an attached catalog named `sales`.
 
 The `sql` column of `duckdb_views()` includes the view's schema in the `CREATE VIEW` statement when it is outside the `main` schema.
 

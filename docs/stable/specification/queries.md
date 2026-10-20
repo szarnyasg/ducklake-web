@@ -123,7 +123,8 @@ where
 
 Now we have a list of files. In order to reconstruct actual table rows, we need to read the rows from the `data_file_path` files and remove the rows labeled as deleted in the `delete_file_path`.
 If `data_partial_max` exceeds the requested snapshot, we filter rows by their `_ducklake_internal_snapshot_id`.
-For partial delete files, we apply only the deletions for the requested snapshot, using the [delete file's format]({% link docs/stable/specification/tables/ducklake_delete_file.md %}).
+For a partial Parquet delete file, we apply only the deletions whose `_ducklake_internal_snapshot_id` does not exceed the requested snapshot.
+For a Puffin file, we select the deletion vector as described for the [delete file's format]({% link docs/stable/specification/tables/ducklake_delete_file.md %}).
 
 Not all files have to contain all the columns currently defined in the table, some files may also have columns that existed previously but have been removed.
 
@@ -250,8 +251,8 @@ where
 
 - `⟨snapshot_id⟩`{:.language-sql .highlight} is the new snapshot identifier. This should be `max(snapshot_id) + 1`.
 - `⟨schema_version⟩`{:.language-sql .highlight} is the schema version for the new snapshot. If any schema changes are made, this needs to be incremented. Otherwise the previous snapshot's `schema_version` can be re-used.
-- `⟨next_catalog_id⟩`{:.language-sql .highlight} gives the next unused identifier for tables, schemas, views, macros, partitioning specifications, sort configurations, or column mappings. This only has to be incremented if new catalog entries are created.
-- `⟨next_file_id⟩`{:.language-sql .highlight} is the same but for data or delete files.
+- `⟨next_catalog_id⟩`{:.language-sql .highlight} gives the next unused identifier for tables, schemas, views, macros, partitioning specifications or sort configurations. This only has to be incremented if new catalog entries are created.
+- `⟨next_file_id⟩`{:.language-sql .highlight} is the same but for data files, delete files and column mappings.
 - `⟨changes⟩`{:.language-sql .highlight} contains a list of changes performed by the snapshot. See the list of possible values in the [`ducklake_snapshot_changes` table's documentation]({% link docs/stable/specification/tables/ducklake_snapshot_changes.md %}).
 - `⟨author⟩`{:.language-sql .highlight} contains information about the author of the commit (optional).
 - `⟨commit_message⟩`{:.language-sql .highlight} attaches a commit message to the transaction (optional).
@@ -259,7 +260,7 @@ where
 
 ### `CREATE SCHEMA`
 
-A schema is a collection of tables and nested schemas. In order to create a new schema, we can just insert into the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %}):
+A schema is a collection of tables, views, macros and nested schemas. In order to create a new schema, we can just insert into the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %}):
 
 ```sql
 INSERT INTO ducklake_schema (
@@ -289,7 +290,7 @@ where
 - `⟨schema_id⟩`{:.language-sql .highlight} is the new schema identifier. Use `next_catalog_id` from the previous snapshot, then increment it.
 - `⟨snapshot_id⟩`{:.language-sql .highlight} is the snapshot identifier of the new snapshot as described above.
 - `⟨schema_name⟩`{:.language-sql .highlight} is the name of the new schema.
-- `⟨schema_path⟩`{:.language-sql .highlight} is the schema's path relative to the catalog's `data_path`.
+- `⟨schema_path⟩`{:.language-sql .highlight} is the schema's path relative to the catalog's `data_path`, ending with `/`, e.g., `my_schema/`.
 - `⟨parent_schema_id⟩`{:.language-sql .highlight} is the parent schema's id, or `NULL` for a top-level schema.
 
 ### `CREATE TABLE`
@@ -325,7 +326,7 @@ where
 - `⟨snapshot_id⟩`{:.language-sql .highlight} is the snapshot identifier of the new snapshot as described above.
 - `⟨schema_id⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `schema_id` column in the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %}) table.
 - `⟨table_name⟩`{:.language-sql .highlight} is the name of the new table.
-- `⟨table_path⟩`{:.language-sql .highlight} is the table's path relative to its schema's path.
+- `⟨table_path⟩`{:.language-sql .highlight} is the table's path relative to its schema's path, ending with `/`, e.g., `my_table/`.
 
 A table needs some columns, we can add columns to the new table by inserting into the [`ducklake_column` table]({% link docs/stable/specification/tables/ducklake_column.md %}) table.
 For each column to be added, we run the following query:
@@ -586,10 +587,6 @@ VALUES (
     ⟨footer_size⟩,
     ⟨row_group_count⟩
 );
-
-UPDATE ducklake_table_stats
-SET record_count = record_count - ⟨delete_count⟩
-WHERE table_id = ⟨table_id⟩;
 ```
 
 where
@@ -610,7 +607,7 @@ Notes:
 
 - In DuckLake, the strategy used for `DELETE` operations is **merge-on-read**. Delete files are referenced in the [`ducklake_delete_file` table]({% link docs/stable/specification/tables/ducklake_delete_file.md %}).
 
-- Please note that `DELETE` operations do not require updates to column min/max statistics, as these are maintained as bounds, and deletions do not violate these bounds.
+- `DELETE` operations do not update the [`ducklake_table_stats` table]({% link docs/stable/specification/tables/ducklake_table_stats.md %}) or the column statistics. `record_count` keeps counting the rows of the live data files, including rows marked as deleted, and DuckDB compares it with the live row count to decide whether the column bounds are exact. The column bounds stay valid because deletions do not violate them.
 
 ### `UPDATE`
 

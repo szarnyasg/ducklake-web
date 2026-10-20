@@ -76,7 +76,7 @@ Updates are split into two rows: the `update_preimage` and `update_postimage`.
 A row updated and then deleted in one transaction is reported as a deletion of its previously committed version.
 A row inserted and deleted within the same transaction is not reported.
 
-If a table has a data column named `rowid` or `snapshot_id`, the change feed renames that data column, for example to `rowid_1` or `snapshot_id_1`, so the change identifiers remain accessible.
+If a table has a data column named `rowid` or `snapshot_id`, or a column named `change_type` in the case of `table_changes`, the change feed renames that data column, for example to `rowid_1`, `snapshot_id_1` or `change_type_1`, so the change columns remain accessible.
 
 When the schema of a table is altered, changes are read as of the schema of the table as of the end snapshot.
 As such, if a column is dropped in between the provided bounds, the dropped column is omitted from the entire result.

@@ -59,6 +59,6 @@ The function returns the following result set.
 | delete_file_encryption_key | BLOB        |
 
 * If the file has delete files, the corresponding delete file is returned, otherwise these fields are `NULL`.
-* If the database is encrypted, the encryption key must be used to read Parquet files. Puffin deletion-vector files are unencrypted.
+* If the database is encrypted, Parquet data and delete files must be read with the returned encryption key. Puffin deletion-vector files are written unencrypted, even though `delete_file_encryption_key` is also set for them.
 * The `footer_size` refers to the Parquet or Puffin footer size. This is optionally provided, and is `0` for bare deletion-vector files.
 * Delete files can be Parquet files or Puffin deletion-vector files.

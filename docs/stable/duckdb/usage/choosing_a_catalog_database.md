@@ -25,7 +25,7 @@ ATTACH 'ducklake:metadata.ducklake' AS my_ducklake;
 USE my_ducklake;
 ```
 
-Note that if you are using DuckDB as your catalog database, read-write access is limited to a single process.
+Note that if you are using DuckDB as your catalog database, only one process can attach it at a time unless every process attaches it with `READ_ONLY`.
 Multiple connections within that process can use the catalog.
 
 ## PostgreSQL
@@ -76,6 +76,8 @@ In a separate server process, open the DuckDB file that will store the metadata,
 INSTALL ducklake;
 LOAD ducklake;
 INSTALL quack;
+INSTALL httpfs;
+LOAD httpfs;
 LOAD quack;
 CALL quack_serve('quack:localhost');
 ```
@@ -86,6 +88,8 @@ Use the token returned by `quack_serve` to create a secret in the client process
 ```sql
 INSTALL ducklake;
 INSTALL quack;
+INSTALL httpfs;
+LOAD httpfs;
 LOAD quack;
 CREATE SECRET (TYPE quack, TOKEN '⟨token⟩', SCOPE 'quack:localhost');
 

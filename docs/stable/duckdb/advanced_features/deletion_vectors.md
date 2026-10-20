@@ -3,7 +3,7 @@ layout: docu
 title: Deletion Vectors
 ---
 
-> Warning Writing deletion vectors is experimental and is intended for testing.
+> Warning Writing deletion vectors is experimental.
 
 DuckLake can record deleted row positions using Iceberg V3 deletion vectors in `.puffin` files instead of Parquet positional delete files.
 The `write_deletion_vectors` option is disabled by default.
@@ -20,11 +20,15 @@ CREATE TABLE tbl AS SELECT i AS id FROM range(100) t(i);
 DELETE FROM tbl WHERE id = 0;
 ```
 
+The `WRITE_DELETION_VECTORS` attach option is not persisted and must be specified on each attach.
+
 The option can also be set per table:
 
 ```sql
 ALTER TABLE tbl SET (write_deletion_vectors = true);
 ```
+
+The `write_deletion_vectors` option set with `set_option` or `ALTER TABLE ... SET` is stored in the catalog.
 
 With [data inlining]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) enabled, small deletions can remain in the metadata catalog until flushed.
 `ducklake_flush_inlined_data` also uses the configured delete file format.

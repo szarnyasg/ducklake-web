@@ -98,15 +98,17 @@ Examples of valid type promotions are as follows:
 | Source    | Target                       |
 | --------- | ---------------------------- |
 | `int8`    | `int16`, `int32`, `int64`, `int128`, `float32`, `float64` |
-| `int16`   | `int32`, `int64`, `int128`    |
-| `int32`   | `int64`, `int128`             |
-| `int64`   | `int128`                      |
+| `int16`   | `int32`, `int64`, `int128`, `float32`, `float64` |
+| `int32`   | `int64`, `int128`, `float32`, `float64` |
+| `int64`   | `int128`, `float32`, `float64` |
 | `uint8`   | `uint16`, `uint32`, `uint64` |
 | `uint16`  | `uint32`, `uint64`           |
 | `uint32`  | `uint64`                     |
 | `float32` | `float64`                    |
 | `timestamp` | `timestamptz`               |
 | `null`    | A supported scalar type       |
+
+Promotions to floating-point types are accepted even when they can lose precision, such as `int64` to `float32`.
 
 The `null` type requires DuckLake format version 1.1 and can only store `NULL` values until promoted.
 It cannot be promoted to a nested type such as `struct`, `list` or `map`.

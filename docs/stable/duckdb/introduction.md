@@ -33,7 +33,7 @@ USE my_ducklake;
 
 This will create a file `my_ducklake.ducklake`, which is a DuckDB database with the [DuckLake schema]({% link docs/stable/specification/tables/overview.md %}).
 
-We also use `USE` so we don't have to prefix all table names with `my_ducklake`. Once data is written to Parquet, this will also create a folder `my_ducklake.ducklake.files` in the same directory, where Parquet files are stored. Small inserts can instead be [inlined in the metadata catalog]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}).
+We also use `USE` so we don't have to prefix all table names with `my_ducklake`. Once data is inserted, this will also create a folder `my_ducklake.ducklake.files` in the same directory, where Parquet files are stored. Small inserts are [inlined in the metadata catalog]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) instead of being written to Parquet files.
 
 If you would like to use another directory, you can specify this in the `DATA_PATH` parameter for `ATTACH`:
 
@@ -44,7 +44,7 @@ USE my_other_ducklake;
 
 The path is stored in the DuckLake metadata and does not have to be specified again to attach to an existing DuckLake catalog.
 
-> Both `DATA_PATH` and the database file path can be absolute or relative paths (e.g., `./some/path/` or `some/path/`). Moreover, for database creation the path needs to exist already, i.e., `ATTACH 'ducklake:db/my_ducklake.ducklake' AS my_ducklake;` where `db` needs to be an existing directory.
+> Both `DATA_PATH` and the database file path can be absolute or relative paths (e.g., `/some/path/`, `./some/path/` or `some/path/`). Moreover, for database creation the path needs to exist already, i.e., `ATTACH 'ducklake:db/my_ducklake.ducklake' AS my_ducklake;` where `db` needs to be an existing directory.
 
 ## Attaching an Existing Database
 

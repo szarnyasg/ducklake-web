@@ -55,13 +55,14 @@ With the above settings, calling `ducklake_merge_adjacent_files('my_ducklake')` 
 
 The `ducklake_merge_adjacent_files` function supports optional parameters to filter which files are considered for compaction and control memory usage. This enables advanced compaction strategies and more granular control over the compaction process.
 
-- **`max_compacted_files`:** Limits the maximum number of compaction operations produced in a single call, *per table*. Compacting data files can be a very memory intensive operation, so you may consider performing this operation in batches by specifying this parameter. Note that the number of actual compacted files is highly dependent on the `target_file_size` setting.
+- **`max_compacted_files`:** Limits the number of candidate file groups considered in a single call, *per table*. A file that cannot be combined with its neighbors also counts toward the limit, so a small limit can result in fewer merges than expected. Compacting data files can be a very memory intensive operation, so you may consider performing this operation in batches by specifying this parameter. Note that the number of actual compacted files is highly dependent on the `target_file_size` setting.
 - **`min_file_size`:** Files smaller than this size (in bytes) are excluded from compaction. If not specified, all files are considered regardless of minimum size.
 - **`max_file_size`:** Files at or larger than this size (in bytes) are excluded from compaction. If not specified, it defaults to `target_file_size`. Must be greater than 0.
 - **`newer_than`:** Only consider files from snapshots at or after this timestamp (`TIMESTAMPTZ`).
 - **`older_than`:** Only consider files from snapshots before this timestamp (`TIMESTAMPTZ`).
 
-The time filters use the snapshot where each file's data begins, including for previously merged files.
+The time filters compare against each file's `begin_snapshot`.
+For a merged file this is the first snapshot of the files it was merged from, which can be older than any row in that output file.
 
 Example with compacted files limit (applies per table when running across all tables):
 

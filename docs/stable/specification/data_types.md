@@ -108,22 +108,22 @@ Most types follow a straightforward encoding, however some do not. The following
 | `date`         | ISO 8601 date with special values: `infinity`, `-infinity`                                                                                  | `2024-01-15`                           |
 | `time`         | ISO 8601 time with microseconds if non-zero                                                                                                 | `12:30:00.123456`                      |
 | `time_ns`      | ISO 8601 time with nanoseconds if non-zero                                                                                                  | `12:30:00.123456789`                   |
+| `timetz`       | ISO 8601 time with UTC offset. Parquet writer statistics are normalized to `+00`                                                             | `10:30:00+00`                         |
 | `timestamp`    | ISO 8601 timestamp with microseconds if non-zero, with special values: `infinity`, `-infinity`                                              | `2024-01-15 12:30:00.123456`           |
 | `timestamptz`  | ISO 8601 timestamp with UTC offset, with special values: `infinity`, `-infinity`                                                            | `2024-01-15 12:30:00.123456+00`        |
-| `timestamptz_ns` | ISO 8601 timestamp with nanoseconds and UTC offset, with special values: `infinity`, `-infinity`                                          | `2024-01-15 12:30:00.123456789+00`     |
+| `timestamptz_ns` | ISO 8601 timestamp with nanoseconds if non-zero and UTC offset, with special values: `infinity`, `-infinity`                              | `2024-01-15 12:30:00.123456789+00`     |
 | `timestamp_s`  | ISO 8601 timestamp (second precision) with special values: `infinity`, `-infinity`                                                          | `2024-01-15 12:30:00`                  |
 | `timestamp_ms` | ISO 8601 timestamp (millisecond precision) with special values: `infinity`, `-infinity`                                                     | `2024-01-15 12:30:00.123`              |
 | `timestamp_ns` | ISO 8601 timestamp (nanosecond precision) with special values: `infinity`, `-infinity`                                                      | `2024-01-15 12:30:00.123456789`        |
 | `varchar`      | As-is                                                                                                                                       | `hello`                                |
 | `json`         | As-is                                                                                                                                       | `{"key": "value"}`                     |
-| `blob`         | Hex-encoded raw bytes for Parquet writer statistics (table bounds from inlined data use DuckDB's escaped blob text representation)            | `68656C6C6F20776F726C64`               |
+| `blob`         | Hex-encoded raw bytes for Parquet writer statistics. Table bounds from inlined data use DuckDB's escaped blob text representation, and a table statistics row can contain both encodings | `68656C6C6F20776F726C64`               |
 | `uuid`         | Standard UUID string                                                                                                                        | `550e8400-e29b-41d4-a716-446655440000` |
 
 The following types do not currently have min/max statistics from the Parquet writer:
 
 * `int128` 
 * `uint128` 
-* `timetz` 
 * `interval`
 
 Table statistics can still contain bounds from inlined values.
@@ -231,7 +231,7 @@ PostgreSQL does not natively support all DuckDB types. The following table descr
 | `TIMESTAMP_MS`   | `VARCHAR`            | Stored as text                                                                                                            | `2024-01-15 12:30:00.123` -> `'2024-01-15 12:30:00.123'`                                   |
 | `TIMESTAMP_NS`   | `VARCHAR`            | Stored as text                                                                                                            | `2024-01-15 12:30:00.123456789` -> `'2024-01-15 12:30:00.123456789'`                       |
 | `TIME_NS`        | `VARCHAR`            | Stored as text to preserve nanosecond precision                                                                            | `12:30:00.123456789` -> `'12:30:00.123456789'`                                             |
-| `TIMESTAMPTZ_NS` | `VARCHAR`            | Stored as text to preserve nanosecond precision and the UTC offset                                                          | `2024-01-15 12:30:00.123456789+00` -> `'2024-01-15 12:30:00.123456789+00'`                 |
+| `TIMESTAMPTZ_NS` | `VARCHAR`            | Stored as text in the session time zone, preserving nanosecond precision and the UTC offset                                 | `2024-01-15 12:30:00.123456789+00` -> `'2024-01-15 12:30:00.123456789+00'` with `TimeZone` set to `UTC` |
 | `"NULL"`         | `INTEGER`            | Always SQL `NULL`                                                                                                         | `NULL`                                                                                   |
 | `VARIANT`        | `BYTEA`              | Parquet variant metadata bytes followed by value bytes                                                                     |                                                                                          |
 | Nested types     | `VARCHAR`            | Stored as text, with nested variants encoded as blobs                                                                                          | `[1, 2, 3]` -> `'[1, 2, 3]'`                                                               |

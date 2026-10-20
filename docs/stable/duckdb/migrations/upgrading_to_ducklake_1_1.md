@@ -24,6 +24,7 @@ SELECT value FROM my_ducklake.options() WHERE option_name = 'version';
 ```
 
 The result is `1.1`.
+If `ducklake_default_version` is set to `1.0`, `AUTOMATIC_MIGRATION` keeps the catalog at version 1.0, so run `RESET ducklake_default_version;` before migrating.
 Subsequent attachments can omit `AUTOMATIC_MIGRATION`. A migrated catalog cannot be downgraded.
 
 ## Keeping a Catalog at Version 1.0
@@ -42,7 +43,7 @@ Requesting version 1.1 for an existing 1.0 catalog also requires `AUTOMATIC_MIGR
 
 Features such as [nested schemas]({% link docs/stable/duckdb/advanced_features/nested_schemas.md %}) and the `"NULL"` type require DuckLake format version 1.1.
 
-> Pinning the catalog format does not pin the DuckDB metadata file's storage version. A newer DuckDB writer can make that file unreadable by older DuckDB clients. Use types supported by every client sharing the catalog.
+> Pinning the catalog format does not pin the DuckDB metadata file's storage version. DuckLake opens a DuckDB metadata file with the latest storage version of the running DuckDB, so any write from a newer DuckDB release can make the file unreadable by older DuckDB clients. Use the same DuckDB release for every client that opens the file, or use a PostgreSQL or SQLite catalog.
 
 ## Migration Errors
 

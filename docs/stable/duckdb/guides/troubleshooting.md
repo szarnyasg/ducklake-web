@@ -29,7 +29,7 @@ If you try to migrate a read-only catalog, you can get the following error messa
 
 ```console
 Invalid Input Error:
-Failed to rename inlined-data metadata columns of "ducklake_inlined_data_1_1" while migrating to v1.1: Cannot execute statement of type "ALTER" on database "__ducklake_metadata_my_ducklake" which is attached in read-only mode!
+Failed to rename inlined-data metadata columns while migrating to v1.1: Cannot execute statement of type "ALTER" on database "__ducklake_metadata_my_ducklake" which is attached in read-only mode!
 ```
 
 Catalogs from before 1.0 and catalogs labeled `1.1-dev1` must be migrated before use, including read-only use.
@@ -38,7 +38,7 @@ See [“Upgrading to DuckLake 1.1”]({% link docs/stable/duckdb/migrations/upgr
 
 ## Requesting an Older Catalog Version
 
-Requesting version 1.0 for a catalog that has already been migrated produces the following error:
+Requesting version 1.0 for a catalog at version 1.1, for example one that has already been migrated, produces the following error:
 
 ```console
 Invalid Input Error:

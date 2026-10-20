@@ -80,7 +80,8 @@ ALTER TABLE events SET SORTED BY (event_bucket(event_time) ASC);
 Column references are validated when `SET SORTED BY` is executed.
 An error is returned if any referenced columns cannot be resolved.
 Functions and macros are resolved when data is written, compacted or flushed.
-Subqueries and window functions are not supported as sort keys.
+Subqueries, window functions and aggregate functions are not supported as sort keys.
+`SET SORTED BY` accepts them, but writes, compactions and flushes of the table then fail until the sort order is changed or reset.
 
 ## Removing a Sort Order
 

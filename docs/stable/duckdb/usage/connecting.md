@@ -70,6 +70,8 @@ Do not rely on an unprefixed SQLite file being detected automatically.
 Use a [Quack server]({% link docs/stable/duckdb/usage/choosing_a_catalog_database.md %}#quack) as the catalog database:
 
 ```sql
+INSTALL httpfs;
+LOAD httpfs;
 CREATE SECRET (TYPE quack, TOKEN '⟨token⟩', SCOPE 'quack:localhost');
 ATTACH 'ducklake:quack:localhost' AS my_ducklake (DATA_PATH 'my_files/');
 ```
@@ -111,6 +113,7 @@ The following parameters are supported for `ATTACH`:
 | `OVERRIDE_DATA_PATH`                               | If the path provided in `data_path` differs from the stored path and this option is set to true, the path is overridden | `false`                                                                                  |
 | `SNAPSHOT_TIME`                                    | If provided, connect to DuckLake at a snapshot at a specified point in time                                             |                                                                                         |
 | `SNAPSHOT_VERSION`                                 | If provided, connect to DuckLake at a specified snapshot id                                                             |                                                                                         |
+| `WRITE_DELETION_VECTORS`                           | **Experimental.** Write [deletion vectors]({% link docs/stable/duckdb/advanced_features/deletion_vectors.md %}) (puffin) instead of positional delete files (parquet) | `ducklake_write_deletion_vectors` (`false`) |
 
 The metadata database is hidden from catalog listings unless `METADATA_CATALOG` is explicitly set.
 

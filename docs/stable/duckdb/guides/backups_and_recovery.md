@@ -36,7 +36,7 @@ ATTACH 'ducklake:restored.duckdb' AS my_ducklake;
 
 It is very important to note that transactions committed to DuckLake after the metadata backup will not be tracked when recovering. The data from the transactions may exist in data files or only in the newer catalog's inlined data, but the backup will point to a previous snapshot. If you are running batch jobs, make sure to always back up after the batch job. If you are regularly micro-batching or streaming data, then schedule periodic jobs to back up your metadata.
 
-> Tip If you want to make a backup with the current timestamp, you need to do this with a specific client. Right now `ATTACH` does not support functions, only strings. This is how it would look in Python:
+> Tip To create a backup file with the current timestamp in Python:
 >
 > ```python
 > import duckdb
@@ -74,7 +74,7 @@ For PostgreSQL, there are two main approaches to backup and recovery:
 
 Use PostgreSQL's `pg_dump` and `pg_restore` utilities to back up the catalog and restore it into a new, empty database.
 
-> Warning `COPY FROM DATABASE` with the [`postgres` extension](https://duckdb.org/docs/current/core_extensions/postgres/overview) cannot copy the indexes in a DuckLake catalog.
+> Warning `COPY FROM DATABASE` with the [`postgres` extension](https://duckdb.org/docs/current/core_extensions/postgres/overview) fails on a DuckLake catalog because it cannot copy the catalog's primary-key indexes.
 
 ```batch
 pg_dump --format=custom --file=backup.dump '⟨connection_string⟩'

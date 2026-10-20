@@ -28,7 +28,8 @@ If you have been using DuckDB for a while, there is a chance you are using some 
 
 - Generated columns are not supported, so their computed values are copied into regular columns. This means that the values will always be persisted (no `VIRTUAL` option).
 
-Expression defaults, such as `DEFAULT now()`, are supported in DuckLake.
+Expression defaults, such as `DEFAULT now()`, are supported in `CREATE TABLE` and `ALTER TABLE ... SET DEFAULT`.
+`ALTER TABLE ... ADD COLUMN` only accepts literal defaults.
 
 ### Migration Script
 
@@ -156,31 +157,46 @@ def migrate_tables_and_views(duckdb_catalog: str, con: duckdb.DuckDBPyConnection
             failed_last_round.discard((catalog, schema, table, table_type))
 
 
-def migrate_macros(con: duckdb.DuckDBPyConnection, duckdb_catalog: str):
+def migrate_macros(
+    con: duckdb.DuckDBPyConnection, duckdb_catalog: str, final: bool = True
+):
     """
     Migrate macros from the DuckDB catalog to the attached DuckLake catalog.
+    Macros that reference a table or macro that does not exist yet are retried.
     """
     def quote_identifier(name):
         return '"' + name.replace('"', '""') + '"'
 
-    for row in con.execute(
+    pending = con.execute(
         "SELECT schema_name, function_name, parameters, parameter_types, "
         "macro_definition, function_type FROM duckdb_functions() "
         "WHERE database_name = ? AND function_type IN ('macro', 'table_macro')",
         [duckdb_catalog],
-    ).fetchall():
-        schema, name, parameters, parameter_types, definition, function_type = row
-        con.execute(f"CREATE SCHEMA IF NOT EXISTS {quote_identifier(schema)}")
-        arguments = ','.join(
-            quote_identifier(parameter) + (f" {parameter_type}" if parameter_type else '')
-            for parameter, parameter_type in zip(parameters, parameter_types)
-        )
-        table_keyword = 'TABLE ' if function_type == 'table_macro' else ''
-        print(f"Migrating Macro: {schema}.{name}")
-        con.execute(
-            f"CREATE OR REPLACE MACRO {quote_identifier(schema)}.{quote_identifier(name)}"
-            f"({arguments}) AS {table_keyword}{definition}"
-        )
+    ).fetchall()
+    while pending:
+        failed = []
+        for row in pending:
+            schema, name, parameters, parameter_types, definition, function_type = row
+            con.execute(f"CREATE SCHEMA IF NOT EXISTS {quote_identifier(schema)}")
+            arguments = ','.join(
+                quote_identifier(parameter) + (f" {parameter_type}" if parameter_type else '')
+                for parameter, parameter_type in zip(parameters, parameter_types)
+            )
+            table_keyword = 'TABLE ' if function_type == 'table_macro' else ''
+            try:
+                con.execute(
+                    f"CREATE OR REPLACE MACRO {quote_identifier(schema)}.{quote_identifier(name)}"
+                    f"({arguments}) AS {table_keyword}{definition}"
+                )
+                print(f"Migrating Macro: {schema}.{name}")
+            except duckdb.Error as e:
+                failed.append((row, e))
+        if len(failed) == len(pending):
+            if final:
+                for row, e in failed:
+                    print(f"Skipping Macro {row[0]}.{row[1]} due to repeated failure. {e}")
+            break
+        pending = [row for row, _ in failed]
 
 
 if __name__ == "__main__":
@@ -229,6 +245,16 @@ if __name__ == "__main__":
         f"ATTACH 'ducklake:ducklake_secret' AS {args.ducklake_catalog}; USE {args.ducklake_catalog};"
     )
 
+    # Migrate macros before views that use them, and again after the tables they reference
+    migrate_macros(
+        con=con,
+        duckdb_catalog=args.duckdb_catalog,
+        final=False,
+    )
+    migrate_tables_and_views(
+        duckdb_catalog=args.duckdb_catalog,
+        con=con,
+    )
     migrate_macros(
         con=con,
         duckdb_catalog=args.duckdb_catalog,

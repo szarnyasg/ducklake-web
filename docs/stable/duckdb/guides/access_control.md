@@ -281,7 +281,8 @@ Authentication Failure - this is usually caused by invalid or missing credential
 
 > The error message is the generic one used when DuckDB cannot access an object in S3; nothing specific to DuckLake.
 
-After the insertion error, run `ROLLBACK;` to discard the table creation.
+The failed insertion aborts the transaction, so `COMMIT` rolls it back and the table is not created.
+If you stop after the error instead, run `ROLLBACK;`.
 
 The **DuckLake Reader** is the simplest role.
 

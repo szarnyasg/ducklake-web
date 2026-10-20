@@ -35,6 +35,6 @@ This table describes the columns that are part of a table, including their types
 - `default_value_type` defines the default value type. It can either be `literal` (e.g., 42) or `expression` (e.g., `random()`)
 - `default_value_dialect` defines the dialect used to interpret default values, especially useful for expressions. The dialect is the name of the system that created that value (e.g., duckdb).
 
-> Every `ALTER` that changes the column creates a new version of the column, which will use the same `column_id`.
+> Every `ALTER` that changes the column creates a new version of the column, which will use the same `column_id`. For nested types, only the rows of the changed fields are versioned. For example, adding a `STRUCT` field or changing a `LIST` element type does not create a new version of the parent column.
 
 DuckDB stores a missing or null literal default as the text `NULL` in `default_value`. A string literal `'NULL'` is stored as an `expression` to distinguish it from a null default.

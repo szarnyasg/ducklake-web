@@ -36,7 +36,7 @@ Data files contain the actual row data.
 - `record_count` is the number of records (row) in the file.
 - `file_size_bytes` is the size of the file in bytes.
 - `footer_size` is the size of the file metadata footer, in the case of Parquet the Thrift data. This is an optimization that allows for faster reading of the file.
-- `row_id_start` is the first logical row id in the file. (Every row has a unique row id that is maintained.) If `row_id_start` is `NULL`, row ids are stored in the `_ducklake_internal_row_id` column in the Parquet file.
+- `row_id_start` is the first logical row id in the file. (Every row has a unique row id that is maintained.) If `row_id_start` is `NULL`, row ids are stored in the `_ducklake_internal_row_id` column in the Parquet file. A file with a `row_id_start` can also contain this column, e.g., for rows written by an `UPDATE`, and the stored row ids then take precedence.
 - `partition_id` refers to a `partition_id` from the `ducklake_partition_info` table.
 - `encryption_key` contains the encryption for the file if [encryption]({% link docs/stable/duckdb/advanced_features/encryption.md %}) is enabled.
 - `mapping_id` refers to a `mapping_id` from the [`ducklake_column_mapping` table]({% link docs/stable/specification/tables/ducklake_column_mapping.md %}).

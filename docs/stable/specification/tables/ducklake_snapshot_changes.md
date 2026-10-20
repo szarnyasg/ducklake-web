@@ -24,7 +24,7 @@ The `ducklake_snapshot_changes` table contains a summary of changes made by a sn
     - `created_table_macro:⟨schema_path⟩.⟨macro_name⟩`{:.language-sql .highlight}: the snapshot created a table macro.
     - `inserted_into_table:⟨table_id⟩`{:.language-sql .highlight}: the snapshot inserted data into the given table.
     - `deleted_from_table:⟨table_id⟩`{:.language-sql .highlight}: the snapshot deleted data from the given table.
-    - `compacted_table:⟨table_id⟩`{:.language-sql .highlight}: the snapshot ran a compaction operation on the given table.
+    - `compacted_table:⟨table_id⟩`{:.language-sql .highlight}: the snapshot ran a compaction operation on the given table. Written only by older DuckLake versions.
     - `merge_adjacent:⟨table_id⟩`{:.language-sql .highlight}: the snapshot merged adjacent files of the given table.
     - `rewrite_delete:⟨table_id⟩`{:.language-sql .highlight}: the snapshot rewrote files to remove deleted rows.
     - `inlined_insert:⟨table_id⟩`{:.language-sql .highlight}: the snapshot inserted inlined rows.

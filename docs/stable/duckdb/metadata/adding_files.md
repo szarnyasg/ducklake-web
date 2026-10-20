@@ -102,3 +102,6 @@ Legacy repeated fields can be imported into `LIST` columns.
 `VARIANT` imports require a native Parquet `VARIANT` annotation and are supported only for top-level columns.
 Native Parquet `GEOMETRY` is accepted even when geospatial statistics are absent.
 GeoParquet v1 geometry stored as `BLOB` and Parquet `GEOGRAPHY` are not supported.
+
+DuckDB writes native Parquet `GEOMETRY` columns when `COPY` uses `GEOPARQUET_VERSION 'V2'`, `'BOTH'` or `'NONE'`.
+The default `COPY` output is GeoParquet v1, which `ducklake_add_data_files` rejects.

@@ -22,7 +22,14 @@ Apply only to a specific table:
 CALL ducklake_rewrite_data_files('my_ducklake', 't');
 ```
 
-The `schema` argument also accepts nested paths such as `'some_schema.child'`.
+Apply to a table in a specific schema:
+
+```sql
+CALL ducklake_rewrite_data_files('my_ducklake', 't', schema => 'some_schema');
+```
+
+The `schema` argument requires a table name.
+It also accepts nested paths such as `'some_schema.child'`.
 
 Provide a specific value for the delete threshold:
 

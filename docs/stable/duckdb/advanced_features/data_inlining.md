@@ -17,7 +17,7 @@ For queries, inlined data behaves the same as data written to Parquet files. It 
 ## Configuring Data Inlining
 
 Data inlining is enabled by default with a row limit of 10. Eligible inserts of at most `data_inlining_row_limit` rows are automatically written to inlined tables instead of Parquet files.
-For deletes from Parquet files, the limit applies to the number of rows deleted from each data file.
+For deletes from Parquet files, the limit applies to the number of rows that a single statement deletes from each data file.
 
 ### Global Default
 
@@ -80,10 +80,12 @@ ducklake_inlined_data_⟨table_id⟩_⟨schema_version⟩ (
 )
 ```
 
+In DuckLake format version 1.0, these columns are named `row_id`, `begin_snapshot` and `end_snapshot`.
+
 `_ducklake_begin_snapshot` is the snapshot in which the row was inserted. `_ducklake_end_snapshot` is the snapshot in which the row was deleted, or `NULL` if the row is still live. Deletions of committed inlined rows are recorded by setting `_ducklake_end_snapshot` rather than creating a separate inlined deletion entry.
 Inlined data tables are associated with table schema versions, so rows written before and after a column is added or dropped can use different inlined tables.
 
-The `_ducklake_` prefix is reserved for internal column names, even when inlining is disabled.
+In DuckLake format version 1.1, the `_ducklake_` prefix is reserved for internal column names, even when inlining is disabled.
 User columns named `row_id`, `begin_snapshot` and `end_snapshot` can be inlined with DuckLake format version 1.1.
 
 For example, when inserting a low number of rows, data is automatically inlined:
@@ -187,7 +189,7 @@ When using PostgreSQL or SQLite as the metadata catalog, nested types (`STRUCT`,
 Inlining of `VARIANT` columns is supported with DuckDB and Quack, and with PostgreSQL and SQLite when using DuckLake format version 1.1.
 PostgreSQL and SQLite use a binary encoding that preserves type information, including for `VARIANT` fields nested inside `STRUCT`, `MAP` or `LIST` values.
 
-> Warning DuckDB cannot write SQL types such as `STRUCT(v VARIANT)` or `VARIANT[]` to Parquet, so flushing them or exceeding the inlining limit fails.
+> Warning DuckDB cannot write SQL types such as `STRUCT(v VARIANT)` or `VARIANT[]` to Parquet, so flushing them, running `CHECKPOINT` or exceeding the inlining limit fails.
 > Top-level `VARIANT` columns can contain object and array values.
 
 Tables that cannot use insertion inlining because of unsupported types or metadata catalog limits are written to files instead.

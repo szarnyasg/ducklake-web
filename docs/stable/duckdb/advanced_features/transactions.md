@@ -19,8 +19,9 @@ ROLLBACK; -- ABORT will have the same behavior
 ```
 
 In the context of DuckLake, one committed transaction containing data or DDL changes (i.e., a `BEGIN-COMMIT` block) represents one [snapshot]({% link docs/stable/duckdb/usage/snapshots.md %}).
-Read-only transactions, and transactions that only insert inlined rows and delete all of them before committing, do not create a snapshot.
+Read-only transactions, and transactions that only insert rows and delete all of those rows before committing, do not create a snapshot.
 
 Explicit [time travel]({% link docs/stable/duckdb/usage/time_travel.md %}) queries read committed data at the requested snapshot and exclude the transaction's own uncommitted writes.
+A transaction cannot time travel to snapshots committed after it started.
 
 If multiple transactions are being performed concurrently in one table, the `ducklake` extension has some default configurations for a retry mechanism. This default configurations can be [overridden]({% link docs/stable/duckdb/usage/configuration.md %}).
