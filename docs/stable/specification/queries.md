@@ -42,7 +42,8 @@ where
 - `⟨snapshot_id⟩`{:.language-sql .highlight} is a `BIGINT` referring to the `snapshot_id` column in the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}).
 
 `parent_schema_id` identifies a nested schema's parent.
-We follow the parent chain to construct its full name; each parent must also be visible at the requested snapshot.
+We follow the parent chain to construct its full name.
+Each parent must also be visible at the requested snapshot.
 
 ### List Tables
 
@@ -199,7 +200,8 @@ where
 - `⟨sql_type⟩`{:.language-sql .highlight} is the SQL type of the column, e.g., `INTEGER` for `int32`.
 
 Of course, other filter predicates like “greater than” will require slightly different filtering here.
-Both exact and conservative bounds can be used for file pruning; missing bounds cannot exclude a file.
+Both exact and conservative bounds can be used for file pruning.
+Missing bounds cannot exclude a file.
 
 > The minimum and maximum values for each column are stored as strings and need to be cast for correct range filters on numeric columns.
 

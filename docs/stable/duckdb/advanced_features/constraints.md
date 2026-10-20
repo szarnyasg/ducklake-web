@@ -21,7 +21,8 @@ Add a `NOT NULL` constraint to an existing column of an existing table.
 ALTER TABLE tbl ALTER col SET NOT NULL;
 ```
 
-A constraint can be added even when column statistics are unavailable; existing rows are checked for `NULL` values.
+A constraint can be added even when column statistics are unavailable.
+Existing rows are checked for `NULL` values.
 Setting a constraint that is already present is a no-op.
 
 Drop a `NOT NULL` constraint from a table.

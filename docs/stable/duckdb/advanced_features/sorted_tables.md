@@ -3,7 +3,8 @@ layout: docu
 title: Sorted Tables
 ---
 
-DuckLake tables can be configured with a sort order. By default, when a sort order is defined, data is physically sorted by the specified columns whenever it is written out as Parquet — during `INSERT`, [file compaction]({% link docs/stable/duckdb/maintenance/merge_adjacent_files.md %}) and [inlined data flushing]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}).
+DuckLake tables can be configured with a sort order.
+By default, when a sort order is defined, data is physically sorted by the specified columns whenever it is written out as Parquet (during `INSERT`, [file compaction]({% link docs/stable/duckdb/maintenance/merge_adjacent_files.md %}) and [inlined data flushing]({% link docs/stable/duckdb/advanced_features/data_inlining.md %})).
 
 Sorting data before writing improves the effectiveness of min/max statistics at query time, which allows the DuckDB query engine to skip data files whose value ranges do not overlap with a query's filter predicates.
 
@@ -33,7 +34,8 @@ CREATE TABLE sorted_events SORTED BY (event_time, event_type) AS
 ```
 
 The `PARTITIONED BY` and `SORTED BY` clauses can appear in either order.
-In `CREATE TABLE`, sort keys use ascending order with nulls last; direction and null-order modifiers require `ALTER TABLE ... SET SORTED BY`.
+In `CREATE TABLE`, sort keys use ascending order with nulls last.
+Direction and null-order modifiers require `ALTER TABLE ... SET SORTED BY`.
 
 ## Setting a Sort Order
 
@@ -75,7 +77,8 @@ CREATE MACRO event_bucket(t) AS date_trunc('day', t);
 ALTER TABLE events SET SORTED BY (event_bucket(event_time) ASC);
 ```
 
-Column references are validated when `SET SORTED BY` is executed — an error is returned if any referenced columns cannot be resolved.
+Column references are validated when `SET SORTED BY` is executed.
+An error is returned if any referenced columns cannot be resolved.
 Functions and macros are resolved when data is written, compacted or flushed.
 Subqueries and window functions are not supported as sort keys.
 

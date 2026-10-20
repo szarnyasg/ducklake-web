@@ -23,6 +23,6 @@ This table stores the parameters for each macro implementation.
 - `default_value` is the default value of the parameter. Set to the text `NULL` if no default is specified.
 - `default_value_type` is the [DuckLake type]({% link docs/stable/specification/data_types.md %}) of a literal default value, or `expression` for a SQL expression. Set to `unknown` if no default is specified.
 
-A `NULL::DATE` default is stored as the text `NULL` with type `date`; the string literal `'NULL'` uses type `varchar`. Nested defaults and string-typed `NULL` defaults are stored as SQL expressions, e.g., `CAST(NULL AS VARCHAR)` with type `expression`.
+A `NULL::DATE` default is stored as the text `NULL` with type `date`. The string literal `'NULL'` uses type `varchar`. Nested defaults and string-typed `NULL` defaults are stored as SQL expressions, e.g., `CAST(NULL AS VARCHAR)` with type `expression`.
 
 Legacy `list` and `struct` parameter types without child types are loaded as untyped parameters.

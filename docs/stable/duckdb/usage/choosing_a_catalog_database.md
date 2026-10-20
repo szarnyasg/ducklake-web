@@ -64,7 +64,8 @@ USE my_ducklake;
 SQLite allows only one writer at a time. DuckLake retries lock conflicts when using a SQLite catalog.
 This allows a reasonable amount of multi-processing support (effectively hiding the single-writer model).
 
-Use the `sqlite:` prefix or `META_TYPE 'sqlite'` when attaching a SQLite metadata file; do not rely on an unprefixed file being detected automatically.
+Use the `sqlite:` prefix or `META_TYPE 'sqlite'` when attaching a SQLite metadata file.
+Do not rely on an unprefixed file being detected automatically.
 
 ## Quack
 
@@ -94,7 +95,8 @@ USE my_ducklake;
 ```
 
 Clients also need access to the data files. Use shared storage when clients run on different machines.
-When the server has `ducklake` loaded, eligible commits use `ducklake_commit` on the server automatically; applications continue to use `COMMIT`.
+When the server has `ducklake` loaded, eligible commits use `ducklake_commit` on the server automatically.
+Applications continue to use `COMMIT`.
 
 Quack has the following limitations:
 

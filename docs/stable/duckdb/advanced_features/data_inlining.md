@@ -62,7 +62,8 @@ ALTER TABLE events RESET (data_inlining_row_limit);
 ```
 
 Resetting the table option removes that override.
-Changing the limit affects subsequent writes; it does not flush existing inlined data.
+Changing the limit affects subsequent writes.
+It does not flush existing inlined data.
 
 ## Insertion Inlining
 

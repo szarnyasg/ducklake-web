@@ -27,7 +27,8 @@ CALL ducklake_merge_adjacent_files('my_ducklake', 't', schema => 'some_schema');
 ```
 
 The `schema` argument also accepts nested paths such as `'some_schema.child'`.
-Files with delete files or inlined deletions are skipped; use [`ducklake_rewrite_data_files`]({% link docs/stable/duckdb/maintenance/rewrite_data_files.md %}) for these files.
+Files with delete files or inlined deletions are skipped.
+Use [`ducklake_rewrite_data_files`]({% link docs/stable/duckdb/maintenance/rewrite_data_files.md %}) for these files.
 
 ## Controlling Which Tables Are Compacted
 
@@ -137,9 +138,11 @@ GROUP BY schema_name, table_name;
 
 ## Sorted Compaction
 
-If a table has a [sort order defined]({% link docs/stable/duckdb/advanced_features/sorted_tables.md %}), `ducklake_merge_adjacent_files` sorts the merged output by those keys before writing the resulting Parquet files. The sort order applied is the one currently active on the table at the time compaction runs — not the order that was active when the original files were written.
+If a table has a [sort order defined]({% link docs/stable/duckdb/advanced_features/sorted_tables.md %}), `ducklake_merge_adjacent_files` sorts the merged output by those keys before writing the resulting Parquet files.
+The sort order applied is the one currently active on the table at the time compaction runs, not the order that was active when the original files were written.
 
-For older schema versions, sorting is applied only when the keys can be evaluated against those columns; changed nested fields can prevent this.
+For older schema versions, sorting is applied only when the keys can be evaluated against those columns.
+Changed nested fields can prevent this.
 
 ## Schema Evolution
 

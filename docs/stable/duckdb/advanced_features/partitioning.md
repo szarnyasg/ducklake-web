@@ -5,7 +5,8 @@ title: Partitioning
 
 DuckLake tables can be partitioned by a user-defined set of partition keys.
 When a DuckLake table has partitioning keys defined, any new data written to Parquet is split up into separate data files along the partitioning keys.
-During query planning, DuckLake uses file-level zone maps — per-column min/max statistics stored in `ducklake_file_column_stats` — to decide which files to scan. For order-preserving partition transforms (`identity`, `year` and the `epoch_*` transforms), partitioned writes naturally produce tight zone maps on the partition column, so file-level pruning effectively narrows scans to the matching partition files.
+During query planning, DuckLake uses file-level zone maps (per-column min/max statistics stored in `ducklake_file_column_stats`) to decide which files to scan.
+For order-preserving partition transforms (`identity`, `year` and the `epoch_*` transforms), partitioned writes naturally produce tight zone maps on the partition column, so file-level pruning effectively narrows scans to the matching partition files.
 Equality and `IN` filters on bucketed columns can also prune partition files.
 
 The partitioning keys defined on a table only affect new data written to the table.

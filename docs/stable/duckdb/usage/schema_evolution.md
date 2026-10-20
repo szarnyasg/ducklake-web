@@ -112,7 +112,8 @@ The `null` type requires DuckLake format version 1.1 and can only store `NULL` v
 It cannot be promoted to a nested type such as `struct`, `list` or `map`.
 
 Changing a nested type can add or remove struct fields and promote existing fields, including fields inside lists and maps.
-Existing fields retain their order even if the target type lists them in another order; new fields are appended.
+Existing fields retain their order even if the target type lists them in another order.
+New fields are appended.
 
 ## Changing Defaults
 
@@ -125,7 +126,8 @@ ALTER TABLE tbl ALTER created_at SET DEFAULT now();
 ```
 
 Run these statements in separate transactions, as they are in DuckDB's default autocommit mode.
-Existing rows keep `NULL`; the new default applies to subsequent inserts.
+Existing rows keep `NULL`.
+The new default applies to subsequent inserts.
 Defaults on nested columns and `ALTER ... SET DEFAULT` on nested fields are not supported.
 
 ## Field Identifiers

@@ -32,7 +32,8 @@ ORDER BY schema_name;
 ```
 
 `SHOW ALL TABLES` includes nested tables, but its `schema` column contains only the final component of the schema name.
-`USE` and `SHOW TABLES FROM` do not accept paths containing multiple schema components; use fully qualified object names instead.
+`USE` and `SHOW TABLES FROM` do not accept paths containing multiple schema components.
+Use fully qualified object names instead.
 
 Functions that take a schema argument accept a dotted path:
 
@@ -42,7 +43,8 @@ CALL my_ducklake.set_option('parquet_compression', 'zstd', schema => 'sales.euro
 ```
 
 Schema options apply to tables directly in that schema and are not inherited by child schemas.
-A nested schema's default directory uses its UUID under the DuckLake data path; the directory layout does not mirror the schema hierarchy.
+A nested schema's default directory uses its UUID under the DuckLake data path.
+The directory layout does not mirror the schema hierarchy.
 
 To drop a schema containing tables, views, macros or child schemas, use `CASCADE`:
 

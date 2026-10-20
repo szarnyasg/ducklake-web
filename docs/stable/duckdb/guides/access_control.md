@@ -5,7 +5,7 @@ title: Access Control
 
 While access control is not per se a feature of DuckLake, we can leverage the tools that DuckLake uses and their permission systems to implement schema- and table-level permissions for data files in DuckLake.
 
-> Warning This approach requires trusted writers. Readers can access metadata and any inlined data for all tables; writers can change catalog configuration. The example disables data inlining so that storage policies apply to the table data.
+> Warning This approach requires trusted writers. Readers can access metadata and any inlined data for all tables. Writers can change catalog configuration. The example disables data inlining so that storage policies apply to the table data.
 
 ## Basic Principles
 

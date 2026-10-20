@@ -47,7 +47,8 @@ Features such as [nested schemas]({% link docs/stable/duckdb/advanced_features/n
 ## Migration Errors
 
 Catalogs from before 1.0 and catalogs labeled `1.1-dev1` require migration even for read-only use.
-`DUCKLAKE_VERSION '1.1-dev1'` is not accepted; migrate through a writable attachment first.
+`DUCKLAKE_VERSION '1.1-dev1'` is not accepted.
+Migrate through a writable attachment first.
 See [Troubleshooting]({% link docs/stable/duckdb/guides/troubleshooting.md %}) for version-mismatch errors.
 
 Version 1.1 reserves column names beginning with `_ducklake_`.

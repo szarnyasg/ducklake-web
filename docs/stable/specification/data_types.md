@@ -91,7 +91,7 @@ Most types follow a straightforward encoding, however some do not. The following
 
 | Type           | Description                                                                                                                                 | Example                                |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| `boolean`      | `0` or `1` for Parquet writer statistics; `false` or `true` can occur in table statistics from inlined data                                    | `1`                                    |
+| `boolean`      | `0` or `1` for Parquet writer statistics (`false` or `true` can occur in table statistics from inlined data)                                   | `1`                                    |
 | `int8`         | Integer string                                                                                                                              | `42`                                   |
 | `int16`        | Integer string                                                                                                                              | `1000`                                 |
 | `int32`        | Integer string                                                                                                                              | `100000`                               |
@@ -116,7 +116,7 @@ Most types follow a straightforward encoding, however some do not. The following
 | `timestamp_ns` | ISO 8601 timestamp (nanosecond precision) with special values: `infinity`, `-infinity`                                                      | `2024-01-15 12:30:00.123456789`        |
 | `varchar`      | As-is                                                                                                                                       | `hello`                                |
 | `json`         | As-is                                                                                                                                       | `{"key": "value"}`                     |
-| `blob`         | Hex-encoded raw bytes for Parquet writer statistics; table bounds from inlined data use DuckDB's escaped blob text representation             | `68656C6C6F20776F726C64`               |
+| `blob`         | Hex-encoded raw bytes for Parquet writer statistics (table bounds from inlined data use DuckDB's escaped blob text representation)            | `68656C6C6F20776F726C64`               |
 | `uuid`         | Standard UUID string                                                                                                                        | `550e8400-e29b-41d4-a716-446655440000` |
 
 The following types do not currently have min/max statistics from the Parquet writer:

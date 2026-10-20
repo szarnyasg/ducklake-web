@@ -52,7 +52,7 @@ Configuration is persisted in the [`ducklake_metadata`]({% link docs/stable/spec
 | `encrypted`                    | Whether or not to encrypt Parquet files written to the data path                                          | `false`  |
 | `expire_older_than`            | How old snapshots must be to be expired by default                                                        |          |
 | `hive_file_pattern`            | If partitioned data should be written in a Hive-style folder structure                                    | `true`   |
-| `parquet_compression_level`    | Compression level for Parquet files written with `zstd`; ignored for other codecs                                                                       | `3`      |
+| `parquet_compression_level`    | Compression level for Parquet files written with `zstd` (ignored for other codecs)                                                                      | `3`      |
 | `parquet_compression`          | Compression algorithm for Parquet files (uncompressed, snappy, gzip, zstd, brotli, lz4, lz4_raw)          | `snappy` |
 | `parquet_row_group_size_bytes` | Number of bytes per row group in Parquet files                                                            |          |
 | `parquet_row_group_size`       | Number of rows per row group in Parquet files                                                             | `122880` |
@@ -61,7 +61,7 @@ Configuration is persisted in the [`ducklake_metadata`]({% link docs/stable/spec
 | `require_commit_message`       | If an explicit commit message is required for a snapshot commit                                           | `false`  |
 | `rewrite_delete_threshold`     | Minimum fraction of data removed from a file before a rewrite is warranted (0...1)                        | `0.95`   |
 | `sort_on_insert`               | Whether to sort data on `INSERT` according to `SET SORTED BY`                                             | `true`   |
-| `skip_stats_columns`           | Columns for which min/max bounds are not recorded; counts are still recorded                              | `[]`     |
+| `skip_stats_columns`           | Columns for which min/max bounds are not recorded (counts are still recorded)                             | `[]`     |
 | `target_file_size`             | The target data file size for insertion and compaction operations                                         | `512 MiB` |
 | `version`                      | DuckLake format version                                                                                   |          |
 | `write_deletion_vectors`       | **Experimental.** Write Iceberg V3 deletion vectors (puffin) instead of positional delete files (parquet) | `false`  |
@@ -148,7 +148,8 @@ The most specific scope that is set is always used for any given setting, i.e., 
 |        3 | Global        |
 |        4 | Default       |
 
-`skip_stats_columns` can only be set for a table; `delete_older_than` and `expire_older_than` can only be set globally.
+`skip_stats_columns` can only be set for a table.
+`delete_older_than` and `expire_older_than` can only be set globally.
 Set `require_commit_message` globally, since scoped values are not checked when committing.
 Schema options apply directly to tables in that schema and are not inherited by [nested schemas]({% link docs/stable/duckdb/advanced_features/nested_schemas.md %}).
 For a nested schema, use a dotted path, e.g., `schema => 'a.b'`.
