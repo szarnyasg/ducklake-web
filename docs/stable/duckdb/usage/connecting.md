@@ -72,8 +72,9 @@ Use a [Quack server]({% link docs/stable/duckdb/usage/choosing_a_catalog_databas
 ```sql
 INSTALL httpfs;
 LOAD httpfs;
+LOAD quack;
 CREATE SECRET (TYPE quack, TOKEN '⟨token⟩', SCOPE 'quack:localhost');
-ATTACH 'ducklake:quack:localhost' AS my_ducklake (DATA_PATH 'my_files/');
+ATTACH 'ducklake:quack:localhost' AS my_ducklake (DATA_PATH '/path/to/shared/data_files/');
 ```
 
 It is also possible to override the data path for a particular connection. This will not change the value of the `DATA_PATH` stored in the DuckLake metadata, but it will override it for the current connection allowing data to be stored in a different path.

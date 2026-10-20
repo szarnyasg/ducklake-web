@@ -94,18 +94,21 @@ LOAD quack;
 CREATE SECRET (TYPE quack, TOKEN '⟨token⟩', SCOPE 'quack:localhost');
 
 ATTACH 'ducklake:quack:localhost' AS my_ducklake
-    (DATA_PATH 'data_files/');
+    (DATA_PATH '/path/to/shared/data_files/');
 USE my_ducklake;
 ```
 
-Clients also need access to the data files. Use shared storage when clients run on different machines.
+Clients also need access to the data files.
+The data path is stored as written, and a relative `DATA_PATH` is resolved against each client's working directory.
+Use an absolute path or an object storage URL so that all clients find the same files.
+Use shared storage when clients run on different machines.
 When the server has `ducklake` loaded, eligible commits use `ducklake_commit` on the server automatically.
 Applications continue to use `COMMIT`.
 
 Quack has the following limitations:
 
 * Changes made with `set_option` are not undone by `ROLLBACK`.
-* Catalog database size reporting is not implemented.
+* `PRAGMA database_size` reports `0 bytes` for the Quack metadata database.
 
 ## MySQL
 
