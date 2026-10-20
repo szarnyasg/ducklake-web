@@ -131,6 +131,9 @@ def index_dir(dirname):
     global file_list
     files = os.listdir(dirname)
     for file in files:
+        # skip hidden files such as _posts/.template.md (also ignored by Jekyll)
+        if file.startswith('.'):
+            continue
         full_path = os.path.join(dirname, file)
         if os.path.isfile(full_path):
             file_list.append(index_file(full_path))
