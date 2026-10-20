@@ -110,6 +110,10 @@ FROM people;
 | ---: | ----- | ------: |
 |    3 | Sarah | 95000.0 |
 
+Insert actions use the same [data inlining]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) settings as ordinary inserts, including a `MERGE INTO` with only a `WHEN NOT MATCHED THEN INSERT` action.
+
+`MERGE INTO` can conflict with concurrent inserts, including when it inserts rows for absent keys. If a transaction fails with a conflict, retry the whole transaction against a fresh snapshot.
+
 ## Unsupported Behavior
 
 Multiple `UPDATE` or `DELETE` operators are not currently supported. The following query **would not work:**

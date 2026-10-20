@@ -12,11 +12,12 @@ Data inlining applies to both inserts and deletes:
 * **Insertion inlining** – small inserts are written to a per-table inlined data table instead of a new Parquet data file.
 * **Deletion inlining** – small deletes from existing Parquet data files are written to a per-table inlined deletion table instead of a new Parquet delete file.
 
-Inlined data behaves exactly the same as data written to Parquet files. The only difference is that it lives in the metadata catalog rather than in Parquet files in the data path.
+For queries, inlined data behaves the same as data written to Parquet files. It lives in the metadata catalog rather than in Parquet files in the data path.
 
 ## Configuring Data Inlining
 
-Data inlining is enabled by default with a row limit of 10. Any inserts or deletes that affect fewer rows than `data_inlining_row_limit` are automatically written to inlined tables instead of Parquet files.
+Data inlining is enabled by default with a row limit of 10. Eligible inserts of at most `data_inlining_row_limit` rows are automatically written to inlined tables instead of Parquet files.
+For deletes from Parquet files, the limit applies to the number of rows deleted from each data file.
 
 ### Global Default
 
@@ -30,9 +31,9 @@ SET ducklake_default_data_inlining_row_limit = 50;
 SET ducklake_default_data_inlining_row_limit = 0;
 ```
 
-### Per-Connection Override
+### Per-Attach Override
 
-The `DATA_INLINING_ROW_LIMIT` parameter of the `ATTACH` statement overrides the default for a single connection. This setting is not persisted and must be specified on each attach:
+The `DATA_INLINING_ROW_LIMIT` parameter of the `ATTACH` statement overrides the default for the attached catalog. This setting is not persisted and must be specified on each attach:
 
 ```sql
 ATTACH 'ducklake:inlining.duckdb' AS my_ducklake (DATA_INLINING_ROW_LIMIT 10);
@@ -49,6 +50,20 @@ CREATE TABLE t (a INT);
 CALL my_ducklake.set_option('data_inlining_row_limit', 10, table_name => 't');
 ```
 
+The table-level option can also be set in `CREATE TABLE`, including `CREATE TABLE AS SELECT`, or changed using `ALTER TABLE`:
+
+```sql
+CREATE TABLE events (event_id INTEGER) WITH (data_inlining_row_limit = 100);
+CREATE TABLE initial_events WITH (data_inlining_row_limit = 100) AS
+    SELECT 1 AS event_id;
+
+ALTER TABLE events SET (data_inlining_row_limit = 50);
+ALTER TABLE events RESET (data_inlining_row_limit);
+```
+
+Resetting the table option removes that override.
+Changing the limit affects subsequent writes; it does not flush existing inlined data.
+
 ## Insertion Inlining
 
 When insertion inlining is enabled, small inserts are stored directly in the metadata catalog instead of creating a new Parquet data file. DuckLake automatically creates and manages a per-table inlined data table with the following structure:
@@ -56,15 +71,19 @@ When insertion inlining is enabled, small inserts are stored directly in the met
 ```sql
 -- created and managed internally by DuckLake; one table per schema version
 ducklake_inlined_data_⟨table_id⟩_⟨schema_version⟩ (
-    row_id         BIGINT,
-    begin_snapshot BIGINT,
-    end_snapshot   BIGINT,
+    _ducklake_row_id         BIGINT,
+    _ducklake_begin_snapshot BIGINT,
+    _ducklake_end_snapshot   BIGINT,
     -- one column per table column, matching the table schema
     ...
 )
 ```
 
-`begin_snapshot` is the snapshot in which the row was inserted. `end_snapshot` is the snapshot in which the row was deleted, or `NULL` if the row is still live. Deletions of inlined rows are recorded by setting `end_snapshot` rather than creating a separate inlined deletion entry. A new inlined data table is created each time the table schema changes (e.g., a column is added or dropped), so the column layout always matches the current schema.
+`_ducklake_begin_snapshot` is the snapshot in which the row was inserted. `_ducklake_end_snapshot` is the snapshot in which the row was deleted, or `NULL` if the row is still live. Deletions of committed inlined rows are recorded by setting `_ducklake_end_snapshot` rather than creating a separate inlined deletion entry.
+Inlined data tables are associated with table schema versions, so rows written before and after a column is added or dropped can use different inlined tables.
+
+The `_ducklake_` prefix is reserved for internal column names, even when inlining is disabled.
+User columns named `row_id`, `begin_snapshot` and `end_snapshot` can be inlined with DuckLake format version 1.1.
 
 For example, when inserting a low number of rows, data is automatically inlined:
 
@@ -104,9 +123,18 @@ SELECT count(*) FROM glob('inlining.duckdb.files/**');
 └──────────────┘
 ```
 
+Small inserts performed by `MERGE INTO`, including a merge with only a `WHEN NOT MATCHED THEN INSERT` branch, can also be inlined:
+
+```sql
+MERGE INTO tbl AS target
+USING (VALUES (100)) AS source(col)
+    ON target.col = source.col
+WHEN NOT MATCHED THEN INSERT (col) VALUES (source.col);
+```
+
 ## Deletion Inlining
 
-When deletion inlining is enabled, deletes from existing Parquet data files that affect fewer rows than `DATA_INLINING_ROW_LIMIT` are stored directly in the metadata catalog instead of creating a Parquet delete file. DuckLake automatically creates and manages a per-table inlined deletion table with the following structure:
+When deletion inlining is enabled, deletes affecting at most `DATA_INLINING_ROW_LIMIT` rows in an existing Parquet data file are stored directly in the metadata catalog instead of creating a Parquet delete file. DuckLake automatically creates and manages a per-table inlined deletion table with the following structure:
 
 ```sql
 -- created and managed internally by DuckLake; one table per DuckLake table
@@ -119,7 +147,7 @@ ducklake_inlined_delete_⟨table_id⟩ (
 
 `file_id` is the ID of the Parquet data file containing the deleted row, `row_id` is the position of the deleted row within that file, and `begin_snapshot` is the snapshot in which the deletion occurred.
 
-> **Note** Deletion inlining only applies to rows in existing Parquet data files. Deletes that target inlined insert rows are handled by setting `end_snapshot` on the inlined insert row and do not create an inlined deletion entry.
+> **Note** Deletion inlining only applies to rows in existing Parquet data files. Deletes that target committed inlined insert rows are handled by setting `_ducklake_end_snapshot` on the inlined insert row and do not create an inlined deletion entry.
 
 For example, with deletion inlining enabled, a small delete produces no new Parquet delete file:
 
@@ -150,15 +178,24 @@ The following `ALTER TABLE` operations are supported within a transaction that a
 
 ## Metadata Catalog Support
 
-Data inlining is supported when using DuckDB, PostgreSQL or SQLite as the metadata catalog.
+Data inlining is supported when using DuckDB, PostgreSQL, SQLite or Quack as the metadata catalog.
+DuckDB and Quack store inlined data using native DuckDB types.
 
-When using a non-DuckDB metadata catalog, nested types (`STRUCT`, `MAP` and `LIST`) are stored as `VARCHAR` strings in the inlined data table. DuckLake automatically casts the values back to the correct type when reading.
+When using PostgreSQL or SQLite as the metadata catalog, nested types (`STRUCT`, `MAP` and `LIST`) are stored as `VARCHAR` strings in the inlined data table. DuckLake automatically casts the values back to the correct type when reading.
 
-Inlining of `VARIANT` columns is only supported when using DuckDB as the metadata catalog. PostgreSQL and SQLite cannot inline `VARIANT` values because the type does not round-trip through a string representation without losing type information. Tables with `VARIANT` columns will not have their data inlined when using a non-DuckDB metadata catalog.
+Inlining of `VARIANT` columns is supported with DuckDB and Quack, and with PostgreSQL and SQLite when using DuckLake format version 1.1.
+PostgreSQL and SQLite use a binary encoding that preserves type information, including for `VARIANT` fields nested inside `STRUCT`, `MAP` or `LIST` values.
+
+> Warning DuckDB cannot write SQL types such as `STRUCT(v VARIANT)` or `VARIANT[]` to Parquet, so flushing them or exceeding the inlining limit fails.
+> Top-level `VARIANT` columns can contain object and array values.
+
+Tables that cannot use insertion inlining because of unsupported types or metadata catalog limits are written to files instead.
+DuckLake emits a [warning]({% link docs/stable/duckdb/advanced_features/logging.md %}) explaining why.
 
 ## Flushing Inlined Data
 
 Inlined data — both inlined inserts and inlined deletions — can be manually flushed to Parquet files by calling the `ducklake_flush_inlined_data` function.
+The experimental `write_deletion_vectors` option uses [Puffin deletion-vector files]({% link docs/stable/duckdb/advanced_features/deletion_vectors.md %}) for deletions instead.
 
 Flush all inlined data in all schemas and tables:
 
@@ -196,13 +233,15 @@ CALL ducklake_flush_inlined_data(
 
 ### Return Values
 
-`ducklake_flush_inlined_data` returns one row per table that had data flushed, with the following columns:
+`ducklake_flush_inlined_data` returns one row per table that had inlined rows flushed, with the following columns:
 
 | Column         | Type      | Description                                            |
 | -------------- | --------- | ------------------------------------------------------ |
 | `schema_name`  | `VARCHAR` | Name of the schema containing the table                |
 | `table_name`   | `VARCHAR` | Name of the table                                      |
-| `rows_flushed` | `BIGINT`  | Number of rows flushed from inlined storage to Parquet |
+| `rows_flushed` | `HUGEINT` | Number of rows flushed from inlined storage to Parquet |
+
+Flushing only inlined deletion entries can create delete files without returning a row.
 
 Tables with no inlined data are not included in the result. Example:
 
@@ -213,9 +252,9 @@ FROM ducklake_flush_inlined_data('my_ducklake');
 
 ### Time Travel and Deletions
 
-When flushing inlined inserts that have had rows deleted, DuckLake creates both the materialized Parquet data file and a *partial deletion file*. Rather than creating one deletion file per delete snapshot, the partial deletion file consolidates all deletions into a single Parquet file with an extra column that records the snapshot in which each row was deleted. This preserves full time-travel support while keeping the number of files minimal.
+When flushing inlined inserts that have had rows deleted, DuckLake creates materialized Parquet data files and a *partial deletion file* for each data file containing deleted rows. Rather than creating one deletion file per delete snapshot, the partial deletion file consolidates all deletions into a single Parquet file with an extra column that records the snapshot in which each row was deleted. This preserves full time-travel support while keeping the number of files minimal.
 
-When flushing inlined deletions (rows deleted from existing Parquet data files), DuckLake writes a Parquet delete file for each affected data file. If a delete file already exists for that data file, the inlined deletions are merged into it. The resulting file is always a partial deletion file so that snapshot information is preserved for time-travel queries.
+By default, when flushing inlined deletions (rows deleted from existing Parquet data files), DuckLake writes a Parquet delete file for each affected data file. If a delete file already exists for that data file, the inlined deletions are merged into it. The resulting file is always a partial deletion file so that snapshot information is preserved for time-travel queries.
 
 For example:
 
@@ -230,15 +269,17 @@ DELETE FROM t1 WHERE a = 2;
 DELETE FROM t1 WHERE a = 5;
 
 -- Flush materializes data to Parquet and creates a deletion file with snapshot information
-CALL ducklake_flush_inlined_data('ducklake');
+CALL ducklake_flush_inlined_data('my_ducklake');
 ```
 
 After flushing, time travel to snapshots before the deletions still returns the deleted rows:
 
 ```sql
 -- Returns all 8 original rows
-SELECT * FROM t1 AT (VERSION => 1);
+SELECT * FROM t1 AT (VERSION => 2);
 ```
+
+[Expiring snapshots]({% link docs/stable/duckdb/maintenance/expire_snapshots.md %}) removes deleted inlined rows that no retained snapshot can read.
 
 ### Sorted Flush
 
@@ -246,6 +287,6 @@ If a table has a [sort order defined]({% link docs/stable/duckdb/advanced_featur
 
 ### Interaction with `auto_compact`
 
-If a table has `auto_compact` set to `false`, `ducklake_flush_inlined_data` will skip it when flushing the whole lake or a whole schema. The same applies when flushing via `CHECKPOINT`, since `CHECKPOINT` calls `ducklake_flush_inlined_data` internally.
+If a table has `auto_compact` set to `false`, `ducklake_flush_inlined_data` will skip it, including when `table_name` explicitly names the table. The same applies when flushing via `CHECKPOINT`, since `CHECKPOINT` calls `ducklake_flush_inlined_data` internally.
 
 > **Note** `auto_compact` does not cause flushing to happen automatically after writes. It only determines whether a table is eligible for flushing when a maintenance function is called.

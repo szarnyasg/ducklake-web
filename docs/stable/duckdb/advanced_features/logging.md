@@ -12,7 +12,7 @@ Metadata queries can be an important factor in performance, especially when usin
 ### Enabling the Log
 
 ```sql
-CALL enable_logging('DuckLakeMetadata');
+CALL enable_logging('DuckLakeMetadata', storage = 'memory');
 ```
 
 ### Log Fields
@@ -33,7 +33,7 @@ USE my_ducklake;
 CREATE TABLE t1 (a INTEGER, b VARCHAR);
 
 -- Enable DuckLake metadata logging
-CALL enable_logging('DuckLakeMetadata');
+CALL enable_logging('DuckLakeMetadata', storage = 'memory');
 
 -- Run an operation that triggers metadata queries
 INSERT INTO t1 VALUES (1, 'hello'), (2, 'world');
@@ -50,7 +50,7 @@ DuckDB's built-in `QueryLog` type logs every query executed on every connection,
 ### Enabling the Log
 
 ```sql
-CALL enable_logging('QueryLog');
+CALL enable_logging('QueryLog', storage = 'memory');
 ```
 
 ### Example
@@ -61,7 +61,7 @@ USE my_ducklake;
 CREATE TABLE t1 (a INTEGER, b VARCHAR);
 
 -- Enable query logging
-CALL enable_logging('QueryLog');
+CALL enable_logging('QueryLog', storage = 'memory');
 
 -- Run an operation
 INSERT INTO t1 VALUES (1, 'hello');
@@ -77,12 +77,19 @@ WHERE type = 'QueryLog';
 Both log types can be enabled simultaneously to get DuckLake-specific timing information alongside the full query trace:
 
 ```sql
-CALL enable_logging(['DuckLakeMetadata', 'QueryLog']);
+CALL enable_logging(['DuckLakeMetadata', 'QueryLog'], storage = 'memory');
+```
+
+DuckLake also logs warnings when a table cannot use data inlining, for example because of unsupported column types or metadata catalog limits.
+To record these warnings, use:
+
+```sql
+CALL enable_logging(level => 'warning', storage => 'memory');
 ```
 
 ## Logging to Different Storages
 
-By default, logs are stored in an in-memory buffer and queried via the `duckdb_logs` view. DuckDB also supports logging to stdout or to a file:
+The examples above use in-memory storage so logs can be queried via the `duckdb_logs` view. The DuckDB CLI defaults to `shell_log_storage`, which prints logs instead. DuckDB also supports logging to stdout or to a file:
 
 ```sql
 -- Log to stdout

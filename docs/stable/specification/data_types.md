@@ -11,6 +11,7 @@ The types of columns are defined in the `column_type` field of the `ducklake_col
 | Type            | Description                                                                                  |
 | --------------- | -------------------------------------------------------------------------------------------- |
 | `boolean`       | True or false                                                                                |
+| `null`          | A value that can only be `NULL`                                                               |
 | `int8`          | 8-bit signed integer                                                                         |
 | `int16`         | 16-bit signed integer                                                                        |
 | `int32`         | 32-bit signed integer                                                                        |
@@ -25,18 +26,23 @@ The types of columns are defined in the `column_type` field of the `ducklake_col
 | `float64`       | 64-bit [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) floating-point value               |
 | `decimal(P, S)` | Fixed-point decimal with precision `P` and scale `S`                                         |
 | `time`          | Time of day, microsecond precision                                                           |
+| `time_ns`       | Time of day, nanosecond precision                                                             |
 | `timetz`        | Time of day, microsecond precision, with time zone                                           |
 | `date`          | Calendar date                                                                                |
 | `timestamp`     | Timestamp, microsecond precision                                                             |
 | `timestamptz`   | Timestamp, microsecond precision, with time zone                                             |
+| `timestamptz_ns` | Timestamp, nanosecond precision, with time zone                                               |
 | `timestamp_s`   | Timestamp, second precision                                                                  |
 | `timestamp_ms`  | Timestamp, millisecond precision                                                             |
 | `timestamp_ns`  | Timestamp, nanosecond precision                                                              |
-| `interval`      | Time interval in three different granularities: months, days, and milliseconds               |
+| `interval`      | Time interval in three different granularities: months, days, and microseconds               |
 | `varchar`       | Text                                                                                         |
 | `blob`          | Binary data                                                                                  |
 | `json`          | JSON                                                                                         |
 | `uuid`          | [Universally unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) |
+
+The `null` type requires DuckLake format version 1.1 and is spelled `"NULL"` in DuckDB SQL.
+It can also occur inside a list, struct or map.
 
 ## Nested Types
 
@@ -54,13 +60,14 @@ The following nested types are supported:
 
 | Type      | Description                                                                                        |
 | --------- | -------------------------------------------------------------------------------------------------- |
-| `variant` | A dynamically typed value that can hold any primitive or nested type, stored in a binary encoding. |
+| `variant` | A dynamically typed value that can hold primitive or nested types, stored in a binary encoding. |
 
 The `variant` type is similar to JSON but is more strongly typed internally, supports a wider range of types (e.g., `date`, `timestamp`, `decimal`), and is stored in a binary-encoded format rather than as a string. Variants are stored in Parquet files according to the [Parquet variant encoding specification](https://github.com/apache/parquet-format/blob/master/VariantEncoding.md).
 
-Variants can be **shredded** into their constituent primitive types when all rows share a consistent schema for a given sub-field. Shredded fields are stored and queried with the same efficiency as native primitive columns. Per-file statistics for shredded sub-fields are recorded in the [`ducklake_file_variant_stats`]({% link docs/stable/specification/tables/ducklake_file_variant_stats.md %}) table.
+Variants can be **shredded** into their constituent primitive types when all rows share a consistent schema for a given sub-field. Shredded fields are stored and queried with the same efficiency as native primitive columns. Per-file statistics for fully shredded sub-fields are recorded in the [`ducklake_file_variant_stats`]({% link docs/stable/specification/tables/ducklake_file_variant_stats.md %}) table.
 
-> Note The `variant` type is natively supported in DuckDB. For catalog databases that do not have a native variant type (e.g., PostgreSQL, SQLite), variants cannot yet be stored as inline values in those catalogs.
+> Note The `variant` type is natively supported in DuckDB. For catalog databases that do not have a native variant type (e.g., PostgreSQL, SQLite), variants are encoded as blobs for data inlining.
+> Inlining variants in these catalogs requires DuckLake format version 1.1.
 
 ## Geometry Types
 
@@ -84,7 +91,7 @@ Most types follow a straightforward encoding, however some do not. The following
 
 | Type           | Description                                                                                                                                 | Example                                |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| `boolean`      | `0` or `1`                                                                                                                                  | `1`                                    |
+| `boolean`      | `0` or `1` for Parquet writer statistics; `false` or `true` can occur in table statistics from inlined data                                    | `1`                                    |
 | `int8`         | Integer string                                                                                                                              | `42`                                   |
 | `int16`        | Integer string                                                                                                                              | `1000`                                 |
 | `int32`        | Integer string                                                                                                                              | `100000`                               |
@@ -93,27 +100,34 @@ Most types follow a straightforward encoding, however some do not. The following
 | `uint16`       | Integer string                                                                                                                              | `65535`                                |
 | `uint32`       | Integer string                                                                                                                              | `4294967295`                           |
 | `uint64`       | Integer string                                                                                                                              | `18446744073709551615`                 |
+| `int128`       | Integer string when bounds are available from inlined data                                                                                   | `170141183460469231731687303715884105727` |
+| `uint128`      | Integer string when bounds are available from inlined data                                                                                   | `340282366920938463463374607431768211455` |
 | `float32`      | Numeric string with special values: `inf`, `-inf`. `NaN` values are excluded from min/max, the `contains_nan` flag indicates their presence | `3.14`                                 |
 | `float64`      | Numeric string with special values: `inf`, `-inf`. `NaN` values are excluded from min/max, the `contains_nan` flag indicates their presence | `3.14159265358979`                     |
 | `decimal`      | Numeric string (independent of precision and scale)                                                                                         | `12345.67`                             |
 | `date`         | ISO 8601 date with special values: `infinity`, `-infinity`                                                                                  | `2024-01-15`                           |
 | `time`         | ISO 8601 time with microseconds if non-zero                                                                                                 | `12:30:00.123456`                      |
+| `time_ns`      | ISO 8601 time with nanoseconds if non-zero                                                                                                  | `12:30:00.123456789`                   |
 | `timestamp`    | ISO 8601 timestamp with microseconds if non-zero, with special values: `infinity`, `-infinity`                                              | `2024-01-15 12:30:00.123456`           |
 | `timestamptz`  | ISO 8601 timestamp with UTC offset, with special values: `infinity`, `-infinity`                                                            | `2024-01-15 12:30:00.123456+00`        |
+| `timestamptz_ns` | ISO 8601 timestamp with nanoseconds and UTC offset, with special values: `infinity`, `-infinity`                                          | `2024-01-15 12:30:00.123456789+00`     |
 | `timestamp_s`  | ISO 8601 timestamp (second precision) with special values: `infinity`, `-infinity`                                                          | `2024-01-15 12:30:00`                  |
 | `timestamp_ms` | ISO 8601 timestamp (millisecond precision) with special values: `infinity`, `-infinity`                                                     | `2024-01-15 12:30:00.123`              |
 | `timestamp_ns` | ISO 8601 timestamp (nanosecond precision) with special values: `infinity`, `-infinity`                                                      | `2024-01-15 12:30:00.123456789`        |
 | `varchar`      | As-is                                                                                                                                       | `hello`                                |
 | `json`         | As-is                                                                                                                                       | `{"key": "value"}`                     |
-| `blob`         | Hex-encoded string of the raw bytes                                                                                                         | `68656C6C6F20776F726C64`               |
+| `blob`         | Hex-encoded raw bytes for Parquet writer statistics; table bounds from inlined data use DuckDB's escaped blob text representation             | `68656C6C6F20776F726C64`               |
 | `uuid`         | Standard UUID string                                                                                                                        | `550e8400-e29b-41d4-a716-446655440000` |
 
-The following types do not currently have min/max statistics, as they are not supported by the underlying Parquet format:
+The following types do not currently have min/max statistics from the Parquet writer:
 
 * `int128` 
 * `uint128` 
 * `timetz` 
 * `interval`
+
+Table statistics can still contain bounds from inlined values.
+The `min_is_exact` and `max_is_exact` fields distinguish exact bounds from conservative bounds, such as truncated strings.
 
 ### Nested Types
 
@@ -144,7 +158,7 @@ The parent columns (`col_list`, `col_struct`, `col_map`) have no min/max statist
 
 ### Extra Statistics
 
-The `geometry` and `variant` types do not use string-encoded min/max values. Instead, their statistics are stored as JSON in the `extra_stats` column of the statistics tables.
+For Parquet files, the `geometry` and `variant` types do not use string-encoded min/max values. Instead, their statistics are stored as JSON in the `extra_stats` column of the statistics tables.
 
 #### Geometry
 
@@ -168,7 +182,7 @@ Geometry statistics contain a bounding box (`bbox`) and a list of geometry primi
 
 #### Variant
 
-Variant statistics contain a JSON array with one entry per shredded sub-field. Each entry records the field path, its shredded type, and min/max statistics for that sub-field. If the variant cannot be shredded (i.e., has inconsistent types across rows), `extra_stats` is `NULL`. An example of a Variant `extra_stats`:
+Variant statistics contain a JSON array with one entry per fully shredded sub-field. Each entry records the field path, its shredded type, and min/max statistics for that sub-field. If no sub-fields are fully shredded, `extra_stats` is `NULL`. An example of a Variant `extra_stats`:
 
 ```json
 [
@@ -185,9 +199,14 @@ Variant statistics contain a JSON array with one entry per shredded sub-field. E
 ]
 ```
 
+`num_values` includes null values, whereas `value_count` in `ducklake_file_variant_stats` excludes them.
+
 ## Type Encoding for Data Inlining
 
 When storing columns for data inlining, a table is created in the catalog to store small inserts and updates in the database. Since DuckDB supports all DuckDB types, inlining types in a DuckDB catalog is straightforward. However, other catalogs might require encodings for non-native types.
+
+For PostgreSQL and SQLite, `VARIANT` values are stored as the Parquet variant `metadata` bytes followed by the `value` bytes.
+Within nested values, variant children are encoded as blobs before the nested value is stored as text.
 
 ### PostgreSQL Catalog
 
@@ -211,11 +230,15 @@ PostgreSQL does not natively support all DuckDB types. The following table descr
 | `TIMESTAMP_S`    | `VARCHAR`            | Stored as text                                                                                                            | `2024-01-15 12:30:00` -> `'2024-01-15 12:30:00'`                                           |
 | `TIMESTAMP_MS`   | `VARCHAR`            | Stored as text                                                                                                            | `2024-01-15 12:30:00.123` -> `'2024-01-15 12:30:00.123'`                                   |
 | `TIMESTAMP_NS`   | `VARCHAR`            | Stored as text                                                                                                            | `2024-01-15 12:30:00.123456789` -> `'2024-01-15 12:30:00.123456789'`                       |
-| Nested types     | `VARCHAR`            | Stored as text, similar to stats                                                                                          | `[1, 2, 3]` -> `'[1, 2, 3]'`                                                               |
+| `TIME_NS`        | `VARCHAR`            | Stored as text to preserve nanosecond precision                                                                            | `12:30:00.123456789` -> `'12:30:00.123456789'`                                             |
+| `TIMESTAMPTZ_NS` | `VARCHAR`            | Stored as text to preserve nanosecond precision and the UTC offset                                                          | `2024-01-15 12:30:00.123456789+00` -> `'2024-01-15 12:30:00.123456789+00'`                 |
+| `"NULL"`         | `INTEGER`            | Always SQL `NULL`                                                                                                         | `NULL`                                                                                   |
+| `VARIANT`        | `BYTEA`              | Parquet variant metadata bytes followed by value bytes                                                                     |                                                                                          |
+| Nested types     | `VARCHAR`            | Stored as text, with nested variants encoded as blobs                                                                                          | `[1, 2, 3]` -> `'[1, 2, 3]'`                                                               |
 
 ### SQLite Catalog
 
-SQLite has a flexible type system with only five storage classes: `INTEGER`, `REAL`, `TEXT`, `BLOB`, and `NULL`. DuckDB's SQLite scanner maps all integer types to `BIGINT` (i.e., SQLite's `INTEGER` type) and most other types to `VARCHAR` (SQLite's `TEXT` type). Only `BLOB` is stored as `BLOB`. The following table describes the non-trivial type mappings:
+SQLite has a flexible type system with only five storage classes: `INTEGER`, `REAL`, `TEXT`, `BLOB`, and `NULL`. DuckDB's SQLite scanner maps all integer types to `BIGINT` (i.e., SQLite's `INTEGER` type) and most other types to `VARCHAR` (SQLite's `TEXT` type). `BLOB` and `VARIANT` are stored as `BLOB`. The following table describes the non-trivial type mappings:
 
 | DuckDB&nbsp;type                              | SQLite&nbsp;type | Encoding                                          | Example                                                                                    |
 | --------------------------------------------- | ---------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------ |
@@ -229,8 +252,11 @@ SQLite has a flexible type system with only five storage classes: `INTEGER`, `RE
 | `DOUBLE`                                      | `VARCHAR`        | Stored as text                                    | `3.14159265358979` -> `'3.14159265358979'`                                                 |
 | `DECIMAL`                                     | `VARCHAR`        | Stored as text                                    | `12345.67` -> `'12345.67'`                                                                 |
 | `UUID`                                        | `VARCHAR`        | Stored as text                                    | `550e8400-...` -> `'550e8400-...'`                                                         |
+| `VARIANT`                                    | `BLOB`           | Parquet variant metadata bytes followed by value bytes |                                                                                       |
+| `"NULL"`                                     | `BIGINT`         | Always SQL `NULL`                                 | `NULL`                                                                                     |
 | `DATE`, `TIME`, `TIMETZ`                      | `VARCHAR`        | Stored as text                                    | `2024-01-15` -> `'2024-01-15'`                                                             |
 | `TIMESTAMP`, `TIMESTAMPTZ`                    | `VARCHAR`        | Stored as text                                    | `2024-01-15 12:30:00.123456` -> `'2024-01-15 12:30:00.123456'`                             |
 | `TIMESTAMP_S`, `TIMESTAMP_MS`, `TIMESTAMP_NS` | `VARCHAR`        | Stored as text                                    | `2024-01-15 12:30:00.123` -> `'2024-01-15 12:30:00.123'`                                   |
+| `TIME_NS`, `TIMESTAMPTZ_NS`                   | `VARCHAR`        | Stored as text, preserving nanosecond precision   |                                                                                            |
 | `INTERVAL`                                    | `VARCHAR`        | Stored as text                                    | `1 year 2 months 3 days` -> `'1 year 2 months 3 days'`                                     |
-| Nested types                                  | `VARCHAR`        | Stored as text, similar to stats                  | `[1, 2, 3]` -> `'[1, 2, 3]'`                                                               |
+| Nested types                                  | `VARCHAR`        | Stored as text, with nested variants encoded as blobs                  | `[1, 2, 3]` -> `'[1, 2, 3]'`                                                               |

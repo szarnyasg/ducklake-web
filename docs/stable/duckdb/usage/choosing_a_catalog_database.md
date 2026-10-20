@@ -11,6 +11,7 @@ On the technical side, consider the following:
 * If you would like to perform **local data warehousing with a single client**, use [DuckDB](#duckdb) as the catalog database.
 * If you would like to perform **local data warehousing using multiple local clients**, use [SQLite](#sqlite) as the catalog database.
 * If you would like to operate a **multi-user lakehouse** with potentially remote clients, use [PostgreSQL](#postgresql) as the catalog database.
+* If you would like to serve a **DuckDB catalog to multiple clients**, use the experimental [Quack](#quack) protocol.
 
 ## DuckDB
 
@@ -24,7 +25,8 @@ ATTACH 'ducklake:metadata.ducklake' AS my_ducklake;
 USE my_ducklake;
 ```
 
-Note that if you are using DuckDB as your catalog database, you're limited to a single client.
+Note that if you are using DuckDB as your catalog database, read-write access is limited to a single process.
+Multiple connections within that process can use the catalog.
 
 ## PostgreSQL
 
@@ -59,8 +61,45 @@ ATTACH 'ducklake:sqlite:metadata.sqlite' AS my_ducklake
 USE my_ducklake;
 ```
 
-While SQLite doesn't allow concurrent reads and writes, its default mode is to `ATTACH` and `DETACH` for every query, together with providing a “retry time-out” for queries when a write-lock is encountered.
+SQLite allows only one writer at a time. DuckLake retries lock conflicts when using a SQLite catalog.
 This allows a reasonable amount of multi-processing support (effectively hiding the single-writer model).
+
+Use the `sqlite:` prefix or `META_TYPE 'sqlite'` when attaching a SQLite metadata file; do not rely on an unprefixed file being detected automatically.
+
+## Quack
+
+The experimental [`quack` extension](https://duckdb.org/docs/current/quack/overview) allows multiple DuckLake clients to connect to a DuckDB catalog hosted by a Quack server.
+In a separate server process, open the DuckDB file that will store the metadata, then start the server:
+
+```sql
+INSTALL ducklake;
+LOAD ducklake;
+INSTALL quack;
+LOAD quack;
+CALL quack_serve('quack:localhost');
+```
+
+The default port is 9494.
+Use the token returned by `quack_serve` to create a secret in the client process:
+
+```sql
+INSTALL ducklake;
+INSTALL quack;
+LOAD quack;
+CREATE SECRET (TYPE quack, TOKEN '⟨token⟩', SCOPE 'quack:localhost');
+
+ATTACH 'ducklake:quack:localhost' AS my_ducklake
+    (DATA_PATH 'data_files/');
+USE my_ducklake;
+```
+
+Clients also need access to the data files. Use shared storage when clients run on different machines.
+When the server has `ducklake` loaded, eligible commits use `ducklake_commit` on the server automatically; applications continue to use `COMMIT`.
+
+Quack has the following limitations:
+
+* Changes made with `set_option` are not undone by `ROLLBACK`.
+* Catalog database size reporting is not implemented.
 
 ## MySQL
 

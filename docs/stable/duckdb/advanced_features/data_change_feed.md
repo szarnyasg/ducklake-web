@@ -53,7 +53,7 @@ ORDER BY snapshot_id;
 ### Changes Made in the Last Week
 
 ```sql
-FROM changes.table_changes('tbl', now() - INTERVAL '1 week', now());
+FROM db.table_changes('tbl', now() - INTERVAL '1 week', now());
 ```
 
 ## `table_changes`
@@ -73,6 +73,11 @@ Updates are split into two rows: the `update_preimage` and `update_postimage`.
 `update_preimage` is the row as it was prior to the update operation.
 `update_postimage` is the row as it is after the update operation.
 
+A row updated and then deleted in one transaction is reported as a deletion of its previously committed version.
+A row inserted and deleted within the same transaction is not reported.
+
+If a table has a data column named `rowid` or `snapshot_id`, the change feed renames that data column, for example to `rowid_1` or `snapshot_id_1`, so the change identifiers remain accessible.
+
 When the schema of a table is altered, changes are read as of the schema of the table as of the end snapshot.
 As such, if a column is dropped in between the provided bounds, the dropped column is omitted from the entire result.
 If a column is added, any changes made to the table prior to the addition of the column will have the column substituted with its default value.
@@ -88,14 +93,20 @@ FROM db.table_deletions('tbl', 3, 3);
 
 <div class="monospace_table"></div>
 
-| snapshot_id | rowid | id |  val  |
-| ----------: | ----: | -: | ----- |
-|           3 |     0 |  1 | Hello |
+| id |  val  |
+| -: | ----- |
+|  1 | Hello |
 
-The result contains `snapshot_id` and `rowid` columns followed by the data columns of the table.
+The result contains the data columns of the table.
 There is no `change_type` column because all rows returned are deletions.
 
-`table_deletions` is an alias for the `ducklake_table_deletions` function.
+`table_deletions` is a wrapper for the `ducklake_table_deletions` function.
+To include the deletion snapshot and row identifier, select the virtual columns from the underlying function:
+
+```sql
+FROM ducklake_table_deletions('db', 'main', 'tbl', 3, 3)
+SELECT snapshot_id, rowid, *;
+```
 
 ## `table_insertions`
 
@@ -108,12 +119,16 @@ FROM db.table_insertions('tbl', 2, 2);
 
 <div class="monospace_table"></div>
 
-| snapshot_id | rowid |  id | val      |
-| ----------: | ----: | --: | -------- |
-|           2 |     0 |   1 | Hello    |
-|           2 |     1 |   2 | DuckLake |
+|  id | val      |
+| --: | -------- |
+|   1 | Hello    |
+|   2 | DuckLake |
 
-`table_insertions` is an alias for the `ducklake_table_insertions` function.
+`table_insertions` is a wrapper for the `ducklake_table_insertions` function.
+The virtual `snapshot_id` and `rowid` columns can be selected from the underlying function in the same way as for deletions.
+
+The underlying `ducklake_table_changes`, `ducklake_table_insertions` and `ducklake_table_deletions` functions take five arguments: `catalog`, `schema_name`, `table_name`, `start_snapshot` and `end_snapshot`.
+The schema argument accepts a dotted path for [nested schemas]({% link docs/stable/duckdb/advanced_features/nested_schemas.md %}), which can also be used in schema-qualified calls such as `db.sales.europe.table_changes(...)`.
 
 ## Compaction
 

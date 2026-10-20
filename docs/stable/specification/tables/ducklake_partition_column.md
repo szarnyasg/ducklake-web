@@ -23,9 +23,17 @@ The table of supported transforms is as follows.
 
 | Transform   | Source type(s)                                                                    | Description                                                                                   | Result&nbsp;type |
 | ----------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ---------------- |
-| `identity`  | Any                                                                               | Source value, unmodified                                                                      | Source type      |
-| `bucket(N)` | Any                                                                               | Hash the value with Murmur3 and assign to one of `N` buckets: `(murmur3_32(v) & INT_MAX) % N` | `int32`          |
-| `year`      | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns` | Extract a date or timestamp year, e.g., 2023                                                  | `int64`          |
-| `month`     | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns` | Extract a date or timestamp month, 1...12                                                     | `int64`          |
-| `day`       | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns` | Extract a date or timestamp day, 1...31                                                       | `int64`          |
-| `hour`      | `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`         | Extract a timestamp hour, 0...23                                                              | `int64`          |
+| `identity`  | Any except `null`                                                                               | Source value, unmodified                                                                      | Source type      |
+| `bucket(N)` | Any except `null`                                                                               | Hash the value with Murmur3 and assign to one of `N` buckets: `(murmur3_32(v) & INT_MAX) % N` | `int32`          |
+| `year`      | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`, `timestamptz_ns` | Extract a date or timestamp year, e.g., 2023                                                  | `int64`          |
+| `month`     | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`, `timestamptz_ns` | Extract a date or timestamp month, 1...12                                                     | `int64`          |
+| `day`       | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`, `timestamptz_ns` | Extract a date or timestamp day, 1...31                                                       | `int64`          |
+| `hour`      | `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`, `timestamptz_ns`         | Extract a timestamp hour, 0...23                                                              | `int64`          |
+| `epoch_year` | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`, `timestamptz_ns` | Years since 1970 | `int64` |
+| `epoch_month` | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`, `timestamptz_ns` | Months since January 1970 | `int64` |
+| `epoch_day` | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`, `timestamptz_ns` | Days since 1970-01-01 | `int64` |
+| `epoch_hour` | `date`, `timestamp`, `timestamptz`, `timestamp_s`, `timestamp_ms`, `timestamp_ns`, `timestamptz_ns` | Hours since 1970-01-01 00:00:00 | `int64` |
+
+The `epoch_*` transforms require DuckLake format version 1.1 and can return negative values for dates before the epoch. For timestamps with time zones, they use the UTC instant. The transformed values are stored in [`ducklake_file_partition_value`]({% link docs/stable/specification/tables/ducklake_file_partition_value.md %}).
+
+When a bucketed column's type changes its hash representation, a new partition specification is created. Existing files keep their original `partition_id`.

@@ -17,14 +17,20 @@ This table contains column-level statistics for a single data file.
 | `max_value`         | `VARCHAR`   |             |
 | `contains_nan`      | `BOOLEAN`   |             |
 | `extra_stats`       | `VARCHAR`   |             |
+| `min_is_exact`      | `BOOLEAN`   |             |
+| `max_is_exact`      | `BOOLEAN`   |             |
 
 - `data_file_id` refers to a `data_file_id` from the `ducklake_data_file` table.
 - `table_id` refers to a `table_id` from the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
 - `column_id` refers to a `column_id` from the [`ducklake_column` table]({% link docs/stable/specification/tables/ducklake_column.md %}).
 - `column_size_bytes` is the byte size of the column.
-- `value_count` is the number of values in the column. This does not have to correspond to the number of records in the file for nested types.
+- `value_count` is the number of non-`NULL` values in the column. This does not have to correspond to the number of records in the file for nested types.
 - `null_count` is the number of values in the column that are `NULL`.
-- `min_value` contains the minimum value for the column, encoded as a string. This does not have to be exact but has to be a lower bound. The value has to be cast to the actual type for accurate comparison, e.g., on integer types.
-- `max_value` contains the maximum value for the column, encoded as a string. This does not have to be exact but has to be an upper bound. The value has to be cast to the actual type for accurate comparison, e.g., on integer types.
+- `min_value` contains the minimum value for the column, encoded as a string. This does not have to be exact but has to be a lower bound. The value has to be decoded as the actual type for accurate comparison, e.g., on integer types.
+- `max_value` contains the maximum value for the column, encoded as a string. This does not have to be exact but has to be an upper bound. The value has to be decoded as the actual type for accurate comparison, e.g., on integer types.
 - `contains_nan` is a flag whether the column contains any `NaN` values. This is only relevant for floating-point types.
-- `extra_stats` contains additional type-specific statistics, such as bounding box information for geometry types or global shredded-field statistics for `variant` columns encoded as JSON.
+- `extra_stats` contains additional type-specific statistics, such as bounding box information for geometry types or shredded-field statistics for `variant` columns encoded as JSON.
+- `min_is_exact` indicates whether `min_value` is exact rather than a conservative lower bound. `NULL` means that exactness is unknown.
+- `max_is_exact` indicates whether `max_value` is exact rather than a conservative upper bound. `NULL` means that exactness is unknown.
+
+The [`skip_stats_columns` option]({% link docs/stable/specification/tables/ducklake_metadata.md %}) suppresses min/max bounds for selected columns while retaining counts and sizes. Missing bounds cannot be used to exclude a file.

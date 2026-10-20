@@ -57,7 +57,8 @@
                 {"page": "table_column_stats", "url": "ducklake_table_column_stats"},
                 {"page": "table_stats", "url": "ducklake_table_stats"},
                 {"page": "tag", "url": "ducklake_tag"},
-                {"page": "view", "url": "ducklake_view"}
+                {"page": "view", "url": "ducklake_view"},
+                {"page": "view_column_tag", "url": "ducklake_view_column_tag"}
               ]
             }
           ]
@@ -164,6 +165,10 @@
                   "url": "data_inlining"
                 },
                 {
+                  "page": "Deletion Vectors",
+                  "url": "deletion_vectors"
+                },
+                {
                   "page": "Encryption",
                   "url": "encryption"
                 },
@@ -182,6 +187,10 @@
                 {
                   "page": "Macros",
                   "url": "macros"
+                },
+                {
+                  "page": "Nested Schemas",
+                  "url": "nested_schemas"
                 },
                 {
                   "page": "Views",
@@ -222,6 +231,10 @@
                 {
                   "page": "DuckDB to DuckLake",
                   "url": "duckdb_to_ducklake"
+                },
+                {
+                  "page": "Upgrading to DuckLake 1.1",
+                  "url": "upgrading_to_ducklake_1_1"
                 }
               ]
             },

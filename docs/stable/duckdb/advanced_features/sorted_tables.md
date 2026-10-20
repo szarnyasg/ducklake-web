@@ -3,7 +3,7 @@ layout: docu
 title: Sorted Tables
 ---
 
-DuckLake tables can be configured with a sort order. When a sort order is defined, data is physically sorted by the specified columns whenever it is written out as Parquet — during `INSERT`, [file compaction]({% link docs/stable/duckdb/maintenance/merge_adjacent_files.md %}) and [inlined data flushing]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}).
+DuckLake tables can be configured with a sort order. By default, when a sort order is defined, data is physically sorted by the specified columns whenever it is written out as Parquet — during `INSERT`, [file compaction]({% link docs/stable/duckdb/maintenance/merge_adjacent_files.md %}) and [inlined data flushing]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}).
 
 Sorting data before writing improves the effectiveness of min/max statistics at query time, which allows the DuckDB query engine to skip data files whose value ranges do not overlap with a query's filter predicates.
 
@@ -16,6 +16,24 @@ ATTACH 'ducklake:sorted.duckdb' AS my_ducklake (DATA_PATH 'data/');
 USE my_ducklake;
 CREATE TABLE events (event_time TIMESTAMP, event_type VARCHAR, value DOUBLE);
 ```
+
+A sort order can also be defined in `CREATE TABLE`, optionally combined with [partitioning]({% link docs/stable/duckdb/advanced_features/partitioning.md %}):
+
+```sql
+CREATE TABLE partitioned_events (event_time TIMESTAMP, event_type VARCHAR, value DOUBLE)
+    PARTITIONED BY (epoch_day(event_time))
+    SORTED BY (event_time, event_type);
+```
+
+For `CREATE TABLE AS SELECT`, place the sort clause before `AS`:
+
+```sql
+CREATE TABLE sorted_events SORTED BY (event_time, event_type) AS
+    SELECT * FROM events;
+```
+
+The `PARTITIONED BY` and `SORTED BY` clauses can appear in either order.
+In `CREATE TABLE`, sort keys use ascending order with nulls last; direction and null-order modifiers require `ALTER TABLE ... SET SORTED BY`.
 
 ## Setting a Sort Order
 
@@ -37,9 +55,12 @@ ALTER TABLE events SET SORTED BY (event_time ASC, event_type DESC);
 ALTER TABLE events SET SORTED BY (event_time ASC NULLS LAST);
 ```
 
+Setting the same sort order again is a no-op and does not create a snapshot.
+Columns used in sort keys cannot be dropped until the sort order is reset or changed to exclude them.
+
 ### Expression-Based Sort Keys
 
-Arbitrary expressions are supported in `SET SORTED BY`, not just column references. This includes function calls, casts, and [DuckLake macros]({% link docs/stable/duckdb/advanced_features/macros.md %}).
+Scalar expressions are supported in `SET SORTED BY`, not just column references. This includes function calls, casts, and [DuckLake macros]({% link docs/stable/duckdb/advanced_features/macros.md %}).
 
 Sort by the hour extracted from a timestamp:
 
@@ -54,7 +75,9 @@ CREATE MACRO event_bucket(t) AS date_trunc('day', t);
 ALTER TABLE events SET SORTED BY (event_bucket(event_time) ASC);
 ```
 
-Expressions are validated when `SET SORTED BY` is executed — an error is returned if any referenced columns or functions cannot be resolved.
+Column references are validated when `SET SORTED BY` is executed — an error is returned if any referenced columns cannot be resolved.
+Functions and macros are resolved when data is written, compacted or flushed.
+Subqueries and window functions are not supported as sort keys.
 
 ## Removing a Sort Order
 
@@ -65,6 +88,7 @@ ALTER TABLE events RESET SORTED BY;
 ```
 
 After resetting, subsequent compactions and flushes will write data without sorting.
+Resetting a table that has no sort order is a no-op.
 
 ## Effect on Insert
 

@@ -19,10 +19,13 @@ The `CHECKPOINT` statement takes the following global DuckLake options:
 - `rewrite_delete_threshold`: A threshold that determines the minimum amount of data that must be removed from a file before a rewrite is warranted (0...1). Used by `ducklake_rewrite_data_files`. Can be scoped globally, per schema, or per table.
 - `delete_older_than`: How old unused files must be to be removed by the `ducklake_delete_orphaned_files` and `ducklake_cleanup_old_files` cleanup functions.
 - `expire_older_than`: How old snapshots must be, by default, to be expired by `ducklake_expire_snapshots`.
-- `auto_compact`: Whether the compaction functions `ducklake_flush_inlined_data`, `ducklake_merge_adjacent_files`, `ducklake_rewrite_data_files` and `ducklake_delete_orphaned_files` run on a given table. Defaults to `true`. Can be scoped globally, per schema, or per table.
+- `auto_compact`: Whether the compaction functions `ducklake_flush_inlined_data`, `ducklake_merge_adjacent_files` and `ducklake_rewrite_data_files` run on a given table. Defaults to `true`. Can be scoped globally, per schema, or per table. Orphan cleanup through `ducklake_delete_orphaned_files` is controlled only by the global setting.
 
 If these options are not provided via the `ducklake.set_option` function, `CHECKPOINT` will use the default values when applicable and will run a `CHECKPOINT` of the whole DuckLake.
 
 ```sql
 CHECKPOINT;
 ```
+
+The `ducklake_target_file_size` setting overrides the persistent `target_file_size` option during `CHECKPOINT`.
+`CHECKPOINT` also uses S3 credentials configured with `SET` on the calling connection.

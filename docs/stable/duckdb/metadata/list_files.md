@@ -35,9 +35,11 @@ FROM ducklake_list_files('catalog', 'table_name', schema => 'main');
 | ------------------ | ------------------------------------------------ | ------- |
 | `catalog`          | Name of attached DuckLake catalog                |         |
 | `table_name`       | Name of table to fetch files from                |         |
-| `schema`           | Schema for the table                             | `main`  |
+| `schema`           | Schema for the table                             | Default schema |
 | `snapshot_version` | If provided, fetch files for a given snapshot id |         |
 | `snapshot_time`    | If provided, fetch files for a given timestamp   |         |
+
+The `schema` argument also accepts nested paths such as `'some_schema.child'`.
 
 ## Result
 
@@ -57,5 +59,6 @@ The function returns the following result set.
 | delete_file_encryption_key | BLOB        |
 
 * If the file has delete files, the corresponding delete file is returned, otherwise these fields are `NULL`.
-* If the database is encrypted, the encryption key must be used to read the file.
-* The `footer_size` refers to the Parquet footer size – this is optionally provided.
+* If the database is encrypted, the encryption key must be used to read Parquet files; Puffin deletion-vector files are unencrypted.
+* The `footer_size` refers to the Parquet or Puffin footer size – this is optionally provided, and is `0` for bare deletion-vector files.
+* Delete files can be Parquet files or Puffin deletion-vector files.

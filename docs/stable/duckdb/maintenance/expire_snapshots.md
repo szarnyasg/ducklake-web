@@ -19,11 +19,15 @@ The below command expires a snapshot with a specific snapshot id.
 CALL ducklake_expire_snapshots('my_ducklake', versions => [2]);
 ```
 
+The `versions` parameter accepts a `BIGINT[]` list of snapshot ids.
+
 The below command expires snapshots older than a week.
 
 ```sql
 CALL ducklake_expire_snapshots('my_ducklake', older_than => now() - INTERVAL '1 week');
 ```
+
+The `versions` and `older_than` parameters cannot be combined.
 
 The below command performs a *dry run*, which only lists the snapshots that will be deleted, instead of actually deleting them.
 
@@ -36,6 +40,9 @@ It is also possible to set a DuckLake option to expire snapshots that applies to
 ```sql
 CALL my_ducklake.set_option('expire_older_than', '1 month');
 ```
+
+Expiration also removes obsolete metadata for dropped objects and deleted [inlined rows]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) once no retained snapshot needs them.
+Inlined rows do not need to be flushed first.
 
 ## Cleaning Up Files
 

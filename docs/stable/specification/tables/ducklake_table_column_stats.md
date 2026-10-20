@@ -24,11 +24,17 @@ A commit that narrows these statistics must advance `next_file_id` in the [`duck
 | `min_value`     | `VARCHAR`   |             |
 | `max_value`     | `VARCHAR`   |             |
 | `extra_stats`   | `VARCHAR`   |             |
+| `min_is_exact`  | `BOOLEAN`   |             |
+| `max_is_exact`  | `BOOLEAN`   |             |
 
 - `table_id` refers to a `table_id` from the [`ducklake_table` table]({% link docs/stable/specification/tables/ducklake_table.md %}).
 - `column_id` refers to a `column_id` from the [`ducklake_column` table]({% link docs/stable/specification/tables/ducklake_column.md %}).
 - `contains_null` is a flag whether the column contains any `NULL` values.
 - `contains_nan` is a flag whether the column contains any `NaN` values. This is only relevant for floating-point types.
-- `min_value` contains the minimum value for the column, encoded as a string. This does not have to be exact but has to be a lower bound. The value has to be cast to the actual type for accurate comparison, e.g., on integer types.
-- `max_value` contains the maximum value for the column, encoded as a string. This does not have to be exact but has to be an upper bound. The value has to be cast to the actual type for accurate comparison, e.g., on integer types.
+- `min_value` contains the minimum value for the column, encoded as a string. This does not have to be exact but has to be a lower bound. The value has to be decoded as the actual type for accurate comparison, e.g., on integer types.
+- `max_value` contains the maximum value for the column, encoded as a string. This does not have to be exact but has to be an upper bound. The value has to be decoded as the actual type for accurate comparison, e.g., on integer types.
 - `extra_stats` contains additional type-specific statistics, such as bounding box information for geometry types or global shredded-field statistics for `variant` columns encoded as JSON. Variant global stats are populated only for sub-fields that are consistently shredded across every data file; if any file contains inconsistent data for a field, global stats for that field are omitted.
+- `min_is_exact` indicates whether `min_value` is exact rather than a conservative lower bound. `NULL` means that exactness is unknown.
+- `max_is_exact` indicates whether `max_value` is exact rather than a conservative upper bound. `NULL` means that exactness is unknown.
+
+Exactness flags describe the stored bounds, which can still include values deleted from the table.

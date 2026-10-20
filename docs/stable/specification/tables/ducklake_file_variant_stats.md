@@ -30,9 +30,9 @@ This table contains per-file statistics for the shredded sub-fields of `variant`
 - `shredded_type` is the DuckLake type name of the shredded field (e.g., `int64`, `date`, `decimal(15,2)`, `varchar`).
 - `column_size_bytes` is the byte size of the shredded field in this file.
 - `value_count` is the number of non-null values in the shredded field.
-- `null_count` is the number of rows where the shredded field is `NULL` or absent.
-- `min_value` contains the minimum value for the shredded field, encoded as a string.
-- `max_value` contains the maximum value for the shredded field, encoded as a string.
+- `null_count` is the number of values where the shredded field is `NULL` or absent, including array elements.
+- `min_value` contains a lower bound for the shredded field, encoded as a string.
+- `max_value` contains an upper bound for the shredded field, encoded as a string.
 - `contains_nan` is a flag whether the shredded field contains any `NaN` values. Only relevant for floating-point types.
 - `extra_stats` is reserved for additional type-specific statistics.
 

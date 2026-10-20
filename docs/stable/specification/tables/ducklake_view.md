@@ -24,5 +24,9 @@ This table describes SQL-style `VIEW` definitions.
 - `schema_id` refers to a `schema_id` from the [`ducklake_schema` table]({% link docs/stable/specification/tables/ducklake_schema.md %}).
 - `view_name` is the name of the view, e.g., `my_view`.
 - `dialect` is the SQL dialect of the view definition, e.g., `duckdb`.
-- `sql` is the SQL string that defines the view, e.g., `SELECT * FROM my_table`.
+- `sql` is the SQL string that defines the view, e.g., `SELECT * FROM my_table`. References to the view's own catalog name are removed before storing the query, while retaining schema qualification. String literals are unchanged.
 - `column_aliases` contains a possible rename of the view columns. Can be `NULL` if no rename is set.
+
+Existing `{DUCKLAKE_CATALOG}` placeholders are resolved to the current catalog name when loading a view.
+
+Tags on view columns are stored in [`ducklake_view_column_tag`]({% link docs/stable/specification/tables/ducklake_view_column_tag.md %}).

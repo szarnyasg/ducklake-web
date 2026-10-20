@@ -3,7 +3,7 @@ layout: docu
 title: Backup and Recovery
 ---
 
-DuckLake has two components: catalog and storage. The catalog contains all of DuckLake's metadata, while the storage contains all of the data files in Parquet format. The catalog is a [database]({% link docs/stable/duckdb/usage/choosing_a_catalog_database.md %}), while the storage layer can be any [filesystem backend supported by DuckDB]({% link docs/stable/duckdb/usage/choosing_storage.md %}). These two components have different backup strategies, so this document will address them separately.
+DuckLake has two components: catalog and storage. The catalog contains all of DuckLake's metadata and any inlined data, while the storage contains the data and delete files, including Puffin files when deletion vectors are enabled. The catalog is a [database]({% link docs/stable/duckdb/usage/choosing_a_catalog_database.md %}), while the storage layer can be any [filesystem backend supported by DuckDB]({% link docs/stable/duckdb/usage/choosing_storage.md %}). These two components have different backup strategies, so this document will address them separately.
 
 > In this document, we will focus on disasters caused by human errors or application failures/malfunctions that result in data corruption or loss.
 
@@ -11,7 +11,7 @@ DuckLake has two components: catalog and storage. The catalog contains all of Du
 
 Backup and recovery strategies depend on the SQL database you are using as a DuckLake catalog.
 
-> [Compaction]({% link docs/stable/duckdb/maintenance/merge_adjacent_files.md %}) and [cleanup jobs]({% link docs/stable/duckdb/maintenance/cleanup_of_files.md %}) should only be done before manual backups. These operations can re-write and remove data files, effectively changing the file layout for a specific snapshot.
+> Pause writes, [compaction]({% link docs/stable/duckdb/maintenance/merge_adjacent_files.md %}) and [cleanup jobs]({% link docs/stable/duckdb/maintenance/cleanup_of_files.md %}) while making a manual backup. Back up the catalog and all files it references together; cleanup can otherwise remove files needed by an older catalog backup.
 
 ### DuckDB Catalog
 
@@ -19,25 +19,29 @@ For DuckDB, the best approach is to perform regular backups of the metadata data
 
 ```sql
 -- Backup
-ATTACH 'db.duckdb' AS db (READ_ONLY);
+ATTACH 'db.duckdb' AS db (TYPE duckdb, READ_ONLY);
 ATTACH 'backup.duckdb' AS backup;
 COPY FROM DATABASE db TO backup;
+DETACH db;
+DETACH backup;
 
--- Recover
-ATTACH 'db.duckdb' AS db;
-ATTACH 'backup.duckdb' AS backup (READ_ONLY);
+-- Recover into a new, empty database
+ATTACH 'restored.duckdb' AS db;
+ATTACH 'backup.duckdb' AS backup (TYPE duckdb, READ_ONLY);
 COPY FROM DATABASE backup TO db;
-ATTACH 'ducklake:db.duckdb' AS my_ducklake;
+DETACH db;
+DETACH backup;
+ATTACH 'ducklake:restored.duckdb' AS my_ducklake;
 ```
 
-It is very important to note that transactions committed to DuckLake after the metadata backup will not be tracked when recovering. The data from the transactions will exist in the data files, but the backup will point to a previous snapshot. If you are running batch jobs, make sure to always back up after the batch job. If you are regularly micro-batching or streaming data, then schedule periodic jobs to back up your metadata.
+It is very important to note that transactions committed to DuckLake after the metadata backup will not be tracked when recovering. The data from the transactions may exist in data files or only in the newer catalog's inlined data, but the backup will point to a previous snapshot. If you are running batch jobs, make sure to always back up after the batch job. If you are regularly micro-batching or streaming data, then schedule periodic jobs to back up your metadata.
 
 > Tip If you want to make a backup with the current timestamp, you need to do this with a specific client. Right now `ATTACH` does not support functions, only strings. This is how it would look in Python:
 >
 > ```python
 > import duckdb
 > import datetime
-> con = duckdb.connection(f"backup_{datetime.datetime.now().strftime('%Y-%m-%d__%I_%M_%S')}.duckdb")
+> con = duckdb.connect(f"backup_{datetime.datetime.now().strftime('%Y-%m-%d__%I_%M_%S')}.duckdb")
 > ```
 
 ### SQLite Catalog
@@ -49,12 +53,16 @@ For SQLite, the process is exactly the same as with DuckDB and has the same impl
 ATTACH 'sqlite:db.duckdb' AS db (READ_ONLY);
 ATTACH 'sqlite:backup.duckdb' AS backup;
 COPY FROM DATABASE db TO backup;
+DETACH db;
+DETACH backup;
 
--- Recover
-ATTACH 'sqlite:db.duckdb' AS db;
+-- Recover into a new, empty database
+ATTACH 'sqlite:restored.duckdb' AS db;
 ATTACH 'sqlite:backup.duckdb' AS backup (READ_ONLY);
 COPY FROM DATABASE backup TO db;
-ATTACH 'ducklake:sqlite:db.duckdb' AS my_ducklake;
+DETACH db;
+DETACH backup;
+ATTACH 'ducklake:sqlite:restored.duckdb' AS my_ducklake;
 ```
 
 ### PostgreSQL Catalog
@@ -62,26 +70,26 @@ ATTACH 'ducklake:sqlite:db.duckdb' AS my_ducklake;
 For PostgreSQL, there are two main approaches to backup and recovery:
 
 - [SQL dump](https://www.postgresql.org/docs/current/backup-dump.html): This approach is similar to the one mentioned for SQLite and DuckDB. This process can happen periodically and can only recover to a particular point in time (i.e., the time of the dump). For DuckLake, this will be a specific snapshot, and transactions after this snapshot will not be recorded.
-- [Continuous Archiving and Point-in-Time Recovery (PITR)](https://www.postgresql.org/docs/current/continuous-archiving.html): This is a more complex approach but allows recovery to a specific point in time. For DuckLake, this means you can recover to a specific snapshot without losing any transactions.
+- [Continuous Archiving and Point-in-Time Recovery (PITR)](https://www.postgresql.org/docs/current/continuous-archiving.html): This is a more complex approach but allows recovery to a specific point in time. For DuckLake, this means you can recover to a snapshot covered by the archived logs, provided its data files are still available.
 
-Note that the SQL dump approach can also be managed by DuckDB using the [`postgres` extension](https://duckdb.org/docs/current/core_extensions/postgres/overview). In fact, the backup can be a DuckDB file.
+Use PostgreSQL's `pg_dump` and `pg_restore` utilities to back up the catalog and restore it into a new, empty database.
 
-> Warning If your Postgres database has indexes, DuckDB will try to copy those over and fail.
+> Warning `COPY FROM DATABASE` with the [`postgres` extension](https://duckdb.org/docs/current/core_extensions/postgres/overview) cannot copy the indexes in a DuckLake catalog.
+
+```batch
+pg_dump --format=custom --file=backup.dump '⟨connection_string⟩'
+pg_restore --dbname='⟨restored_connection_string⟩' backup.dump
+```
 
 ```sql
--- Backup
-ATTACH 'postgres:connection_string' AS db (READ_ONLY);
-ATTACH 'duckdb:backup.duckdb' AS backup;
-COPY FROM DATABASE db TO backup;
-
--- Recover
-ATTACH 'postgres:connection_string' AS db;
-ATTACH 'duckdb:backup.duckdb' AS backup (READ_ONLY);
-COPY FROM DATABASE backup TO db;
-ATTACH 'ducklake:postgres:connection_string' AS my_ducklake;
+ATTACH 'ducklake:postgres:⟨restored_connection_string⟩' AS my_ducklake;
 ```
 
 > Cloud-hosted PostgreSQL solutions may offer different mechanisms. We encourage you to check what your specific vendor recommends as a strategy for backup and recovery.
+
+### Quack Catalog
+
+Stop the Quack server, then back up or restore its DuckDB metadata file using the DuckDB approach above.
 
 ## Storage Backup and Recovery
 
@@ -102,7 +110,8 @@ Both the S3 backup service and S3 object versioning will restore data files in t
 ATTACH 'ducklake:some.duckdb' AS my_ducklake (DATA_PATH 's3://⟨og-bucket⟩/');
 
 -- After
-ATTACH 'ducklake:some.duckdb' AS my_ducklake (DATA_PATH 's3://⟨replication-bucket⟩/');
+DETACH my_ducklake;
+ATTACH 'ducklake:some.duckdb' AS my_ducklake (DATA_PATH 's3://⟨replication-bucket⟩/', OVERRIDE_DATA_PATH true);
 ```
 
 ### GCS
@@ -120,5 +129,6 @@ Regarding cross-bucket replication, repointing to the new bucket will be necessa
 ATTACH 'ducklake:some.duckdb' AS my_ducklake (DATA_PATH 'gs://⟨og-bucket⟩/');
 
 -- After
-ATTACH 'ducklake:some.duckdb' AS my_ducklake (DATA_PATH 'gs://⟨replication-bucket⟩/');
+DETACH my_ducklake;
+ATTACH 'ducklake:some.duckdb' AS my_ducklake (DATA_PATH 'gs://⟨replication-bucket⟩/', OVERRIDE_DATA_PATH true);
 ```
