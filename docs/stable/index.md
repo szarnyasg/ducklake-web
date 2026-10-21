@@ -12,6 +12,9 @@ Welcome to the DuckLake documentation. This documentation has two parts:
 * **[The DuckLake specification]({% link docs/stable/specification/introduction.md %}):** The specification of the DuckLake lakehouse format. It describes the SQL tables and queries used to define the catalog database.
 * **[The `ducklake` DuckDB extension]({% link docs/stable/duckdb/introduction.md %}):** User guide for the `ducklake` DuckDB extension. It presents the features of DuckLake through examples.
 
+DuckLake 1.1 requires DuckDB v2.0.0 or later.
+For existing catalogs, see [“Upgrading to DuckLake 1.1”]({% link docs/stable/duckdb/migrations/upgrading_to_ducklake_1_1.md %}).
+
 ## When Should I Use DuckLake?
 
 DuckLake provides a lightweight one-stop solution if you need a _lakehouse,_ i.e., a data lake with a catalog.

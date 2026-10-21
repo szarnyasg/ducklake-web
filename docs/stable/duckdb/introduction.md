@@ -11,6 +11,7 @@ In DuckDB, DuckLake is supported through the [`ducklake` extension](https://duck
 
 ## Installation
 
+DuckLake 1.1 requires DuckDB v2.0.0 or later.
 Install the [latest DuckDB release](https://duckdb.org/install/).
 
 ```sql
@@ -32,7 +33,7 @@ USE my_ducklake;
 
 This will create a file `my_ducklake.ducklake`, which is a DuckDB database with the [DuckLake schema]({% link docs/stable/specification/tables/overview.md %}).
 
-We also use `USE` so we don't have to prefix all table names with `my_ducklake`. Once data is inserted, this will also create a folder `my_ducklake.ducklake.files` in the same directory, where Parquet files are stored.
+We also use `USE` so we don't have to prefix all table names with `my_ducklake`. Once data is inserted, this will also create a folder `my_ducklake.ducklake.files` in the same directory, where Parquet files are stored. Small inserts are [inlined in the metadata catalog]({% link docs/stable/duckdb/advanced_features/data_inlining.md %}) instead of being written to Parquet files.
 
 If you would like to use another directory, you can specify this in the `DATA_PATH` parameter for `ATTACH`:
 
@@ -43,7 +44,7 @@ USE my_other_ducklake;
 
 The path is stored in the DuckLake metadata and does not have to be specified again to attach to an existing DuckLake catalog.
 
-> Both `DATA_PATH` and the database file path should be relative paths (e.g., `./some/path/` or `some/path/`). Moreover, for database creation the path needs to exist already, i.e., `ATTACH 'ducklake:db/my_ducklake.ducklake' AS my_ducklake;` where `db` needs to be an existing directory.
+> Both `DATA_PATH` and the database file path can be absolute or relative paths (e.g., `/some/path/`, `./some/path/` or `some/path/`). Moreover, for database creation the path needs to exist already, i.e., `ATTACH 'ducklake:db/my_ducklake.ducklake' AS my_ducklake;` where `db` needs to be an existing directory.
 
 ## Attaching an Existing Database
 
@@ -72,11 +73,12 @@ Don't forget to either specify the database name of the DuckLake explicitly or u
 
 Let's observe what happens in DuckLake when we interact with a dataset. We will use the [Netherlands train traffic dataset](https://duckdb.org/2024/05/31/analyzing-railway-traffic-in-the-netherlands) here.
 
-We use the example DuckLake from above:
+We use the example DuckLake from above and disable data inlining so that the example writes files:
 
 ```sql
 ATTACH 'ducklake:my_ducklake.ducklake' AS my_ducklake;
 USE my_ducklake;
+CALL my_ducklake.set_option('data_inlining_row_limit', 0);
 ```
 
 Let's now import the dataset into a new table:
@@ -123,7 +125,7 @@ FROM 'my_ducklake.ducklake.files/**/ducklake-*-delete.parquet';
 
 The file should contain a single row that marks row 29 as deleted. A new file has appeared that contains the new values for this row.
 
-There are now three snapshots, the table creation, data insertion, and the update. We can query that using the `snapshots()` function:
+There are now three snapshots, catalog initialization (0), table creation and data insertion together (1), and the update (2). We can query that using the `snapshots()` function:
 
 ```sql
 FROM my_ducklake.snapshots();
@@ -156,4 +158,4 @@ DETACH my_ducklake;
 
 ## Using DuckLake from a Client
 
-DuckLake v1.0 is supported by [DuckDB v1.5.2+](https://duckdb.org/docs/current/clients/overview).
+DuckLake 1.1 requires [DuckDB v2.0.0 or later](https://duckdb.org/docs/current/clients/overview).

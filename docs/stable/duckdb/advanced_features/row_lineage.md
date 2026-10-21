@@ -3,8 +3,8 @@ layout: docu
 title: Row Lineage
 ---
 
-Every row created in DuckLake has a unique row identifier, which can be queried as the `rowid` virtual column.
-This identifier is assigned when a row is first inserted into the system.
+Every row created in DuckLake has a row identifier that is unique within its table, which can be queried as the `rowid` virtual column.
+The persistent identifier is assigned when the transaction inserting the row commits.
 The identifier is preserved when the row is moved between files – for example as part of `UPDATE` and compaction operations.
 
 The `rowid` column can be used to track whether the addition of files actually introduces new rows into DuckLake, or whether the operation is simply moving files around.

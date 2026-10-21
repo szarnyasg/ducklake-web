@@ -3,7 +3,9 @@ layout: docu
 title: Access Control
 ---
 
-While access control is not per se a feature of DuckLake, we can leverage the tools that DuckLake uses and their permission systems to implement schema- and table-level permissions in DuckLake.
+While access control is not per se a feature of DuckLake, we can leverage the tools that DuckLake uses and their permission systems to implement schema- and table-level permissions for data files in DuckLake.
+
+> Warning This approach requires trusted writers. Readers can access metadata and any inlined data for all tables. Writers can change catalog configuration. The example disables data inlining so that storage policies apply to the table data.
 
 ## Basic Principles
 
@@ -18,7 +20,7 @@ In this guide, we focus on three different roles regarding access control in Duc
   - `ATTACH` to an existing DuckLake.
   - `CREATE`, `INSERT`, `UPDATE`, `DELETE`, and `SELECT` on any or a subset of DuckLake tables.
   - Optionally, `SELECT` on any or a subset of DuckLake tables.
-  - Optionally, `CREATE` schema.
+  - `CREATE` schema.
 
 - The **DuckLake Reader** can perform the following operations:
   - `ATTACH` to an existing DuckLake. Both `READ_ONLY` and regular attaching modes will work.
@@ -28,14 +30,17 @@ In this guide, we focus on three different roles regarding access control in Duc
 
 DuckLake has two components: the metadata catalog, which resides in a SQL database, and the storage, which can be any filesystem backend. The roles mentioned above require different specific permissions at the **catalog level:**
 - The DuckLake Superuser needs all permissions under the specified schema (`public` by default). Since this user initializes all tables, they also become the owner. Subsequent migrations between different version of the DuckLake specification must be carried out by this user.
-- The DuckLake Writer only needs permissions to `INSERT`, `UPDATE`, `DELETE`, and `SELECT` at the catalog level. This is sufficient for any operation in DuckLake, including operations that expire snapshots.
-- The DuckLake Reader only needs `SELECT` permissions at the catalog level.
+- With data inlining disabled, the DuckLake Writer needs `USAGE` on the metadata schema and permissions to `INSERT`, `UPDATE`, `DELETE`, and `SELECT` on the metadata tables. Operations that create, alter or drop metadata tables require additional permissions.
+- The DuckLake Reader needs `USAGE` on the metadata schema and `SELECT` permissions on the metadata tables.
 
 At the storage level, we can leverage the way DuckLake structures data paths for different tables, which uses the following convention:
 
-```sql
+```text
 /⟨schema⟩/⟨table⟩/⟨partition⟩/⟨data_file⟩.parquet
 ```
+
+This convention applies to simple names in top-level schemas.
+[Nested schemas]({% link docs/stable/duckdb/advanced_features/nested_schemas.md %}) use UUID directories under the data root, so a parent schema's path policy does not cover its nested schemas.
 
 Using this convention and the policy mechanisms of certain filesystems (such as cloud-based object storage), we can establish access to certain paths at the schema, table, or even partition level.
 
@@ -53,7 +58,7 @@ The following is an example implementation of the basic principles described abo
 
 ### PostgreSQL Requirements
 
-The following example shows the PostgreSQL permissions corresponding to these three roles:
+The following example shows the PostgreSQL permissions corresponding to these three roles. Run it as an administrator connected to the existing `access_control` database before initializing DuckLake:
 
 ```sql
 -- Setup initialization user, migrations, and writing, assuming the database is already created
@@ -71,6 +76,11 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO ducklake_
 CREATE USER ducklake_reader WITH PASSWORD 'simple';
 GRANT USAGE ON SCHEMA public TO ducklake_reader;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO ducklake_reader;
+
+ALTER DEFAULT PRIVILEGES FOR ROLE ducklake_superuser IN SCHEMA public
+    GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO ducklake_writer;
+ALTER DEFAULT PRIVILEGES FOR ROLE ducklake_superuser IN SCHEMA public
+    GRANT SELECT ON TABLES TO ducklake_reader;
 ```
 
 Note: for simplicity, the example above uses `CREATE USER` statements. 
@@ -196,6 +206,7 @@ CREATE OR REPLACE SECRET ducklake_superuser_secret (
 -- This initializes DuckLake
 ATTACH 'ducklake:ducklake_superuser_secret' AS ducklake_superuser;
 USE ducklake_superuser;
+CALL ducklake_superuser.set_option('data_inlining_row_limit', 0);
 
 -- Perform operations in DuckLake
 CREATE SCHEMA IF NOT EXISTS some_schema;
@@ -252,8 +263,8 @@ In the last example, there are limitations to this approach. We can create an em
 
 ```sql
 BEGIN TRANSACTION;
-CREATE TABLE other_table_in_main (id INTEGER, name VARCHAR);
-INSERT INTO other_table_in_main VALUES (1, 'test');
+CREATE TABLE another_table_in_main (id INTEGER, name VARCHAR);
+INSERT INTO another_table_in_main VALUES (1, 'test');
 COMMIT;
 ```
 
@@ -261,7 +272,7 @@ This will throw the following error:
 
 ```console
 HTTP Error:
-Unable to connect to URL "https://ducklake-access-control.s3.amazonaws.com/main/other_table_in_main/ducklake-01992ec2-d9f7-745e-88e8-708e659a70be.parquet": 403 (Forbidden).
+Unable to connect to URL "https://ducklake-access-control.s3.amazonaws.com/main/another_table_in_main/ducklake-01992ec2-d9f7-745e-88e8-708e659a70be.parquet": 403 (Forbidden).
 
 Authentication Failure - this is usually caused by invalid or missing credentials.
 * No credentials are provided.
@@ -269,6 +280,9 @@ Authentication Failure - this is usually caused by invalid or missing credential
 ```
 
 > The error message is the generic one used when DuckDB cannot access an object in S3; nothing specific to DuckLake.
+
+The failed insertion aborts the transaction, so `COMMIT` rolls it back and the table is not created.
+If you stop after the error instead, run `ROLLBACK;`.
 
 The **DuckLake Reader** is the simplest role.
 
@@ -314,7 +328,10 @@ If we try to create a table, which is just a metadata operation, the error will 
 CREATE TABLE yet_another_table (a INT);
 ```
 
+The error includes the following message (the metadata query is abbreviated):
+
 ```console
 TransactionContext Error:
-Failed to commit: Failed to commit DuckLake transaction: Failed to write new table to DuckLake: Failed to prepare COPY "COPY "public"."ducklake_table" FROM STDIN (FORMAT BINARY)": ERROR:  permission denied for table ducklake_table
+Failed to commit: Failed to commit DuckLake transaction.
+Failed to flush changes into DuckLake: Failed to execute query "...": ERROR:  permission denied for table ducklake_snapshot
 ```

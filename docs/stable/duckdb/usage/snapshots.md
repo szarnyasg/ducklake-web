@@ -7,12 +7,13 @@ Snapshots represent commits made to DuckLake.
 Every snapshot performs a set of changes that alter the state of the database.
 Snapshots can create tables, insert or delete data, and alter schemas.
 
-Changes can only be made to DuckLake using snapshots.
+Schema and data changes can only be made to DuckLake using snapshots.
 Every set of changes must be accompanied by a snapshot.
+Configuration changes are not snapshot-versioned.
 
 ## Listing Snapshots
 
-The set of snapshots can be queried using the `snapshots` function. This returns a list of all snapshots and their changesets.
+The set of snapshots can be queried using the `snapshots` function. This returns a list of all snapshots visible to the current transaction and their changesets.
 
 ```sql
 ATTACH 'ducklake:my_ducklake.duckdb' AS my_ducklake;
@@ -29,7 +30,7 @@ SELECT * FROM my_ducklake.snapshots();
 |           1 | 2026-04-10 12:57:02.439404+02 |              1 | {tables_created=[main.people]} | NULL   | NULL           | NULL              |
 |           2 | 2026-04-10 12:57:02.449289+02 |              1 | {inlined_insert=[1]}           | NULL   | NULL           | NULL              |
 
-It is also possible to retrieve the latest snapshot id directly with a function.
+It is also possible to retrieve the latest snapshot id visible to the current transaction directly with a function.
 
 ```sql
 FROM my_ducklake.current_snapshot();
@@ -41,13 +42,13 @@ FROM my_ducklake.current_snapshot();
 | ---: |
 |    2 |
 
-The DuckLake extension also provides a function to get the latest committed snapshot for an existing open connection. This may be useful when multiple connections are updating the same target.
+The DuckLake extension also provides a function to get the latest snapshot committed through an attached DuckLake catalog. This value is shared by connections using that attachment within the same DuckDB instance.
 
 ```sql
 FROM my_ducklake.last_committed_snapshot();
 ```
 
-Which would return the following for the current connection:
+Which would return the following for the current attachment:
 
 <div class="monospace_table"></div>
 
@@ -55,7 +56,7 @@ Which would return the following for the current connection:
 | ---: |
 |    2 |
 
-But if a new connection is open, it will return:
+But after detaching and reattaching, it will return `NULL` until another change is committed:
 
 <div class="monospace_table"></div>
 

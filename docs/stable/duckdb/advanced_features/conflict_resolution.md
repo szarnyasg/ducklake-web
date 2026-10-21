@@ -14,15 +14,19 @@ During conflict resolution, we query the [`ducklake_snapshot_changes` table]({% 
 * If there are no logical conflicts between the changes that the snapshots have made – we automatically retry the transaction in the metadata catalog without rewriting any data files.
 * If there are logical conflicts, we abort the transaction and instruct the user that conflicting changes have been made.
 
+SQLite `database is locked` errors during metadata writes and conflict checks are also retried, using the [retry settings]({% link docs/stable/duckdb/usage/configuration.md %}).
+Lock errors from SQLite's final `COMMIT` are not retried.
+
 ## Logical Conflicts
 
 Below is a list of logical conflicts based on the snapshot's changeset. Snapshots conflict when any of the following conflicts occur:
 
 ### Schemas
 
-* Both snapshots create a schema with the same name
+* Both snapshots create a schema with the same name under the same parent
 * Both snapshots drop the same schema
-* A snapshot tries to drop a schema in which another transaction created an entry
+* A snapshot tries to drop a schema in which another transaction created an entry, including in a descendant schema
+* A snapshot tries to create a nested schema whose parent was dropped by another snapshot
 
 ### Tables / Views
 
@@ -30,14 +34,25 @@ Below is a list of logical conflicts based on the snapshot's changeset. Snapshot
 * A snapshot tries to create a table or view in a schema that was dropped by another snapshot
 * Both snapshots drop the same table or view
 * A snapshot tries to alter a table or view that was dropped or altered by another snapshot
+* A snapshot tries to rename a table or view that was dropped, altered or renamed by another snapshot
+* A snapshot tries to set a `NOT NULL` constraint on a table into which another snapshot inserted rows
+
+Macros also conflict when both snapshots create a scalar or table macro with the same name in the same schema, when a macro is created in a schema dropped by another snapshot, or when both snapshots drop the same macro.
 
 ### Data
 
 * A snapshot tries to insert data into a table that was dropped, altered or deleted from by another snapshot
-* A snapshot tries to delete data from a table that was dropped, altered, inserted into or compacted by another snapshot
-* Two snapshots delete from the same underlying data file. Concurrent deletes from different data files in the same table are permitted.
+* A snapshot tries to delete data from a table that was dropped, altered or inserted into by another snapshot
+* A snapshot tries to delete from a data file compacted by another snapshot
+* Two snapshots delete from the same underlying data file, including when one uses a delete file and the other uses inlined deletions. Concurrent deletes from different data files in the same table are permitted.
+* Flushing inlined data conflicts with dropping the table, with another flush of the same table and with concurrent inlined deletions. A flush of already committed inlined deletions of Parquet rows can commit after another snapshot commits a later inlined deletion of the same file. If the flush commits first, the transaction with the later inlined deletion conflicts.
+
+A `DELETE` that matches zero rows still records a delete attempt for conflict checking.
+For example, a transaction that deletes a missing key and then inserts that key conflicts with another transaction that concurrently inserts into the same table.
 
 ### Compaction
 
-* A snapshot tries to compact a table that was deleted from by another snapshot
+* A snapshot tries to compact a data file that another snapshot deleted from or compacted
 * A snapshot tries to compact a table that was dropped by another snapshot
+
+Compactions on different files in the same table can commit concurrently.

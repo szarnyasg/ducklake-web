@@ -27,7 +27,7 @@ DETACH tpch_sf1_ducklake;
 Generate the data using the [`tpchgen-cli`](https://github.com/clflushopt/tpchgen-rs/) tool:
 
 ```batch
-tpchgen-cli --scale-factor 1 --format parquet
+tpchgen-cli parquet -s 1
 ```
 
 ## Populating the DuckLake

@@ -17,8 +17,8 @@ baseurl: ""
 url: "https://ducklake.select"
 
 # DuckLake Versioning
-stable_ducklake_version: "1.0"
-preview_ducklake_version: "1.1-dev"
+stable_ducklake_version: "1.1"
+preview_ducklake_version: "1.2-dev"
 
 livereload: true
 highlighter: rouge

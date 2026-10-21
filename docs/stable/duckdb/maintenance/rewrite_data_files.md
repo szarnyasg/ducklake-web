@@ -3,7 +3,10 @@ layout: docu
 title: Rewrite Heavily Deleted Files
 ---
 
-DuckLake uses a merge-on-read strategy when data is deleted from a table. In short, this means that DuckLake uses a delete file which contains a pointer to the deleted records on the original file. This makes deletes very efficient. However, for heavily deleted tables, reading performance will be hindered by this approach. To solve this problem, DuckLake exposes a function called `ducklake_rewrite_data_files` that rewrites files that contain an amount of deletes bigger than a given threshold to a new file that contains non-deleted records. These files can then be further compacted with a [`ducklake_merge_adjacent_files`]({% link docs/stable/duckdb/maintenance/merge_adjacent_files.md %}) operation. The default value for the delete threshold is 0.95.
+DuckLake uses a merge-on-read strategy when data is deleted from a table. In short, this means that DuckLake uses a delete file or inlined deletion metadata which contains a pointer to the deleted records on the original file. This makes deletes very efficient. However, for heavily deleted tables, reading performance will be hindered by this approach. To solve this problem, DuckLake exposes a function called `ducklake_rewrite_data_files` that rewrites files that contain an amount of deletes at least equal to a given threshold to new files that contain non-deleted records. These files can then be further compacted with a [`ducklake_merge_adjacent_files`]({% link docs/stable/duckdb/maintenance/merge_adjacent_files.md %}) operation. The default value for the delete threshold is 0.95.
+
+Delete files can contain positional deletes or Puffin deletion vectors.
+Inlined deletions count toward the threshold without needing to be flushed first.
 
 ## Usage
 
@@ -19,10 +22,25 @@ Apply only to a specific table:
 CALL ducklake_rewrite_data_files('my_ducklake', 't');
 ```
 
+Apply to a table in a specific schema:
+
+```sql
+CALL ducklake_rewrite_data_files('my_ducklake', 't', schema => 'some_schema');
+```
+
+The `schema` argument requires a table name.
+It also accepts nested paths such as `'some_schema.child'`.
+
 Provide a specific value for the delete threshold:
 
 ```sql
 CALL ducklake_rewrite_data_files('my_ducklake', 't', delete_threshold => 0.5);
+```
+
+Limit the number of rewrite operations per table:
+
+```sql
+CALL ducklake_rewrite_data_files('my_ducklake', max_compacted_files => 10);
 ```
 
 Set a specific threshold for the whole catalog:
@@ -43,24 +61,31 @@ Set a specific threshold for a table:
 CALL my_ducklake.set_option('rewrite_delete_threshold', 0.5, table_name => 'my_table');
 ```
 
-Disable automatic compaction for a specific table:
+Disable compaction for a specific table:
 
 ```sql
 CALL my_ducklake.set_option('auto_compact', false, table_name => 'my_table');
 ```
 
+The `auto_compact` option also applies to explicitly named tables.
+It does not schedule automatic rewrites.
+
+Rewrites combine eligible files toward `target_file_size` and can split large files into multiple output files.
+The `ducklake_target_file_size` setting overrides the persistent target.
+The current [sort order]({% link docs/stable/duckdb/advanced_features/sorted_tables.md %}) is preserved when it can be evaluated against the input schema.
+
 ## Return Values
 
-`ducklake_rewrite_data_files` returns one row per output file created, with the following columns:
+`ducklake_rewrite_data_files` returns one row per rewrite operation, with the following columns:
 
 | Column            | Type      | Description                                              |
 | ----------------- | --------- | -------------------------------------------------------- |
 | `schema_name`     | `VARCHAR` | Name of the schema containing the table                  |
 | `table_name`      | `VARCHAR` | Name of the table                                        |
-| `files_processed` | `BIGINT`  | Number of input files rewritten into this output file    |
-| `files_created`   | `BIGINT`  | Always `1` — each row represents one output file created |
+| `files_processed` | `BIGINT`  | Number of input files rewritten by this operation        |
+| `files_created`   | `BIGINT`  | Number of output files created by this operation         |
 
-Because each row corresponds to one output file, `files_created` is always `1`. To see the total number of output files produced per table, use a `GROUP BY`:
+The `files_created` value can exceed `1`, or be `0` if no rows remain. To see the total number of output files produced per table, use a `GROUP BY`:
 
 ```sql
 SELECT schema_name, table_name, sum(files_created) AS total_output_files

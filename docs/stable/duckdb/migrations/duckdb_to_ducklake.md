@@ -20,17 +20,23 @@ Note that it doesn't matter what catalog you are using as a metadata backend for
 
 ## Second Scenario: Not Everything Is Supported
 
-If you have been using DuckDB for a while, there is a chance you are using some very specific types, macros, default values that are not literals or even things like generated columns. If this is your case, then migrating will have some tradeoffs.
+If you have been using DuckDB for a while, there is a chance you are using some very specific types or even things like generated columns. If this is your case, then migrating will have some tradeoffs.
 
-- Specific types need to be cast to a [supported DuckLake type]({% link docs/stable/specification/data_types.md %}). User defined types that are created as a `STRUCT` can be interpreted as such and `ENUM` and `UNION` will be cast to `VARCHAR` and `VARINT` will be cast to `INT`.
+- Specific types need to be cast to a [supported DuckLake type]({% link docs/stable/specification/data_types.md %}). User defined types that are created as a `STRUCT` can be interpreted as such and `ENUM` and `UNION` will be cast to `VARCHAR` and `VARINT` will be cast to `VARCHAR` to preserve values outside the range of fixed-size integers.
 
-- Macros can be migrated to a DuckDB persisted database. If you are using DuckDB as your catalog for DuckLake, then this will be the destination. If you are using other catalogs like PostgreSQL, SQLite or MySQL, DuckDB macros are not supported and therefore can't be migrated.
+- Macros can be migrated to the DuckLake catalog with any supported metadata backend, including PostgreSQL, SQLite and MySQL.
 
-- Generated columns are the same as defaults that are not literals and therefore they need to be specified when inserting the data into the destination table. This means that the values will always be persisted (no `VIRTUAL` option).
+- Generated columns are not supported, so their computed values are copied into regular columns. This means that the values will always be persisted (no `VIRTUAL` option).
+
+Expression defaults, such as `DEFAULT now()`, are supported in `CREATE TABLE` and `ALTER TABLE ... SET DEFAULT`.
+`ALTER TABLE ... ADD COLUMN` only accepts literal defaults.
 
 ### Migration Script
 
 The following Python script can be used to migrate from a DuckDB persisted database to DuckLake bypassing the unsupported features.
+
+The script copies table data using `CREATE TABLE AS`, which does not preserve constraints, defaults or generated-column definitions.
+Recreate macro parameter defaults and overloads manually, and update catalog-qualified references in macros and views to point to the destination.
 
 > Currently, only local migrations are supported by this script. The script will be adapted in the future to account for migrations to remote object storage such as S3 or GCS.
 
@@ -48,7 +54,8 @@ import os
 from collections import deque
 
 TYPE_MAPPING = {
-    "VARINT": "::VARCHAR::INT",
+    "VARINT": "::VARCHAR",
+    "BIGNUM": "::VARCHAR",
     "UNION/ENUM": "::VARCHAR",
     "BIT": "::VARCHAR",
 }
@@ -150,19 +157,46 @@ def migrate_tables_and_views(duckdb_catalog: str, con: duckdb.DuckDBPyConnection
             failed_last_round.discard((catalog, schema, table, table_type))
 
 
-def migrate_macros(con: duckdb.DuckDBPyConnection, duckdb_catalog: str):
+def migrate_macros(
+    con: duckdb.DuckDBPyConnection, duckdb_catalog: str, final: bool = True
+):
     """
-    Migrate macros from the DuckDB catalog to DuckLake metadata database.
+    Migrate macros from the DuckDB catalog to the attached DuckLake catalog.
+    Macros that reference a table or macro that does not exist yet are retried.
     """
-    for row in con.execute(
-        f"SELECT function_name, parameters, macro_definition FROM duckdb_functions() "
-        f"WHERE database_name='{duckdb_catalog}'"
-    ).fetchall():
-        name, parameters, definition = row[0], row[1], row[2]
-        print(f"Migrating Macro: {name}")
-        con.execute(
-            f"CREATE OR REPLACE MACRO {name}({','.join(parameters)}) AS {definition}"
-        )
+    def quote_identifier(name):
+        return '"' + name.replace('"', '""') + '"'
+
+    pending = con.execute(
+        "SELECT schema_name, function_name, parameters, parameter_types, "
+        "macro_definition, function_type FROM duckdb_functions() "
+        "WHERE database_name = ? AND function_type IN ('macro', 'table_macro')",
+        [duckdb_catalog],
+    ).fetchall()
+    while pending:
+        failed = []
+        for row in pending:
+            schema, name, parameters, parameter_types, definition, function_type = row
+            con.execute(f"CREATE SCHEMA IF NOT EXISTS {quote_identifier(schema)}")
+            arguments = ','.join(
+                quote_identifier(parameter) + (f" {parameter_type}" if parameter_type else '')
+                for parameter, parameter_type in zip(parameters, parameter_types)
+            )
+            table_keyword = 'TABLE ' if function_type == 'table_macro' else ''
+            try:
+                con.execute(
+                    f"CREATE OR REPLACE MACRO {quote_identifier(schema)}.{quote_identifier(name)}"
+                    f"({arguments}) AS {table_keyword}{definition}"
+                )
+                print(f"Migrating Macro: {schema}.{name}")
+            except duckdb.Error as e:
+                failed.append((row, e))
+        if len(failed) == len(pending):
+            if final:
+                for row, e in failed:
+                    print(f"Skipping Macro {row[0]}.{row[1]} due to repeated failure. {e}")
+            break
+        pending = [row for row, _ in failed]
 
 
 if __name__ == "__main__":
@@ -185,7 +219,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    con = duckdb.connect(database=args.duckdb_file)
+    con = duckdb.connect()
 
     if args.catalog_type == "postgresql":
         con.execute(get_postgres_secret())
@@ -211,21 +245,24 @@ if __name__ == "__main__":
         f"ATTACH 'ducklake:ducklake_secret' AS {args.ducklake_catalog}; USE {args.ducklake_catalog};"
     )
 
+    # Migrate macros before views that use them, and again after the tables they reference
+    migrate_macros(
+        con=con,
+        duckdb_catalog=args.duckdb_catalog,
+        final=False,
+    )
     migrate_tables_and_views(
         duckdb_catalog=args.duckdb_catalog,
         con=con,
     )
-
-    if args.catalog_type == "duckdb":
-        # DETACH DuckLake to be able to attach to the metadata database in migrate_macros
-        con.execute(f"USE {args.duckdb_catalog}; DETACH {args.ducklake_catalog};")
-        con.execute(
-            f"ATTACH '{args.ducklake_file}' AS ducklake_metadata; USE ducklake_metadata;"
-        )
-        migrate_macros(
-            con=con,
-            duckdb_catalog=args.duckdb_catalog,
-        )
+    migrate_macros(
+        con=con,
+        duckdb_catalog=args.duckdb_catalog,
+    )
+    migrate_tables_and_views(
+        duckdb_catalog=args.duckdb_catalog,
+        con=con,
+    )
     con.close()
 ```
 </details>

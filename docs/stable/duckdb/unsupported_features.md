@@ -25,18 +25,6 @@ The following features are currently not supported in DuckLake but are likely to
 
 - [`CHECK` constraints](https://duckdb.org/docs/current/sql/constraints#check-constraint) (not to be confused with Primary or Foreign Key constraints)
 
-- Default values that are not literals. See the following example:
-
-  ```sql
-  -- This is allowed
-  CREATE TABLE t1 (id INTEGER, d DATE DEFAULT '2025-08-08');
-
-  -- This is not allowed
-  CREATE TABLE t1 (id INTEGER, d DATE DEFAULT now());
-  ```
-
-- Dropping dependencies, such as views, when calling `DROP ... CASCADE`. Note that this is also a [DuckDB limitation](https://duckdb.org/docs/current/sql/statements/drop#dependencies-on-views).
-
 - [Generated columns](https://duckdb.org/docs/current/sql/statements/create_table#generated-columns)
 
 ### Unlikely to Be Supported in the Future
@@ -56,3 +44,21 @@ The following features are currently not supported in DuckLake and are unlikely 
 - [`BITSTRING` type](https://duckdb.org/docs/current/sql/data_types/bitstring)
 
 - [`UNION` type](https://duckdb.org/docs/current/sql/data_types/union)
+
+## Unsupported by the DuckDB Extension
+
+- `DROP TABLE ... CASCADE` is not supported. `DROP SCHEMA ... CASCADE` can drop a schema and its contents.
+
+- `VARIANT` columns nested inside another SQL type, such as `STRUCT(v VARIANT)` or `VARIANT[]`, can be inlined but cannot be written to Parquet or flushed.
+
+- `ALTER TABLE ... ADD COLUMN` only supports literal defaults. Expression defaults are supported in `CREATE TABLE` and `ALTER TABLE ... SET DEFAULT`:
+
+  ```sql
+  -- This is allowed
+  CREATE TABLE t1 (id INTEGER, d DATE DEFAULT '2025-08-08');
+
+  -- This is also allowed
+  CREATE TABLE t2 (id INTEGER, d DATE DEFAULT now());
+  ```
+
+See [schema evolution]({% link docs/stable/duckdb/usage/schema_evolution.md %}) for changing defaults and nested fields.

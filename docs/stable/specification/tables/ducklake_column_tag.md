@@ -20,3 +20,5 @@ Columns can also have tags, those are defined in this table.
 - `end_snapshot` refers to a `snapshot_id` from the [`ducklake_snapshot` table]({% link docs/stable/specification/tables/ducklake_snapshot.md %}). The tag is valid *up to but not including* this snapshot id. If `end_snapshot` is `NULL`, the tag is currently valid.
 - `key` is an arbitrary key string. The key can't be `NULL`.
 - `value` is the arbitrary value string.
+
+Dropping a column ends its active tag versions, including tags on child fields. Tags on view columns are stored in [`ducklake_view_column_tag`]({% link docs/stable/specification/tables/ducklake_view_column_tag.md %}).

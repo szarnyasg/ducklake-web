@@ -49,6 +49,11 @@ CALL ducklake_cleanup_old_files(
 
 Orphan files are files that are untracked by the DuckLake metadata catalog. They may appear due to, for example, a systems failure. DuckLake provides the `ducklake_delete_orphaned_files` function to delete these files.
 
+The function searches the catalog's data path recursively for orphaned `.parquet` and `.puffin` files.
+Files written by open transactions on this attached catalog in the same DuckDB instance are excluded.
+Setting `auto_compact` to `false` globally disables orphan cleanup, including direct calls to `ducklake_delete_orphaned_files`.
+Schema and table settings do not affect orphan cleanup, and `ducklake_cleanup_old_files` remains enabled.
+
 ### Usage of the `ducklake_delete_orphaned_files` Function
 
 The below command deletes all orphaned files.
